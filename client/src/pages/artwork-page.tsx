@@ -11,11 +11,13 @@ import { Loader2, ZoomIn, ZoomOut } from "lucide-react";
 import { useState } from "react";
 
 export default function ArtworkPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = parseInt(params.id || "0", 10);
   const [zoom, setZoom] = useState(1);
 
   const { data: artwork, isError, error } = useQuery<Artwork>({
     queryKey: [`/api/artworks/${id}`],
+    enabled: id > 0,
   });
 
   if (isError) {
@@ -44,24 +46,28 @@ export default function ArtworkPage() {
         <CardContent className="p-6">
           <h1 className="text-3xl font-bold mb-4">{artwork.title}</h1>
 
-          <div className="relative">
-            <AspectRatio ratio={4/3} className="mb-6 overflow-hidden rounded-lg">
-              <div className="w-full h-full overflow-auto">
+          <div className="relative mb-6">
+            <AspectRatio ratio={4/3}>
+              <div 
+                className="w-full h-full overflow-auto bg-gray-100 rounded-lg"
+                style={{ position: 'relative' }}
+              >
                 <img
                   src={artwork.imageUrl}
                   alt={artwork.title}
-                  className="w-full h-full object-cover transition-transform duration-200 ease-out"
+                  className="w-full h-full object-contain transition-transform duration-200 ease-out"
                   style={{
                     transform: `scale(${zoom})`,
-                    transformOrigin: 'center',
-                    cursor: zoom > 1 ? 'grab' : 'default'
+                    transformOrigin: '0 0',
+                    maxWidth: 'none',
+                    maxHeight: 'none'
                   }}
                 />
               </div>
             </AspectRatio>
 
-            <div className="flex items-center gap-4 mb-6">
-              <ZoomOut className="w-4 h-4" />
+            <div className="flex items-center gap-4 mt-4">
+              <ZoomOut className="w-4 h-4 text-gray-500" />
               <Slider
                 value={[zoom]}
                 onValueChange={([value]) => setZoom(value)}
@@ -70,7 +76,7 @@ export default function ArtworkPage() {
                 step={0.1}
                 className="w-48"
               />
-              <ZoomIn className="w-4 h-4" />
+              <ZoomIn className="w-4 h-4 text-gray-500" />
             </div>
           </div>
 
