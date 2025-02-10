@@ -23,6 +23,9 @@ export default function HomePage() {
                 <span className="text-sm text-muted-foreground">
                   Welcome, {user.username}
                 </span>
+                <Button variant="default" asChild>
+                  <Link href="/add">Add Artwork</Link>
+                </Button>
                 <Button 
                   variant="outline" 
                   onClick={() => logoutMutation.mutate()}
