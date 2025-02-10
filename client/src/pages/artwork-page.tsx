@@ -6,11 +6,14 @@ import CommentSection from "@/components/comment-section";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2 } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Loader2, ZoomIn, ZoomOut } from "lucide-react";
+import { useState } from "react";
 
 export default function ArtworkPage() {
   const { id } = useParams();
-  
+  const [zoom, setZoom] = useState(1);
+
   const { data: artwork, isError, error } = useQuery<Artwork>({
     queryKey: [`/api/artworks/${id}`],
   });
@@ -40,15 +43,37 @@ export default function ArtworkPage() {
       <Card>
         <CardContent className="p-6">
           <h1 className="text-3xl font-bold mb-4">{artwork.title}</h1>
-          
-          <AspectRatio ratio={4/3} className="mb-6 overflow-hidden rounded-lg">
-            <img
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              className="w-full h-full object-cover"
-            />
-          </AspectRatio>
-          
+
+          <div className="relative">
+            <AspectRatio ratio={4/3} className="mb-6 overflow-hidden rounded-lg">
+              <div className="w-full h-full overflow-auto">
+                <img
+                  src={artwork.imageUrl}
+                  alt={artwork.title}
+                  className="w-full h-full object-cover transition-transform duration-200 ease-out"
+                  style={{
+                    transform: `scale(${zoom})`,
+                    transformOrigin: 'center',
+                    cursor: zoom > 1 ? 'grab' : 'default'
+                  }}
+                />
+              </div>
+            </AspectRatio>
+
+            <div className="flex items-center gap-4 mb-6">
+              <ZoomOut className="w-4 h-4" />
+              <Slider
+                value={[zoom]}
+                onValueChange={([value]) => setZoom(value)}
+                min={1}
+                max={4}
+                step={0.1}
+                className="w-48"
+              />
+              <ZoomIn className="w-4 h-4" />
+            </div>
+          </div>
+
           <p className="text-lg text-muted-foreground mb-8">
             {artwork.description}
           </p>
