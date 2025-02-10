@@ -25,9 +25,11 @@ export default function AuthPage() {
           <CardHeader>
             <CardTitle className="text-2xl">欢迎来到艺术博物馆</CardTitle>
             <CardDescription>
-              请使用以下测试账号登录：
-              用户名：test
-              密码：test123
+              请先点击"注册"标签页创建一个新账号，或使用以下测试账号登录：
+              <div className="mt-2 p-2 bg-muted rounded-md">
+                <div>用户名：test</div>
+                <div>密码：test123</div>
+              </div>
             </CardDescription>
           </CardHeader>
           <CardContent>
