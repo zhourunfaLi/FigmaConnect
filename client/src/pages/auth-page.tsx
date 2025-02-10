@@ -2,8 +2,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,15 +23,20 @@ export default function AuthPage() {
       <div className="flex-1 flex items-center justify-center">
         <Card className="w-full max-w-md mx-4">
           <CardHeader>
-            <CardTitle>Welcome to Art Gallery</CardTitle>
+            <CardTitle className="text-2xl">欢迎来到艺术博物馆</CardTitle>
+            <CardDescription>
+              请使用以下测试账号登录：
+              用户名：test
+              密码：test123
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
+                <TabsTrigger value="login">登录</TabsTrigger>
+                <TabsTrigger value="register">注册</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="login">
                 <AuthForm 
                   mode="login" 
@@ -39,7 +44,7 @@ export default function AuthPage() {
                   isLoading={loginMutation.isPending}
                 />
               </TabsContent>
-              
+
               <TabsContent value="register">
                 <AuthForm 
                   mode="register" 
@@ -51,13 +56,13 @@ export default function AuthPage() {
           </CardContent>
         </Card>
       </div>
-      
+
       <div className="hidden lg:flex flex-1 bg-muted items-center justify-center p-12">
         <div className="max-w-lg">
-          <h2 className="text-3xl font-bold mb-4">Discover World-Class Art</h2>
+          <h2 className="text-3xl font-bold mb-4">探索世界级艺术品</h2>
           <p className="text-lg text-muted-foreground">
-            Join our community to explore high-quality artworks, watch exclusive videos,
-            and engage with other art enthusiasts.
+            加入我们的社区，探索高清艺术作品，观看独家视频，
+            与其他艺术爱好者交流。
           </p>
         </div>
       </div>
@@ -90,29 +95,31 @@ function AuthForm({
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>用户名</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>密码</FormLabel>
               <FormControl>
                 <Input type="password" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
-        
+
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Loading..." : mode === "login" ? "Login" : "Register"}
+          {isLoading ? "加载中..." : mode === "login" ? "登录" : "注册"}
         </Button>
       </form>
     </Form>
