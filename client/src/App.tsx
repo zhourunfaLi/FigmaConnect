@@ -8,6 +8,7 @@ import { ProtectedRoute } from "./lib/protected-route";
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
 import ArtworkPage from "@/pages/artwork-page";
+import AddArtworkPage from "@/pages/add-artwork-page";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/artwork/:id" component={ArtworkPage} />
+      <ProtectedRoute path="/add" component={AddArtworkPage} />
       <Route component={NotFound} />
     </Switch>
   );
