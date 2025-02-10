@@ -55,6 +55,13 @@ export class DatabaseStorage implements IStorage {
     return artwork;
   }
 
+  async createArtwork(artwork: Omit<Artwork, "id">): Promise<Artwork> {
+    const [newArtwork] = await db.insert(artworks)
+      .values(artwork)
+      .returning();
+    return newArtwork;
+  }
+
   async getComments(artworkId: number): Promise<Comment[]> {
     return await db.select()
       .from(comments)

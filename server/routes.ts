@@ -11,6 +11,27 @@ export function registerRoutes(app: Express): Server {
     res.json(artworks);
   });
 
+  app.post("/api/artworks", async (req, res) => {
+    if (!req.user) {
+      res.status(401).send("Must be logged in to add artwork");
+      return;
+    }
+
+    try {
+      const artwork = await storage.createArtwork({
+        title: req.body.title,
+        description: req.body.description,
+        imageUrl: req.body.imageUrl,
+        videoUrl: req.body.videoUrl,
+        isPremium: req.body.isPremium,
+      });
+      res.status(200).json(artwork);
+    } catch (error) {
+      console.error('Error creating artwork:', error);
+      res.status(500).send("Failed to create artwork");
+    }
+  });
+
   app.get("/api/artworks/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
