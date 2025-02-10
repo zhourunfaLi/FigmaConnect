@@ -12,18 +12,29 @@ export function registerRoutes(app: Express): Server {
   });
 
   app.get("/api/artworks/:id", async (req, res) => {
-    const artwork = await storage.getArtwork(parseInt(req.params.id));
-    if (!artwork) {
-      res.status(404).send("Artwork not found");
-      return;
-    }
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        res.status(400).send("Invalid artwork ID");
+        return;
+      }
 
-    if (artwork.isPremium && !req.user?.isPremium) {
-      res.status(403).send("Premium content requires membership");
-      return;
-    }
+      const artwork = await storage.getArtwork(id);
+      if (!artwork) {
+        res.status(404).send("Artwork not found");
+        return;
+      }
 
-    res.json(artwork);
+      if (artwork.isPremium && !req.user?.isPremium) {
+        res.status(403).send("Premium content requires membership");
+        return;
+      }
+
+      res.json(artwork);
+    } catch (error) {
+      console.error('Error fetching artwork:', error);
+      res.status(500).send("Internal server error");
+    }
   });
 
   app.get("/api/artworks/:id/comments", async (req, res) => {
