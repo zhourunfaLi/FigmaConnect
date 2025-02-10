@@ -15,17 +15,26 @@ export default function ArtworkPage() {
   const id = parseInt(params.id || "0", 10);
   const [zoom, setZoom] = useState(1);
 
-  const { data: artwork, isError, error } = useQuery<Artwork>({
+  const { data: artwork, isError, error, isLoading } = useQuery<Artwork>({
     queryKey: [`/api/artworks/${id}`],
     enabled: id > 0,
+    retry: false,
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   if (isError) {
     return (
       <div className="container mx-auto px-4 py-8">
         <Alert variant="destructive">
           <AlertDescription>
-            {(error as Error).message}
+            {(error as Error).message || "Failed to load artwork"}
           </AlertDescription>
         </Alert>
       </div>
@@ -34,8 +43,12 @@ export default function ArtworkPage() {
 
   if (!artwork) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="container mx-auto px-4 py-8">
+        <Alert>
+          <AlertDescription>
+            Artwork not found
+          </AlertDescription>
+        </Alert>
       </div>
     );
   }
