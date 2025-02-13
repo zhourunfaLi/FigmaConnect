@@ -7,9 +7,15 @@ type WorksListProps = {
 };
 
 export default function WorksList({ artworks, className }: WorksListProps) {
+  // 创建一个20个元素的数组来展示作品
+  const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
+    ...artworks[index % artworks.length],
+    id: index + 1
+  }));
+
   return (
     <div className={cn("grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-20", className)}>
-      {artworks.map((artwork) => (
+      {displayArtworks.map((artwork) => (
         <div key={artwork.id} className="flex flex-col gap-3">
           <div className="relative aspect-[3/4] w-full">
             <img
