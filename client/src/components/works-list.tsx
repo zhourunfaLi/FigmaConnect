@@ -58,7 +58,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             </div>
           )}
         </div>
-        <div className="flex justify-between items-center px-2 mt-4 first-line:hidden">
+        <div className="flex justify-between items-center px-2 mt-4">
           <div className="text-sm text-[#111111] font-medium leading-5 truncate">
             {artwork.title}
           </div>
@@ -83,7 +83,6 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     <div 
       className={cn(
         "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-20",
-        "[&>*:nth-child(-n+4)_.mt-4]:hidden", // 隐藏前4个作品的标题区域
         className
       )}
     >
