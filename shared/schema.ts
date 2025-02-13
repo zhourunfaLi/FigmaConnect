@@ -38,3 +38,34 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Artwork = typeof artworks.$inferSelect;
 export type Comment = typeof comments.$inferSelect;
+
+export const mockArtworks: Artwork[] = [
+  {
+    id: 1,
+    title: "蒙娜丽莎",
+    description: "达芬奇最著名的作品",
+    imageUrl: "https://placehold.co/400x300",
+    isPremium: false,
+  },
+  {
+    id: 2,
+    title: "星空",
+    description: "梵高的代表作",
+    imageUrl: "https://placehold.co/400x600",
+    isPremium: true,
+  },
+  {
+    id: 3,
+    title: "戴珍珠耳环的少女",
+    description: "维米尔的杰作",
+    imageUrl: "https://placehold.co/400x400",
+    isPremium: false,
+  },
+  {
+    id: 4,
+    title: "向日葵",
+    description: "梵高的经典作品",
+    imageUrl: "https://placehold.co/400x500",
+    isPremium: true,
+  }
+];
