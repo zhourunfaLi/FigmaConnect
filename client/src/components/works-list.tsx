@@ -34,12 +34,16 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const columnHeights = useRef<number[]>([]);
 
   // 生成展示用的作品数组，为每个作品添加唯一ID、宽高比和是否为宽幅作品标识
-  const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
-    ...artworks[index % artworks.length],
-    id: index + 1,
-    aspectRatio: index % 7 === 3 ? 2 : [3/4, 4/5, 2/3, 5/4, 1][index % 5],
-    isWide: index % 7 === 3
-  }));
+  const displayArtworks = Array.from({ length: 20 }, (_, index) => {
+    // 确保在宽幅作品前有2的倍数的普通作品
+    const isWide = (index + 1) % 8 === 0; // 每8个作品放置一个宽幅作品
+    return {
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: isWide ? 2 : [3/4, 4/5, 2/3, 5/4, 1][index % 5],
+      isWide
+    };
+  });
 
   // 优化布局间距的函数
   useLayoutEffect(() => {
@@ -47,7 +51,6 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
     const container = containerRef.current;
     const items = Array.from(container.children) as HTMLElement[];
-    const containerWidth = container.offsetWidth;
     const gap = 24; // 默认间距
 
     // 获取列数
@@ -66,21 +69,28 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         const minHeightColumn = Math.min(...columnHeights.current);
         const columnIndex = columnHeights.current.indexOf(minHeightColumn);
 
-        // 调整宽幅作品上方的间距
-        if (columnIndex > 0) {
-          const heightDiff = Math.abs(columnHeights.current[columnIndex] - columnHeights.current[columnIndex - 1]);
-          if (heightDiff > gap * 2) {
-            item.style.marginTop = `${gap + heightDiff * 0.5}px`;
-          }
+        // 智能间距调整：根据相邻列的高度差异动态计算
+        const neighboringHeights = columnHeights.current.filter((_, i) => 
+          Math.abs(i - columnIndex) <= 1
+        );
+        const heightVariance = Math.max(...neighboringHeights) - Math.min(...neighboringHeights);
+
+        // 如果高度差异过大，添加补偿间距
+        if (heightVariance > gap * 2) {
+          const compensation = Math.min(heightVariance * 0.3, gap * 2);
+          item.style.marginTop = `${compensation}px`;
         }
 
-        // 更新所有列的高度
-        columnHeights.current = columnHeights.current.map(() => minHeightColumn + itemHeight + gap);
+        // 更新所有列的高度，保持一致性
+        const newHeight = minHeightColumn + itemHeight + gap;
+        columnHeights.current = columnHeights.current.map(() => newHeight);
       } else {
-        // 普通作品处理
+        // 普通作品处理：寻找最矮的列
         const minHeight = Math.min(...columnHeights.current);
         const columnIndex = columnHeights.current.indexOf(minHeight);
-        columnHeights.current[columnIndex] += itemHeight + gap;
+
+        // 更新列高度
+        columnHeights.current[columnIndex] = minHeight + itemHeight + gap;
       }
     });
   }, [displayArtworks]);
