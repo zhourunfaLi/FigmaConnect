@@ -13,7 +13,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         <div key={artwork.id} className="flex flex-col gap-3">
           <div className="relative aspect-[3/4] w-full">
             <img
-              src={artwork.imageUrl || `/works-0${(artwork.id % 8) + 1}.png`}
+              src={`/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
               alt={artwork.title}
               className="w-full h-full object-cover rounded-[18px]"
             />
