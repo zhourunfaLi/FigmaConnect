@@ -16,6 +16,7 @@ export const artworks = pgTable("artworks", {
   imageUrl: text("image_url").notNull(),
   videoUrl: text("video_url"),
   isPremium: boolean("is_premium").default(false).notNull(),
+  hideTitle: boolean("hide_title").default(false).notNull(), // 新增字段控制标题显示
 });
 
 export const comments = pgTable("comments", {
@@ -45,41 +46,53 @@ export const mockArtworks: Artwork[] = [
     title: "向日葵",
     description: "梵高的经典作品",
     imageUrl: "https://placehold.co/400x600",
+    videoUrl: null,
     isPremium: false,
+    hideTitle: true,
   },
   {
     id: 2,
     title: "戴珍珠耳环的少女",
     description: "维米尔的杰作",
     imageUrl: "https://placehold.co/400x400",
+    videoUrl: null,
     isPremium: true,
+    hideTitle: true,
   },
   {
     id: 3,
     title: "蒙娜丽莎",
     description: "达芬奇最著名的作品",
     imageUrl: "https://placehold.co/400x300",
+    videoUrl: null,
     isPremium: false,
+    hideTitle: false,
   },
   {
     id: 4,
     title: "星空",
     description: "梵高的代表作",
     imageUrl: "https://placehold.co/400x800",
+    videoUrl: null,
     isPremium: true,
+    hideTitle: false,
   },
   {
     id: 5,
     title: "维纳斯的诞生",
     description: "波提切利的名作",
     imageUrl: "https://placehold.co/400x500",
+    videoUrl: null,
     isPremium: false,
+    hideTitle: false,
   },
   {
     id: 6,
     title: "吻",
     description: "克林姆特的代表作",
     imageUrl: "https://placehold.co/400x700",
+    videoUrl: null,
     isPremium: true,
+    hideTitle: false,
   }
 ];

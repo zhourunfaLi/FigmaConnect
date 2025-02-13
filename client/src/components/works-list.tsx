@@ -38,13 +38,6 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     aspectRatio: [3/4, 4/5, 2/3, 5/4, 1][index % 5]
   }));
 
-  // 计算每列的作品数量
-  const itemsPerColumn = {
-    mobile: Math.ceil(displayArtworks.length / 2),
-    tablet: Math.ceil(displayArtworks.length / 3),
-    desktop: Math.ceil(displayArtworks.length / 4)
-  };
-
   // 在作品中随机插入广告
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
     acc.push(
@@ -67,8 +60,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             </div>
           )}
         </div>
-        {/* 只有非第一行的作品才显示标题 */}
-        {index >= itemsPerColumn.mobile && (
+        {/* 根据hideTitle属性决定是否显示标题 */}
+        {!artwork.hideTitle && (
           <div className="flex justify-between items-center px-2 mt-4">
             <div className="text-sm text-[#111111] font-medium leading-5 truncate">
               {artwork.title}
