@@ -51,7 +51,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
+    console.log(`[Debug] Executing getArtwork query with ID: ${id}`);
     const [artwork] = await db.select().from(artworks).where(eq(artworks.id, id));
+    console.log(`[Debug] getArtwork query result:`, artwork);
     return artwork;
   }
 

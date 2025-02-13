@@ -35,25 +35,32 @@ export function registerRoutes(app: Express): Server {
   app.get("/api/artworks/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
+      console.log(`[Debug] Received request for artwork ID: ${id}`);
+
       if (isNaN(id)) {
+        console.log(`[Debug] Invalid ID format: ${req.params.id}`);
         res.status(400).send("Invalid artwork ID");
         return;
       }
 
       const artwork = await storage.getArtwork(id);
+      console.log(`[Debug] Database query result:`, artwork);
+
       if (!artwork) {
+        console.log(`[Debug] No artwork found for ID: ${id}`);
         res.status(404).send("Artwork not found");
         return;
       }
 
       if (artwork.isPremium && !req.user?.isPremium) {
+        console.log(`[Debug] Premium content access denied for user:`, req.user);
         res.status(403).send("Premium content requires membership");
         return;
       }
 
       res.json(artwork);
     } catch (error) {
-      console.error('Error fetching artwork:', error);
+      console.error('[Error] Error fetching artwork:', error);
       res.status(500).send("Internal server error");
     }
   });
