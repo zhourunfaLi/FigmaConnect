@@ -29,7 +29,7 @@ export default function HomePage() {
       {/* 分类标签栏 */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10">
         <ScrollArea className="w-full whitespace-nowrap">
-          <div className="flex gap-4 px-4 py-3">
+          <div className="flex justify-center gap-4 px-4 py-3">
             {categories.map((category) => (
               <button
                 key={category.id}
