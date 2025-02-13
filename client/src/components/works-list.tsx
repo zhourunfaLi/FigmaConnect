@@ -33,7 +33,9 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   // 创建一个20个元素的数组来展示作品
   const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
     ...artworks[index % artworks.length],
-    id: index + 1
+    id: index + 1,
+    // 为不同作品设置不同的高度比例
+    aspectRatio: [3/4, 4/5, 2/3, 5/4, 1][index % 5]
   }));
 
   // 在作品中随机插入广告
@@ -43,7 +45,10 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         key={artwork.id} 
         className="mb-10 w-full"
       >
-        <div className="relative aspect-[3/4]">
+        <div 
+          className="relative"
+          style={{ aspectRatio: artwork.aspectRatio }}
+        >
           <img
             src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
             alt={artwork.title}
@@ -77,10 +82,20 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   return (
-    <div className={cn(
-      "columns-2 md:columns-3 lg:columns-4 gap-6 space-y-0 pb-20",
-      className
-    )}>
+    <div 
+      className="pb-20"
+      style={{
+        columnCount: 2,
+        columnGap: "1.5rem",
+        columns: "2 auto",
+        "@media (min-width: 768px)": {
+          columns: "3 auto"
+        },
+        "@media (min-width: 1024px)": {
+          columns: "4 auto"
+        }
+      }}
+    >
       {contentWithAds}
     </div>
   );
