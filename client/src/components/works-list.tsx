@@ -51,8 +51,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       >
         <div className={cn(
           "relative w-full",
-          // 宽作品使用更宽的宽高比
-          artwork.isWide ? "aspect-[2/1]" : "aspect-[3/4]"
+          // 宽作品使用16:9的宽高比
+          artwork.isWide ? "aspect-[16/9]" : "aspect-[3/4]"
         )}>
           <img
             src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
