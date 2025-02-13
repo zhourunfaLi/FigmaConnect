@@ -60,16 +60,19 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             </div>
           )}
         </div>
-        <div className="flex justify-between items-center px-2 mt-4">
-          <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-            {artwork.title}
+        {/* 只有在不是第一行的作品时才显示标题栏 */}
+        {index >= 2 && (
+          <div className="flex justify-between items-center px-2 mt-4">
+            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+              {artwork.title}
+            </div>
+            <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+              <div className="w-1 h-1 rounded-full bg-[#111111]" />
+              <div className="w-1 h-1 rounded-full bg-[#111111]" />
+              <div className="w-1 h-1 rounded-full bg-[#111111]" />
+            </button>
           </div>
-          <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-            <div className="w-1 h-1 rounded-full bg-[#111111]" />
-            <div className="w-1 h-1 rounded-full bg-[#111111]" />
-            <div className="w-1 h-1 rounded-full bg-[#111111]" />
-          </button>
-        </div>
+        )}
       </div>
     );
 
@@ -83,18 +86,10 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   return (
     <div 
-      className="pb-20"
-      style={{
-        columnCount: 2,
-        columnGap: "1.5rem",
-        columns: "2 auto",
-        "@media (min-width: 768px)": {
-          columns: "3 auto"
-        },
-        "@media (min-width: 1024px)": {
-          columns: "4 auto"
-        }
-      }}
+      className={cn(
+        "columns-2 md:columns-3 lg:columns-4 gap-6 pb-20",
+        className
+      )}
     >
       {contentWithAds}
     </div>
