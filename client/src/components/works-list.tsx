@@ -14,9 +14,15 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }));
 
   return (
-    <div className={cn("grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-20", className)}>
+    <div className={cn(
+      "columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6 pb-20",
+      className
+    )}>
       {displayArtworks.map((artwork) => (
-        <div key={artwork.id} className="flex flex-col gap-3">
+        <div 
+          key={artwork.id} 
+          className="break-inside-avoid-column flex flex-col gap-3 w-full"
+        >
           <div className="relative aspect-[3/4] w-full">
             <img
               src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
