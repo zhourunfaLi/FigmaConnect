@@ -1,6 +1,6 @@
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import React, { useLayoutEffect, useRef } from "react";
+import React from "react";
 
 type WorksListProps = {
   artworks: Artwork[];
@@ -10,7 +10,7 @@ type WorksListProps = {
 // 广告卡片组件 - 展示广告内容
 function AdCard() {
   return (
-    <div className="w-full mb-6">
+    <div className="w-full">
       <div className="relative aspect-[3/4] w-full bg-white rounded-[18px] overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
@@ -30,13 +30,10 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const columnHeights = useRef<number[]>([]);
-
-  // 生成展示用的作品数组，为每个作品添加唯一ID、宽高比和是否为宽幅作品标识
-  const displayArtworks = Array.from({ length: 20 }, (_, index) => {
-    // 确保在宽幅作品前有2的倍数的普通作品
-    const isWide = (index + 1) % 8 === 0; // 每8个作品放置一个宽幅作品
+  // 生成作品数组，确保宽幅作品只出现在第一列开始位置
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
+    // 每8个作品的第一个位置放置宽幅作品
+    const isWide = index % 8 === 0 && index !== 0;
     return {
       ...artworks[index % artworks.length],
       id: index + 1,
@@ -45,56 +42,6 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     };
   });
 
-  // 优化布局间距的函数
-  useLayoutEffect(() => {
-    if (!containerRef.current) return;
-
-    const container = containerRef.current;
-    const items = Array.from(container.children) as HTMLElement[];
-    const gap = 24; // 默认间距
-
-    // 获取列数
-    const computedStyle = window.getComputedStyle(container);
-    const columnCount = parseInt(computedStyle.columnCount || '2');
-
-    // 初始化列高度数组
-    columnHeights.current = Array(columnCount).fill(0);
-
-    items.forEach((item, index) => {
-      const itemHeight = item.offsetHeight;
-      const isWideItem = item.classList.contains('wide-item');
-
-      if (isWideItem) {
-        // 宽幅作品处理
-        const minHeightColumn = Math.min(...columnHeights.current);
-        const columnIndex = columnHeights.current.indexOf(minHeightColumn);
-
-        // 智能间距调整：根据相邻列的高度差异动态计算
-        const neighboringHeights = columnHeights.current.filter((_, i) => 
-          Math.abs(i - columnIndex) <= 1
-        );
-        const heightVariance = Math.max(...neighboringHeights) - Math.min(...neighboringHeights);
-
-        // 如果高度差异过大，添加补偿间距
-        if (heightVariance > gap * 2) {
-          const compensation = Math.min(heightVariance * 0.3, gap * 2);
-          item.style.marginTop = `${compensation}px`;
-        }
-
-        // 更新所有列的高度，保持一致性
-        const newHeight = minHeightColumn + itemHeight + gap;
-        columnHeights.current = columnHeights.current.map(() => newHeight);
-      } else {
-        // 普通作品处理：寻找最矮的列
-        const minHeight = Math.min(...columnHeights.current);
-        const columnIndex = columnHeights.current.indexOf(minHeight);
-
-        // 更新列高度
-        columnHeights.current[columnIndex] = minHeight + itemHeight + gap;
-      }
-    });
-  }, [displayArtworks]);
-
   // 生成作品卡片和广告的混合内容
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
     // 添加作品卡片
@@ -102,16 +49,15 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       <div 
         key={artwork.id} 
         className={cn(
-          "mb-6 break-inside-avoid",
-          artwork.isWide ? "!w-[calc(200%+1.5rem)] clear-both wide-item" : "w-full"
+          "relative",
+          artwork.isWide ? "col-span-2" : "col-span-1"
         )}
         style={{
-          breakBefore: artwork.isWide ? 'column' : 'auto'
+          gridColumnStart: artwork.isWide ? "1" : "auto"
         }}
       >
-        {/* 作品图片容器 */}
         <div 
-          className="relative w-full"
+          className="w-full mb-6"
           style={{ 
             height: artwork.isWide ? "240px" : "auto",
             aspectRatio: artwork.isWide ? undefined : artwork.aspectRatio
@@ -149,7 +95,11 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
     // 每6个作品后添加一个广告
     if ((index + 1) % 6 === 0) {
-      acc.push(<AdCard key={`ad-${index}`} />);
+      acc.push(
+        <div key={`ad-${index}`} className="col-span-1">
+          <AdCard />
+        </div>
+      );
     }
 
     return acc;
@@ -157,9 +107,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   return (
     <div 
-      ref={containerRef}
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-6 pb-20",
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-auto pb-20",
         className
       )}
     >
