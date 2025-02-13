@@ -1,4 +1,3 @@
-
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
 
@@ -9,30 +8,30 @@ type WorksListProps = {
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   return (
-    <div className={cn("columns-2 md:columns-3 lg:columns-4 gap-4 pb-20 space-y-4", className)}>
+    <div className={cn("grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-20", className)}>
       {artworks.map((artwork) => (
-        <div key={artwork.id} className="flex flex-col gap-1 break-inside-avoid inline-block w-full">
-          <div className="relative w-full">
+        <div key={artwork.id} className="flex flex-col gap-2">
+          <div className="relative aspect-[3/4] w-full">
             <img
               src={artwork.imageUrl}
               alt={artwork.title}
-              className="w-full object-cover rounded-[18px]"
+              className="w-full h-full object-cover rounded-[18px]"
             />
             {artwork.isPremium && (
-              <div className="absolute top-2 left-2 text-white text-[14px] text-shadow">
+              <div className="absolute top-2 left-2 px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
                 SVIP
               </div>
             )}
           </div>
-          <div className="flex justify-between items-center px-[7px]">
-            <div className="text-[14px] text-[#111111] leading-5 truncate">
+          <div className="flex justify-between items-center px-2">
+            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
               {artwork.title}
             </div>
-            <div className="flex gap-2 flex-shrink-0">
-              <div className="w-[3px] h-[3px] rounded-full bg-[#111111]" />
-              <div className="w-[3px] h-[3px] rounded-full bg-[#111111]" />
-              <div className="w-[3px] h-[3px] rounded-full bg-[#111111]" />
-            </div>
+            <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+              <div className="w-1 h-1 rounded-full bg-[#111111]" />
+              <div className="w-1 h-1 rounded-full bg-[#111111]" />
+              <div className="w-1 h-1 rounded-full bg-[#111111]" />
+            </button>
           </div>
         </div>
       ))}
