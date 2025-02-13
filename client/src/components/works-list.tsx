@@ -30,13 +30,23 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  // 创建一个20个元素的数组来展示作品
-  const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
-    ...artworks[index % artworks.length],
-    id: index + 1,
-    // 为不同作品设置不同的高度比例
-    aspectRatio: [3/4, 4/5, 2/3, 5/4, 1][index % 5]
-  }));
+  // 创建一个20个元素的数组来展示作品，并确定是否显示标题
+  const displayArtworks = Array.from({ length: 20 }, (_, index) => {
+    // 为不同的屏幕尺寸设置每行的列数
+    const mobileColumns = 2;
+    const tabletColumns = 3;
+    const desktopColumns = 4;
+
+    // 检查是否在第一行
+    const isInFirstRow = index < Math.max(mobileColumns, tabletColumns, desktopColumns);
+
+    return {
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: [3/4, 4/5, 2/3, 5/4, 1][index % 5],
+      hideTitle: isInFirstRow // 第一行的作品不显示标题
+    };
+  });
 
   // 在作品中随机插入广告
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
