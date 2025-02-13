@@ -105,6 +105,9 @@ export default function WorksList({ artworks, className }: WorksListProps) {
           "mb-6 break-inside-avoid",
           artwork.isWide ? "!w-[calc(200%+1.5rem)] clear-both wide-item" : "w-full"
         )}
+        style={{
+          breakBefore: artwork.isWide ? 'column' : 'auto'
+        }}
       >
         {/* 作品图片容器 */}
         <div 
