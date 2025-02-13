@@ -33,33 +33,19 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   // 创建一个20个元素的数组来展示作品
   const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
     ...artworks[index % artworks.length],
-    id: index + 1,
-    // 每5个作品中的第3个设置为双列宽度
-    isWide: (index % 5) === 2
+    id: index + 1
   }));
 
   // 在作品中随机插入广告
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
-    // 为宽图选择特定的图片
-    const isWideImage = artwork.isWide;
-    const imageNumber = isWideImage 
-      ? (index % 2 === 0 ? '10' : '11') // 在宽图中交替使用works-10和works-11
-      : String(artwork.id % 8 + 1).padStart(2, '0');
-
     acc.push(
       <div 
         key={artwork.id} 
-        className={cn(
-          "mb-10", // 增加底部间距到10
-          artwork.isWide ? "col-span-2 w-[calc(200%+1rem)] break-inside-avoid" : "w-full" // 考虑gap的宽度
-        )}
+        className="mb-10 w-full"
       >
-        <div className={cn(
-          "relative w-full",
-          artwork.isWide ? "aspect-[2.4/1]" : "aspect-[3/4]"
-        )}>
+        <div className="relative aspect-[3/4]">
           <img
-            src={`./src/assets/design/works-${imageNumber}.png`}
+            src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
             alt={artwork.title}
             className="w-full h-full object-cover rounded-[18px]"
           />
@@ -93,12 +79,12 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-20", // 使用grid替代columns，设置固定的gap
+        "pb-20",
         className
       )}
       style={{
         columnCount: 2,
-        columnGap: "1.5rem", // 24px的列间距
+        columnGap: "0.75rem", // 12px的列间距
         "@media (min-width: 768px)": {
           columnCount: 3
         },
