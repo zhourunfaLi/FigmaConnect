@@ -46,24 +46,24 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         key={artwork.id} 
         className={cn(
           "break-inside-avoid mb-6",
-          artwork.isWide ? "col-span-2" : "w-full"
+          artwork.isWide ? "!w-[calc(200%+1.5rem)] relative left-0" : "w-full"
         )}
+        style={{
+          marginTop: artwork.isWide ? "2rem" : undefined
+        }}
       >
         {/* 作品图片容器 */}
         <div 
-          className="relative"
+          className="relative w-full"
           style={{ 
-            aspectRatio: artwork.isWide ? 2.5 : artwork.aspectRatio, // 宽幅作品使用固定的宽高比
-            height: artwork.isWide ? "240px" : "auto" // 宽幅作品使用固定高度
+            height: artwork.isWide ? "240px" : "auto", // 宽幅作品使用固定高度
+            aspectRatio: artwork.isWide ? undefined : artwork.aspectRatio
           }}
         >
           <img
             src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
             alt={artwork.title}
-            className={cn(
-              "w-full h-full rounded-[18px]",
-              artwork.isWide ? "object-cover" : "object-cover"
-            )}
+            className="w-full h-full rounded-[18px] object-cover"
           />
           {/* SVIP标签 */}
           {artwork.isPremium && (
@@ -94,11 +94,11 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return acc;
   }, []);
 
-  // 使用网格布局展示作品和广告
+  // 使用瀑布流布局展示作品和广告
   return (
     <div 
       className={cn(
-        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-auto gap-6 pb-20",
+        "columns-2 md:columns-3 lg:columns-4 gap-6 pb-20",
         className
       )}
     >
