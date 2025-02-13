@@ -28,13 +28,13 @@ export default function HomePage() {
 
       {/* 分类标签栏 */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10">
-        <ScrollArea className="w-full">
-          <div className="flex gap-6 px-6 py-4">
+        <ScrollArea className="w-full whitespace-nowrap">
+          <div className="flex gap-4 px-4 py-3">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`text-lg font-normal transition-colors ${
+                className={`text-sm sm:text-base font-normal transition-colors px-2 ${
                   activeCategory === category.id ? "font-medium" : ""
                 }`}
                 style={{ color: activeCategory === category.id ? "#111111" : category.color }}
@@ -47,7 +47,7 @@ export default function HomePage() {
       </div>
 
       {/* 作品列表区域 */}
-      <div className="px-6 pt-4">
+      <div className="px-4 pt-4">
         {artworks && <WorksList artworks={artworks} />}
       </div>
 

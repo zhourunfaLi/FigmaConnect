@@ -10,7 +10,7 @@ type WorksListProps = {
 // 广告卡片组件
 function AdCard() {
   return (
-    <div className="mb-8 w-full">
+    <div className="mb-10 w-full">
       <div className="relative aspect-[3/4] w-full bg-white rounded-[18px] overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
@@ -20,7 +20,7 @@ function AdCard() {
           Google Ads
         </div>
       </div>
-      <div className="flex justify-between items-center px-2 mt-3">
+      <div className="flex justify-between items-center px-2 mt-4">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           推广内容
         </div>
@@ -50,8 +50,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       <div 
         key={artwork.id} 
         className={cn(
-          "mb-8", // 增加底部间距
-          artwork.isWide ? "col-span-2 w-[200%] break-inside-avoid" : "w-full"
+          "mb-10", // 增加底部间距到10
+          artwork.isWide ? "col-span-2 w-[calc(200%+1rem)] break-inside-avoid" : "w-full" // 考虑gap的宽度
         )}
       >
         <div className={cn(
@@ -69,7 +69,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             </div>
           )}
         </div>
-        <div className="flex justify-between items-center px-2 mt-3">
+        <div className="flex justify-between items-center px-2 mt-4">
           <div className="text-sm text-[#111111] font-medium leading-5 truncate">
             {artwork.title}
           </div>
@@ -92,7 +92,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   return (
     <div className={cn(
-      "columns-2 md:columns-3 lg:columns-4 gap-8 space-y-0 pb-20", // 增加列间距到gap-8
+      "columns-2 md:columns-3 lg:columns-4 gap-4 space-y-0 pb-20", // 调整列间距为4，保持space-y-0
       className
     )}>
       {contentWithAds}
