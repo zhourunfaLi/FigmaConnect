@@ -1,6 +1,6 @@
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 
 type WorksListProps = {
   artworks: Artwork[];
@@ -30,13 +30,60 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const columnHeights = useRef<number[]>([]);
+
   // 生成展示用的作品数组，为每个作品添加唯一ID、宽高比和是否为宽幅作品标识
   const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
     ...artworks[index % artworks.length],
     id: index + 1,
-    aspectRatio: index % 7 === 3 ? 2 : [3/4, 4/5, 2/3, 5/4, 1][index % 5], // 每7个作品中的第4个是宽幅作品
-    isWide: index % 7 === 3 // 标记宽幅作品
+    aspectRatio: index % 7 === 3 ? 2 : [3/4, 4/5, 2/3, 5/4, 1][index % 5],
+    isWide: index % 7 === 3
   }));
+
+  // 优化布局间距的函数
+  useLayoutEffect(() => {
+    if (!containerRef.current) return;
+
+    const container = containerRef.current;
+    const items = Array.from(container.children) as HTMLElement[];
+    const containerWidth = container.offsetWidth;
+    const gap = 24; // 默认间距
+
+    // 获取列数
+    const computedStyle = window.getComputedStyle(container);
+    const columnCount = parseInt(computedStyle.columnCount || '2');
+
+    // 初始化列高度数组
+    columnHeights.current = Array(columnCount).fill(0);
+
+    items.forEach((item, index) => {
+      const itemHeight = item.offsetHeight;
+      const isWideItem = item.classList.contains('wide-item');
+
+      if (isWideItem) {
+        // 宽幅作品处理
+        const minHeightColumn = Math.min(...columnHeights.current);
+        const columnIndex = columnHeights.current.indexOf(minHeightColumn);
+
+        // 调整宽幅作品上方的间距
+        if (columnIndex > 0) {
+          const heightDiff = Math.abs(columnHeights.current[columnIndex] - columnHeights.current[columnIndex - 1]);
+          if (heightDiff > gap * 2) {
+            item.style.marginTop = `${gap + heightDiff * 0.5}px`;
+          }
+        }
+
+        // 更新所有列的高度
+        columnHeights.current = columnHeights.current.map(() => minHeightColumn + itemHeight + gap);
+      } else {
+        // 普通作品处理
+        const minHeight = Math.min(...columnHeights.current);
+        const columnIndex = columnHeights.current.indexOf(minHeight);
+        columnHeights.current[columnIndex] += itemHeight + gap;
+      }
+    });
+  }, [displayArtworks]);
 
   // 生成作品卡片和广告的混合内容
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
@@ -46,7 +93,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         key={artwork.id} 
         className={cn(
           "mb-6 break-inside-avoid",
-          artwork.isWide ? "!w-[calc(200%+1.5rem)] clear-both" : "w-full"
+          artwork.isWide ? "!w-[calc(200%+1.5rem)] clear-both wide-item" : "w-full"
         )}
       >
         {/* 作品图片容器 */}
@@ -97,6 +144,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   return (
     <div 
+      ref={containerRef}
       className={cn(
         "columns-2 md:columns-3 lg:columns-4 gap-6 pb-20",
         className
