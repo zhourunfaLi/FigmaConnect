@@ -10,7 +10,7 @@ type WorksListProps = {
 // 广告卡片组件 - 展示广告内容
 function AdCard() {
   return (
-    <div className="w-full">
+    <div className="w-full mb-6">
       <div className="relative aspect-[3/4] w-full bg-white rounded-[18px] overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
@@ -45,8 +45,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       <div 
         key={artwork.id} 
         className={cn(
-          "mb-6",
-          artwork.isWide ? "col-span-2" : ""
+          "mb-6 break-inside-avoid",
+          artwork.isWide ? "!w-[calc(200%+1.5rem)] clear-both" : "w-full"
         )}
       >
         {/* 作品图片容器 */}
@@ -98,7 +98,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-20 auto-rows-max",
+        "columns-2 md:columns-3 lg:columns-4 gap-6 pb-20",
         className
       )}
     >
