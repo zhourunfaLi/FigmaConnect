@@ -91,10 +91,22 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   return (
-    <div className={cn(
-      "columns-2 md:columns-3 lg:columns-4 gap-4 space-y-0 pb-20", // 调整列间距为4，保持space-y-0
-      className
-    )}>
+    <div 
+      className={cn(
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-20", // 使用grid替代columns，设置固定的gap
+        className
+      )}
+      style={{
+        columnCount: 2,
+        columnGap: "1.5rem", // 24px的列间距
+        "@media (min-width: 768px)": {
+          columnCount: 3
+        },
+        "@media (min-width: 1024px)": {
+          columnCount: 4
+        }
+      }}
+    >
       {contentWithAds}
     </div>
   );
