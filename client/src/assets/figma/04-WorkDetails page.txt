@@ -1,0 +1,611 @@
+<div data-layer="WorkDetails page" className="WorkdetailsPage" style={{width: 390, height: 3100, position: 'relative', background: '#EEEAE2'}}>
+  <div data-layer="Details section" className="DetailsSection" style={{width: 374, height: 3000, left: 8, top: 102, position: 'absolute'}}>
+    <div data-layer="works show" className="WorksShow" style={{width: 374, height: 537, left: 0, top: 0, position: 'absolute'}}>
+      <img data-layer="works form krpano" className="WorksFormKrpano" style={{width: 374, height: 477, left: 0, top: 0, position: 'absolute', borderRadius: 12}} src="https://placehold.co/374x477" />
+      <div data-layer="SVIP" className="Svip" style={{left: 14, top: 12, position: 'absolute', color: 'white', fontSize: 14, fontFamily: 'FZSunYongShengS-R-GB', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word', textShadow: '1px 1px 1px rgba(0, 0, 0, 0.22)'}}>SVIP</div>
+      <div data-svg-wrapper data-layer="Fullscreen button" className="FullscreenButton" style={{left: 324, top: 384, position: 'absolute'}}>
+      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8.17114 3.12305H6.06419C4.64998 3.12305 3.94287 3.12305 3.50353 3.56239C3.06419 4.00173 3.06419 4.70883 3.06419 6.12305V8.32812" stroke="#F8F8FA" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8.17114 21.8613H6.06419C4.64998 21.8613 3.94287 21.8613 3.50353 21.422C3.06419 20.9826 3.06419 20.2755 3.06419 18.8613V16.6562" stroke="#F8F8FA" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16.3423 3.12305H18.4492C19.8635 3.12305 20.5706 3.12305 21.0099 3.56239C21.4492 4.00173 21.4492 4.70883 21.4492 6.12305V8.32812" stroke="#F8F8FA" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16.3423 21.8613H18.4492C19.8635 21.8613 20.5706 21.8613 21.0099 21.422C21.4492 20.9826 21.4492 20.2755 21.4492 18.8613V16.6562" stroke="#F8F8FA" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      </div>
+      <div data-layer="wokrs title" className="WokrsTitle" style={{width: 374, left: 0, top: 489, position: 'absolute', color: '#090909', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团</div>
+      <div data-layer="slider bar" className="SliderBar" style={{width: 324, height: 62, left: 21, top: 396, position: 'absolute'}}>
+        <div data-layer="Range Slider" className="RangeSlider" style={{height: 10, left: 12, top: 45, position: 'absolute', background: '#D5D1AE', borderRadius: 5, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'inline-flex'}}>
+          <div data-layer="Bullet" className="Bullet" style={{borderRadius: 12, justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+            <div data-layer="Ellipse 70" className="Ellipse70" style={{width: 24, height: 24, background: '#C1AB09', borderRadius: 9999, border: '4px white solid'}} />
+          </div>
+          <div data-layer="Rectangle 4379" className="Rectangle4379" style={{width: 158, height: 10, background: '#C1AB09', borderRadius: 5}} />
+        </div>
+        <div data-layer="X Times" className="XTimes" style={{left: 112, top: 0, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', display: 'inline-flex'}}>
+          <div data-layer="Frame 8396" className="Frame8396" style={{width: 100, height: 32, padding: 20, background: '#C1AB09', borderRadius: 32, justifyContent: 'center', alignItems: 'center', gap: 10, display: 'inline-flex'}}>
+            <div data-layer="2.4 X" className="4X" style={{textAlign: 'center', color: 'white', fontSize: 14, fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word'}}>2.4 X</div>
+          </div>
+          <div data-svg-wrapper data-layer="Polygon 4" className="Polygon4">
+          <svg width="12" height="6" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.25259 5.67752C5.65038 6.10749 6.34962 6.10749 6.74741 5.67752L12 0H0L5.25259 5.67752Z" fill="#C1AB09"/>
+          </svg>
+          </div>
+        </div>
+        <div data-layer="zoom out" className="ZoomOut" style={{width: 24, height: 24, left: 0, top: 38, position: 'absolute'}}>
+          <div data-layer="Ellipse 70" className="Ellipse70" style={{width: 24, height: 24, left: 0, top: 0, position: 'absolute', background: '#C1AB09', borderRadius: 9999, border: '4px #E2EDF8 solid'}} />
+          <div data-layer="Rectangle 1139" className="Rectangle1139" style={{width: 8, height: 2, left: 8, top: 11, position: 'absolute', background: 'white'}} />
+        </div>
+        <div data-layer="zoom in" className="ZoomIn" style={{width: 24, height: 24, left: 300, top: 38, position: 'absolute'}}>
+          <div data-layer="Ellipse 70" className="Ellipse70" style={{width: 24, height: 24, left: 0, top: 0, position: 'absolute', background: '#C1AB09', borderRadius: 9999, border: '4px #E2EDF8 solid'}} />
+          <div data-layer="Rectangle 1139" className="Rectangle1139" style={{width: 8, height: 2, left: 8, top: 11, position: 'absolute', background: 'white'}} />
+          <div data-layer="Rectangle 1140" className="Rectangle1140" style={{width: 8, height: 2, left: 11, top: 16, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', background: 'white'}} />
+        </div>
+      </div>
+    </div>
+    <div data-layer="works video" className="WorksVideo" style={{height: 246, left: 0, top: 565, position: 'absolute', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', gap: 10.92, display: 'inline-flex'}}>
+      <div data-layer="Container 110" className="Container110" style={{width: 374, height: 211.08, position: 'relative', background: '#171A1F', borderRadius: 12, overflow: 'hidden', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+        <div data-layer="video" className="Video" style={{width: 374, height: 211, position: 'relative'}}>
+          <img data-layer="image" className="Image" style={{width: 374, height: 211, left: 0, top: 0, position: 'absolute', borderRadius: 12}} src="https://placehold.co/374x211" />
+          <div data-layer="Rectangle 5" className="Rectangle5" style={{width: 374, height: 211, left: 0, top: 0, position: 'absolute', background: 'rgba(23, 26, 31, 0.30)', borderRadius: 12}} />
+        </div>
+        <div data-layer="play button" className="PlayButton" style={{width: 52, paddingLeft: 14, paddingRight: 14, paddingTop: 12, paddingBottom: 12, background: 'white', borderRadius: 26, overflow: 'hidden', border: '1px #FF0000 solid', justifyContent: 'center', alignItems: 'flex-end', display: 'inline-flex'}}>
+          <div data-svg-wrapper data-layer="Button play" className="ButtonPlay">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 20.5714L6 3.42859L18.8571 12L6 20.5714Z" stroke="#FF0000" stroke-width="2.05714" stroke-miterlimit="10" stroke-linecap="square"/>
+          </svg>
+          </div>
+          <div data-layer="Text" className="Text"></div>
+        </div>
+        <div data-layer="player bar" className="PlayerBar" style={{width: 374, height: 36, position: 'relative'}}>
+          <div data-layer="1:11 / 2:58" className="11258" style={{width: 57, height: 20, left: 133, top: 16, position: 'absolute', color: 'white', fontSize: 8, fontFamily: 'Manrope', fontWeight: '400', lineHeight: 14, wordWrap: 'break-word'}}>1:11 / 2:58</div>
+          <div data-layer="Slider 2" className="Slider2" style={{width: 374, height: 12, left: 0, top: 0, position: 'absolute', background: 'rgba(0, 0, 0, 0)'}}>
+            <div data-layer="Frame" className="Frame" style={{width: 374, height: 2, paddingRight: 248.41, left: 0, top: 5, position: 'absolute', background: '#FFB4B4', justifyContent: 'flex-start', alignItems: 'center', display: 'inline-flex'}}>
+              <div data-layer="Rectangle" className="Rectangle" style={{width: 125.59, height: 2, background: '#FF0000'}} />
+            </div>
+            <div data-layer="Ellipse" className="Ellipse" style={{width: 12, height: 12, left: 116.96, top: 0, position: 'absolute', background: 'white', boxShadow: '0px 0px 1px rgba(255, 0, 0, 0.07)', borderRadius: 9999}} />
+          </div>
+          <div data-svg-wrapper data-layer="Volume down 1" className="VolumeDown1" style={{left: 93, top: 14, position: 'absolute'}}>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_89_373)">
+          <path d="M9.10718 9.64288L9.10718 12.8572L4.82146 9.64288H1.60718L1.60718 5.35717L4.82146 5.35717L9.10718 2.14288V5.35717" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          <path d="M10.1786 7.5L13.3929 7.5" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          </g>
+          <defs>
+          <clipPath id="clip0_89_373">
+          <rect width="15" height="15" fill="white"/>
+          </clipPath>
+          </defs>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Skip next 1" className="SkipNext1" style={{left: 53, top: 14, position: 'absolute'}}>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.75 11.25L9.0625 7.5L3.75 3.75L3.75 11.25ZM5 6.1625L6.89375 7.5L5 8.8375L5 6.1625ZM10 3.75L11.25 3.75L11.25 11.25H10L10 3.75Z" fill="white"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Button play 30" className="ButtonPlay30" style={{left: 13, top: 14, position: 'absolute'}}>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.75 12.8572L3.75 2.14288L11.7857 7.50003L3.75 12.8572Z" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Settings gear 1" className="SettingsGear1" style={{left: 299, top: 14, position: 'absolute'}}>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.49997 9.10717C8.38757 9.10717 9.10711 8.38763 9.10711 7.50003C9.10711 6.61243 8.38757 5.89288 7.49997 5.89288C6.61236 5.89288 5.89282 6.61243 5.89282 7.50003C5.89282 8.38763 6.61236 9.10717 7.49997 9.10717Z" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          <path d="M11.7857 7.49997C11.7851 7.19136 11.7513 6.8837 11.685 6.58229L13.1389 5.4814L12.0675 3.62569L10.3838 4.33605C9.9278 3.91803 9.38661 3.60384 8.79751 3.41515L8.57144 1.60712L6.42858 1.60712L6.20251 3.41515C5.61341 3.60384 5.07223 3.91803 4.61626 4.33605L2.93251 3.62569L1.86108 5.4814L3.31501 6.58229C3.18076 7.18672 3.18076 7.81323 3.31501 8.41765L1.86108 9.51854L2.93251 11.3743L4.61626 10.6639C5.07223 11.0819 5.61341 11.3961 6.20251 11.5848L6.42858 13.3928H8.57144L8.79751 11.5848C9.38661 11.3961 9.9278 11.0819 10.3838 10.6639L12.0675 11.3743L13.1389 9.51854L11.685 8.41765C11.7513 8.11625 11.7851 7.80859 11.7857 7.49997Z" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Fullscreen 1" className="Fullscreen1" style={{left: 339, top: 14, position: 'absolute'}}>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.89282 9.10712L2.14282 12.8571" stroke="white" stroke-width="1.28571" stroke-miterlimit="10"/>
+          <path d="M12.8572 2.14288L9.10718 5.89288" stroke="white" stroke-width="1.28571" stroke-miterlimit="10"/>
+          <path d="M9.10718 9.10712L12.8572 12.8571" stroke="white" stroke-width="1.28571" stroke-miterlimit="10"/>
+          <path d="M2.14282 2.14288L5.89282 5.89288" stroke="white" stroke-width="1.28571" stroke-miterlimit="10"/>
+          <path d="M9.64282 2.14288L12.8571 2.14288V5.35717" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          <path d="M5.35711 12.8572H2.14282L2.14282 9.64288" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          <path d="M2.14282 5.35717L2.14282 2.14288L5.35711 2.14288" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          <path d="M12.8571 9.64288V12.8572H9.64282" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Device connection 1" className="DeviceConnection1" style={{left: 259, top: 14, position: 'absolute'}}>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4.28575 12.3215C4.28575 10.8423 3.08628 9.64288 1.60718 9.64288" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          <path d="M6.42861 12.3214C6.42861 9.65839 4.27021 7.5 1.60718 7.5" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          <path d="M1.60713 12.8571C1.90299 12.8571 2.14284 12.6173 2.14284 12.3214C2.14284 12.0256 1.90299 11.7857 1.60713 11.7857C1.31126 11.7857 1.07141 12.0256 1.07141 12.3214C1.07141 12.6173 1.31126 12.8571 1.60713 12.8571Z" fill="white"/>
+          <path d="M2.14282 5.35716L2.14282 2.67859L13.3928 2.67859L13.3928 10.7143L8.57139 10.7143" stroke="white" stroke-width="1.28571" stroke-miterlimit="10" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+      </div>
+      <div data-layer="video title" className="VideoTitle" style={{color: '#090909', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>《蒙娜丽莎的20个秘密》</div>
+    </div>
+    <div data-layer="works info" className="WorksInfo" style={{width: 374, height: 386, left: 0, top: 843, position: 'absolute'}}>
+      <div data-layer="《蒙娜丽莎》" style={{width: 343.86, height: 23.17, left: 0, top: 23.17, position: 'absolute', color: '#747472', fontSize: 16, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>《蒙娜丽莎》</div>
+      <div data-layer="《蒙娜丽莎》（Mona Lisa）是意大利文艺复兴时期画家列奥纳多·达·芬奇创作的油画，现收藏于法国卢浮宫博物馆。该画作主要表现了女性的典雅和恬静的典型形象，塑造了资本主义上升时期一位城市有产阶级的妇女形象。《蒙娜丽莎》代表了文艺复兴时期的美学方向；该作品折射出来的女性的深邃与高尚的思想品质，反映了文艺复兴时期人们对于女性美的审美理念和审美追求。 每年到卢浮宫鉴赏《蒙娜丽莎》作品的人数，大约有600万左右。 [2]1952年，德国发行首枚《蒙娜丽莎》邮票。 [3] 当地时间2024年1月28日，两名女性在法国巴黎卢浮宫博物馆向《蒙娜丽莎》泼洒灌装汤料，以表达对法国农业政策的不满，画作因在钢化玻璃罩内展出而未受损坏。" className="MonaLisa6002195232024128" style={{width: 374, height: 330, left: 0, top: 56, position: 'absolute', color: '#090909', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>《蒙娜丽莎》（Mona Lisa）是意大利文艺复兴时期画家列奥纳多·达·芬奇创作的油画，现收藏于法国卢浮宫博物馆。该画作主要表现了女性的典雅和恬静的典型形象，塑造了资本主义上升时期一位城市有产阶级的妇女形象。《蒙娜丽莎》代表了文艺复兴时期的美学方向；该作品折射出来的女性的深邃与高尚的思想品质，反映了文艺复兴时期人们对于女性美的审美理念和审美追求。
+      <br/>每年到卢浮宫鉴赏《蒙娜丽莎》作品的人数，大约有600万左右。 [2]1952年，德国发行首枚《蒙娜丽莎》邮票。 [3]
+      <br/>当地时间2024年1月28日，两名女性在法国巴黎卢浮宫博物馆向《蒙娜丽莎》泼洒灌装汤料，以表达对法国农业政策的不满，画作因在钢化玻璃罩内展出而未受损坏。</div>
+      <div data-layer="Line 2" className="Line2" style={{width: 348.80, height: 0, left: 0, top: 0, position: 'absolute', border: '1px #B0B0B0 solid'}}></div>
+    </div>
+    <div data-layer="FAQ" className="Faq" style={{width: 374, height: 434, left: 0, top: 1261, position: 'absolute'}}>
+      <div data-layer="Frame 108" className="Frame108" style={{width: 374, height: 321, left: 0, top: 0, position: 'absolute'}}>
+        <div data-layer="Line 3" className="Line3" style={{width: 374, height: 0, left: 0, top: 123, position: 'absolute', border: '1px #D9D9D9 solid'}}></div>
+        <div data-layer="趣闻问答" style={{width: 62.68, left: 0, top: 15, position: 'absolute', color: '#747472', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>趣闻问答</div>
+        <div data-layer="Line 3" className="Line3" style={{width: 374, height: 0, left: 0, top: 0, position: 'absolute', border: '1px #D9D9D9 solid'}}></div>
+        <div data-layer="Line 3" className="Line3" style={{width: 374, height: 0, left: 0, top: 189, position: 'absolute', border: '1px #D9D9D9 solid'}}></div>
+        <div data-layer="Line 3" className="Line3" style={{width: 374, height: 0, left: 0, top: 255, position: 'absolute', border: '1px #D9D9D9 solid'}}></div>
+        <div data-layer="Line 3" className="Line3" style={{width: 374, height: 0, left: 0, top: 321, position: 'absolute', border: '1px #D9D9D9 solid'}}></div>
+      </div>
+      <div data-layer="Frame 134" className="Frame134" style={{width: 126, height: 42, left: 114, top: 392, position: 'absolute'}}>
+        <div data-layer="Rectangle 1150" className="Rectangle1150" style={{width: 126, height: 42, left: 0, top: 0, position: 'absolute', background: '#2280EF', borderRadius: 21}} />
+        <div data-layer="提交" style={{left: 64, top: 9, position: 'absolute', color: 'white', fontSize: 16, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>提交</div>
+        <div data-layer="Frame 133" className="Frame133" style={{width: 24, height: 24, left: 28, top: 9, position: 'absolute'}}>
+          <div data-layer="Rectangle 1149" className="Rectangle1149" style={{width: 24, height: 24, left: 0, top: 0, position: 'absolute', background: '#EEEAE2', borderRadius: 5, border: '2px #161616 solid'}} />
+          <div data-layer="Rectangle 1146" className="Rectangle1146" style={{width: 24, height: 9, left: 0, top: 0, position: 'absolute', borderTopLeftRadius: 5, borderTopRightRadius: 5, border: '2px #161616 solid'}} />
+          <div data-svg-wrapper data-layer="Rectangle 1148" className="Rectangle1148" style={{left: 15, top: 0, position: 'absolute'}}>
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1H4C6.20914 1 8 2.79086 8 5V8H1V1Z" stroke="#161616" stroke-width="2"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Rectangle 1147" className="Rectangle1147" style={{left: 0, top: 0, position: 'absolute'}}>
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 5C1 2.79086 2.79086 1 5 1H8V8H1V5Z" stroke="#161616" stroke-width="2"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Polygon 4" className="Polygon4" style={{left: 16, top: 11, position: 'absolute'}}>
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.75 7.29904C8.75 6.72169 8.75 5.27831 7.75 4.70096L3.25 2.10289C2.25 1.52554 1 2.24722 1 3.40192V8.59808C1 9.75277 2.25 10.4745 3.25 9.89711L7.75 7.29904Z" fill="white" stroke="black" stroke-width="2"/>
+          </svg>
+          </div>
+        </div>
+      </div>
+      <div data-layer="Frame 117" className="Frame117" style={{width: 371.91, height: 43, left: 0, top: 61, position: 'absolute'}}>
+        <div data-layer="1.《蒙娜丽莎》是达芬奇唯一一幅女性肖像画吗？" style={{width: 253.86, height: 43, left: 0, top: 0, position: 'absolute', color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>1.《蒙娜丽莎》是达芬奇唯一一幅女性肖像画吗？</div>
+        <div data-layer="假" style={{width: 15.67, left: 272.66, top: 15, position: 'absolute', color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>假</div>
+        <div data-layer="真" style={{width: 15.67, left: 356.24, top: 15, position: 'absolute', color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>真</div>
+        <div data-layer="Frame 111" className="Frame111" style={{width: 42.83, height: 18, left: 300.87, top: 18, position: 'absolute'}}>
+          <div data-svg-wrapper data-layer="Frame 109" className="Frame109" style={{left: 0, top: 2.57, position: 'absolute'}}>
+          <svg width="39" height="14" viewBox="0 0 39 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_108_472)">
+          <path d="M0.87146 6.57141C0.87146 3.2577 3.55775 0.571411 6.87146 0.571411H32.1933C35.507 0.571411 38.1933 3.2577 38.1933 6.57141V7.42856C38.1933 10.7423 35.507 13.4286 32.1933 13.4286H6.87146C3.55775 13.4286 0.87146 10.7423 0.87146 7.42856V6.57141Z" fill="#FF9500"/>
+          </g>
+          <defs>
+          <clipPath id="clip0_108_472">
+          <rect width="37.3218" height="12.8571" fill="white" transform="translate(0.87146 0.571411)"/>
+          </clipPath>
+          </defs>
+          </svg>
+          </div>
+          <div data-layer="Rectangle 5" className="Rectangle5" style={{width: 19.29, height: 18, left: 23.55, top: 0, position: 'absolute', background: '#4D9FFF', boxShadow: '0px 0px 4px rgba(39, 39, 39, 0.35)', borderRadius: 9, border: '2px #F9F9F9 solid'}} />
+        </div>
+      </div>
+      <div data-layer="Frame 118" className="Frame118" style={{width: 371.91, height: 43, left: 0, top: 127, position: 'absolute'}}>
+        <div data-layer="2.《蒙娜丽莎》的背景是真实的风景吗？ " style={{width: 253.86, height: 43, left: 0, top: 0, position: 'absolute', color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>2.《蒙娜丽莎》的背景是真实的风景吗？ </div>
+        <div data-layer="Frame 113" className="Frame113" style={{width: 99.25, height: 24, left: 272.66, top: 12, position: 'absolute', justifyContent: 'center', alignItems: 'center', gap: 12.54, display: 'inline-flex'}}>
+          <div data-layer="假" style={{width: 15.67, color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>假</div>
+          <div data-layer="Frame 111" className="Frame111" style={{width: 42.83, height: 18, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+            <div data-layer="Rectangle 5" className="Rectangle5" style={{width: 19.29, height: 18, background: '#4D9FFF', boxShadow: '0px 0px 4px rgba(39, 39, 39, 0.35)', borderRadius: 9, border: '2px #F9F9F9 solid'}} />
+            <div data-svg-wrapper data-layer="Frame 109" className="Frame109">
+            <svg width="39" height="14" viewBox="0 0 39 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_108_480)">
+            <path d="M0.87146 6.57141C0.87146 3.2577 3.55775 0.571411 6.87146 0.571411H32.1933C35.507 0.571411 38.1933 3.2577 38.1933 6.57141V7.42856C38.1933 10.7423 35.507 13.4286 32.1933 13.4286H6.87146C3.55775 13.4286 0.87146 10.7423 0.87146 7.42856V6.57141Z" fill="#EB9800"/>
+            </g>
+            <defs>
+            <clipPath id="clip0_108_480">
+            <rect width="37.3218" height="12.8571" fill="white" transform="translate(0.87146 0.571411)"/>
+            </clipPath>
+            </defs>
+            </svg>
+            </div>
+          </div>
+          <div data-layer="真" style={{width: 15.67, color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>真</div>
+        </div>
+      </div>
+      <div data-layer="Frame 119" className="Frame119" style={{width: 371.91, left: 0, top: 193, position: 'absolute', justifyContent: 'center', alignItems: 'center', gap: 18.80, display: 'inline-flex'}}>
+        <div data-layer="3.《蒙娜丽莎》的微笑是因为她牙齿不好看吗？ " style={{width: 253.86, height: 43, color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>3.《蒙娜丽莎》的微笑是因为她牙齿不好看吗？ </div>
+        <div data-layer="Frame 114" className="Frame114" style={{width: 99.25, height: 24, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <div data-layer="假" style={{width: 15.67, color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>假</div>
+          <div data-layer="真" style={{width: 15.67, color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>真</div>
+          <div data-layer="Frame 111" className="Frame111" style={{width: 37.32, height: 18, position: 'relative'}}>
+            <div data-svg-wrapper data-layer="Rectangle 4" className="Rectangle4" style={{left: 0, top: 2.57, position: 'absolute'}}>
+            <svg width="39" height="14" viewBox="0 0 39 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.87146 6.57141C0.87146 3.2577 3.55775 0.571411 6.87146 0.571411H32.1933C35.507 0.571411 38.1933 3.2577 38.1933 6.57141V7.42856C38.1933 10.7423 35.507 13.4286 32.1933 13.4286H6.87146C3.55775 13.4286 0.87146 10.7423 0.87146 7.42856V6.57141Z" fill="#747472"/>
+            </svg>
+            </div>
+            <div data-layer="Rectangle 5" className="Rectangle5" style={{width: 19.29, height: 18, left: 0, top: 0, position: 'absolute', background: '#4D9FFF', boxShadow: '0px 0px 4px rgba(39, 39, 39, 0.35)', borderRadius: 9, border: '2px #F9F9F9 solid'}} />
+          </div>
+        </div>
+      </div>
+      <div data-layer="Frame 120" className="Frame120" style={{width: 371.91, height: 30, left: 0, top: 272, position: 'absolute'}}>
+        <div data-layer="4《蒙娜丽莎》曾被偷走过吗？ " style={{width: 250.73, height: 24, left: 0, top: 0, position: 'absolute', color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>4《蒙娜丽莎》曾被偷走过吗？ </div>
+        <div data-layer="Frame 115" className="Frame115" style={{width: 99.25, height: 24, left: 272.66, top: 6, position: 'absolute'}}>
+          <div data-layer="假" style={{width: 15.67, left: 0, top: 0, position: 'absolute', color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>假</div>
+          <div data-layer="真" style={{width: 15.67, left: 83.58, top: 0, position: 'absolute', color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>真</div>
+          <div data-layer="Frame 111" className="Frame111" style={{width: 37.32, height: 18, left: 28.21, top: 3, position: 'absolute'}}>
+            <div data-svg-wrapper data-layer="Rectangle 4" className="Rectangle4" style={{left: 0, top: 2.57, position: 'absolute'}}>
+            <svg width="39" height="14" viewBox="0 0 39 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.87146 6.57141C0.87146 3.2577 3.55775 0.571411 6.87146 0.571411H32.1933C35.507 0.571411 38.1933 3.2577 38.1933 6.57141V7.42856C38.1933 10.7423 35.507 13.4286 32.1933 13.4286H6.87146C3.55775 13.4286 0.87146 10.7423 0.87146 7.42856V6.57141Z" fill="#747472"/>
+            </svg>
+            </div>
+            <div data-layer="Rectangle 5" className="Rectangle5" style={{width: 19.29, height: 18, left: 0, top: 0, position: 'absolute', background: '#4D9FFF', boxShadow: '0px 0px 4px rgba(39, 39, 39, 0.35)', borderRadius: 9, border: '2px #F9F9F9 solid'}} />
+          </div>
+        </div>
+      </div>
+      <div data-layer="Frame 121" className="Frame121" style={{width: 371.91, left: 0, top: 325, position: 'absolute', justifyContent: 'center', alignItems: 'center', gap: 18.80, display: 'inline-flex'}}>
+        <div data-layer="5.《蒙娜丽莎》现在收藏于法国卢浮宫吗？" style={{width: 253.86, height: 43, color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>5.《蒙娜丽莎》现在收藏于法国卢浮宫吗？</div>
+        <div data-layer="Frame 116" className="Frame116" style={{width: 99.25, height: 24, justifyContent: 'center', alignItems: 'center', gap: 12.54, display: 'inline-flex'}}>
+          <div data-layer="假" style={{width: 15.67, color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>假</div>
+          <div data-layer="Frame 111" className="Frame111" style={{width: 42.83, height: 18, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+            <div data-layer="Rectangle 5" className="Rectangle5" style={{width: 19.29, height: 18, background: '#4D9FFF', boxShadow: '0px 0px 4px rgba(39, 39, 39, 0.35)', borderRadius: 9, border: '2px #F9F9F9 solid'}} />
+            <div data-svg-wrapper data-layer="Frame 109" className="Frame109">
+            <svg width="39" height="14" viewBox="0 0 39 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_108_501)">
+            <path d="M0.87146 6.57141C0.87146 3.2577 3.55775 0.571411 6.87146 0.571411H32.1933C35.507 0.571411 38.1933 3.2577 38.1933 6.57141V7.42856C38.1933 10.7423 35.507 13.4286 32.1933 13.4286H6.87146C3.55775 13.4286 0.87146 10.7423 0.87146 7.42856V6.57141Z" fill="#EB9800"/>
+            </g>
+            <defs>
+            <clipPath id="clip0_108_501">
+            <rect width="37.3218" height="12.8571" fill="white" transform="translate(0.87146 0.571411)"/>
+            </clipPath>
+            </defs>
+            </svg>
+            </div>
+          </div>
+          <div data-layer="真" style={{width: 15.67, color: '#B0B0B0', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>真</div>
+        </div>
+      </div>
+    </div>
+    <div data-layer="Comment" className="Comment" style={{height: 1017, left: 0, top: 1727, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 16, display: 'inline-flex'}}>
+      <div data-layer="Frame 86" className="Frame86" style={{height: 42, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 18, display: 'flex'}}>
+        <div data-layer="Line 2" className="Line2" style={{width: 374, height: 0, border: '1px #B0B0B0 solid'}}></div>
+        <div data-layer="516条评论" style={{color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>516条评论</div>
+      </div>
+      <div data-layer="Frame 75" className="Frame75" style={{width: 374, height: 121, position: 'relative'}}>
+        <div data-layer="张振宇房哥" style={{left: 48, top: 1, position: 'absolute', color: '#B0B0B0', fontSize: 14, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>张振宇房哥</div>
+        <img data-layer="001" style={{width: 40, height: 40, left: 0, top: 0, position: 'absolute', borderRadius: 9999}} src="https://placehold.co/40x40" />
+        <div data-layer="Frame 79" className="Frame79" style={{height: 98, left: 48, top: 23, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 4, display: 'inline-flex'}}>
+          <div data-layer="巴菲特之所以在股市能赚钱是因为他有保险公司源源不断的资金流来补仓，如果他敢来大 A 我们就让他变巴韭特多少打" className="A" style={{width: 298, color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>巴菲特之所以在股市能赚钱是因为他有保险公司源源不断的资金流来补仓，如果他敢来大 A 我们就让他变巴韭特多少打</div>
+          <div data-layer="Frame 78" className="Frame78" style={{height: 22, paddingLeft: 109, justifyContent: 'flex-end', alignItems: 'center', display: 'inline-flex'}}>
+            <div data-layer="Group 80" className="Group80" style={{width: 198, height: 22, position: 'relative'}}>
+              <div data-layer="回复" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>回复</div>
+              <div data-layer="20" style={{left: 139, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>20</div>
+              <div data-svg-wrapper data-layer="Favorite_light" className="FavoriteLight" style={{left: 115, top: 1, position: 'absolute'}}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.70893 11.5902L9.50278 17.0329C9.64793 17.1693 9.7205 17.2374 9.79942 17.272C9.9273 17.328 10.0728 17.328 10.2007 17.272C10.2796 17.2374 10.3522 17.1693 10.4973 17.0329L16.2911 11.5902C17.9213 10.0589 18.1192 7.53887 16.7482 5.77176L16.4904 5.43949C14.8503 3.32552 11.5581 3.68005 10.4056 6.09475C10.2428 6.43584 9.75728 6.43584 9.59449 6.09475C8.44202 3.68005 5.14981 3.32553 3.50966 5.43949L3.25186 5.77176C1.88083 7.53888 2.07879 10.0589 3.70893 11.5902Z" stroke="#747472"/>
+              </svg>
+              </div>
+              <div data-svg-wrapper data-layer="Broken_heart_light" className="BrokenHeartLight" style={{left: 178, top: 1, position: 'absolute'}}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99107 5.01388C6.71343 4.22054 4.93104 4.42294 3.90469 5.7458L3.64689 6.07807C2.43395 7.64141 2.60908 9.87082 4.05126 11.2256L9.8451 16.6683C9.896 16.7161 9.93594 16.7536 9.971 16.7853C9.98168 16.795 9.99131 16.8036 10 16.8112C10.0087 16.8036 10.0184 16.795 10.0291 16.7853C10.0641 16.7536 10.1041 16.7161 10.1549 16.6683L15.9488 11.2256C17.391 9.87083 17.5661 7.64141 16.3532 6.07806L16.0954 5.74579C14.9925 4.32433 13.0167 4.19617 11.7313 5.20853L11.1126 4.42293C12.8068 3.08863 15.4213 3.24572 16.8854 5.1328L17.1432 5.46507C18.6724 7.43594 18.4516 10.2465 16.6335 11.9544L10.8396 17.3971L10.8267 17.4093C10.7382 17.4924 10.6476 17.5776 10.5632 17.6426C10.4679 17.716 10.3419 17.7952 10.1766 17.8277L10.0872 17.3726L10.1765 17.8277C10.06 17.8506 9.94007 17.8506 9.8235 17.8277L9.91979 17.337L9.8235 17.8277C9.6581 17.7952 9.53214 17.716 9.4369 17.6426C9.35248 17.5776 9.26183 17.4924 9.17339 17.4093L9.16043 17.3971L3.36658 11.9544C1.54846 10.2465 1.32768 7.43594 2.85681 5.46507L3.1146 5.1328C4.62018 3.19228 7.34225 3.08067 9.03005 4.54067L9.39149 4.85332L9.09548 5.22852L8.46703 6.02509C8.12975 6.4526 7.9105 6.73239 7.77855 6.95841C7.65376 7.17215 7.6537 7.26155 7.66388 7.31709C7.67405 7.37263 7.70581 7.4562 7.89826 7.61181C8.10178 7.77637 8.40598 7.96025 8.87292 8.24041L9.29203 8.49188L9.32109 8.50931C9.71842 8.74768 10.0597 8.95245 10.3094 9.15286C10.5764 9.36722 10.8011 9.62439 10.883 9.98862C10.9649 10.3528 10.872 10.6815 10.7224 10.9895C10.5826 11.2775 10.3618 11.6087 10.1047 11.9942L10.0859 12.0224L9.58274 12.7771L8.75069 12.2224L9.25387 11.4677C9.535 11.046 9.71645 10.7718 9.82282 10.5527C9.92287 10.3467 9.91945 10.2616 9.90741 10.208C9.89536 10.1544 9.86202 10.0761 9.6834 9.93268C9.49347 9.78022 9.21212 9.61012 8.77754 9.34937L8.35842 9.09791L8.32803 9.07967C7.89996 8.82286 7.53416 8.60341 7.26951 8.38942C6.98755 8.16143 6.75155 7.88645 6.68025 7.49731C6.60895 7.10816 6.73213 6.76737 6.91495 6.45423C7.08654 6.16031 7.35078 5.82543 7.65999 5.43353L7.68195 5.40571L7.99107 5.01388Z" fill="#747472"/>
+              </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-layer="Group 85" className="Group85" style={{height: 409, position: 'relative'}}>
+        <div data-layer="Frame 82" className="Frame82" style={{width: 306, height: 280, left: 48, top: 129, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8, display: 'inline-flex'}}>
+          <div data-layer="Frame 77" className="Frame77" style={{width: 306, height: 120, position: 'relative'}}>
+            <div data-layer="张振宇房哥" style={{width: 136, height: 19, left: 32, top: 0, position: 'absolute', color: '#B0B0B0', fontSize: 14, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>张振宇房哥</div>
+            <img data-layer="001" style={{width: 20, height: 20, left: 0, top: 2, position: 'absolute', borderRadius: 9999}} src="https://placehold.co/20x20" />
+            <div data-layer="Frame 81" className="Frame81" style={{height: 70, left: 33, top: 26, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+              <div data-layer="你想每个人都有一台这钱你还赚得到吗?你说是不是这样。" style={{alignSelf: 'stretch', color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>你想每个人都有一台这钱你还赚得到吗?你说是不是这样。</div>
+              <div data-layer="Frame 80" className="Frame80" style={{height: 22, paddingLeft: 154, paddingRight: 0.25, justifyContent: 'flex-end', alignItems: 'center', display: 'inline-flex'}}>
+                <div data-layer="Group 79" className="Group79" style={{width: 118.75, height: 22, position: 'relative'}}>
+                  <div data-layer="回复" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>回复</div>
+                  <div data-layer="Group 78" className="Group78" style={{width: 48.75, height: 19, left: 47, top: 2, position: 'absolute'}}>
+                    <div data-layer="20" style={{width: 28, height: 19, left: 20.75, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>20</div>
+                    <div data-svg-wrapper data-layer="Favorite_light" className="FavoriteLight" style={{left: 0, top: 1, position: 'absolute'}}>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.20599 10.0187L8.21423 14.7235C8.29605 14.8003 8.33696 14.8387 8.37788 14.8645C8.54059 14.9668 8.74755 14.9668 8.91025 14.8645C8.95117 14.8387 8.99208 14.8003 9.07388 14.7235L9.0739 14.7235L14.0821 10.0187C15.4912 8.69504 15.6624 6.51674 14.4772 4.98924L14.2544 4.70202C12.8366 2.87469 9.99083 3.18115 8.99463 5.26843C8.85391 5.56327 8.43422 5.56327 8.2935 5.26843C7.2973 3.18115 4.45149 2.87469 3.03374 4.70202L2.8109 4.98924C1.62577 6.51674 1.79688 8.69504 3.20599 10.0187Z" stroke="#747472"/>
+                    </svg>
+                    </div>
+                  </div>
+                  <div data-svg-wrapper data-layer="Broken_heart_light" className="BrokenHeartLight" style={{left: 101.46, top: 2, position: 'absolute'}}>
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M7.26439 4.35248C6.193 3.73018 4.73373 3.91636 3.88656 5.00827L3.66372 5.29549C2.63668 6.61922 2.78497 8.50694 4.00611 9.65407L9.01435 14.3588C9.04873 14.3911 9.07698 14.4176 9.10185 14.4405C9.12671 14.4176 9.15496 14.3911 9.18934 14.3588L14.1976 9.65407C15.4187 8.50694 15.567 6.61922 14.54 5.29548L14.3171 5.00827C13.3883 3.81111 11.7238 3.70229 10.6404 4.55556L10.0216 3.76996C11.5138 2.59475 13.8171 2.7325 15.1072 4.39527L15.3301 4.68249C16.6733 6.41375 16.4793 8.88263 14.8823 10.3829L9.87402 15.0876L9.86188 15.099C9.78634 15.17 9.7057 15.2458 9.62999 15.3041C9.5435 15.3708 9.42491 15.446 9.26749 15.4769C9.1581 15.4984 9.04559 15.4984 8.9362 15.4769C8.77878 15.446 8.66019 15.3708 8.57371 15.3041C8.49799 15.2458 8.41735 15.17 8.34181 15.099L8.32967 15.0876L3.32144 10.3829C1.72435 8.88263 1.53041 6.41376 2.87364 4.68249L3.26868 4.98899L2.87364 4.68249L3.09648 4.39527C4.42308 2.68543 6.8211 2.58773 8.30775 3.87372L8.66919 4.18637L8.37318 4.56156L7.96604 5.07763C7.6559 5.47073 7.45431 5.72786 7.33001 5.93585C7.21175 6.13373 7.20706 6.21792 7.21279 6.26749C7.21533 6.28939 7.2193 6.31109 7.2247 6.33246C7.23691 6.38084 7.27114 6.45791 7.45187 6.601C7.64184 6.75141 7.9215 6.92037 8.35086 7.17798L8.37749 7.19396C8.74305 7.41327 9.05719 7.60173 9.29011 7.78489C9.53825 7.98001 9.75217 8.2123 9.84825 8.54125C9.86592 8.60173 9.87976 8.66327 9.88968 8.72549C9.94367 9.0639 9.84978 9.36542 9.70905 9.64798C9.57696 9.91322 9.37374 10.218 9.13725 10.5727L9.12003 10.5985L8.79755 11.0823L7.9655 10.5276L8.28798 10.0438C8.54654 9.65601 8.71343 9.40397 8.81392 9.20219C8.90897 9.01132 8.90985 8.93116 8.90217 8.88303C8.89886 8.86229 8.89425 8.84178 8.88836 8.82162C8.87469 8.77483 8.83959 8.70276 8.67198 8.57096C8.49478 8.43162 8.23606 8.27529 7.83637 8.03548L7.80852 8.01877C7.41476 7.78254 7.07817 7.58061 6.83113 7.38501C6.56904 7.17751 6.34397 6.92916 6.25512 6.57725C6.23894 6.51314 6.22701 6.44803 6.21941 6.38235C6.17773 6.0218 6.30013 5.70979 6.47162 5.42284C6.63327 5.15237 6.87641 4.84422 7.16084 4.48373L7.18095 4.45824L7.26439 4.35248Z" fill="#747472"/>
+                  </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Frame 78" className="Frame78" style={{width: 306, height: 120, position: 'relative'}}>
+            <div data-layer="张振宇房哥" style={{width: 136, height: 19, left: 32, top: 0, position: 'absolute', color: '#B0B0B0', fontSize: 14, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>观山听水99</div>
+            <img data-layer="002" style={{width: 20, height: 20, left: 0, top: 2, position: 'absolute', borderRadius: 9999}} src="https://placehold.co/20x20" />
+            <div data-layer="Frame 81" className="Frame81" style={{height: 70, left: 33, top: 26, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+              <div data-layer="你想每个人都有一台这钱你还赚得到吗?你说是不是这样。" style={{alignSelf: 'stretch', color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>电脑只能执行人的思维，不能左右人的思维，而思维方式因人而异，，，</div>
+              <div data-layer="Frame 80" className="Frame80" style={{height: 22, paddingLeft: 154, paddingRight: 0.25, justifyContent: 'flex-end', alignItems: 'center', display: 'inline-flex'}}>
+                <div data-layer="Group 79" className="Group79" style={{width: 118.75, height: 22, position: 'relative'}}>
+                  <div data-layer="回复" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>回复</div>
+                  <div data-layer="Group 78" className="Group78" style={{width: 48.75, height: 19, left: 47, top: 2, position: 'absolute'}}>
+                    <div data-layer="20" style={{width: 28, height: 19, left: 20.75, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>20</div>
+                    <div data-svg-wrapper data-layer="Favorite_light" className="FavoriteLight" style={{left: 0, top: 1, position: 'absolute'}}>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.20599 10.0187L8.21423 14.7235C8.29605 14.8003 8.33696 14.8387 8.37788 14.8645C8.54059 14.9668 8.74755 14.9668 8.91025 14.8645C8.95117 14.8387 8.99208 14.8003 9.07388 14.7235L9.0739 14.7235L14.0821 10.0187C15.4912 8.69504 15.6624 6.51674 14.4772 4.98924L14.2544 4.70202C12.8366 2.87469 9.99083 3.18115 8.99463 5.26843C8.85391 5.56327 8.43422 5.56327 8.2935 5.26843C7.2973 3.18115 4.45149 2.87469 3.03374 4.70202L2.8109 4.98924C1.62577 6.51674 1.79688 8.69504 3.20599 10.0187Z" stroke="#747472"/>
+                    </svg>
+                    </div>
+                  </div>
+                  <div data-svg-wrapper data-layer="Broken_heart_light" className="BrokenHeartLight" style={{left: 101.46, top: 2, position: 'absolute'}}>
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M7.26439 4.35248C6.193 3.73018 4.73373 3.91636 3.88656 5.00827L3.66372 5.29549C2.63668 6.61922 2.78497 8.50694 4.00611 9.65407L9.01435 14.3588C9.04873 14.3911 9.07698 14.4176 9.10185 14.4405C9.12671 14.4176 9.15496 14.3911 9.18934 14.3588L14.1976 9.65407C15.4187 8.50694 15.567 6.61922 14.54 5.29548L14.3171 5.00827C13.3883 3.81111 11.7238 3.70229 10.6404 4.55556L10.0216 3.76996C11.5138 2.59475 13.8171 2.7325 15.1072 4.39527L15.3301 4.68249C16.6733 6.41375 16.4793 8.88263 14.8823 10.3829L9.87402 15.0876L9.86188 15.099C9.78634 15.17 9.7057 15.2458 9.62999 15.3041C9.5435 15.3708 9.42491 15.446 9.26749 15.4769C9.1581 15.4984 9.04559 15.4984 8.9362 15.4769C8.77878 15.446 8.66019 15.3708 8.57371 15.3041C8.49799 15.2458 8.41735 15.17 8.34181 15.099L8.32967 15.0876L3.32144 10.3829C1.72435 8.88263 1.53041 6.41376 2.87364 4.68249L3.26868 4.98899L2.87364 4.68249L3.09648 4.39527C4.42308 2.68543 6.8211 2.58773 8.30775 3.87372L8.66919 4.18637L8.37318 4.56156L7.96604 5.07763C7.6559 5.47073 7.45431 5.72786 7.33001 5.93585C7.21175 6.13373 7.20706 6.21792 7.21279 6.26749C7.21533 6.28939 7.2193 6.31109 7.2247 6.33246C7.23691 6.38084 7.27114 6.45791 7.45187 6.601C7.64184 6.75141 7.9215 6.92037 8.35086 7.17798L8.37749 7.19396C8.74305 7.41327 9.05719 7.60173 9.29011 7.78489C9.53825 7.98001 9.75217 8.2123 9.84825 8.54125C9.86592 8.60173 9.87976 8.66327 9.88968 8.72549C9.94367 9.0639 9.84978 9.36542 9.70905 9.64798C9.57696 9.91322 9.37374 10.218 9.13725 10.5727L9.12003 10.5985L8.79755 11.0823L7.9655 10.5276L8.28798 10.0438C8.54654 9.65601 8.71343 9.40397 8.81392 9.20219C8.90897 9.01132 8.90985 8.93116 8.90217 8.88303C8.89886 8.86229 8.89425 8.84178 8.88836 8.82162C8.87469 8.77483 8.83959 8.70276 8.67198 8.57096C8.49478 8.43162 8.23606 8.27529 7.83637 8.03548L7.80852 8.01877C7.41476 7.78254 7.07817 7.58061 6.83113 7.38501C6.56904 7.17751 6.34397 6.92916 6.25512 6.57725C6.23894 6.51314 6.22701 6.44803 6.21941 6.38235C6.17773 6.0218 6.30013 5.70979 6.47162 5.42284C6.63327 5.15237 6.87641 4.84422 7.16084 4.48373L7.18095 4.45824L7.26439 4.35248Z" fill="#747472"/>
+                  </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Group 83" className="Group83" style={{width: 211.97, height: 24, position: 'relative'}}>
+            <div data-layer="Line 1" className="Line1" style={{width: 24, height: 0, left: 0, top: 12, position: 'absolute', background: '#B0B0B0', border: '1px black solid'}}></div>
+            <div data-layer="Group 82" className="Group82" style={{width: 73.97, height: 24, left: 64, top: 0, position: 'absolute'}}>
+              <div data-layer="展开更多" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>展开更多</div>
+              <div data-svg-wrapper data-layer="Rectangle 1137" className="Rectangle1137" style={{left: 64, top: 12, position: 'absolute'}}>
+              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L5.98529 5.98529L10.9706 1" stroke="black"/>
+              </svg>
+              </div>
+            </div>
+            <div data-layer="Group 81" className="Group81" style={{width: 43.97, height: 24, left: 168, top: 0, position: 'absolute'}}>
+              <div data-layer="收起" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>收起</div>
+              <div data-svg-wrapper data-layer="Rectangle 1138" className="Rectangle1138" style={{left: 43.97, top: 12.99, position: 'absolute'}}>
+              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.9707 5.98535L5.98541 1.00006L1.00012 5.98535" stroke="black"/>
+              </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Frame 76" className="Frame76" style={{width: 354, height: 121, left: 0, top: 0, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+          <img data-layer="002" style={{width: 40, height: 40, borderRadius: 9999}} src="https://placehold.co/40x40" />
+          <div data-layer="张振宇房哥" style={{color: '#B0B0B0', fontSize: 14, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>观山听水99</div>
+          <div data-layer="Frame 79" className="Frame79" style={{height: 98, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 4, display: 'inline-flex'}}>
+            <div data-layer="巴菲特之所以在股市能赚钱是因为他有保险公司源源不断的资金流来补仓，如果他敢来大 A 我们就让他变巴韭特多少打" className="A" style={{width: 298, color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>请教大神们一个实际问题，如果这台个人电脑用于炒股，且有了自己的模型，请问，怎么和交易软件对接?</div>
+            <div data-layer="Frame 78" className="Frame78" style={{height: 22, paddingLeft: 109, justifyContent: 'flex-end', alignItems: 'center', display: 'inline-flex'}}>
+              <div data-layer="Group 80" className="Group80" style={{width: 198, height: 22, position: 'relative'}}>
+                <div data-layer="回复" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>回复</div>
+                <div data-layer="20" style={{left: 139, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>20</div>
+                <div data-svg-wrapper data-layer="Favorite_light" className="FavoriteLight" style={{left: 115, top: 1, position: 'absolute'}}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.70893 11.5901L9.50278 17.0328C9.64793 17.1691 9.7205 17.2373 9.79942 17.2719C9.9273 17.3279 10.0728 17.3279 10.2007 17.2719C10.2796 17.2373 10.3522 17.1691 10.4973 17.0328L16.2911 11.5901C17.9213 10.0587 18.1192 7.53875 16.7482 5.77164L16.4904 5.43937C14.8503 3.3254 11.5581 3.67993 10.4056 6.09463C10.2428 6.43572 9.75728 6.43572 9.59449 6.09463C8.44202 3.67993 5.14981 3.3254 3.50966 5.43937L3.25186 5.77164C1.88083 7.53875 2.07879 10.0587 3.70893 11.5901Z" stroke="#747472"/>
+                </svg>
+                </div>
+                <div data-svg-wrapper data-layer="Broken_heart_light" className="BrokenHeartLight" style={{left: 178, top: 1, position: 'absolute'}}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99107 5.01388C6.71343 4.22054 4.93104 4.42294 3.90469 5.7458L3.64689 6.07807C2.43395 7.64141 2.60908 9.87082 4.05126 11.2256L9.8451 16.6683C9.896 16.7161 9.93594 16.7536 9.971 16.7853C9.98168 16.795 9.99131 16.8036 10 16.8112C10.0087 16.8036 10.0184 16.795 10.0291 16.7853C10.0641 16.7536 10.1041 16.7161 10.1549 16.6683L15.9488 11.2256C17.391 9.87083 17.5661 7.64141 16.3532 6.07806L16.0954 5.74579C14.9925 4.32433 13.0167 4.19617 11.7313 5.20853L11.1126 4.42293C12.8068 3.08863 15.4213 3.24572 16.8854 5.1328L17.1432 5.46507C18.6724 7.43594 18.4516 10.2465 16.6335 11.9544L10.8396 17.3971L10.8267 17.4093C10.7382 17.4924 10.6476 17.5776 10.5632 17.6426C10.4679 17.716 10.3419 17.7952 10.1766 17.8277L10.0872 17.3726L10.1765 17.8277C10.06 17.8506 9.94007 17.8506 9.8235 17.8277L9.91979 17.337L9.8235 17.8277C9.6581 17.7952 9.53214 17.716 9.4369 17.6426C9.35248 17.5776 9.26183 17.4924 9.17339 17.4093L9.16043 17.3971L3.36658 11.9544C1.54846 10.2465 1.32768 7.43594 2.85681 5.46507L3.1146 5.1328C4.62018 3.19228 7.34225 3.08067 9.03005 4.54067L9.39149 4.85332L9.09548 5.22852L8.46703 6.02509C8.12975 6.4526 7.9105 6.73239 7.77855 6.95841C7.65376 7.17215 7.6537 7.26155 7.66388 7.31709C7.67405 7.37263 7.70581 7.4562 7.89826 7.61181C8.10178 7.77637 8.40598 7.96025 8.87292 8.24041L9.29203 8.49188L9.32109 8.50931C9.71842 8.74768 10.0597 8.95245 10.3094 9.15286C10.5764 9.36722 10.8011 9.62439 10.883 9.98862C10.9649 10.3528 10.872 10.6815 10.7224 10.9895C10.5826 11.2775 10.3618 11.6087 10.1047 11.9942L10.0859 12.0224L9.58274 12.7771L8.75069 12.2224L9.25387 11.4677C9.535 11.046 9.71645 10.7718 9.82282 10.5527C9.92287 10.3467 9.91945 10.2616 9.90741 10.208C9.89536 10.1544 9.86202 10.0761 9.6834 9.93268C9.49347 9.78022 9.21212 9.61012 8.77754 9.34937L8.35842 9.09791L8.32803 9.07967C7.89996 8.82286 7.53416 8.60341 7.26951 8.38942C6.98755 8.16143 6.75155 7.88645 6.68025 7.49731C6.60895 7.10816 6.73213 6.76737 6.91495 6.45423C7.08654 6.16031 7.35078 5.82543 7.65999 5.43353L7.68195 5.40571L7.99107 5.01388Z" fill="#747472"/>
+                </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-layer="Frame 84" className="Frame84" style={{alignSelf: 'stretch', height: 136, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', gap: 8, display: 'flex'}}>
+        <div data-layer="Frame 83" className="Frame83" style={{width: 374, height: 104, position: 'relative'}}>
+          <div data-layer="张振宇房哥" style={{left: 48, top: 1, position: 'absolute', color: '#B0B0B0', fontSize: 14, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>武夷山施家茶业</div>
+          <img data-layer="003" style={{width: 40, height: 40, left: 0, top: 0, position: 'absolute', borderRadius: 9999}} src="https://placehold.co/40x40" />
+          <div data-layer="Frame 79" className="Frame79" style={{height: 74, left: 48, top: 23, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 4, display: 'inline-flex'}}>
+            <div data-layer="巴菲特之所以在股市能赚钱是因为他有保险公司源源不断的资金流来补仓，如果他敢来大 A 我们就让他变巴韭特多少打" className="A" style={{width: 298, color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>目前我还不知道怎么用这些给我的茶叶增加销量的?有没有学习的地方
+            </div>
+            <div data-layer="Frame 78" className="Frame78" style={{height: 22, paddingLeft: 109, justifyContent: 'flex-end', alignItems: 'center', display: 'inline-flex'}}>
+              <div data-layer="Group 80" className="Group80" style={{width: 198, height: 22, position: 'relative'}}>
+                <div data-layer="回复" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>回复</div>
+                <div data-layer="20" style={{left: 139, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>20</div>
+                <div data-svg-wrapper data-layer="Favorite_light" className="FavoriteLight" style={{left: 115, top: 1, position: 'absolute'}}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.70893 11.5901L9.50278 17.0328C9.64793 17.1691 9.7205 17.2373 9.79942 17.2719C9.9273 17.3279 10.0728 17.3279 10.2007 17.2719C10.2796 17.2373 10.3522 17.1691 10.4973 17.0328L16.2911 11.5901C17.9213 10.0587 18.1192 7.53875 16.7482 5.77164L16.4904 5.43937C14.8503 3.3254 11.5581 3.67993 10.4056 6.09463C10.2428 6.43572 9.75728 6.43572 9.59449 6.09463C8.44202 3.67993 5.14981 3.3254 3.50966 5.43937L3.25186 5.77164C1.88083 7.53875 2.07879 10.0587 3.70893 11.5901Z" stroke="#747472"/>
+                </svg>
+                </div>
+                <div data-svg-wrapper data-layer="Broken_heart_light" className="BrokenHeartLight" style={{left: 178, top: 1, position: 'absolute'}}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99107 5.01388C6.71343 4.22054 4.93104 4.42294 3.90469 5.7458L3.64689 6.07807C2.43395 7.64141 2.60908 9.87082 4.05126 11.2256L9.8451 16.6683C9.896 16.7161 9.93594 16.7536 9.971 16.7853C9.98168 16.795 9.99131 16.8036 10 16.8112C10.0087 16.8036 10.0184 16.795 10.0291 16.7853C10.0641 16.7536 10.1041 16.7161 10.1549 16.6683L15.9488 11.2256C17.391 9.87083 17.5661 7.64141 16.3532 6.07806L16.0954 5.74579C14.9925 4.32433 13.0167 4.19617 11.7313 5.20853L11.1126 4.42293C12.8068 3.08863 15.4213 3.24572 16.8854 5.1328L17.1432 5.46507C18.6724 7.43594 18.4516 10.2465 16.6335 11.9544L10.8396 17.3971L10.8267 17.4093C10.7382 17.4924 10.6476 17.5776 10.5632 17.6426C10.4679 17.716 10.3419 17.7952 10.1766 17.8277L10.0872 17.3726L10.1765 17.8277C10.06 17.8506 9.94007 17.8506 9.8235 17.8277L9.91979 17.337L9.8235 17.8277C9.6581 17.7952 9.53214 17.716 9.4369 17.6426C9.35248 17.5776 9.26183 17.4924 9.17339 17.4093L9.16043 17.3971L3.36658 11.9544C1.54846 10.2465 1.32768 7.43594 2.85681 5.46507L3.1146 5.1328C4.62018 3.19228 7.34225 3.08067 9.03005 4.54067L9.39149 4.85332L9.09548 5.22852L8.46703 6.02509C8.12975 6.4526 7.9105 6.73239 7.77855 6.95841C7.65376 7.17215 7.6537 7.26155 7.66388 7.31709C7.67405 7.37263 7.70581 7.4562 7.89826 7.61181C8.10178 7.77637 8.40598 7.96025 8.87292 8.24041L9.29203 8.49188L9.32109 8.50931C9.71842 8.74768 10.0597 8.95245 10.3094 9.15286C10.5764 9.36722 10.8011 9.62439 10.883 9.98862C10.9649 10.3528 10.872 10.6815 10.7224 10.9895C10.5826 11.2775 10.3618 11.6087 10.1047 11.9942L10.0859 12.0224L9.58274 12.7771L8.75069 12.2224L9.25387 11.4677C9.535 11.046 9.71645 10.7718 9.82282 10.5527C9.92287 10.3467 9.91945 10.2616 9.90741 10.208C9.89536 10.1544 9.86202 10.0761 9.6834 9.93268C9.49347 9.78022 9.21212 9.61012 8.77754 9.34937L8.35842 9.09791L8.32803 9.07967C7.89996 8.82286 7.53416 8.60341 7.26951 8.38942C6.98755 8.16143 6.75155 7.88645 6.68025 7.49731C6.60895 7.10816 6.73213 6.76737 6.91495 6.45423C7.08654 6.16031 7.35078 5.82543 7.65999 5.43353L7.68195 5.40571L7.99107 5.01388Z" fill="#747472"/>
+                </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Frame 85" className="Frame85" style={{height: 24, paddingRight: 91.03, justifyContent: 'flex-start', alignItems: 'center', display: 'inline-flex'}}>
+          <div data-layer="Group 84" className="Group84" style={{width: 166.97, alignSelf: 'stretch', position: 'relative'}}>
+            <div data-layer="Line 1" className="Line1" style={{width: 24, height: 0, left: 0, top: 12, position: 'absolute', background: '#B0B0B0', border: '1px black solid'}}></div>
+            <div data-layer="Group 82" className="Group82" style={{width: 106.97, height: 24, left: 60, top: 0, position: 'absolute'}}>
+              <div data-layer="展开18条评论" className="18" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>展开18条评论</div>
+              <div data-svg-wrapper data-layer="Rectangle 1137" className="Rectangle1137" style={{left: 97, top: 12, position: 'absolute'}}>
+              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L5.98529 5.98529L10.9706 1" stroke="black"/>
+              </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-layer="Frame 85" className="Frame85" style={{alignSelf: 'stretch', height: 186, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', gap: 8, display: 'flex'}}>
+        <div data-layer="Frame 83" className="Frame83" style={{width: 374, height: 104, position: 'relative'}}>
+          <div data-layer="张振宇房哥" style={{left: 48, top: 1, position: 'absolute', color: '#B0B0B0', fontSize: 14, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>武夷山施家茶业</div>
+          <img data-layer="004" style={{width: 40, height: 40, left: 0, top: 0, position: 'absolute', borderRadius: 9999}} src="https://placehold.co/40x40" />
+          <div data-layer="Frame 79" className="Frame79" style={{height: 74, left: 48, top: 23, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 4, display: 'inline-flex'}}>
+            <div data-layer="巴菲特之所以在股市能赚钱是因为他有保险公司源源不断的资金流来补仓，如果他敢来大 A 我们就让他变巴韭特多少打" className="A" style={{width: 298, color: 'black', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>建一个双色球中奖大模型，问他下次买什么号码国</div>
+            <div data-layer="Frame 78" className="Frame78" style={{height: 22, paddingLeft: 109, justifyContent: 'flex-end', alignItems: 'center', display: 'inline-flex'}}>
+              <div data-layer="Group 80" className="Group80" style={{width: 198, height: 22, position: 'relative'}}>
+                <div data-layer="回复" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>回复</div>
+                <div data-layer="20" style={{left: 139, top: 0, position: 'absolute', color: '#747472', fontSize: 13, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>20</div>
+                <div data-svg-wrapper data-layer="Favorite_light" className="FavoriteLight" style={{left: 115, top: 1, position: 'absolute'}}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.70893 11.5901L9.50278 17.0328C9.64793 17.1691 9.7205 17.2373 9.79942 17.2719C9.9273 17.3279 10.0728 17.3279 10.2007 17.2719C10.2796 17.2373 10.3522 17.1691 10.4973 17.0328L16.2911 11.5901C17.9213 10.0587 18.1192 7.53875 16.7482 5.77164L16.4904 5.43937C14.8503 3.3254 11.5581 3.67993 10.4056 6.09463C10.2428 6.43572 9.75728 6.43572 9.59449 6.09463C8.44202 3.67993 5.14981 3.3254 3.50966 5.43937L3.25186 5.77164C1.88083 7.53875 2.07879 10.0587 3.70893 11.5901Z" stroke="#747472"/>
+                </svg>
+                </div>
+                <div data-svg-wrapper data-layer="Broken_heart_light" className="BrokenHeartLight" style={{left: 178, top: 1, position: 'absolute'}}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99107 5.01388C6.71343 4.22054 4.93104 4.42294 3.90469 5.7458L3.64689 6.07807C2.43395 7.64141 2.60908 9.87082 4.05126 11.2256L9.8451 16.6683C9.896 16.7161 9.93594 16.7536 9.971 16.7853C9.98168 16.795 9.99131 16.8036 10 16.8112C10.0087 16.8036 10.0184 16.795 10.0291 16.7853C10.0641 16.7536 10.1041 16.7161 10.1549 16.6683L15.9488 11.2256C17.391 9.87083 17.5661 7.64141 16.3532 6.07806L16.0954 5.74579C14.9925 4.32433 13.0167 4.19617 11.7313 5.20853L11.1126 4.42293C12.8068 3.08863 15.4213 3.24572 16.8854 5.1328L17.1432 5.46507C18.6724 7.43594 18.4516 10.2465 16.6335 11.9544L10.8396 17.3971L10.8267 17.4093C10.7382 17.4924 10.6476 17.5776 10.5632 17.6426C10.4679 17.716 10.3419 17.7952 10.1766 17.8277L10.0872 17.3726L10.1765 17.8277C10.06 17.8506 9.94007 17.8506 9.8235 17.8277L9.91979 17.337L9.8235 17.8277C9.6581 17.7952 9.53214 17.716 9.4369 17.6426C9.35248 17.5776 9.26183 17.4924 9.17339 17.4093L9.16043 17.3971L3.36658 11.9544C1.54846 10.2465 1.32768 7.43594 2.85681 5.46507L3.1146 5.1328C4.62018 3.19228 7.34225 3.08067 9.03005 4.54067L9.39149 4.85332L9.09548 5.22852L8.46703 6.02509C8.12975 6.4526 7.9105 6.73239 7.77855 6.95841C7.65376 7.17215 7.6537 7.26155 7.66388 7.31709C7.67405 7.37263 7.70581 7.4562 7.89826 7.61181C8.10178 7.77637 8.40598 7.96025 8.87292 8.24041L9.29203 8.49188L9.32109 8.50931C9.71842 8.74768 10.0597 8.95245 10.3094 9.15286C10.5764 9.36722 10.8011 9.62439 10.883 9.98862C10.9649 10.3528 10.872 10.6815 10.7224 10.9895C10.5826 11.2775 10.3618 11.6087 10.1047 11.9942L10.0859 12.0224L9.58274 12.7771L8.75069 12.2224L9.25387 11.4677C9.535 11.046 9.71645 10.7718 9.82282 10.5527C9.92287 10.3467 9.91945 10.2616 9.90741 10.208C9.89536 10.1544 9.86202 10.0761 9.6834 9.93268C9.49347 9.78022 9.21212 9.61012 8.77754 9.34937L8.35842 9.09791L8.32803 9.07967C7.89996 8.82286 7.53416 8.60341 7.26951 8.38942C6.98755 8.16143 6.75155 7.88645 6.68025 7.49731C6.60895 7.10816 6.73213 6.76737 6.91495 6.45423C7.08654 6.16031 7.35078 5.82543 7.65999 5.43353L7.68195 5.40571L7.99107 5.01388Z" fill="#747472"/>
+                </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Frame 85" className="Frame85" style={{height: 24, paddingRight: 91.03, justifyContent: 'flex-start', alignItems: 'center', display: 'inline-flex'}}>
+          <div data-layer="Group 84" className="Group84" style={{width: 166.97, alignSelf: 'stretch', position: 'relative'}}>
+            <div data-layer="Line 1" className="Line1" style={{width: 24, height: 0, left: 0, top: 12, position: 'absolute', background: '#B0B0B0', border: '1px black solid'}}></div>
+            <div data-layer="Group 82" className="Group82" style={{width: 106.97, height: 24, left: 60, top: 0, position: 'absolute'}}>
+              <div data-layer="展开1条评论" className="1" style={{left: 0, top: 0, position: 'absolute', color: '#747472', fontSize: 15, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>展开1条评论</div>
+              <div data-svg-wrapper data-layer="Rectangle 1137" className="Rectangle1137" style={{left: 97, top: 12, position: 'absolute'}}>
+              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L5.98529 5.98529L10.9706 1" stroke="black"/>
+              </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Group 134" className="Group134" style={{width: 177, height: 42, position: 'relative'}}>
+          <div data-layer="Rectangle 1150" className="Rectangle1150" style={{width: 177, height: 42, left: 0, top: 0, position: 'absolute', background: '#2280EF', borderRadius: 21}} />
+          <div data-layer="看更多评论" style={{left: 63, top: 9, position: 'absolute', color: 'white', fontSize: 16, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>看更多评论</div>
+          <div data-layer="Frame 133" className="Frame133" style={{width: 24, height: 24, left: 27, top: 9, position: 'absolute'}}>
+            <div data-layer="Rectangle 1149" className="Rectangle1149" style={{width: 24, height: 24, left: 0, top: 0, position: 'absolute', background: '#EEEAE2', borderRadius: 5, border: '2px #161616 solid'}} />
+            <div data-layer="Rectangle 1146" className="Rectangle1146" style={{width: 24, height: 9, left: 0, top: 0, position: 'absolute', borderTopLeftRadius: 5, borderTopRightRadius: 5, border: '2px #161616 solid'}} />
+            <div data-svg-wrapper data-layer="Rectangle 1148" className="Rectangle1148" style={{left: 15, top: 0, position: 'absolute'}}>
+            <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5 1H4.5C6.70914 1 8.5 2.79086 8.5 5V8H1.5V1Z" stroke="#161616" stroke-width="2"/>
+            </svg>
+            </div>
+            <div data-svg-wrapper data-layer="Rectangle 1147" className="Rectangle1147" style={{left: 0, top: 0, position: 'absolute'}}>
+            <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5 5C1.5 2.79086 3.29086 1 5.5 1H8.5V8H1.5V5Z" stroke="#161616" stroke-width="2"/>
+            </svg>
+            </div>
+            <div data-svg-wrapper data-layer="Polygon 4" className="Polygon4" style={{left: 16, top: 11, position: 'absolute'}}>
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.25 7.29904C9.25 6.72169 9.25 5.27831 8.25 4.70096L3.75 2.10289C2.75 1.52554 1.5 2.24722 1.5 3.40192V8.59808C1.5 9.75277 2.75 10.4745 3.75 9.89711L8.25 7.29904Z" fill="white" stroke="black" stroke-width="2"/>
+            </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-layer="Input box" className="InputBox" style={{width: 359, height: 43, position: 'relative'}}>
+        <div data-layer="Rectangle 4167" className="Rectangle4167" style={{width: 359, height: 43, left: 0, top: 0, position: 'absolute', background: '#D9D9D9', borderRadius: 20}} />
+        <div data-layer="happy" className="Happy" style={{width: 24, height: 24, left: 313, top: 10, position: 'absolute'}}>
+          <div data-layer="Ellipse 87" className="Ellipse87" style={{width: 18, height: 18, left: 3, top: 3, position: 'absolute', borderRadius: 9999, border: '2px #33363F solid'}} />
+          <div data-layer="Ellipse 90" className="Ellipse90" style={{width: 8, height: 4, left: 8, top: 12, position: 'absolute', borderRadius: 9999, border: '2px #33363F solid'}} />
+          <div data-layer="Ellipse 88" className="Ellipse88" style={{width: 2, height: 2, left: 8, top: 9, position: 'absolute', background: '#33363F', borderRadius: 9999, border: '0.50px #33363F solid'}} />
+          <div data-layer="Ellipse 89" className="Ellipse89" style={{width: 2, height: 2, left: 14, top: 9, position: 'absolute', background: '#33363F', borderRadius: 9999, border: '0.50px #33363F solid'}} />
+        </div>
+        <div data-layer="E-mail" className="EMail" style={{width: 24, height: 24, left: 281, top: 10, position: 'absolute'}}>
+          <div data-layer="Ellipse 54" className="Ellipse54" style={{width: 18, height: 18, left: 3, top: 3, position: 'absolute', borderRadius: 9999, border: '2px #33363F solid'}} />
+          <div data-layer="Ellipse 55" className="Ellipse55" style={{width: 8, height: 8, left: 8, top: 8, position: 'absolute', borderRadius: 9999, border: '2px #33363F solid'}} />
+          <div data-svg-wrapper data-layer="Vector 97" className="Vector97" style={{left: 16, top: 9, position: 'absolute'}}>
+          <svg width="7" height="9" viewBox="0 0 7 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1V5.5C1 6.88071 2.11929 8 3.5 8V8C4.88071 8 6 6.88071 6 5.5V4" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          </div>
+        </div>
+        <div data-layer="Img_box" className="ImgBox" style={{width: 24, height: 24, left: 249, top: 10, position: 'absolute'}}>
+          <div data-svg-wrapper data-layer="Rectangle 1" className="Rectangle1" style={{left: 3, top: 3, position: 'absolute'}}>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 5C1 2.79086 2.79086 1 5 1H15C17.2091 1 19 2.79086 19 5V15C19 17.2091 17.2091 19 15 19H5C2.79086 19 1 17.2091 1 15V5Z" stroke="#222222" stroke-width="2"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Vector 67" className="Vector67" style={{left: 3, top: 10.50, position: 'absolute'}}>
+          <svg width="20" height="8" viewBox="0 0 20 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 5L3.8055 2.1945C4.68783 1.31217 6.1538 1.44435 6.86408 2.47026L8.76644 5.21801C9.43112 6.17808 10.7735 6.36692 11.6773 5.62749L14.0991 3.64601C14.8944 2.99536 16.0533 3.05318 16.7798 3.77975L19 6" stroke="#222222" stroke-width="2"/>
+          </svg>
+          </div>
+          <div data-layer="Ellipse 46" className="Ellipse46" style={{width: 4, height: 4, left: 14, top: 6, position: 'absolute', background: '#222222', borderRadius: 9999}} />
+        </div>
+      </div>
+    </div>
+    <div data-layer="dowload" className="Dowload" style={{height: 74, left: 0, top: 2776, position: 'absolute', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 32, display: 'inline-flex'}}>
+      <div data-layer="Line 2" className="Line2" style={{width: 374, height: 0, border: '1px #B0B0B0 solid'}}></div>
+      <div data-layer="download button" className="DownloadButton" style={{width: 177, height: 42, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+        <div data-layer="Rectangle 1150" className="Rectangle1150" style={{width: 177, height: 42, background: '#EB9800', borderRadius: 21}} />
+        <div data-layer="下载原图" style={{color: 'white', fontSize: 16, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>下载原图</div>
+        <div data-layer="Frame 133" className="Frame133" style={{width: 24, height: 24, position: 'relative'}}>
+          <div data-layer="Rectangle 1149" className="Rectangle1149" style={{width: 24, height: 24, left: 0, top: 0, position: 'absolute', background: '#EEEAE2', borderRadius: 5, border: '2px #161616 solid'}} />
+          <div data-layer="Rectangle 1146" className="Rectangle1146" style={{width: 24, height: 9, left: 0, top: 0, position: 'absolute', borderTopLeftRadius: 5, borderTopRightRadius: 5, border: '2px #161616 solid'}} />
+          <div data-svg-wrapper data-layer="Rectangle 1148" className="Rectangle1148" style={{left: 15, top: 0, position: 'absolute'}}>
+          <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.5 1H4.5C6.70914 1 8.5 2.79086 8.5 5V8H1.5V1Z" stroke="#161616" stroke-width="2"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Rectangle 1147" className="Rectangle1147" style={{left: 0, top: 0, position: 'absolute'}}>
+          <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.5 5C1.5 2.79086 3.29086 1 5.5 1H8.5V8H1.5V5Z" stroke="#161616" stroke-width="2"/>
+          </svg>
+          </div>
+          <div data-svg-wrapper data-layer="Polygon 4" className="Polygon4" style={{left: 16, top: 11, position: 'absolute'}}>
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.25 7.29904C9.25 6.72169 9.25 5.27831 8.25 4.70096L3.75 2.10289C2.75 1.52554 1.5 2.24722 1.5 3.40192V8.59808C1.5 9.75277 2.75 10.4745 3.75 9.89711L8.25 7.29904Z" fill="white" stroke="black" stroke-width="2"/>
+          </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-layer="Line 2" className="Line2" style={{width: 374, height: 0, left: 7, top: 2914, position: 'absolute', border: '1px #B0B0B0 solid'}}></div>
+  </div>
+  <div data-layer="share bar" className="ShareBar" style={{width: 390, height: 57, left: 0, top: 787, position: 'absolute'}}>
+    <div data-svg-wrapper data-layer="Rectangle 1135" className="Rectangle1135" style={{left: 0, top: -16, position: 'absolute'}}>
+    <svg width="392" height="75" viewBox="0 0 392 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1 13.807C1 6.7339 5.47715 1 11 1H381C386.523 1 391 6.7339 391 13.807V74H1V13.807Z" fill="white"/>
+    <path d="M391 74.5H391.5V74V13.807C391.5 6.57999 386.907 0.5 381 0.5H11C5.0929 0.5 0.5 6.57998 0.5 13.807V74V74.5H1H391Z" stroke="black" stroke-opacity="0.22"/>
+    </svg>
+    </div>
+    <div data-layer="Group 45" className="Group45" style={{width: 83, height: 28, left: 9, top: 7, position: 'absolute'}}>
+      <div data-layer="Rectangle 1136" className="Rectangle1136" style={{width: 83, height: 28, left: 0, top: 0, position: 'absolute', background: '#109F1C', borderRadius: 15}} />
+      <div data-layer="分享" style={{left: 44, top: 3, position: 'absolute', color: 'white', fontSize: 12, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, letterSpacing: 2, wordWrap: 'break-word'}}>分享</div>
+      <div data-layer="Group 44" className="Group44" style={{width: 24, height: 16.16, left: 11, top: 6, position: 'absolute'}}>
+        <div data-layer="Group 43" className="Group43" style={{width: 16, height: 16.11, left: 0, top: 0, position: 'absolute'}}>
+          <div data-layer="Ellipse 1" className="Ellipse1" style={{width: 16, height: 13, left: 0, top: 0, position: 'absolute', background: '#D9D9D9', borderRadius: 9999}} />
+          <div data-layer="Ellipse 3" className="Ellipse3" style={{width: 2, height: 2, left: 5, top: 3, position: 'absolute', background: '#109F1C', borderRadius: 9999}} />
+          <div data-layer="Ellipse 4" className="Ellipse4" style={{width: 2, height: 2, left: 9, top: 3, position: 'absolute', background: '#109F1C', borderRadius: 9999}} />
+          <div data-svg-wrapper data-layer="Polygon 1" className="Polygon1" style={{left: 2.15, top: 16.11, position: 'absolute'}}>
+          <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.0740999 5.05951L2.8086 0.39341L4.66898 2.20696L0.0740999 5.05951Z" fill="#D9D9D9"/>
+          </svg>
+          </div>
+        </div>
+        <div data-layer="Group 42" className="Group42" style={{width: 14, height: 14.16, left: 10, top: 2, position: 'absolute'}}>
+          <div data-layer="Ellipse 2" className="Ellipse2" style={{width: 14, height: 12, left: 0, top: 0, position: 'absolute', background: '#D9D9D9', borderRadius: 9999, border: '1px #109F1C solid'}} />
+          <div data-layer="Ellipse 5" className="Ellipse5" style={{width: 2, height: 2, left: 4, top: 4, position: 'absolute', background: '#109F1C', borderRadius: 9999}} />
+          <div data-layer="Ellipse 6" className="Ellipse6" style={{width: 2, height: 2, left: 8, top: 4, position: 'absolute', background: '#109F1C', borderRadius: 9999}} />
+          <div data-svg-wrapper data-layer="Polygon 2" className="Polygon2" style={{left: 11.97, top: 12.15, position: 'absolute'}}>
+          <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4.85727 5.15602L0.381179 2.12045L2.3132 0.383415L4.85727 5.15602Z" fill="#D9D9D9"/>
+          </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-layer="Group 41" className="Group41" style={{width: 50, left: 330, top: 7, position: 'absolute'}}>
+      <div data-layer="988" style={{left: 28, top: 3, position: 'absolute', color: 'black', fontSize: 12, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, letterSpacing: 2, wordWrap: 'break-word'}}>988</div>
+      <div data-layer="Chat" className="Chat" style={{width: 28, height: 28, left: 0, top: 0, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+        <div data-layer="Rectangle 1" className="Rectangle1" style={{width: 18.67, height: 18.67, borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomRightRadius: 2, borderBottomLeftRadius: 9, border: '2px #33363F solid'}} />
+        <div data-svg-wrapper data-layer="Vector 7" className="Vector7">
+        <svg width="10" height="3" viewBox="0 0 10 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.5 1.83331L8.5 1.83331" stroke="#33363F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        </div>
+        <div data-svg-wrapper data-layer="Vector 8" className="Vector8">
+        <svg width="6" height="3" viewBox="0 0 6 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1.5H4.5" stroke="#33363F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        </div>
+      </div>
+    </div>
+    <div data-layer="Group 39" className="Group39" style={{width: 50, left: 195, top: 7, position: 'absolute'}}>
+      <div data-layer="655" style={{left: 28, top: 4, position: 'absolute', color: 'black', fontSize: 12, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, letterSpacing: 2, wordWrap: 'break-word'}}>655</div>
+      <div data-svg-wrapper data-layer="Star" className="Star" style={{left: 0, top: 0, position: 'absolute'}}>
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11.8343 7.73216C12.752 5.44433 13.2109 4.30042 13.9999 4.30042C14.789 4.30042 15.2478 5.44433 16.1656 7.73216L16.2083 7.8387C16.7267 9.13121 16.986 9.77747 17.5143 10.1703C18.0426 10.5631 18.7362 10.6252 20.1232 10.7494L20.374 10.7719C22.6441 10.9752 23.7792 11.0768 24.022 11.799C24.2649 12.5211 23.422 13.288 21.7361 14.8218L21.1734 15.3337C20.32 16.1102 19.8933 16.4984 19.6944 17.0072C19.6573 17.1021 19.6265 17.1994 19.6021 17.2983C19.4713 17.8287 19.5963 18.3919 19.8462 19.5183L19.924 19.8689C20.3833 21.939 20.6129 22.974 20.212 23.4204C20.0621 23.5873 19.8674 23.7074 19.6511 23.7664C19.0722 23.9244 18.2503 23.2546 16.6065 21.9152C15.5272 21.0357 14.9875 20.5959 14.3678 20.497C14.1241 20.4581 13.8758 20.4581 13.632 20.497C13.0124 20.5959 12.4727 21.0357 11.3934 21.9152C9.7496 23.2546 8.92771 23.9244 8.34881 23.7664C8.13249 23.7074 7.93776 23.5873 7.78793 23.4204C7.38697 22.974 7.61661 21.939 8.0759 19.8689L8.15369 19.5183C8.4036 18.3919 8.52855 17.8287 8.39782 17.2983C8.37344 17.1994 8.34259 17.1021 8.30549 17.0072C8.10661 16.4984 7.6799 16.1102 6.82647 15.3337L6.26381 14.8218C4.57793 13.288 3.73498 12.5211 3.97786 11.799C4.22073 11.0768 5.35579 10.9752 7.62591 10.7719L7.87667 10.7494C9.26374 10.6252 9.95727 10.5631 10.4856 10.1703C11.0139 9.77747 11.2732 9.13121 11.7916 7.8387L11.8343 7.73216Z" stroke="#33363F" stroke-width="2"/>
+      </svg>
+      </div>
+    </div>
+    <div data-layer="Group 40" className="Group40" style={{left: 259, top: 9, position: 'absolute'}}>
+      <div data-layer="6587" style={{left: 29, top: 1, position: 'absolute', color: 'black', fontSize: 12, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, letterSpacing: 2, wordWrap: 'break-word'}}>6587</div>
+      <div data-svg-wrapper data-layer="Vector 15" className="Vector15" style={{left: 0, top: 0, position: 'absolute'}}>
+      <svg width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3.69811 12.2685L11.7957 20.3014C12.128 20.6309 12.2941 20.7957 12.5 20.7957C12.7059 20.7957 12.872 20.6309 13.2043 20.3014L21.3019 12.2685C23.4269 10.1605 23.688 6.81434 21.9158 4.40218L21.3992 3.6991C19.1979 0.703013 14.5848 1.18723 13.0536 4.5751C12.8383 5.05152 12.1617 5.05152 11.9464 4.5751C10.4152 1.18723 5.80206 0.703009 3.60078 3.6991L3.08422 4.40218C1.31196 6.81433 1.5731 10.1605 3.69811 12.2685Z" stroke="#33363F" stroke-width="2"/>
+      </svg>
+      </div>
+    </div>
+  </div>
+  <div data-layer="header weixinbar" className="HeaderWeixinbar" style={{width: 390, height: 90, left: 0, top: 0, position: 'absolute'}}>
+    <img data-layer="weixinBar" className="Weixinbar" style={{width: 390, height: 90, left: 0, top: 0, position: 'absolute'}} src="https://placehold.co/390x90" />
+    <div data-svg-wrapper data-layer="home button" className="HomeButton" style={{left: 8, top: 47, position: 'absolute'}}>
+    <svg width="37" height="36" viewBox="0 0 37 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.70831 18.9946C7.70831 16.9734 7.70831 15.9628 8.13144 15.0745C8.55457 14.1861 9.34921 13.5284 10.9385 12.213L12.4802 10.937C15.3528 8.55946 16.7891 7.37067 18.5 7.37067C20.2109 7.37067 21.6472 8.55946 24.5198 10.937L26.0615 12.213C27.6507 13.5284 28.4454 14.1861 28.8685 15.0745C29.2916 15.9628 29.2916 16.9734 29.2916 18.9946V25.3071C29.2916 28.1141 29.2916 29.5177 28.3886 30.3897C27.4855 31.2617 26.032 31.2617 23.125 31.2617H13.875C10.968 31.2617 9.51449 31.2617 8.6114 30.3897C7.70831 29.5177 7.70831 28.1141 7.70831 25.3071V18.9946Z" stroke="#1C1C1C" stroke-width="2"/>
+    <path d="M22.3541 31.2617V23.3298C22.3541 22.7775 21.9064 22.3298 21.3541 22.3298H15.6458C15.0935 22.3298 14.6458 22.7775 14.6458 23.3298V31.2617" stroke="#1C1C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    </div>
+  </div>
+</div>

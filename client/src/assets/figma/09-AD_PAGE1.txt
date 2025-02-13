@@ -1,0 +1,9 @@
+<div data-layer="AD_PAGE1" className="AdPage1" style={{width: 390, height: 844, position: 'relative', background: '#EEEAE2'}}>
+  <div data-layer="Rectangle 1143" className="Rectangle1143" style={{width: 390, height: 844, left: 0, top: 0, position: 'absolute', background: 'rgba(0, 0, 0, 0.75)'}} />
+  <div data-layer="Frame 134" className="Frame134" style={{width: 210, height: 78, left: 94, top: 274, position: 'absolute'}}>
+    <div data-layer="Rectangle 1150" className="Rectangle1150" style={{width: 210, height: 42, left: 0, top: 0, position: 'absolute', background: '#2280EF', borderRadius: 20, border: '1px black solid'}} />
+    <div data-layer="广告后观看" style={{left: 73, top: 9, position: 'absolute', color: 'white', fontSize: 16, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>广告后观看</div>
+    <div data-layer="（非会员）" style={{left: 73, top: 53, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 25, letterSpacing: 1, wordWrap: 'break-word'}}>（非会员）</div>
+    <img data-layer="AD_video 1" className="AdVideo1" style={{width: 24, height: 24, left: 37, top: 11, position: 'absolute'}} src="https://placehold.co/24x24" />
+  </div>
+</div>

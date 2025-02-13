@@ -1,0 +1,16 @@
+<div data-layer="LOGIIN page" className="LogiinPage" style={{width: 390, height: 844, position: 'relative', background: '#EEEAE2'}}>
+  <img data-layer="BG IMAGE" className="BgImage" style={{width: 390, height: 844, left: 0, top: 0, position: 'absolute'}} src="https://placehold.co/390x844" />
+  <div data-layer="BLACK MASK" className="BlackMask" style={{width: 390, height: 844, left: 0, top: 0, position: 'absolute', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+    <div data-layer="Rectangle 1143" className="Rectangle1143" style={{width: 390, height: 844, background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.75) 20%, rgba(0, 0, 0, 0.17) 92%)'}} />
+  </div>
+  <div data-layer="请微信登陆后查看" style={{left: 105, top: 259, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 18, fontFamily: 'Microsoft YaHei', fontWeight: '400', lineHeight: 22, letterSpacing: 3, wordWrap: 'break-word'}}>请微信登陆后查看</div>
+  <div data-layer="Agree button" className="AgreeButton" style={{width: 234, height: 42, left: 78, top: 384, position: 'absolute'}}>
+    <div data-layer="Rectangle 1144" className="Rectangle1144" style={{width: 234, height: 42, left: 0, top: 0, position: 'absolute', background: '#007AFF', borderRadius: 20}} />
+    <div data-layer="请登录后查看" style={{left: 77, top: 9, position: 'absolute', textAlign: 'center', color: '#FCF7F1', fontSize: 16, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 24, wordWrap: 'break-word'}}>同意并继续</div>
+  </div>
+  <div data-layer="User Agreement" className="UserAgreement" style={{width: 252, height: 44, left: 64, top: 484, position: 'absolute'}}>
+    <div data-layer="我已阅读并同意     《用户协议》《营私协议》《支付协议》" style={{left: 0, top: 0, position: 'absolute', textAlign: 'center'}}><span style="color: 'white', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'">我已阅读并同意     </span><span style="color: '#4FA8EC', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'">《用户协议》《营私协议》《支付协议》</span></div>
+    <div data-layer="Ellipse 1" className="Ellipse1" style={{width: 5, height: 5, left: 66, top: 8, position: 'absolute', background: 'white', borderRadius: 9999}} />
+    <div data-layer="Ellipse 2" className="Ellipse2" style={{width: 11, height: 11, left: 63, top: 5, position: 'absolute', borderRadius: 9999, border: '1px white solid'}} />
+  </div>
+</div>

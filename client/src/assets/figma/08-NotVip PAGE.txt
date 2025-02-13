@@ -1,0 +1,71 @@
+<div data-layer="NotVip PAGE" className="NotvipPage" style={{width: 390, height: 844, position: 'relative', background: '#EEEAE2'}}>
+  <div data-layer="BG" className="Bg" style={{width: 390, height: 905, left: 0, top: 90, position: 'absolute', background: '#8B7C7C'}} />
+  <div data-layer="Membership intr" className="MembershipIntr" style={{width: 374, height: 630, left: 8, top: 141, position: 'absolute'}}>
+    <div data-layer="您需要升级至SVIP 才能使用此权限" className="Svip" style={{left: 72, top: 0, position: 'absolute', textAlign: 'center', color: '#FCF7F1', fontSize: 20, fontFamily: 'Zilla Slab', fontWeight: '400', lineHeight: 29, letterSpacing: 5, wordWrap: 'break-word'}}>您需要升级至SVIP<br/>才能使用此权限</div>
+    <div data-layer="SVIP Rights Introduction" className="SvipRightsIntroduction" style={{width: 347, height: 300, left: 13, top: 81, position: 'absolute'}}>
+      <div data-layer="rights LIST" className="RightsList" style={{width: 206, height: 202, left: 141, top: 94, position: 'absolute'}}>
+        <div data-layer="Rectangle 1098" className="Rectangle1098" style={{width: 206, height: 43, left: 0, top: 0, position: 'absolute', background: 'rgba(49.29, 49.29, 49.29, 0.56)', borderRadius: 10, backdropFilter: 'blur(2.50px)'}} />
+        <div data-layer="Rectangle 1099" className="Rectangle1099" style={{width: 206, height: 43, left: 0, top: 53, position: 'absolute', background: 'rgba(49.29, 49.29, 49.29, 0.56)', borderRadius: 10, backdropFilter: 'blur(2.50px)'}} />
+        <div data-layer="Rectangle 1100" className="Rectangle1100" style={{width: 206, height: 43, left: 0, top: 106, position: 'absolute', background: 'rgba(49.29, 49.29, 49.29, 0.56)', borderRadius: 10, backdropFilter: 'blur(2.50px)'}} />
+        <div data-layer="Rectangle 1102" className="Rectangle1102" style={{width: 206, height: 43, left: 0, top: 159, position: 'absolute', background: 'rgba(49.29, 49.29, 49.29, 0.56)', borderRadius: 10, backdropFilter: 'blur(2.50px)'}} />
+        <div data-layer="所有作品观看特权" style={{width: 165, height: 23, left: 12, top: 10, position: 'absolute', textAlign: 'right', color: 'white', fontSize: 14, fontFamily: 'MS Reference Specialty', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>所有作品观看特权</div>
+        <div data-layer="去除广告" style={{width: 165, height: 23, left: 12, top: 63, position: 'absolute', textAlign: 'right', color: 'white', fontSize: 14, fontFamily: 'MS Reference Specialty', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>去除广告</div>
+        <div data-layer="高清下载" style={{width: 165, height: 23, left: 12, top: 116, position: 'absolute', textAlign: 'right', color: 'white', fontSize: 14, fontFamily: 'MS Reference Specialty', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>高清下载</div>
+        <div data-layer="作品全屏观看" style={{width: 165, height: 23, left: 12, top: 169, position: 'absolute', textAlign: 'right', color: 'white', fontSize: 14, fontFamily: 'MS Reference Specialty', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>作品全屏观看</div>
+      </div>
+      <img data-layer="price_img_01 1" className="PriceImg011" style={{width: 163, height: 235, left: 0, top: 65, position: 'absolute'}} src="https://placehold.co/163x235" />
+      <div data-layer="SVIP特权" className="Svip" style={{width: 117, height: 22.64, left: 115, top: 20, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 18, fontFamily: 'Zilla Slab', fontWeight: '400', lineHeight: 22, letterSpacing: 3, wordWrap: 'break-word'}}>SVIP特权</div>
+    </div>
+    <div data-layer="Invite Code" className="InviteCode" style={{width: 253, height: 38, left: 61, top: 413, position: 'absolute'}}>
+      <div data-svg-wrapper data-layer="Invite Code input" className="InviteCodeInput" style={{left: 0, top: 6, position: 'absolute'}}>
+      <svg width="182" height="34" viewBox="0 0 182 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M82.5 1H173C177.418 1 181 4.58172 181 9V25C181 29.4183 177.418 33 173 33H9C4.58172 33 1 29.4183 1 25V9C1 4.58172 4.58172 1 9 1H23.5" stroke="white"/>
+      </svg>
+      </div>
+      <div data-layer="label-text" className="LabelText" style={{width: 133, left: 13, top: 14, position: 'absolute', color: '#C3BFBF', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 16, letterSpacing: 0.40, wordWrap: 'break-word'}}>请输入5元优惠邀请码</div>
+      <div data-layer="Line 4" className="Line4" style={{width: 18, height: 0, left: 9, top: 14, position: 'absolute', transform: 'rotate(90deg)', transformOrigin: 'top left', border: '1px white solid'}}></div>
+      <div data-layer="优惠邀请码" style={{width: 51, left: 26, top: 0, position: 'absolute', color: 'white', fontSize: 10, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word'}}>优惠邀请码</div>
+      <div data-layer="Submit Button" className="SubmitButton" style={{width: 49, height: 31, left: 204, top: 7, position: 'absolute'}}>
+        <div data-layer="Rectangle 4165" className="Rectangle4165" style={{width: 49, height: 31, left: 0, top: 0, position: 'absolute', background: '#147ADA', borderRadius: 5}} />
+        <div data-layer="label-text" className="LabelText" style={{left: 11, top: 7, position: 'absolute', color: '#EEEAE2', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 16, letterSpacing: 0.40, wordWrap: 'break-word'}}>提交</div>
+      </div>
+    </div>
+    <div data-layer="Membership Fees" className="MembershipFees" style={{width: 348, height: 237.43, left: 13, top: 483, position: 'absolute'}}>
+      <img data-layer="1 month" className="Month" style={{width: 357.58, height: 74, left: -6, top: 161, position: 'absolute'}} src="https://placehold.co/358x74" />
+      <img data-layer="6 month" className="Month" style={{width: 360, height: 75, left: -6, top: 76, position: 'absolute'}} src="https://placehold.co/360x75" />
+      <img data-layer="12 month" className="Month" style={{width: 361.40, height: 86, left: -6, top: -10, position: 'absolute'}} src="https://placehold.co/361x86" />
+    </div>
+    <div data-layer="Line 5" className="Line5" style={{width: 374, height: 0, left: 0, top: 77, position: 'absolute', border: '1px #A3A3A3 solid'}}></div>
+  </div>
+  <div data-layer="footer-home&user" className="FooterHomeUser" style={{width: 390, height: 73, left: 0, top: 771, position: 'absolute'}}>
+    <div data-svg-wrapper data-layer="bg" className="Bg" style={{left: 0, top: 0, position: 'absolute'}}>
+    <svg width="390" height="74" viewBox="0 0 390 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 13.807C0 6.7339 4.47715 1 10 1H380C385.523 1 390 6.7339 390 13.807V74H0V13.807Z" fill="white"/>
+    <path d="M390 74.5H390.5V74V13.807C390.5 6.57999 385.907 0.5 380 0.5H10C4.0929 0.5 -0.5 6.57998 -0.5 13.807V74V74.5H0H390Z" stroke="black" stroke-opacity="0.22"/>
+    </svg>
+    </div>
+    <div data-svg-wrapper data-layer="Home" className="Home" style={{left: 67, top: 21, position: 'absolute'}}>
+    <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.70837 19.6711C7.70837 17.5779 7.70837 16.5313 8.1315 15.6113C8.55463 14.6913 9.34927 14.0102 10.9386 12.648L12.4802 11.3265C15.3528 8.8643 16.7891 7.63318 18.5 7.63318C20.2109 7.63318 21.6472 8.8643 24.5199 11.3265L26.0615 12.648C27.6508 14.0102 28.4455 14.6913 28.8686 15.6113C29.2917 16.5313 29.2917 17.5779 29.2917 19.6711V26.2084C29.2917 29.1154 29.2917 30.5689 28.3886 31.4719C27.4855 32.375 26.032 32.375 23.125 32.375H13.875C10.968 32.375 9.51455 32.375 8.61146 31.4719C7.70837 30.5689 7.70837 29.1154 7.70837 26.2084V19.6711Z" stroke="#1C1C1C" stroke-width="2"/>
+    <path d="M22.3542 32.375V24.125C22.3542 23.5727 21.9065 23.125 21.3542 23.125H15.6459C15.0936 23.125 14.6459 23.5727 14.6459 24.125V32.375" stroke="#1C1C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    </div>
+    <div data-layer="User_alt" className="UserAlt" style={{width: 37, height: 37, paddingLeft: 7.71, paddingRight: 7.71, paddingTop: 4.62, paddingBottom: 4.62, left: 280, top: 21, position: 'absolute', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 4.62, display: 'inline-flex'}}>
+      <div data-layer="Ellipse 46" className="Ellipse46" style={{width: 12.33, height: 12.33, borderRadius: 9999, border: '2px #1C1C1C solid'}} />
+      <div data-svg-wrapper data-layer="Rectangle 4160" className="Rectangle4160">
+      <svg width="25" height="14" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2.93279 5.8306C3.86714 3.11605 6.56343 1.58331 9.43429 1.58331H15.5658C18.4366 1.58331 21.1329 3.11604 22.0673 5.8306C22.6256 7.45254 23.1258 9.39139 23.2578 11.3757C23.2945 11.9267 22.844 12.375 22.2917 12.375H2.70837C2.15609 12.375 1.7056 11.9267 1.74226 11.3757C1.87427 9.39139 2.37453 7.45254 2.93279 5.8306Z" stroke="#1C1C1C" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      </div>
+    </div>
+  </div>
+  <div data-layer="header weixinbar" className="HeaderWeixinbar" style={{width: 390, height: 90, left: 0, top: 0, position: 'absolute'}}>
+    <img data-layer="weixinBar" className="Weixinbar" style={{width: 390, height: 90, left: 0, top: 0, position: 'absolute'}} src="https://placehold.co/390x90" />
+    <div data-svg-wrapper data-layer="home button" className="HomeButton" style={{left: 8, top: 47, position: 'absolute'}}>
+    <svg width="37" height="36" viewBox="0 0 37 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.70825 18.9946C7.70825 16.9734 7.70825 15.9628 8.13138 15.0745C8.55451 14.1861 9.34915 13.5284 10.9384 12.213L12.4801 10.937C15.3527 8.55946 16.789 7.37067 18.4999 7.37067C20.2108 7.37067 21.6471 8.55946 24.5197 10.937L26.0614 12.213C27.6507 13.5284 28.4453 14.1861 28.8685 15.0745C29.2916 15.9628 29.2916 16.9734 29.2916 18.9946V25.3071C29.2916 28.1141 29.2916 29.5177 28.3885 30.3897C27.4854 31.2617 26.0319 31.2617 23.1249 31.2617H13.8749C10.9679 31.2617 9.51443 31.2617 8.61134 30.3897C7.70825 29.5177 7.70825 28.1141 7.70825 25.3071V18.9946Z" stroke="#1C1C1C" stroke-width="2"/>
+    <path d="M22.3541 31.2617V23.3298C22.3541 22.7775 21.9064 22.3298 21.3541 22.3298H15.6458C15.0935 22.3298 14.6458 22.7775 14.6458 23.3298V31.2617" stroke="#1C1C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    </div>
+  </div>
+</div>
