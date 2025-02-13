@@ -30,25 +30,13 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  // 创建一个20个元素的数组来展示作品，并确定是否显示标题
-  const displayArtworks = Array.from({ length: 20 }, (_, index) => {
-    // 为不同的屏幕尺寸设置每行的列数
-    const mobileColumns = 2;
-    const tabletColumns = 3;
-    const desktopColumns = 4;
+  // 创建要显示的作品数组
+  const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
+    ...artworks[index % artworks.length],
+    id: index + 1,
+    aspectRatio: [3/4, 4/5, 2/3, 5/4, 1][index % 5]
+  }));
 
-    // 检查是否在第一行
-    const isInFirstRow = index < Math.max(mobileColumns, tabletColumns, desktopColumns);
-
-    return {
-      ...artworks[index % artworks.length],
-      id: index + 1,
-      aspectRatio: [3/4, 4/5, 2/3, 5/4, 1][index % 5],
-      hideTitle: isInFirstRow // 第一行的作品不显示标题
-    };
-  });
-
-  // 在作品中随机插入广告
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
     acc.push(
       <div 
@@ -70,19 +58,16 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             </div>
           )}
         </div>
-        {/* 根据hideTitle属性决定是否显示标题 */}
-        {!artwork.hideTitle && (
-          <div className="flex justify-between items-center px-2 mt-4">
-            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-              {artwork.title}
-            </div>
-            <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-              <div className="w-1 h-1 rounded-full bg-[#111111]" />
-              <div className="w-1 h-1 rounded-full bg-[#111111]" />
-              <div className="w-1 h-1 rounded-full bg-[#111111]" />
-            </button>
+        <div className="flex justify-between items-center px-2 mt-4 first-line:hidden">
+          <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+            {artwork.title}
           </div>
-        )}
+          <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+            <div className="w-1 h-1 rounded-full bg-[#111111]" />
+            <div className="w-1 h-1 rounded-full bg-[#111111]" />
+            <div className="w-1 h-1 rounded-full bg-[#111111]" />
+          </button>
+        </div>
       </div>
     );
 
@@ -97,7 +82,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-6 pb-20",
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-20",
+        "[&>*:nth-child(-n+4)_.mt-4]:hidden", // 隐藏前4个作品的标题区域
         className
       )}
     >
