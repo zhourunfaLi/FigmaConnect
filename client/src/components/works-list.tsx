@@ -62,9 +62,13 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             alt={artwork.title}
             className="w-full h-full rounded-[18px] object-cover"
           />
+          {/* 编号标签 */}
+          <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+            #{index + 1}
+          </div>
           {/* SVIP标签 */}
           {artwork.isPremium && (
-            <div className="absolute top-2 left-2 px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
+            <div className="absolute top-2 left-[4.5rem] px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
               SVIP
             </div>
           )}
