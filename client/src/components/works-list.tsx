@@ -9,9 +9,9 @@ type WorksListProps = {
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   return (
-    <div className={cn("grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-20", className)}>
+    <div className={cn("columns-2 md:columns-3 lg:columns-4 gap-4 pb-20 space-y-4", className)}>
       {artworks.map((artwork) => (
-        <div key={artwork.id} className="flex flex-col gap-1 break-inside-avoid">
+        <div key={artwork.id} className="flex flex-col gap-1 break-inside-avoid inline-block w-full">
           <div className="relative w-full">
             <img
               src={artwork.imageUrl}
