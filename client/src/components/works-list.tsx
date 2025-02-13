@@ -50,7 +50,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         key={artwork.id} 
         className={cn(
           "break-inside-avoid mb-6",
-          artwork.isWide && "!w-[calc(200%+1.5rem)] !ml-[-1.5rem]"
+          artwork.isWide && "!w-[calc(200%+24px)] !ml-[-12px]"
         )}
         style={{
           columnSpan: artwork.isWide ? "all" : "none",
