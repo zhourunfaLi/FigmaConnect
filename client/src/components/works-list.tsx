@@ -33,7 +33,9 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   // 创建一个20个元素的数组来展示作品
   const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
     ...artworks[index % artworks.length],
-    id: index + 1
+    id: index + 1,
+    // 每5个作品中的第3个设置为双列宽度
+    isWide: (index % 5) === 2
   }));
 
   // 在作品中随机插入广告
@@ -41,9 +43,17 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     acc.push(
       <div 
         key={artwork.id} 
-        className="break-inside-avoid-column flex flex-col gap-3 w-full"
+        className={cn(
+          "break-inside-avoid-column flex flex-col gap-3",
+          // 如果是宽作品，则占据两列宽度
+          artwork.isWide ? "col-span-2 w-[200%] md:w-[300%] lg:w-[200%]" : "w-full"
+        )}
       >
-        <div className="relative aspect-[3/4] w-full">
+        <div className={cn(
+          "relative w-full",
+          // 宽作品使用更宽的宽高比
+          artwork.isWide ? "aspect-[2/1]" : "aspect-[3/4]"
+        )}>
           <img
             src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
             alt={artwork.title}
