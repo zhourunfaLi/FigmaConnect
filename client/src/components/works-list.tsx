@@ -77,22 +77,10 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   return (
-    <div 
-      className={cn(
-        "pb-20",
-        className
-      )}
-      style={{
-        columnCount: 2,
-        columnGap: "0.75rem", // 12px的列间距
-        "@media (min-width: 768px)": {
-          columnCount: 3
-        },
-        "@media (min-width: 1024px)": {
-          columnCount: 4
-        }
-      }}
-    >
+    <div className={cn(
+      "columns-2 md:columns-3 lg:columns-4 gap-6 space-y-0 pb-20",
+      className
+    )}>
       {contentWithAds}
     </div>
   );
