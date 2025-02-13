@@ -10,7 +10,7 @@ type WorksListProps = {
 // 广告卡片组件
 function AdCard() {
   return (
-    <div className="break-inside-avoid-column flex flex-col gap-3 w-full">
+    <div className="break-inside-avoid mb-6 flex flex-col gap-3 w-full">
       <div className="relative aspect-[3/4] w-full bg-white rounded-[18px] overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
@@ -44,15 +44,15 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       <div 
         key={artwork.id} 
         className={cn(
-          "break-inside-avoid-column flex flex-col gap-3",
+          "break-inside-avoid mb-6 flex flex-col gap-3",
           // 如果是宽作品，则占据两列宽度
-          artwork.isWide ? "col-span-2 w-[200%] md:w-[300%] lg:w-[200%]" : "w-full"
+          artwork.isWide ? "col-span-2 w-[200%]" : "w-full"
         )}
       >
         <div className={cn(
           "relative w-full",
-          // 宽作品使用16:9的宽高比
-          artwork.isWide ? "aspect-[16/9]" : "aspect-[3/4]"
+          // 宽作品使用2.4:1的宽高比，普通作品使用3:4
+          artwork.isWide ? "aspect-[2.4/1]" : "aspect-[3/4]"
         )}>
           <img
             src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
@@ -88,7 +88,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   return (
     <div className={cn(
-      "columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6 pb-20",
+      "columns-2 md:columns-3 lg:columns-4 gap-6 space-y-0 pb-20", // 移除 space-y-6，改为在每个卡片上单独设置 margin-bottom
       className
     )}>
       {contentWithAds}
