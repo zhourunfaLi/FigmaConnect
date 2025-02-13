@@ -23,7 +23,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* 微信导航栏 */}
       <div className="w-full h-[90px] bg-white flex items-center justify-center border-b border-black/10">
-        <img src="/weixinBar.png" alt="WeChat Navigation" className="w-full h-full object-contain" />
+        <img src="/01-LATEST page.png" alt="WeChat Navigation" className="w-full h-full object-contain" />
       </div>
 
       {/* 分类标签栏 */}
@@ -47,7 +47,7 @@ export default function HomePage() {
       </div>
 
       {/* 作品列表区域 */}
-      <div className="px-4 pt-4">
+      <div className="px-6 pt-4">
         {artworks && <WorksList artworks={artworks} />}
       </div>
 

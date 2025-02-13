@@ -8,12 +8,12 @@ type WorksListProps = {
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   return (
-    <div className={cn("grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-20", className)}>
+    <div className={cn("grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-20", className)}>
       {artworks.map((artwork) => (
-        <div key={artwork.id} className="flex flex-col gap-2">
+        <div key={artwork.id} className="flex flex-col gap-3">
           <div className="relative aspect-[3/4] w-full">
             <img
-              src={artwork.imageUrl}
+              src={artwork.imageUrl || `/works-0${(artwork.id % 8) + 1}.png`}
               alt={artwork.title}
               className="w-full h-full object-cover rounded-[18px]"
             />
