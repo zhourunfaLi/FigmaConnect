@@ -30,11 +30,12 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  // 生成展示用的作品数组，为每个作品添加唯一ID和宽高比
+  // 生成展示用的作品数组，为每个作品添加唯一ID、宽高比和是否为宽幅作品标识
   const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
     ...artworks[index % artworks.length],
     id: index + 1,
-    aspectRatio: [3/4, 4/5, 2/3, 5/4, 1][index % 5]
+    aspectRatio: index % 7 === 3 ? 2 : [3/4, 4/5, 2/3, 5/4, 1][index % 5], // 每7个作品中的第4个是宽幅作品
+    isWide: index % 7 === 3 // 标记宽幅作品
   }));
 
   // 生成作品卡片和广告的混合内容
@@ -43,17 +44,26 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     acc.push(
       <div 
         key={artwork.id} 
-        className="w-full break-inside-avoid mb-6"
+        className={cn(
+          "break-inside-avoid mb-6",
+          artwork.isWide ? "col-span-2" : "w-full"
+        )}
       >
         {/* 作品图片容器 */}
         <div 
           className="relative"
-          style={{ aspectRatio: artwork.aspectRatio }}
+          style={{ 
+            aspectRatio: artwork.isWide ? 2.5 : artwork.aspectRatio, // 宽幅作品使用固定的宽高比
+            height: artwork.isWide ? "240px" : "auto" // 宽幅作品使用固定高度
+          }}
         >
           <img
             src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
             alt={artwork.title}
-            className="w-full h-full object-cover rounded-[18px]"
+            className={cn(
+              "w-full h-full rounded-[18px]",
+              artwork.isWide ? "object-cover" : "object-cover"
+            )}
           />
           {/* SVIP标签 */}
           {artwork.isPremium && (
@@ -84,11 +94,11 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return acc;
   }, []);
 
-  // 使用瀑布流布局展示作品和广告
+  // 使用网格布局展示作品和广告
   return (
     <div 
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-6 pb-20",
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-auto gap-6 pb-20",
         className
       )}
     >
