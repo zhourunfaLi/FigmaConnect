@@ -49,15 +49,17 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       <div 
         key={artwork.id} 
         className={cn(
-          "relative",
-          artwork.isWide ? "col-span-2" : "col-span-1"
+          "break-inside-avoid mb-6",
+          artwork.isWide && "!w-[calc(200%+1.5rem)] !ml-[-1.5rem]"
         )}
         style={{
-          gridColumnStart: artwork.isWide ? "1" : "auto"
+          columnSpan: artwork.isWide ? "all" : "none",
+          breakBefore: artwork.isWide ? "column" : "auto",
+          pageBreakBefore: artwork.isWide ? "always" : "auto"
         }}
       >
         <div 
-          className="w-full mb-6"
+          className="w-full"
           style={{ 
             height: artwork.isWide ? "240px" : "auto",
             aspectRatio: artwork.isWide ? undefined : artwork.aspectRatio
@@ -96,7 +98,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     // 每6个作品后添加一个广告
     if ((index + 1) % 6 === 0) {
       acc.push(
-        <div key={`ad-${index}`} className="col-span-1">
+        <div key={`ad-${index}`} className="break-inside-avoid mb-6">
           <AdCard />
         </div>
       );
@@ -108,7 +110,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-auto pb-20",
+        "columns-2 md:columns-3 lg:columns-4 gap-6 pb-20",
         className
       )}
     >
