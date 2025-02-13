@@ -67,8 +67,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             </div>
           )}
         </div>
-        {/* 使用列位置来判断是否显示标题 */}
-        {Math.floor(index / 2) > 0 && (
+        {/* 只有非第一行的作品才显示标题 */}
+        {index >= itemsPerColumn.mobile && (
           <div className="flex justify-between items-center px-2 mt-4">
             <div className="text-sm text-[#111111] font-medium leading-5 truncate">
               {artwork.title}
