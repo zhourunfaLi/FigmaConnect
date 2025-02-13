@@ -7,7 +7,7 @@ type WorksListProps = {
   className?: string;
 };
 
-// 广告卡片组件
+// 广告卡片组件 - 展示广告内容
 function AdCard() {
   return (
     <div className="w-full break-inside-avoid mb-6">
@@ -15,7 +15,7 @@ function AdCard() {
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
         </div>
-        {/* 这里是Google广告代码的占位符 */}
+        {/* Google广告组件占位 */}
         <div className="w-full h-full flex items-center justify-center text-black/30">
           Google Ads
         </div>
@@ -30,19 +30,22 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  // 创建要显示的作品数组
+  // 生成展示用的作品数组，为每个作品添加唯一ID和宽高比
   const displayArtworks = Array.from({ length: 20 }, (_, index) => ({
     ...artworks[index % artworks.length],
     id: index + 1,
     aspectRatio: [3/4, 4/5, 2/3, 5/4, 1][index % 5]
   }));
 
+  // 生成作品卡片和广告的混合内容
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
+    // 添加作品卡片
     acc.push(
       <div 
         key={artwork.id} 
         className="w-full break-inside-avoid mb-6"
       >
+        {/* 作品图片容器 */}
         <div 
           className="relative"
           style={{ aspectRatio: artwork.aspectRatio }}
@@ -52,12 +55,14 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             alt={artwork.title}
             className="w-full h-full object-cover rounded-[18px]"
           />
+          {/* SVIP标签 */}
           {artwork.isPremium && (
             <div className="absolute top-2 left-2 px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
               SVIP
             </div>
           )}
         </div>
+        {/* 作品标题和操作按钮 */}
         <div className="flex justify-between items-center px-2 mt-4">
           <div className="text-sm text-[#111111] font-medium leading-5 truncate">
             {artwork.title}
@@ -79,6 +84,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return acc;
   }, []);
 
+  // 使用瀑布流布局展示作品和广告
   return (
     <div 
       className={cn(
