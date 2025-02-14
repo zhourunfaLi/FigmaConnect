@@ -45,11 +45,11 @@ function ArtworkItem({
   return (
     <Link 
       to={`/works/${artwork.id}`}
-      className="group block break-inside-avoid mb-11" // 44px vertical gap
+      className="group block w-full"
     >
       <div 
         id={`artwork-${artwork.id}`}
-        className="relative overflow-hidden rounded-lg"
+        className="relative overflow-hidden rounded-lg mb-11" // 44px bottom margin
         style={{ aspectRatio: artwork.aspectRatio }}
       >
         {(!isVisible || !imageLoaded) && (
@@ -138,7 +138,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     <div className="w-full max-w-[1440px] mx-auto">
       <div 
         className={cn(
-          "columns-2 md:columns-3 lg:columns-4 gap-2 px-8", // 8px padding and gap
+          "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 px-8", // 8px gap and padding
           className
         )}
       >
