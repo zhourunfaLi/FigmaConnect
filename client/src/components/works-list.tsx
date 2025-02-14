@@ -149,7 +149,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     <div className="w-full max-w-[1440px] mx-auto">
       <div 
         className={cn(
-          "columns-2 md:columns-3 lg:columns-4 gap-[10px] px-8", // 10px horizontal gap, 8px padding
+          "columns-2 md:columns-3 lg:columns-4 gap-[10px] px-2", // 10px horizontal gap, 2px padding
           className
         )}
       >
