@@ -52,13 +52,13 @@ function ArtworkItem({
       >
         <div 
           id={`artwork-${artwork.id}`}
-          className="relative overflow-hidden rounded-xl"
+          className="relative overflow-hidden rounded-lg"
           style={{ aspectRatio: artwork.aspectRatio }}
         >
           {(!isVisible || !imageLoaded) && (
             <Skeleton 
               className={cn(
-                "absolute inset-0 rounded-xl",
+                "absolute inset-0 rounded-lg",
                 !imageLoaded && "animate-pulse"
               )}
             />
@@ -161,22 +161,27 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const gap = 8; // 0.5rem gap
-    const containerWidth = containerRef.current.offsetWidth - (gap * 2); // Account for container padding
-    const columnWidth = (containerWidth - (gap * (columnCount - 1))) / columnCount;
+    const gap = 8; // 0.5rem
+    const containerPadding = 8; // 0.5rem padding on each side
+    const availableWidth = Math.min(1440, containerRef.current.offsetWidth) - (containerPadding * 2);
+    const columnWidth = Math.floor((availableWidth - (gap * (columnCount - 1))) / columnCount);
 
     const heights = new Array(columnCount).fill(0);
     const positions: {[key: number]: {top: number, left: number}} = {};
 
     displayArtworks.forEach((artwork, index) => {
       const columnIndex = index % columnCount;
-      const left = columnIndex * (columnWidth + gap);
+      const left = Math.round(columnIndex * (columnWidth + gap));
       const top = heights[columnIndex];
 
-      const height = (columnWidth / artwork.aspectRatio) + gap;
-      heights[columnIndex] += height;
+      // Calculate height including the gap
+      const itemHeight = Math.round((columnWidth / artwork.aspectRatio) + gap);
+      heights[columnIndex] += itemHeight;
 
-      positions[index] = { top, left };
+      positions[index] = { 
+        top, 
+        left: left + containerPadding // Add padding to left position
+      };
     });
 
     setColumnHeights(heights);
@@ -184,7 +189,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, [columnCount, displayArtworks.length, containerRef.current?.offsetWidth]);
 
   return (
-    <div className="max-w-[1440px] mx-auto">
+    <div className="w-full max-w-[1440px] mx-auto">
       <div 
         ref={containerRef}
         className={cn(
@@ -195,19 +200,24 @@ export default function WorksList({ artworks, className }: WorksListProps) {
           height: Math.max(...columnHeights) + 'px'
         }}
       >
-        {displayArtworks.map((artwork, index) => (
-          <ArtworkItem 
-            key={artwork.id}
-            artwork={artwork}
-            index={index}
-            style={{
-              position: 'absolute',
-              width: `calc((100% - ${(columnCount - 1) * 8}px) / ${columnCount})`, 
-              transform: `translate3d(${artworkPositions[index]?.left}px, ${artworkPositions[index]?.top}px, 0)`,
-              transition: 'transform 0.2s ease-out'
-            }}
-          />
-        ))}
+        {displayArtworks.map((artwork, index) => {
+          const position = artworkPositions[index];
+          if (!position) return null;
+
+          return (
+            <ArtworkItem 
+              key={artwork.id}
+              artwork={artwork}
+              index={index}
+              style={{
+                position: 'absolute',
+                width: `calc((100% - ${(columnCount - 1) * 0.5}rem - 1rem) / ${columnCount})`,
+                transform: `translate3d(${position.left}px, ${position.top}px, 0)`,
+                transition: 'transform 0.2s ease-out'
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );
