@@ -1,6 +1,6 @@
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 type WorksListProps = {
   artworks: Artwork[];
@@ -28,6 +28,25 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
+  const [wideHeight, setWideHeight] = useState(128);
+
+  useEffect(() => {
+    const updateWideHeight = () => {
+      const width = window.innerWidth;
+      if (width < 768) { // 2列
+        setWideHeight(128);
+      } else if (width < 1024) { // 3列
+        setWideHeight(128 * 1.15);
+      } else { // 4列
+        setWideHeight(128 * 2);
+      }
+    };
+
+    updateWideHeight();
+    window.addEventListener('resize', updateWideHeight);
+    return () => window.removeEventListener('resize', updateWideHeight);
+  }, []);
+
   // 使用2*3*n+1的布局规则重新组织作品
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
     // 计算当前位置是否应该是宽幅作品
@@ -58,7 +77,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         <div 
           className="w-full relative"
           style={{ 
-            height: artwork.isWide ? "194px" : undefined,
+            height: artwork.isWide ? `${wideHeight}px` : undefined,
             aspectRatio: artwork.isWide ? undefined : artwork.aspectRatio,
           }}
         >
