@@ -13,6 +13,14 @@ type WorksListProps = {
   className?: string;
 };
 
+function calculateHorizontalIndex(index: number, totalColumns: number): number {
+  // 计算行和列位置
+  const row = Math.floor(index / totalColumns);
+  const col = index % totalColumns;
+  // 返回水平方向的编号（从1开始）
+  return row * totalColumns + col + 1;
+}
+
 function ArtworkItem({ 
   artwork, 
   index,
@@ -25,6 +33,27 @@ function ArtworkItem({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  // 根据屏幕宽度确定列数
+  const getColumnCount = () => {
+    if (typeof window === 'undefined') return 2; // 默认移动端2列
+    const width = window.innerWidth;
+    if (width >= 1024) return 4; // 桌面端4列
+    if (width >= 768) return 3; // 平板3列
+    return 2; // 移动端2列
+  };
+
+  const [columnCount, setColumnCount] = useState(getColumnCount());
+
+  useEffect(() => {
+    const updateColumnCount = () => {
+      setColumnCount(getColumnCount());
+    };
+
+    window.addEventListener('resize', updateColumnCount);
+    return () => window.removeEventListener('resize', updateColumnCount);
+  }, []);
+
+  // 使用 IntersectionObserver 进行懒加载
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -43,6 +72,9 @@ function ArtworkItem({
 
     return () => observer.disconnect();
   }, [artwork.id]);
+
+  // 计算水平方向的编号
+  const horizontalIndex = calculateHorizontalIndex(index, columnCount);
 
   return (
     <Link 
@@ -82,10 +114,10 @@ function ArtworkItem({
               onLoad={() => setImageLoaded(true)}
             />
 
-            {/* Labels */}
+            {/* Labels - 使用水平方向的编号 */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                #{index + 1}
+                #{horizontalIndex}
               </div>
               {artwork.isPremium && (
                 <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
