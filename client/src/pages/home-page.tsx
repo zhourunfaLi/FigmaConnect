@@ -29,7 +29,7 @@ export default function HomePage() {
       {/* 分类标签栏 */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10">
         <ScrollArea className="w-full whitespace-nowrap">
-          <div className="flex justify-center gap-4 px-4 py-3">
+          <div className="flex justify-start gap-4 px-4 py-3 min-w-full">
             {categories.map((category) => (
               <button
                 key={category.id}
@@ -47,7 +47,7 @@ export default function HomePage() {
       </div>
 
       {/* 作品列表区域 */}
-      <div className="px-4 pt-4">
+      <div className="pt-4">
         {artworks && <WorksList artworks={artworks} />}
       </div>
 
