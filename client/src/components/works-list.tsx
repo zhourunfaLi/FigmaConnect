@@ -10,7 +10,7 @@ const GRID_CONFIG = {
   MOBILE_COLUMNS: 2,
   TABLET_COLUMNS: 3,
   DESKTOP_COLUMNS: 4,
-  GROUP_SIZE: 7, // 2*3 + 1 pattern
+  GROUP_SIZE: 7, // 2*3 + 1 pattern for wide artwork
   BASE_HEIGHT: 128,
   TABLET_SCALE: 1.5,
   DESKTOP_SCALE: 2,
@@ -87,7 +87,7 @@ export function ArtworkItem({
       to={`/works/${artwork.id}`}
       className={cn(
         "break-inside-avoid mb-4 group",
-        isWide && "-ml-[4px]"
+        isWide ? "col-span-full" : ""
       )}
       style={{
         columnSpan: isWide ? "all" : "none",
@@ -97,7 +97,10 @@ export function ArtworkItem({
     >
       <div 
         id={`artwork-${artwork.id}`}
-        className="w-full relative overflow-hidden rounded-xl"
+        className={cn(
+          "w-full relative overflow-hidden rounded-xl",
+          isWide && "w-full"
+        )}
         style={{ 
           height: isWide ? `${wideHeight}px` : undefined,
           aspectRatio: isWide ? undefined : artwork.aspectRatio,
@@ -126,7 +129,7 @@ export function ArtworkItem({
               onLoad={() => setImageLoaded(true)}
             />
 
-            {/* Always visible labels */}
+            {/* Labels */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
                 #{index + 1}
@@ -238,7 +241,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-4 px-[8px] pb-20",
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px] pb-20",
         className
       )}
     >
