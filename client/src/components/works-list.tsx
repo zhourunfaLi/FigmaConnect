@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
+import { Link } from "wouter";
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -45,7 +46,7 @@ function AdCard() {
 }
 
 // Artwork component with lazy loading and loading state
-function ArtworkItem({ 
+export function ArtworkItem({ 
   artwork, 
   isWide, 
   wideHeight, 
@@ -81,8 +82,8 @@ function ArtworkItem({
   }, [artwork.id]);
 
   return (
-    <div 
-      id={`artwork-${artwork.id}`}
+    <Link 
+      to={`/works/${artwork.id}`}
       className={cn(
         "break-inside-avoid mb-4 group",
         isWide && "-ml-[4px]"
@@ -100,7 +101,6 @@ function ArtworkItem({
           aspectRatio: isWide ? undefined : artwork.aspectRatio,
         }}
       >
-        {/* Loading skeleton */}
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
             className={cn(
@@ -173,7 +173,7 @@ function ArtworkItem({
           <MoreHorizontal className="w-4 h-4 text-[#111111]" />
         </button>
       </div>
-    </div>
+    </Link>
   );
 }
 
