@@ -175,7 +175,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       const top = heights[columnIndex];
 
       // Calculate height including the gap and add extra vertical spacing
-      const itemHeight = Math.round((columnWidth / artwork.aspectRatio)) + 20; // 增加垂直间距为20px
+      const itemHeight = Math.round((columnWidth / artwork.aspectRatio)) + 24; // 增加垂直间距为24px
       heights[columnIndex] += itemHeight;
 
       positions[index] = { 
@@ -193,7 +193,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       <div 
         ref={containerRef}
         className={cn(
-          "relative mx-auto px-2", // 8px padding
+          "relative mx-auto px-8", // 8px padding on each side
           className
         )}
         style={{
@@ -211,7 +211,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
               index={index}
               style={{
                 position: 'absolute',
-                width: `calc((100% - ${(columnCount - 1) * 0.5}rem - 1rem) / ${columnCount})`,
+                width: `calc((100% - ${(columnCount - 1) * 8}px - 16px) / ${columnCount})`, // Updated width calculation
                 transform: `translate3d(${position.left}px, ${position.top}px, 0)`,
                 transition: 'transform 0.2s ease-out'
               }}
