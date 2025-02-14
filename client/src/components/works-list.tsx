@@ -161,7 +161,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const gap = 16; // 1rem gap
+    const gap = 8; // 0.5rem gap
     const containerWidth = containerRef.current.offsetWidth - (gap * 2); // Account for container padding
     const columnWidth = (containerWidth - (gap * (columnCount - 1))) / columnCount;
 
@@ -188,7 +188,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       <div 
         ref={containerRef}
         className={cn(
-          "relative mx-auto px-4 pb-20",
+          "relative mx-auto px-2 pb-20", 
           className
         )}
         style={{
@@ -202,7 +202,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             index={index}
             style={{
               position: 'absolute',
-              width: `calc((100% - ${(columnCount - 1) * 16}px) / ${columnCount})`,
+              width: `calc((100% - ${(columnCount - 1) * 8}px) / ${columnCount})`, 
               transform: `translate3d(${artworkPositions[index]?.left}px, ${artworkPositions[index]?.top}px, 0)`,
               transition: 'transform 0.2s ease-out'
             }}
