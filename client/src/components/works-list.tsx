@@ -199,23 +199,24 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
     // Calculate position in the grid (first horizontally, then vertically)
     const columnsCount = window.innerWidth < 768 ? 2 : window.innerWidth < 1024 ? 3 : 4;
-    const row = Math.floor(index / columnsCount);
-    const col = index % columnsCount;
-    const newIndex = col * Math.ceil(30 / columnsCount) + row;
+    const rowCount = Math.ceil(30 / columnsCount);
 
-    // Every 7th item in the first column is wide
+    // Calculate row and column for horizontal-first ordering
+    const row = Math.floor(index / columnsCount);  // 先计算行号
+    const col = index % columnsCount;              // 再计算列号
+
+    // Every 7th item in the first column should be wide
     const isWide = col === 0 && (row + 1) % 7 === 0;
 
+    // The ID remains the same as the index+1 since we want horizontal ordering
     return {
       ...artworks[index % artworks.length],
-      id: newIndex + 1,
+      id: index + 1, // Keep the original index order for horizontal flow
       aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
       isWide
     };
   });
 
-  // Sort artworks to ensure correct ordering
-  displayArtworks.sort((a, b) => a.id - b.id);
 
   // Combine artworks with advertisements
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
