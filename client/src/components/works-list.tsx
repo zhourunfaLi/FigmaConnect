@@ -45,6 +45,7 @@ function AdCard() {
   );
 }
 
+// Artwork component with lazy loading and loading state
 export function ArtworkItem({ 
   artwork, 
   isWide, 
@@ -59,6 +60,7 @@ export function ArtworkItem({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Setup intersection observer for lazy loading
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -139,7 +141,6 @@ export function ArtworkItem({
             {/* Hover overlay with actions */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
               <div className="flex justify-end items-start">
-                {/* Action buttons */}
                 <div className="flex gap-2">
                   <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
                     <Heart className="w-4 h-4 text-white" />
@@ -150,7 +151,6 @@ export function ArtworkItem({
                 </div>
               </div>
 
-              {/* Bottom content */}
               <div className="space-y-2">
                 <h3 className="text-white font-medium line-clamp-2">
                   {artwork.title}
