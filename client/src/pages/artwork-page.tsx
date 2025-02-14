@@ -9,7 +9,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Loader2,
@@ -78,12 +77,8 @@ export default function ArtworkPage() {
             <div>
               <h1 className="text-3xl font-bold">{artwork.title}</h1>
               <div className="flex items-center gap-2 mt-2">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={artwork.artist?.avatarUrl} />
-                  <AvatarFallback>艺术家</AvatarFallback>
-                </Avatar>
                 <div>
-                  <p className="text-sm font-medium">{artwork.artist?.name || "未知艺术家"}</p>
+                  <p className="text-sm font-medium">艺术家名称</p>
                   <p className="text-xs text-muted-foreground">创作于 2024</p>
                 </div>
               </div>
