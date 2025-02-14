@@ -197,26 +197,15 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // Transform artwork data for display with horizontal-first ordering
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // Calculate position in the grid (first horizontally, then vertically)
-    const columnsCount = window.innerWidth < 768 ? 2 : window.innerWidth < 1024 ? 3 : 4;
-    const rowCount = Math.ceil(30 / columnsCount);
-
-    // Calculate row and column for horizontal-first ordering
-    const row = Math.floor(index / columnsCount);  // 先计算行号
-    const col = index % columnsCount;              // 再计算列号
-
-    // Every 7th item in the first column should be wide
-    const isWide = col === 0 && (row + 1) % 7 === 0;
-
-    // The ID remains the same as the index+1 since we want horizontal ordering
+    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
+    const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
     return {
       ...artworks[index % artworks.length],
-      id: index + 1, // Keep the original index order for horizontal flow
+      id: index + 1,
       aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
       isWide
     };
   });
-
 
   // Combine artworks with advertisements
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
@@ -231,7 +220,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       />
     );
 
-    // Add advertisement after every 6 artworks (not counting wide artworks)
+    // Add advertisement after every 6 artworks (before wide artwork)
     if ((index + 1) % 6 === 0 && !artwork.isWide) {
       acc.push(<AdCard key={`ad-${index}`} />);
     }
