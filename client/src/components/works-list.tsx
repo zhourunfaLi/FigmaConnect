@@ -1,6 +1,6 @@
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
 import { Link } from "wouter";
@@ -15,10 +15,12 @@ type WorksListProps = {
 
 function ArtworkItem({ 
   artwork, 
-  index
+  index,
+  style
 }: { 
   artwork: Artwork & { aspectRatio: number }; 
   index: number;
+  style?: React.CSSProperties;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -43,10 +45,10 @@ function ArtworkItem({
   }, [artwork.id]);
 
   return (
-    <div className="mb-6 break-inside-avoid">
+    <div className="relative" style={style}>
       <Link 
         to={`/works/${artwork.id}`}
-        className="group relative block w-full"
+        className="group block w-full"
       >
         <div 
           id={`artwork-${artwork.id}`}
@@ -129,7 +131,10 @@ function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [columnCount, setColumnCount] = useState(4);
+  const [columnHeights, setColumnHeights] = useState<number[]>([]);
+  const [artworkPositions, setArtworkPositions] = useState<{[key: number]: {top: number, left: number}}>({});
 
   // Update column count based on screen size
   useEffect(() => {
@@ -145,33 +150,61 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateColumnCount);
   }, []);
 
-  // Transform artwork data for display
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // Calculate the position to maintain horizontal order in masonry layout
-    const row = Math.floor(index / columnCount);
-    const col = index % columnCount;
-    const position = col * Math.ceil(30 / columnCount) + row;
+  // Transform artwork data for display with horizontal numbering
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
+    ...artworks[index % artworks.length],
+    id: index + 1,
+    aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
+  }));
 
-    return {
-      ...artworks[index % artworks.length],
-      id: index + 1,
-      aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-      position,
-    };
-  }).sort((a, b) => a.position - b.position);
+  // Calculate artwork positions
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const containerWidth = containerRef.current.offsetWidth;
+    const gap = 24; // 1.5rem = 24px
+    const columnWidth = (containerWidth - (gap * (columnCount - 1))) / columnCount;
+
+    const heights = new Array(columnCount).fill(0);
+    const positions: {[key: number]: {top: number, left: number}} = {};
+
+    displayArtworks.forEach((artwork, index) => {
+      const columnIndex = index % columnCount;
+      const left = columnIndex * (columnWidth + gap);
+      const top = heights[columnIndex];
+
+      const height = (columnWidth / artwork.aspectRatio) + gap;
+      heights[columnIndex] += height;
+
+      positions[index] = { top, left };
+    });
+
+    setColumnHeights(heights);
+    setArtworkPositions(positions);
+  }, [columnCount, displayArtworks.length, containerRef.current?.offsetWidth]);
 
   return (
     <div 
+      ref={containerRef}
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-6 px-4 pb-20",
+        "relative px-4 pb-20",
         className
       )}
+      style={{
+        height: Math.max(...columnHeights) + 'px'
+      }}
     >
       {displayArtworks.map((artwork, index) => (
         <ArtworkItem 
           key={artwork.id}
           artwork={artwork}
           index={index}
+          style={{
+            position: 'absolute',
+            width: `calc((100% - ${(columnCount - 1) * 24}px) / ${columnCount})`,
+            transform: `translate3d(${artworkPositions[index]?.left}px, ${artworkPositions[index]?.top}px, 0)`,
+            transition: 'transform 0.2s ease-out'
+          }}
         />
       ))}
     </div>
