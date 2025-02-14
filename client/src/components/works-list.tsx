@@ -2,11 +2,26 @@ import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 
+// Constants for layout configuration
+const GRID_CONFIG = {
+  MOBILE_COLUMNS: 2,
+  TABLET_COLUMNS: 3,
+  DESKTOP_COLUMNS: 4,
+  GROUP_SIZE: 7, // 2*3 + 1 pattern
+  BASE_HEIGHT: 128,
+  TABLET_SCALE: 1.5,
+  DESKTOP_SCALE: 2,
+} as const;
+
+// Common aspect ratios for artwork display
+const ARTWORK_ASPECT_RATIOS = [3/4, 4/5, 2/3, 5/4, 1] as const;
+
 type WorksListProps = {
   artworks: Artwork[];
   className?: string;
 };
 
+// Advertisement component for the artwork grid
 function AdCard() {
   return (
     <div className="w-full">
@@ -28,17 +43,18 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  const [wideHeight, setWideHeight] = useState(128);
+  const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
+  // Update wide artwork height based on screen size
   useEffect(() => {
     const updateWideHeight = () => {
       const width = window.innerWidth;
-      if (width < 768) { // 2列
-        setWideHeight(128);
-      } else if (width < 1024) { // 3列
-        setWideHeight(128 * 1.5);
-      } else { // 4列
-        setWideHeight(128 * 2);
+      if (width < 768) { // Mobile: 2 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT);
+      } else if (width < 1024) { // Tablet: 3 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
+      } else { // Desktop: 4 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
       }
     };
 
@@ -47,26 +63,27 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  // 使用2*3*n+1的布局规则重新组织作品
+  // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // 计算当前位置是否应该是宽幅作品
-    // 每7个作品（2*3+1）中的最后一个作为宽幅作品
-    const isWide = (index + 1) % 7 === 0;
+    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
+    const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
     return {
       ...artworks[index % artworks.length],
       id: index + 1,
-      aspectRatio: isWide ? 2.4 : [3/4, 4/5, 2/3, 5/4, 1][index % 5],
+      aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
       isWide
     };
   });
 
+  // Combine artworks with advertisements
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
+    // Add artwork
     acc.push(
       <div 
         key={artwork.id} 
         className={cn(
           "break-inside-avoid mb-4",
-          artwork.isWide && "-ml-[4px]"
+          artwork.isWide && "-ml-[4px]" // Adjust wide artwork alignment
         )}
         style={{
           columnSpan: artwork.isWide ? "all" : "none",
@@ -86,6 +103,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             alt={artwork.title}
             className="w-full h-full rounded-xl object-cover"
           />
+          {/* Artwork labels */}
           <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
             #{index + 1}
           </div>
@@ -95,6 +113,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             </div>
           )}
         </div>
+        {/* Artwork title and options */}
         <div className="flex justify-between items-center px-2 mt-2">
           <div className="text-sm text-[#111111] font-medium leading-5 truncate">
             {artwork.title}
@@ -108,8 +127,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       </div>
     );
 
-    // 每6个作品后添加一个广告（调整为7个一组后，广告插入规则也相应调整）
-    if ((index + 1) % 7 === 6) {
+    // Add advertisement after every 6 artworks
+    if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
       acc.push(
         <div key={`ad-${index}`} className="break-inside-avoid mb-4">
           <AdCard />

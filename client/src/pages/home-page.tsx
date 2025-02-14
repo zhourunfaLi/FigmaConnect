@@ -4,7 +4,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import WorksList from "@/components/works-list";
 import { useState } from "react";
 
-const categories = [
+// Category configuration
+type Category = {
+  id: string;
+  name: string;
+  color: string;
+};
+
+const CATEGORIES: Category[] = [
   { id: "latest", name: "最新", color: "#111111" },
   { id: "hottest", name: "最热", color: "#6D6D6D" },
   { id: "earliest", name: "最早", color: "#6D6D6D" },
@@ -14,30 +21,38 @@ const categories = [
 ];
 
 export default function HomePage() {
-  const [activeCategory, setActiveCategory] = useState("latest");
+  const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
+
+  // Fetch artworks data
   const { data: artworks } = useQuery<Artwork[]>({ 
     queryKey: ["/api/artworks"]
   });
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      {/* 微信导航栏 */}
+      {/* WeChat Navigation Bar */}
       <div className="w-full h-[90px] bg-white flex items-center justify-center border-b border-black/10">
-        <img src="./src/assets/design/weixin NAV.png" alt="WeChat Navigation" className="w-full h-full object-contain" />
+        <img 
+          src="./src/assets/design/weixin NAV.png" 
+          alt="WeChat Navigation" 
+          className="w-full h-full object-contain" 
+        />
       </div>
 
-      {/* 分类标签栏 */}
+      {/* Category Navigation */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10">
         <ScrollArea className="w-full whitespace-nowrap">
           <div className="flex justify-start gap-4 px-4 py-3 min-w-full">
-            {categories.map((category) => (
+            {CATEGORIES.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
                 className={`text-sm sm:text-base font-normal transition-colors px-2 ${
                   activeCategory === category.id ? "font-medium" : ""
                 }`}
-                style={{ color: activeCategory === category.id ? "#111111" : category.color }}
+                style={{ 
+                  color: activeCategory === category.id ? "#111111" : category.color 
+                }}
               >
                 {category.name}
               </button>
@@ -46,12 +61,12 @@ export default function HomePage() {
         </ScrollArea>
       </div>
 
-      {/* 作品列表区域 */}
+      {/* Artwork Grid */}
       <div className="pt-4">
         {artworks && <WorksList artworks={artworks} />}
       </div>
 
-      {/* 底部导航栏 */}
+      {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 w-full h-[73px] bg-white border-t border-black/10">
         <div className="flex justify-around items-center h-full px-16">
           <button className="p-2">
