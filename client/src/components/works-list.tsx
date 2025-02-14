@@ -49,8 +49,9 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // 使用2*3*n+1的布局规则重新组织作品
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // 将第一个作品设置为宽幅作品
-    const isWide = index === 0;
+    // 计算当前位置是否应该是宽幅作品
+    // 每7个作品（2*3+1）中的最后一个作为宽幅作品
+    const isWide = (index + 1) % 7 === 0;
     return {
       ...artworks[index % artworks.length],
       id: index + 1,
