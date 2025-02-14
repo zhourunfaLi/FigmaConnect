@@ -47,20 +47,18 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         key={artwork.id} 
         className={cn(
           "break-inside-avoid mb-6",
-          artwork.isWide && "col-span-full"
+          artwork.isWide && "col-span-2 w-[calc(200%+1.5rem)] -mx-3"
         )}
         style={{
           columnSpan: artwork.isWide ? "all" : "none",
           breakBefore: artwork.isWide ? "column" : "auto",
-          width: artwork.isWide ? "calc(200% + 1.5rem)" : "100%",
-          marginLeft: artwork.isWide ? "-0.75rem" : "0",
-          marginRight: artwork.isWide ? "-0.75rem" : "0"
+          position: artwork.isWide ? "relative" : "static",
         }}
       >
         <div 
           className="w-full relative"
           style={{ 
-            height: artwork.isWide ? "240px" : "auto",
+            height: artwork.isWide ? "280px" : "auto",
             aspectRatio: artwork.isWide ? undefined : artwork.aspectRatio
           }}
         >
