@@ -5,13 +5,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
 import { Link } from "wouter";
 
-// Constants for layout configuration
-const GRID_CONFIG = {
-  MOBILE_COLUMNS: 2,
-  TABLET_COLUMNS: 3,
-  DESKTOP_COLUMNS: 4,
-} as const;
-
 // Common aspect ratios for artwork display
 const ARTWORK_ASPECT_RATIOS = [3/4, 4/5, 2/3, 5/4, 1] as const;
 
@@ -139,13 +132,11 @@ function ArtworkItem({
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   // Transform artwork data for display with horizontal numbering
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    return {
-      ...artworks[index % artworks.length],
-      id: index + 1,
-      aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-    };
-  });
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
+    ...artworks[index % artworks.length],
+    id: index + 1,
+    aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
+  }));
 
   return (
     <div 
