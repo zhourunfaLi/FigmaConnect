@@ -27,7 +27,7 @@ type WorksListProps = {
 // Advertisement component
 function AdCard() {
   return (
-    <div className="w-full">
+    <div className="w-full mb-4">
       <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
@@ -84,7 +84,7 @@ export function ArtworkItem({
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
-        "group relative",
+        "group relative mb-4",
         isWide && "col-span-full"
       )}
     >
@@ -113,7 +113,8 @@ export function ArtworkItem({
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
                 imageLoaded ? "opacity-100" : "opacity-0",
-                "group-hover:scale-105"
+                "group-hover:scale-105",
+                isWide ? "object-cover" : "object-cover"
               )}
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
@@ -172,7 +173,7 @@ export function ArtworkItem({
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
-  const [columns, setColumns] = useState(GRID_CONFIG.MOBILE_COLUMNS);
+  const [columns, setColumns] = useState<number>(GRID_CONFIG.MOBILE_COLUMNS);
 
   useEffect(() => {
     const updateLayout = () => {
@@ -209,7 +210,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid gap-4 px-2 pb-20",
+        "grid gap-6 px-4 pb-20",
         {
           'grid-cols-2': columns === 2,
           'grid-cols-3': columns === 3,
