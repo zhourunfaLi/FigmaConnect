@@ -1,6 +1,7 @@
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -37,6 +38,110 @@ function AdCard() {
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           推广内容
         </div>
+      </div>
+    </div>
+  );
+}
+
+// Artwork component with lazy loading and loading state
+function ArtworkItem({ 
+  artwork, 
+  isWide, 
+  wideHeight, 
+  index 
+}: { 
+  artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
+  isWide: boolean; 
+  wideHeight: number;
+  index: number;
+}) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: '50px'
+      }
+    );
+
+    const element = document.getElementById(`artwork-${artwork.id}`);
+    if (element) {
+      observer.observe(element);
+    }
+
+    return () => observer.disconnect();
+  }, [artwork.id]);
+
+  return (
+    <div 
+      id={`artwork-${artwork.id}`}
+      className={cn(
+        "break-inside-avoid mb-4",
+        isWide && "-ml-[4px]" // Adjust wide artwork alignment
+      )}
+      style={{
+        columnSpan: isWide ? "all" : "none",
+        breakBefore: isWide ? "column" : "auto",
+        position: 'relative'
+      }}
+    >
+      <div 
+        className="w-full relative"
+        style={{ 
+          height: isWide ? `${wideHeight}px` : undefined,
+          aspectRatio: isWide ? undefined : artwork.aspectRatio,
+        }}
+      >
+        {/* Loading skeleton */}
+        {(!isVisible || !imageLoaded) && (
+          <Skeleton 
+            className={cn(
+              "absolute inset-0 rounded-xl",
+              !imageLoaded && "animate-pulse"
+            )}
+          />
+        )}
+
+        {isVisible && (
+          <img
+            src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
+            alt={artwork.title}
+            className={cn(
+              "w-full h-full rounded-xl object-cover transition-opacity duration-300",
+              imageLoaded ? "opacity-100" : "opacity-0"
+            )}
+            loading="lazy"
+            onLoad={() => setImageLoaded(true)}
+          />
+        )}
+
+        {/* Artwork labels */}
+        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+          #{index + 1}
+        </div>
+        {artwork.isPremium && (
+          <div className="absolute top-2 left-[4.5rem] px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
+            SVIP
+          </div>
+        )}
+      </div>
+      {/* Artwork title and options */}
+      <div className="flex justify-between items-center px-2 mt-2">
+        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+          {artwork.title}
+        </div>
+        <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+          <div className="w-1 h-1 rounded-full bg-[#111111]" />
+          <div className="w-1 h-1 rounded-full bg-[#111111]" />
+          <div className="w-1 h-1 rounded-full bg-[#111111]" />
+        </button>
       </div>
     </div>
   );
@@ -79,52 +184,13 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
     // Add artwork
     acc.push(
-      <div 
-        key={artwork.id} 
-        className={cn(
-          "break-inside-avoid mb-4",
-          artwork.isWide && "-ml-[4px]" // Adjust wide artwork alignment
-        )}
-        style={{
-          columnSpan: artwork.isWide ? "all" : "none",
-          breakBefore: artwork.isWide ? "column" : "auto",
-          position: 'relative'
-        }}
-      >
-        <div 
-          className="w-full relative"
-          style={{ 
-            height: artwork.isWide ? `${wideHeight}px` : undefined,
-            aspectRatio: artwork.isWide ? undefined : artwork.aspectRatio,
-          }}
-        >
-          <img
-            src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
-            alt={artwork.title}
-            className="w-full h-full rounded-xl object-cover"
-          />
-          {/* Artwork labels */}
-          <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-            #{index + 1}
-          </div>
-          {artwork.isPremium && (
-            <div className="absolute top-2 left-[4.5rem] px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-              SVIP
-            </div>
-          )}
-        </div>
-        {/* Artwork title and options */}
-        <div className="flex justify-between items-center px-2 mt-2">
-          <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-            {artwork.title}
-          </div>
-          <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-            <div className="w-1 h-1 rounded-full bg-[#111111]" />
-            <div className="w-1 h-1 rounded-full bg-[#111111]" />
-            <div className="w-1 h-1 rounded-full bg-[#111111]" />
-          </button>
-        </div>
-      </div>
+      <ArtworkItem 
+        key={artwork.id}
+        artwork={artwork}
+        isWide={artwork.isWide}
+        wideHeight={wideHeight}
+        index={index}
+      />
     );
 
     // Add advertisement after every 6 artworks
