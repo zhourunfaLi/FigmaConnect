@@ -36,7 +36,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       if (width < 768) { // 2列
         setWideHeight(128);
       } else if (width < 1024) { // 3列
-        setWideHeight(128 * 1.15);
+        setWideHeight(128 * 1.5);
       } else { // 4列
         setWideHeight(128 * 2);
       }
