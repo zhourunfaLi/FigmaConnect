@@ -15,10 +15,12 @@ type WorksListProps = {
 
 function ArtworkItem({ 
   artwork, 
-  index
+  index,
+  isWide
 }: { 
   artwork: Artwork & { aspectRatio: number }; 
   index: number;
+  isWide?: boolean;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -45,12 +47,17 @@ function ArtworkItem({
   return (
     <Link 
       to={`/works/${artwork.id}`}
-      className="group block w-full"
+      className={cn(
+        "group block w-full",
+        isWide && "col-span-full" // 宽幅作品占据整行
+      )}
     >
       <div 
         id={`artwork-${artwork.id}`}
         className="relative overflow-hidden rounded-lg mb-11" // 44px bottom margin
-        style={{ aspectRatio: artwork.aspectRatio }}
+        style={{ 
+          aspectRatio: isWide ? 2.4 : artwork.aspectRatio // 宽幅作品使用固定的宽高比
+        }}
       >
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
@@ -128,11 +135,15 @@ function ArtworkItem({
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   // Transform artwork data for display
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
-    ...artworks[index % artworks.length],
-    id: index + 1,
-    aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-  }));
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
+    const isWide = (index + 1) % 7 === 0; // 每7个作品中的第7个是宽幅作品
+    return {
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
+      isWide
+    };
+  });
 
   return (
     <div className="w-full max-w-[1440px] mx-auto">
@@ -147,6 +158,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
             key={artwork.id}
             artwork={artwork}
             index={index}
+            isWide={artwork.isWide}
           />
         ))}
       </div>
