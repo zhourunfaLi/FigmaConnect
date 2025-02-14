@@ -84,9 +84,12 @@ export function ArtworkItem({
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
-        "group relative mb-4",
-        isWide && "col-span-full"
+        "break-inside-avoid mb-4 group relative",
+        isWide && "column-span-all"
       )}
+      style={{
+        columnSpan: isWide ? "all" : "1"
+      }}
     >
       <div 
         id={`artwork-${artwork.id}`}
@@ -113,8 +116,7 @@ export function ArtworkItem({
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
                 imageLoaded ? "opacity-100" : "opacity-0",
-                "group-hover:scale-105",
-                isWide ? "object-cover" : "object-cover"
+                "group-hover:scale-105"
               )}
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
@@ -173,19 +175,15 @@ export function ArtworkItem({
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
-  const [columns, setColumns] = useState<number>(GRID_CONFIG.MOBILE_COLUMNS);
 
   useEffect(() => {
     const updateLayout = () => {
       const width = window.innerWidth;
       if (width < 768) {
-        setColumns(GRID_CONFIG.MOBILE_COLUMNS);
         setWideHeight(GRID_CONFIG.BASE_HEIGHT);
       } else if (width < 1024) {
-        setColumns(GRID_CONFIG.TABLET_COLUMNS);
         setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
       } else {
-        setColumns(GRID_CONFIG.DESKTOP_COLUMNS);
         setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
       }
     };
@@ -210,12 +208,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid gap-6 px-4 pb-20",
-        {
-          'grid-cols-2': columns === 2,
-          'grid-cols-3': columns === 3,
-          'grid-cols-4': columns === 4,
-        },
+        "columns-2 md:columns-3 lg:columns-4 gap-4 px-4 pb-20",
         className
       )}
     >
@@ -233,10 +226,10 @@ export default function WorksList({ artworks, className }: WorksListProps) {
           />
         );
 
-        // Add advertisement after every 6 artworks (not counting wide artworks)
+        // Add advertisement after every 6 artworks (before wide artwork)
         if ((index + 1) % 6 === 0) {
           content.push(
-            <div key={`ad-${index}`} className={artwork.isWide ? "col-span-full" : ""}>
+            <div key={`ad-${index}`} className="break-inside-avoid mb-4">
               <AdCard />
             </div>
           );
