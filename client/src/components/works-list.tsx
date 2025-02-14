@@ -47,7 +47,7 @@ function ArtworkItem({
   return (
     <Link 
       to={`/works/${artwork.id}`}
-      className="group relative block w-full"
+      className="masonry-item group relative block w-full mb-6"
     >
       <div 
         id={`artwork-${artwork.id}`}
@@ -131,19 +131,48 @@ function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  // Transform artwork data for display with horizontal numbering
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
-    ...artworks[index % artworks.length],
-    id: index + 1,
-    aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-  }));
+  const [columnsCount, setColumnsCount] = useState(4);
+  const [rowsCount, setRowsCount] = useState(Math.ceil(30 / columnsCount));
+
+  // Update columnsCount based on screen size
+  useEffect(() => {
+    const updateColumns = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        setColumnsCount(2);
+      } else if (width < 1024) {
+        setColumnsCount(3);
+      } else {
+        setColumnsCount(4);
+      }
+      setRowsCount(Math.ceil(30 / columnsCount));
+    };
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, [columnsCount]);
+
+  // Transform artwork data to maintain horizontal numbering in masonry layout
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
+    const row = Math.floor(index / columnsCount);
+    const col = index % columnsCount;
+    return {
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: ARTWORK_ASPECT_RATIOS[(row * columnsCount + col) % ARTWORK_ASPECT_RATIOS.length],
+    };
+  });
 
   return (
     <div 
       className={cn(
-        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 pb-20",
+        "columns-2 md:columns-3 lg:columns-4 gap-6 px-4 pb-20",
         className
       )}
+      style={{
+        columnGap: '1.5rem'
+      }}
     >
       {displayArtworks.map((artwork, index) => (
         <ArtworkItem 
