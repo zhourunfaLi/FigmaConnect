@@ -78,12 +78,14 @@ export function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
+  const imageUrl = artwork.imageUrl || `/src/assets/design/works-${String((index % 8) + 1).padStart(2, '0')}.png`;
+
   return (
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
         "break-inside-avoid mb-4 group",
-        isWide && "-ml-[4px]"
+        isWide && "column-span-all -ml-[4px]"
       )}
       style={{
         columnSpan: isWide ? "all" : "none",
@@ -111,7 +113,7 @@ export function ArtworkItem({
         {isVisible && (
           <>
             <img
-              src={artwork.imageUrl || `/src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
+              src={imageUrl}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
