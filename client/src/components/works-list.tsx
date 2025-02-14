@@ -10,10 +10,6 @@ const GRID_CONFIG = {
   MOBILE_COLUMNS: 2,
   TABLET_COLUMNS: 3,
   DESKTOP_COLUMNS: 4,
-  GROUP_SIZE: 7,
-  BASE_HEIGHT: 128,
-  TABLET_SCALE: 1.5,
-  DESKTOP_SCALE: 2,
 } as const;
 
 // Common aspect ratios for artwork display
@@ -24,36 +20,11 @@ type WorksListProps = {
   className?: string;
 };
 
-// Advertisement component
-function AdCard() {
-  return (
-    <div className="w-full mb-4">
-      <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
-        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-          广告
-        </div>
-        <div className="w-full h-full flex items-center justify-center text-black/30">
-          Google Ads
-        </div>
-      </div>
-      <div className="flex justify-between items-center px-2 mt-2">
-        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-          推广内容
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function ArtworkItem({ 
+function ArtworkItem({ 
   artwork, 
-  isWide, 
-  wideHeight, 
   index 
 }: { 
-  artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
-  isWide: boolean; 
-  wideHeight: number;
+  artwork: Artwork & { aspectRatio: number }; 
   index: number;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -83,20 +54,13 @@ export function ArtworkItem({
   return (
     <Link 
       to={`/works/${artwork.id}`}
-      className={cn(
-        "break-inside-avoid mb-4 group relative",
-        isWide && "column-span-all"
-      )}
-      style={{
-        columnSpan: isWide ? "all" : "1"
-      }}
+      className="break-inside-avoid mb-4 group relative"
     >
       <div 
         id={`artwork-${artwork.id}`}
         className="w-full relative overflow-hidden rounded-xl"
         style={{ 
-          height: isWide ? `${wideHeight}px` : undefined,
-          aspectRatio: isWide ? undefined : artwork.aspectRatio,
+          aspectRatio: artwork.aspectRatio,
         }}
       >
         {(!isVisible || !imageLoaded) && (
@@ -174,47 +138,12 @@ export function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
-
-  useEffect(() => {
-    const updateLayout = () => {
-      const width = window.innerWidth;
-      if (width < 768) {
-        setWideHeight(GRID_CONFIG.BASE_HEIGHT);
-      } else if (width < 1024) {
-        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
-      } else {
-        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
-      }
-    };
-
-    updateLayout();
-    window.addEventListener('resize', updateLayout);
-    return () => window.removeEventListener('resize', updateLayout);
-  }, []);
-
-  // 确保横向编号顺序
-  const columnsCount = window.innerWidth < 768 ? GRID_CONFIG.MOBILE_COLUMNS : 
-                      window.innerWidth < 1024 ? GRID_CONFIG.TABLET_COLUMNS : 
-                      GRID_CONFIG.DESKTOP_COLUMNS;
-  const rowsCount = Math.ceil(30 / columnsCount);
-
-  // 生成横向编号的作品数组
+  // Transform artwork data for display with horizontal numbering
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // 计算横向顺序的新索引
-    // 例如对于3列布局：index=0 时 originalIndex=0, index=1 时 originalIndex=3, index=2 时 originalIndex=6
-    const row = index % rowsCount;
-    const col = Math.floor(index / rowsCount);
-    const originalIndex = col + row * columnsCount;
-
-    // 第一列的每第3个作品是宽幅
-    const isWide = col === 0 && (row + 1) % 3 === 0;
-
     return {
-      ...artworks[originalIndex % artworks.length],
-      id: originalIndex + 1,  // 保持横向编号
-      aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-      isWide
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
     };
   });
 
@@ -225,31 +154,13 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         className
       )}
     >
-      {displayArtworks.map((artwork, index) => {
-        const content = [];
-
-        // Add artwork
-        content.push(
-          <ArtworkItem 
-            key={artwork.id}
-            artwork={artwork}
-            isWide={artwork.isWide}
-            wideHeight={wideHeight}
-            index={index}
-          />
-        );
-
-        // Add advertisement after every 6 artworks (before wide artwork)
-        if ((index + 1) % 6 === 0) {
-          content.push(
-            <div key={`ad-${index}`} className="break-inside-avoid mb-4">
-              <AdCard />
-            </div>
-          );
-        }
-
-        return content;
-      }).flat()}
+      {displayArtworks.map((artwork, index) => (
+        <ArtworkItem 
+          key={artwork.id}
+          artwork={artwork}
+          index={index}
+        />
+      ))}
     </div>
   );
 }
