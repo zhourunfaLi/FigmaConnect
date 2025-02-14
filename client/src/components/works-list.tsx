@@ -202,14 +202,17 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   // 生成横向编号的作品数组
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
     // 计算横向顺序的新索引
-    const row = Math.floor(index / columnsCount);
-    const col = index % columnsCount;
-    // 第一列的每第7个作品是宽幅, changed from  const isWide = col === 0 && (row + 1) % GRID_CONFIG.GROUP_SIZE === 0;
+    // 例如对于3列布局：index=0 时 originalIndex=0, index=1 时 originalIndex=3, index=2 时 originalIndex=6
+    const row = index % rowsCount;
+    const col = Math.floor(index / rowsCount);
+    const originalIndex = col + row * columnsCount;
+
+    // 第一列的每第3个作品是宽幅
     const isWide = col === 0 && (row + 1) % 3 === 0;
 
     return {
-      ...artworks[index % artworks.length],
-      id: row * columnsCount + col + 1,  // 保持横向编号
+      ...artworks[originalIndex % artworks.length],
+      id: originalIndex + 1,  // 保持横向编号
       aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
       isWide
     };
