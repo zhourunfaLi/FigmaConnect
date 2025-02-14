@@ -47,7 +47,7 @@ function ArtworkItem({
   return (
     <Link 
       to={`/works/${artwork.id}`}
-      className="break-inside-avoid mb-4 group relative"
+      className="group relative"
     >
       <div 
         id={`artwork-${artwork.id}`}
@@ -141,7 +141,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-4 px-4 pb-20",
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 pb-20",
         className
       )}
     >
