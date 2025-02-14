@@ -193,13 +193,20 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateLayout);
   }, []);
 
-  // Transform artwork data for display
+  // 确保横向编号顺序
+  const columnsCount = window.innerWidth < 768 ? 2 : window.innerWidth < 1024 ? 3 : 4;
+  const rowsCount = Math.ceil(30 / columnsCount);
+
+  // 生成横向编号的作品数组
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // Every 7th item is wide
-    const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
+    // 计算横向顺序的新索引
+    const row = Math.floor(index / columnsCount);
+    const col = index % columnsCount;
+    const isWide = col === 0 && (row + 1) % GRID_CONFIG.GROUP_SIZE === 0;
+
     return {
       ...artworks[index % artworks.length],
-      id: index + 1,
+      id: index + 1,  // 保持横向编号
       aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
       isWide
     };
