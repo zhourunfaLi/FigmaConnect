@@ -36,7 +36,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return {
       ...artworks[index % artworks.length],
       id: index + 1,
-      aspectRatio: isWide ? 2 : [3/4, 4/5, 2/3, 5/4, 1][index % 5],
+      aspectRatio: isWide ? 2.4 : [3/4, 4/5, 2/3, 5/4, 1][index % 5],
       isWide
     };
   });
@@ -58,8 +58,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         <div 
           className="w-full relative"
           style={{ 
-            height: artwork.isWide ? "280px" : "auto",
-            aspectRatio: artwork.isWide ? undefined : artwork.aspectRatio
+            aspectRatio: artwork.aspectRatio
           }}
         >
           <img
