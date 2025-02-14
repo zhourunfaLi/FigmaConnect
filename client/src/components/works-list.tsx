@@ -16,7 +16,7 @@ type WorksListProps = {
 function ArtworkItem({ 
   artwork, 
   index,
-  isWide
+  isWide 
 }: { 
   artwork: Artwork & { aspectRatio: number }; 
   index: number;
@@ -45,102 +45,98 @@ function ArtworkItem({
   }, [artwork.id]);
 
   return (
-    <div 
+    <Link 
+      to={`/works/${artwork.id}`}
       className={cn(
-        "h-full",
-        isWide ? "col-span-full" : "col-span-1"
+        "group block w-full break-inside-avoid mb-9", 
+        isWide && "column-span-all" 
       )}
     >
-      <Link 
-        to={`/works/${artwork.id}`}
-        className="group block h-full"
+      <div 
+        id={`artwork-${artwork.id}`}
+        className="relative overflow-hidden rounded-lg"
+        style={{ 
+          aspectRatio: isWide ? 2.4 : artwork.aspectRatio 
+        }}
       >
-        <div 
-          id={`artwork-${artwork.id}`}
-          className="relative overflow-hidden rounded-lg h-full"
-          style={{ 
-            aspectRatio: isWide ? 2.4 : artwork.aspectRatio
-          }}
-        >
-          {(!isVisible || !imageLoaded) && (
-            <Skeleton 
+        {(!isVisible || !imageLoaded) && (
+          <Skeleton 
+            className={cn(
+              "absolute inset-0 rounded-lg",
+              !imageLoaded && "animate-pulse"
+            )}
+          />
+        )}
+
+        {isVisible && (
+          <>
+            <img
+              src={`/src/assets/design/works-${String((index % 8) + 1).padStart(2, '0')}.png`}
+              alt={artwork.title}
               className={cn(
-                "absolute inset-0 rounded-lg",
-                !imageLoaded && "animate-pulse"
+                "w-full h-full object-cover transition-all duration-300",
+                imageLoaded ? "opacity-100" : "opacity-0",
+                "group-hover:scale-105"
               )}
+              loading="lazy"
+              onLoad={() => setImageLoaded(true)}
             />
-          )}
 
-          {isVisible && (
-            <>
-              <img
-                src={`/src/assets/design/works-${String((index % 8) + 1).padStart(2, '0')}.png`}
-                alt={artwork.title}
-                className={cn(
-                  "w-full h-full object-cover transition-all duration-300",
-                  imageLoaded ? "opacity-100" : "opacity-0",
-                  "group-hover:scale-105"
-                )}
-                loading="lazy"
-                onLoad={() => setImageLoaded(true)}
-              />
-
-              {/* Labels */}
-              <div className="absolute top-2 left-2 flex gap-2">
-                <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                  #{index + 1}
+            {/* Labels */}
+            <div className="absolute top-2 left-2 flex gap-2">
+              <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+                #{index + 1}
+              </div>
+              {artwork.isPremium && (
+                <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
+                  SVIP
                 </div>
-                {artwork.isPremium && (
-                  <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-                    SVIP
-                  </div>
-                )}
+              )}
+            </div>
+
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+              <div className="flex justify-end items-start">
+                <div className="flex gap-2">
+                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                    <Heart className="w-4 h-4 text-white" />
+                  </button>
+                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                    <Share2 className="w-4 h-4 text-white" />
+                  </button>
+                </div>
               </div>
 
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-                <div className="flex justify-end items-start">
-                  <div className="flex gap-2">
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <Heart className="w-4 h-4 text-white" />
-                    </button>
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <Share2 className="w-4 h-4 text-white" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <h3 className="text-white font-medium line-clamp-2">
-                    {artwork.title}
-                  </h3>
-                  <p className="text-white/80 text-sm line-clamp-2">
-                    {artwork.description}
-                  </p>
-                </div>
+              <div className="space-y-2">
+                <h3 className="text-white font-medium line-clamp-2">
+                  {artwork.title}
+                </h3>
+                <p className="text-white/80 text-sm line-clamp-2">
+                  {artwork.description}
+                </p>
               </div>
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
+      </div>
 
-        {/* Title and options */}
-        <div className="flex justify-between items-center mt-[2px] group-hover:opacity-0 transition-opacity duration-300">
-          <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-            {artwork.title}
-          </div>
-          <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-            <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-          </button>
+      {/* Title and options */}
+      <div className="flex justify-between items-center mt-[2px] group-hover:opacity-0 transition-opacity duration-300">
+        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+          {artwork.title}
         </div>
-      </Link>
-    </div>
+        <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+          <MoreHorizontal className="w-4 h-4 text-[#111111]" />
+        </button>
+      </div>
+    </Link>
   );
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    const isWide = (index + 1) % 7 === 0; // 每7个作品中的第7个是宽幅作品
+    const isWide = (index + 1) % 7 === 0; 
     return {
       ...artworks[index % artworks.length],
       id: index + 1,
@@ -153,7 +149,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     <div className="w-full max-w-[1440px] mx-auto">
       <div 
         className={cn(
-          "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-[10px] gap-y-9 px-2", // 10px horizontal gap, 36px vertical gap, 8px page padding
+          "columns-2 md:columns-3 lg:columns-4 gap-[10px] px-2", 
           className
         )}
       >
