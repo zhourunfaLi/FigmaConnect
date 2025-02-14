@@ -127,22 +127,6 @@ function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  const [columnCount, setColumnCount] = useState(4);
-
-  // Update column count based on screen size
-  useEffect(() => {
-    const updateColumnCount = () => {
-      const width = window.innerWidth;
-      if (width < 768) setColumnCount(2);
-      else if (width < 1024) setColumnCount(3);
-      else setColumnCount(4);
-    };
-
-    updateColumnCount();
-    window.addEventListener('resize', updateColumnCount);
-    return () => window.removeEventListener('resize', updateColumnCount);
-  }, []);
-
   // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
     ...artworks[index % artworks.length],
@@ -151,10 +135,10 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }));
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto px-2">
+    <div className="w-full max-w-[1440px] mx-auto">
       <div 
         className={cn(
-          "columns-2 md:columns-3 lg:columns-4 gap-2", // 8px gap between columns
+          "columns-2 md:columns-3 lg:columns-4 gap-2 px-8", // 8px padding and gap
           className
         )}
       >
