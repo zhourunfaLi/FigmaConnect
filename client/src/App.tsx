@@ -17,7 +17,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
-      <ProtectedRoute path="/artwork/:id" component={WorkDetails} />
+      <Route path="/works/:id" component={WorkDetails} />
       <ProtectedRoute path="/add" component={AddArtworkPage} />
       <Route component={NotFound} />
     </Switch>

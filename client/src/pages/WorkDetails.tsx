@@ -4,17 +4,29 @@ import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 
+interface ArtworkDetails {
+  id: number;
+  title: string;
+  imageUrl: string;
+  description: string;
+}
+
 const WorkDetails: FC = () => {
-  const { id } = useParams();
-  
+  const params = useParams<{ id: string }>();
+  const id = params?.id;
+
   // 获取作品详情数据
-  const { data: artwork, isLoading } = useQuery({
+  const { data: artwork, isLoading } = useQuery<ArtworkDetails>({
     queryKey: ['/api/artworks', id],
     enabled: !!id
   });
 
   if (isLoading) {
     return <div>Loading...</div>;
+  }
+
+  if (!artwork) {
+    return <div>Artwork not found</div>;
   }
 
   return (
@@ -29,7 +41,7 @@ const WorkDetails: FC = () => {
               alt={artwork?.title}
               className="w-[374px] h-[477px] rounded-xl object-cover"
             />
-            
+
             {/* SVIP Badge */}
             <div className="absolute left-[14px] top-[12px] text-white text-[14px] leading-[22px] shadow-text">
               SVIP
