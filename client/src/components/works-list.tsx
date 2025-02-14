@@ -54,7 +54,7 @@ function ArtworkItem({
     >
       <div 
         id={`artwork-${artwork.id}`}
-        className="relative overflow-hidden rounded-lg mb-11" // 44px bottom margin
+        className="relative overflow-hidden rounded-lg"
         style={{ 
           aspectRatio: isWide ? 2.4 : artwork.aspectRatio // 宽幅作品使用固定的宽高比
         }}
@@ -149,7 +149,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     <div className="w-full max-w-[1440px] mx-auto">
       <div 
         className={cn(
-          "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 px-8", // 8px gap and padding
+          "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-11 px-8", // 8px horizontal gap, 44px vertical gap
           className
         )}
       >
