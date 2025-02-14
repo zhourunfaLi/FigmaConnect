@@ -10,7 +10,7 @@ const GRID_CONFIG = {
   MOBILE_COLUMNS: 2,
   TABLET_COLUMNS: 3,
   DESKTOP_COLUMNS: 4,
-  GROUP_SIZE: 7, // 2*3 + 1 pattern for wide artwork
+  GROUP_SIZE: 7,
   BASE_HEIGHT: 128,
   TABLET_SCALE: 1.5,
   DESKTOP_SCALE: 2,
@@ -27,7 +27,7 @@ type WorksListProps = {
 // Advertisement component
 function AdCard() {
   return (
-    <div className="w-full break-inside-avoid mb-4">
+    <div className="w-full">
       <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
@@ -84,14 +84,9 @@ export function ArtworkItem({
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
-        "break-inside-avoid mb-4 group",
-        isWide && "column-span-all -ml-[4px]"
+        "group relative",
+        isWide && "col-span-full"
       )}
-      style={{
-        columnSpan: isWide ? "all" : "none",
-        breakBefore: isWide ? "column" : "auto",
-        position: 'relative'
-      }}
     >
       <div 
         id={`artwork-${artwork.id}`}
@@ -162,7 +157,7 @@ export function ArtworkItem({
         )}
       </div>
 
-      {/* Title and options (always below the image) */}
+      {/* Title and options */}
       <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
@@ -177,27 +172,31 @@ export function ArtworkItem({
 
 export default function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
+  const [columns, setColumns] = useState(GRID_CONFIG.MOBILE_COLUMNS);
 
   useEffect(() => {
-    const updateWideHeight = () => {
+    const updateLayout = () => {
       const width = window.innerWidth;
-      if (width < 768) { // Mobile: 2 columns
+      if (width < 768) {
+        setColumns(GRID_CONFIG.MOBILE_COLUMNS);
         setWideHeight(GRID_CONFIG.BASE_HEIGHT);
-      } else if (width < 1024) { // Tablet: 3 columns
+      } else if (width < 1024) {
+        setColumns(GRID_CONFIG.TABLET_COLUMNS);
         setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
-      } else { // Desktop: 4 columns
+      } else {
+        setColumns(GRID_CONFIG.DESKTOP_COLUMNS);
         setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
       }
     };
 
-    updateWideHeight();
-    window.addEventListener('resize', updateWideHeight);
-    return () => window.removeEventListener('resize', updateWideHeight);
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
   }, []);
 
-  // Transform artwork data for display with horizontal-first ordering
+  // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
+    // Every 7th item is wide
     const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
     return {
       ...artworks[index % artworks.length],
@@ -207,35 +206,43 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     };
   });
 
-  // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
-    // Add artwork
-    acc.push(
-      <ArtworkItem 
-        key={artwork.id}
-        artwork={artwork}
-        isWide={artwork.isWide}
-        wideHeight={wideHeight}
-        index={index}
-      />
-    );
-
-    // Add advertisement after every 6 artworks (before wide artwork)
-    if ((index + 1) % 6 === 0 && !artwork.isWide) {
-      acc.push(<AdCard key={`ad-${index}`} />);
-    }
-
-    return acc;
-  }, []);
-
   return (
     <div 
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-4 px-2 pb-20",
+        "grid gap-4 px-2 pb-20",
+        {
+          'grid-cols-2': columns === 2,
+          'grid-cols-3': columns === 3,
+          'grid-cols-4': columns === 4,
+        },
         className
       )}
     >
-      {contentWithAds}
+      {displayArtworks.map((artwork, index) => {
+        const content = [];
+
+        // Add artwork
+        content.push(
+          <ArtworkItem 
+            key={artwork.id}
+            artwork={artwork}
+            isWide={artwork.isWide}
+            wideHeight={wideHeight}
+            index={index}
+          />
+        );
+
+        // Add advertisement after every 6 artworks (not counting wide artworks)
+        if ((index + 1) % 6 === 0) {
+          content.push(
+            <div key={`ad-${index}`} className={artwork.isWide ? "col-span-full" : ""}>
+              <AdCard />
+            </div>
+          );
+        }
+
+        return content;
+      }).flat()}
     </div>
   );
 }
