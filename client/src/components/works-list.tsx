@@ -117,7 +117,7 @@ function ArtworkItem({
         </div>
 
         {/* Title and options */}
-        <div className="flex justify-between items-center mt-2 group-hover:opacity-0 transition-opacity duration-300">
+        <div className="flex justify-between items-center mt-[2px] group-hover:opacity-0 transition-opacity duration-300">
           <div className="text-sm text-[#111111] font-medium leading-5 truncate">
             {artwork.title}
           </div>
@@ -150,7 +150,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateColumnCount);
   }, []);
 
-  // Transform artwork data for display with horizontal numbering
+  // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
     ...artworks[index % artworks.length],
     id: index + 1,
@@ -174,8 +174,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       const left = Math.round(columnIndex * (columnWidth + gap));
       const top = heights[columnIndex];
 
-      // Calculate height including the gap
-      const itemHeight = Math.round((columnWidth / artwork.aspectRatio) + gap);
+      // Calculate height including the gap and add extra vertical spacing
+      const itemHeight = Math.round((columnWidth / artwork.aspectRatio)) + 20; // 增加垂直间距为20px
       heights[columnIndex] += itemHeight;
 
       positions[index] = { 
@@ -193,7 +193,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       <div 
         ref={containerRef}
         className={cn(
-          "relative mx-auto px-2 pb-20", 
+          "relative mx-auto px-2", // 8px padding
           className
         )}
         style={{
