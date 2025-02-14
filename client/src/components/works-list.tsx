@@ -2,6 +2,7 @@ import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Heart, Share2, MoreHorizontal } from "lucide-react";
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -83,8 +84,8 @@ function ArtworkItem({
     <div 
       id={`artwork-${artwork.id}`}
       className={cn(
-        "break-inside-avoid mb-4",
-        isWide && "-ml-[4px]" // Adjust wide artwork alignment
+        "break-inside-avoid mb-4 group",
+        isWide && "-ml-[4px]"
       )}
       style={{
         columnSpan: isWide ? "all" : "none",
@@ -93,7 +94,7 @@ function ArtworkItem({
       }}
     >
       <div 
-        className="w-full relative"
+        className="w-full relative overflow-hidden rounded-xl"
         style={{ 
           height: isWide ? `${wideHeight}px` : undefined,
           aspectRatio: isWide ? undefined : artwork.aspectRatio,
@@ -110,37 +111,66 @@ function ArtworkItem({
         )}
 
         {isVisible && (
-          <img
-            src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
-            alt={artwork.title}
-            className={cn(
-              "w-full h-full rounded-xl object-cover transition-opacity duration-300",
-              imageLoaded ? "opacity-100" : "opacity-0"
-            )}
-            loading="lazy"
-            onLoad={() => setImageLoaded(true)}
-          />
-        )}
+          <>
+            <img
+              src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
+              alt={artwork.title}
+              className={cn(
+                "w-full h-full object-cover transition-all duration-300",
+                imageLoaded ? "opacity-100" : "opacity-0",
+                "group-hover:scale-105"
+              )}
+              loading="lazy"
+              onLoad={() => setImageLoaded(true)}
+            />
 
-        {/* Artwork labels */}
-        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-          #{index + 1}
-        </div>
-        {artwork.isPremium && (
-          <div className="absolute top-2 left-[4.5rem] px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-            SVIP
-          </div>
+            {/* Hover overlay with actions */}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+              <div className="flex justify-between items-start">
+                {/* Labels */}
+                <div className="flex gap-2">
+                  <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+                    #{index + 1}
+                  </div>
+                  {artwork.isPremium && (
+                    <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
+                      SVIP
+                    </div>
+                  )}
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex gap-2">
+                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                    <Heart className="w-4 h-4 text-white" />
+                  </button>
+                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                    <Share2 className="w-4 h-4 text-white" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Bottom content */}
+              <div className="space-y-2">
+                <h3 className="text-white font-medium line-clamp-2">
+                  {artwork.title}
+                </h3>
+                <p className="text-white/80 text-sm line-clamp-2">
+                  {artwork.description}
+                </p>
+              </div>
+            </div>
+          </>
         )}
       </div>
-      {/* Artwork title and options */}
-      <div className="flex justify-between items-center px-2 mt-2">
+
+      {/* Title and options (visible when not hovering) */}
+      <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
         </div>
         <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-          <div className="w-1 h-1 rounded-full bg-[#111111]" />
-          <div className="w-1 h-1 rounded-full bg-[#111111]" />
-          <div className="w-1 h-1 rounded-full bg-[#111111]" />
+          <MoreHorizontal className="w-4 h-4 text-[#111111]" />
         </button>
       </div>
     </div>
