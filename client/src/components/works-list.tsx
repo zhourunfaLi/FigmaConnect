@@ -48,8 +48,8 @@ function ArtworkItem({
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
-        "group block w-full",
-        isWide && "col-span-full" // 宽幅作品占据整行
+        "group block w-full break-inside-avoid mb-11", // 44px bottom margin
+        isWide && "column-span-all" // 宽幅作品占据所有列
       )}
     >
       <div 
@@ -149,7 +149,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     <div className="w-full max-w-[1440px] mx-auto">
       <div 
         className={cn(
-          "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-11 px-8", // 8px horizontal gap, 44px vertical gap
+          "columns-2 md:columns-3 lg:columns-4 gap-2 px-8", // 8px horizontal gap and padding
           className
         )}
       >
