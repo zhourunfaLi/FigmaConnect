@@ -10,7 +10,7 @@ const GRID_CONFIG = {
   MOBILE_COLUMNS: 2,
   TABLET_COLUMNS: 3,
   DESKTOP_COLUMNS: 4,
-  GROUP_SIZE: 7,
+  GROUP_SIZE: 7, // 2*3 + 1 pattern
   BASE_HEIGHT: 128,
   TABLET_SCALE: 1.5,
   DESKTOP_SCALE: 2,
@@ -45,7 +45,6 @@ function AdCard() {
   );
 }
 
-// Artwork component with lazy loading and loading state
 export function ArtworkItem({ 
   artwork, 
   isWide, 
@@ -95,6 +94,7 @@ export function ArtworkItem({
       }}
     >
       <div 
+        id={`artwork-${artwork.id}`}
         className="w-full relative overflow-hidden rounded-xl"
         style={{ 
           height: isWide ? `${wideHeight}px` : undefined,
@@ -113,7 +113,7 @@ export function ArtworkItem({
         {isVisible && (
           <>
             <img
-              src={artwork.imageUrl || `/src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
+              src={`/src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
@@ -124,7 +124,7 @@ export function ArtworkItem({
               onLoad={() => setImageLoaded(true)}
             />
 
-            {/* Labels */}
+            {/* Always visible labels */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
                 #{index + 1}
@@ -180,14 +180,15 @@ export function ArtworkItem({
 export default function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
+  // Update wide artwork height based on screen size
   useEffect(() => {
     const updateWideHeight = () => {
       const width = window.innerWidth;
-      if (width < 768) {
+      if (width < 768) { // Mobile: 2 columns
         setWideHeight(GRID_CONFIG.BASE_HEIGHT);
-      } else if (width < 1024) {
+      } else if (width < 1024) { // Tablet: 3 columns
         setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
-      } else {
+      } else { // Desktop: 4 columns
         setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
       }
     };
@@ -197,7 +198,9 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
+  // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
+    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
     const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
     return {
       ...artworks[index % artworks.length],
@@ -207,7 +210,9 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     };
   });
 
+  // Combine artworks with advertisements
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
+    // Add artwork
     acc.push(
       <ArtworkItem 
         key={artwork.id}
@@ -218,6 +223,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       />
     );
 
+    // Add advertisement after every 6 artworks
     if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
       acc.push(
         <div key={`ad-${index}`} className="break-inside-avoid mb-4">
