@@ -47,11 +47,11 @@ function ArtworkItem({
   return (
     <Link 
       to={`/works/${artwork.id}`}
-      className="group relative"
+      className="group relative block w-full"
     >
       <div 
         id={`artwork-${artwork.id}`}
-        className="w-full relative overflow-hidden rounded-xl"
+        className="relative overflow-hidden rounded-xl"
         style={{ 
           aspectRatio: artwork.aspectRatio,
         }}
@@ -118,7 +118,7 @@ function ArtworkItem({
       </div>
 
       {/* Title and options */}
-      <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+      <div className="flex justify-between items-center mt-2 group-hover:opacity-0 transition-opacity duration-300">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
         </div>
@@ -141,7 +141,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 pb-20",
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 pb-20",
         className
       )}
     >
