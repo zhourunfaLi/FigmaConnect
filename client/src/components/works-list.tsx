@@ -47,7 +47,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         key={artwork.id} 
         className={cn(
           "break-inside-avoid mb-6",
-          artwork.isWide && "col-span-2 !w-[calc(200%+1.5rem)] -ml-[0.75rem]"
+          artwork.isWide && "w-[466px] -ml-[6px]"
         )}
         style={{
           columnSpan: artwork.isWide ? "all" : "none",
@@ -58,7 +58,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         <div 
           className="w-full relative"
           style={{ 
-            aspectRatio: artwork.aspectRatio
+            aspectRatio: artwork.aspectRatio,
           }}
         >
           <img
