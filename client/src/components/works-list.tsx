@@ -28,8 +28,11 @@ function AdCard() {
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
+  // 使用2*3*n+1的布局规则重新组织作品
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    const isWide = index % 8 === 0 && index !== 0;
+    // 计算当前位置是否应该是宽幅作品
+    // 每7个作品（2*3+1）中的最后一个作为宽幅作品
+    const isWide = (index + 1) % 7 === 0;
     return {
       ...artworks[index % artworks.length],
       id: index + 1,
@@ -88,7 +91,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       </div>
     );
 
-    if ((index + 1) % 6 === 0) {
+    // 每6个作品后添加一个广告（调整为7个一组后，广告插入规则也相应调整）
+    if ((index + 1) % 7 === 6) {
       acc.push(
         <div key={`ad-${index}`} className="break-inside-avoid mb-6">
           <AdCard />
