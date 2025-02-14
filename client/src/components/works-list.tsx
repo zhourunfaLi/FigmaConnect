@@ -175,7 +175,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       const top = heights[columnIndex];
 
       // Calculate height including the gap and add extra vertical spacing
-      const itemHeight = Math.round((columnWidth / artwork.aspectRatio)) + 24; // 增加垂直间距为24px
+      const itemHeight = Math.round((columnWidth / artwork.aspectRatio)) + 44; // 增加垂直间距为44px
       heights[columnIndex] += itemHeight;
 
       positions[index] = { 
