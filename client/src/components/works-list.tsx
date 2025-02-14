@@ -124,21 +124,21 @@ function ArtworkItem({
               onLoad={() => setImageLoaded(true)}
             />
 
+            {/* Always visible labels */}
+            <div className="absolute top-2 left-2 flex gap-2">
+              <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+                #{index + 1}
+              </div>
+              {artwork.isPremium && (
+                <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
+                  SVIP
+                </div>
+              )}
+            </div>
+
             {/* Hover overlay with actions */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-              <div className="flex justify-between items-start">
-                {/* Labels */}
-                <div className="flex gap-2">
-                  <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                    #{index + 1}
-                  </div>
-                  {artwork.isPremium && (
-                    <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-                      SVIP
-                    </div>
-                  )}
-                </div>
-
+              <div className="flex justify-end items-start">
                 {/* Action buttons */}
                 <div className="flex gap-2">
                   <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
