@@ -45,7 +45,6 @@ function AdCard() {
   );
 }
 
-// Artwork component with lazy loading and loading state
 export function ArtworkItem({ 
   artwork, 
   isWide, 
@@ -86,16 +85,18 @@ export function ArtworkItem({
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
-        "group",
-        isWide ? "col-span-full" : ""
+        "break-inside-avoid mb-4 group",
+        isWide && "-ml-[4px]"
       )}
+      style={{
+        columnSpan: isWide ? "all" : "none",
+        breakBefore: isWide ? "column" : "auto",
+        position: 'relative'
+      }}
     >
       <div 
         id={`artwork-${artwork.id}`}
-        className={cn(
-          "relative overflow-hidden rounded-xl",
-          isWide ? "w-full" : ""
-        )}
+        className="w-full relative overflow-hidden rounded-xl"
         style={{ 
           height: isWide ? `${wideHeight}px` : undefined,
           aspectRatio: isWide ? undefined : artwork.aspectRatio,
@@ -221,10 +222,10 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       />
     );
 
-    // Add advertisement after every 6 artworks
+    // Add advertisement after every 6 artworks (before wide artwork)
     if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
       acc.push(
-        <div key={`ad-${index}`} className="col-span-full mb-4">
+        <div key={`ad-${index}`} className="break-inside-avoid mb-4">
           <AdCard />
         </div>
       );
@@ -236,7 +237,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-2 pb-20",
+        "columns-2 md:columns-3 lg:columns-4 gap-4 px-2 pb-20",
         className
       )}
     >
