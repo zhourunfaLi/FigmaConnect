@@ -24,10 +24,10 @@ type WorksListProps = {
   className?: string;
 };
 
-// Advertisement component for the artwork grid
+// Advertisement component
 function AdCard() {
   return (
-    <div className="w-full">
+    <div className="w-full break-inside-avoid mb-4">
       <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
@@ -59,7 +59,6 @@ export function ArtworkItem({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Setup intersection observer for lazy loading
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -68,9 +67,7 @@ export function ArtworkItem({
           observer.disconnect();
         }
       },
-      {
-        rootMargin: '50px'
-      }
+      { rootMargin: '50px' }
     );
 
     const element = document.getElementById(`artwork-${artwork.id}`);
@@ -114,7 +111,7 @@ export function ArtworkItem({
         {isVisible && (
           <>
             <img
-              src={`/src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
+              src={artwork.imageUrl || `/src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
@@ -137,7 +134,7 @@ export function ArtworkItem({
               )}
             </div>
 
-            {/* Hover overlay with actions */}
+            {/* Hover overlay */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
               <div className="flex justify-end items-start">
                 <div className="flex gap-2">
@@ -163,7 +160,7 @@ export function ArtworkItem({
         )}
       </div>
 
-      {/* Title and options (visible when not hovering) */}
+      {/* Title and options (always below the image) */}
       <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
@@ -179,7 +176,6 @@ export function ArtworkItem({
 export default function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
-  // Update wide artwork height based on screen size
   useEffect(() => {
     const updateWideHeight = () => {
       const width = window.innerWidth;
@@ -199,7 +195,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
+    // Every 7th item is wide
     const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
     return {
       ...artworks[index % artworks.length],
@@ -222,13 +218,9 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       />
     );
 
-    // Add advertisement after every 6 artworks (before wide artwork)
-    if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
-      acc.push(
-        <div key={`ad-${index}`} className="break-inside-avoid mb-4">
-          <AdCard />
-        </div>
-      );
+    // Add advertisement after every 6 artworks (not counting wide artworks)
+    if ((index + 1) % 6 === 0 && !artwork.isWide) {
+      acc.push(<AdCard key={`ad-${index}`} />);
     }
 
     return acc;
