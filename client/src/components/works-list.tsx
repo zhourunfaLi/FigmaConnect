@@ -13,11 +13,52 @@ type WorksListProps = {
   className?: string;
 };
 
+// Advertisement component for the artwork grid
+function AdCard() {
+  return (
+    <div className="w-full break-inside-avoid mb-9">
+      <div className="relative aspect-[3/4] w-full bg-white rounded-lg overflow-hidden border border-black/5">
+        {/* Ad Image */}
+        <img 
+          src="https://placehold.co/400x600/EEEAE2/111111?text=广告" 
+          alt="广告内容"
+          className="w-full h-full object-cover"
+        />
+
+        {/* Ad Label */}
+        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+          广告
+        </div>
+
+        {/* Hover Effect - Similar to artwork cards */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+          <div className="space-y-2 mt-auto">
+            <h3 className="text-white font-medium line-clamp-2">
+              推广内容标题
+            </h3>
+            <p className="text-white/80 text-sm line-clamp-2">
+              了解更多详情
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Title Bar - Similar to artwork cards */}
+      <div className="flex justify-between items-center mt-[2px]">
+        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+          推广内容
+        </div>
+        <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+          <MoreHorizontal className="w-4 h-4 text-[#111111]" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function calculateHorizontalIndex(index: number, totalColumns: number): number {
-  // 计算行和列位置
   const row = Math.floor(index / totalColumns);
   const col = index % totalColumns;
-  // 返回水平方向的编号（从1开始）
   return row * totalColumns + col + 1;
 }
 
@@ -33,13 +74,12 @@ function ArtworkItem({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  // 根据屏幕宽度确定列数
   const getColumnCount = () => {
-    if (typeof window === 'undefined') return 2; // 默认移动端2列
+    if (typeof window === 'undefined') return 2;
     const width = window.innerWidth;
-    if (width >= 1024) return 4; // 桌面端4列
-    if (width >= 768) return 3; // 平板3列
-    return 2; // 移动端2列
+    if (width >= 1024) return 4;
+    if (width >= 768) return 3;
+    return 2;
   };
 
   const [columnCount, setColumnCount] = useState(getColumnCount());
@@ -53,7 +93,6 @@ function ArtworkItem({
     return () => window.removeEventListener('resize', updateColumnCount);
   }, []);
 
-  // 使用 IntersectionObserver 进行懒加载
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -73,22 +112,21 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
-  // 计算水平方向的编号
   const horizontalIndex = calculateHorizontalIndex(index, columnCount);
 
   return (
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
-        "group block w-full break-inside-avoid mb-9", 
-        isWide && "column-span-all" 
+        "group block w-full break-inside-avoid mb-9",
+        isWide && "column-span-all"
       )}
     >
       <div 
         id={`artwork-${artwork.id}`}
         className="relative overflow-hidden rounded-lg"
         style={{ 
-          aspectRatio: isWide ? 2.4 : artwork.aspectRatio 
+          aspectRatio: isWide ? 2.4 : artwork.aspectRatio
         }}
       >
         {(!isVisible || !imageLoaded) && (
@@ -114,7 +152,7 @@ function ArtworkItem({
               onLoad={() => setImageLoaded(true)}
             />
 
-            {/* Labels - 使用水平方向的编号 */}
+            {/* Labels */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
                 #{horizontalIndex}
@@ -166,14 +204,28 @@ function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  // Transform artwork data for display
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    const isWide = (index + 1) % 7 === 0; 
+  // Transform artwork data for display and insert ads
+  const contentItems = Array.from({ length: 30 }, (_, index) => {
+    // Insert an ad after every 6 artworks
+    if ((index + 1) % 6 === 0) {
+      return {
+        type: 'ad',
+        id: `ad-${Math.floor(index / 6)}`
+      };
+    }
+
+    // Calculate the actual artwork index (excluding ad positions)
+    const artworkIndex = index - Math.floor(index / 6);
+    const isWide = ((artworkIndex + 1) % 7 === 0);
+
     return {
-      ...artworks[index % artworks.length],
-      id: index + 1,
-      aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-      isWide
+      type: 'artwork',
+      data: {
+        ...artworks[artworkIndex % artworks.length],
+        id: artworkIndex + 1,
+        aspectRatio: ARTWORK_ASPECT_RATIOS[artworkIndex % ARTWORK_ASPECT_RATIOS.length],
+        isWide
+      }
     };
   });
 
@@ -181,17 +233,21 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     <div className="w-full max-w-[1440px] mx-auto">
       <div 
         className={cn(
-          "columns-2 md:columns-3 lg:columns-4 gap-[10px] px-2", 
+          "columns-2 md:columns-3 lg:columns-4 gap-[10px] px-2",
           className
         )}
       >
-        {displayArtworks.map((artwork, index) => (
-          <ArtworkItem 
-            key={artwork.id}
-            artwork={artwork}
-            index={index}
-            isWide={artwork.isWide}
-          />
+        {contentItems.map((item, index) => (
+          item.type === 'ad' ? (
+            <AdCard key={item.id} />
+          ) : (
+            <ArtworkItem 
+              key={item.data.id}
+              artwork={item.data}
+              index={index - Math.floor(index / 6)} // Adjust index for horizontal numbering
+              isWide={item.data.isWide}
+            />
+          )
         ))}
       </div>
     </div>
