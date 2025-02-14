@@ -161,8 +161,8 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const containerWidth = containerRef.current.offsetWidth;
-    const gap = 24; // 1.5rem = 24px
+    const gap = 16; // 1rem gap
+    const containerWidth = containerRef.current.offsetWidth - (gap * 2); // Account for container padding
     const columnWidth = (containerWidth - (gap * (columnCount - 1))) / columnCount;
 
     const heights = new Array(columnCount).fill(0);
@@ -184,29 +184,31 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, [columnCount, displayArtworks.length, containerRef.current?.offsetWidth]);
 
   return (
-    <div 
-      ref={containerRef}
-      className={cn(
-        "relative px-4 pb-20",
-        className
-      )}
-      style={{
-        height: Math.max(...columnHeights) + 'px'
-      }}
-    >
-      {displayArtworks.map((artwork, index) => (
-        <ArtworkItem 
-          key={artwork.id}
-          artwork={artwork}
-          index={index}
-          style={{
-            position: 'absolute',
-            width: `calc((100% - ${(columnCount - 1) * 24}px) / ${columnCount})`,
-            transform: `translate3d(${artworkPositions[index]?.left}px, ${artworkPositions[index]?.top}px, 0)`,
-            transition: 'transform 0.2s ease-out'
-          }}
-        />
-      ))}
+    <div className="max-w-[1440px] mx-auto">
+      <div 
+        ref={containerRef}
+        className={cn(
+          "relative mx-auto px-4 pb-20",
+          className
+        )}
+        style={{
+          height: Math.max(...columnHeights) + 'px'
+        }}
+      >
+        {displayArtworks.map((artwork, index) => (
+          <ArtworkItem 
+            key={artwork.id}
+            artwork={artwork}
+            index={index}
+            style={{
+              position: 'absolute',
+              width: `calc((100% - ${(columnCount - 1) * 16}px) / ${columnCount})`,
+              transform: `translate3d(${artworkPositions[index]?.left}px, ${artworkPositions[index]?.top}px, 0)`,
+              transition: 'transform 0.2s ease-out'
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
