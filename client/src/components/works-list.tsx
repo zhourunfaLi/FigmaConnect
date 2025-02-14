@@ -195,17 +195,27 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  // Transform artwork data for display
+  // Transform artwork data for display with horizontal-first ordering
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // Every 7th item is wide
-    const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
+    // Calculate position in the grid (first horizontally, then vertically)
+    const columnsCount = window.innerWidth < 768 ? 2 : window.innerWidth < 1024 ? 3 : 4;
+    const row = Math.floor(index / columnsCount);
+    const col = index % columnsCount;
+    const newIndex = col * Math.ceil(30 / columnsCount) + row;
+
+    // Every 7th item in the first column is wide
+    const isWide = col === 0 && (row + 1) % 7 === 0;
+
     return {
       ...artworks[index % artworks.length],
-      id: index + 1,
+      id: newIndex + 1,
       aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
       isWide
     };
   });
+
+  // Sort artworks to ensure correct ordering
+  displayArtworks.sort((a, b) => a.id - b.id);
 
   // Combine artworks with advertisements
   const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
