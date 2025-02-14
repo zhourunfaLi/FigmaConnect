@@ -41,13 +41,13 @@ export default function HomePage() {
 
       {/* Category Navigation */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10">
-        <ScrollArea className="w-full">
-          <div className="flex justify-center items-center gap-4 px-4 py-3">
+        <ScrollArea className="w-full max-w-screen">
+          <div className="flex justify-center items-center gap-2 px-2 py-1">
             {CATEGORIES.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`text-sm sm:text-base font-normal transition-colors px-2 whitespace-nowrap ${
+                className={`text-sm sm:text-base font-normal transition-colors px-1.5 whitespace-nowrap ${
                   activeCategory === category.id ? "font-medium" : ""
                 }`}
                 style={{ 
