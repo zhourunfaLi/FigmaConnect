@@ -86,20 +86,15 @@ export function ArtworkItem({
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
-        "break-inside-avoid mb-4 group",
+        "group",
         isWide ? "col-span-full" : ""
       )}
-      style={{
-        columnSpan: isWide ? "all" : "none",
-        breakBefore: isWide ? "column" : "auto",
-        position: 'relative'
-      }}
     >
       <div 
         id={`artwork-${artwork.id}`}
         className={cn(
-          "w-full relative overflow-hidden rounded-xl",
-          isWide && "w-full"
+          "relative overflow-hidden rounded-xl",
+          isWide ? "w-full" : ""
         )}
         style={{ 
           height: isWide ? `${wideHeight}px` : undefined,
@@ -229,7 +224,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     // Add advertisement after every 6 artworks
     if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
       acc.push(
-        <div key={`ad-${index}`} className="break-inside-avoid mb-4">
+        <div key={`ad-${index}`} className="col-span-full mb-4">
           <AdCard />
         </div>
       );
@@ -241,7 +236,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px] pb-20",
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-2 pb-20",
         className
       )}
     >
