@@ -1,9 +1,9 @@
+
 import { FC } from 'react';
 import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 
-// 静态作品数据
 const STATIC_ARTWORK = {
   id: 1,
   title: "蒙娜丽莎",
@@ -82,9 +82,8 @@ const WorkDetails: FC = () => {
               >
                 <Icons.play className="h-6 w-6" />
               </Button>
-
               {/* Video Controls */}
-              <div className="absolute bottom-0 w-full h-[36px] flex items-center px-4">
+              <div className="absolute bottom-0 w-full h-[36px] flex items-center px-4 bg-black/50">
                 <Icons.play className="h-4 w-4 text-white" />
                 <Icons.skipForward className="ml-4 h-4 w-4 text-white" />
                 <Icons.volume2 className="ml-4 h-4 w-4 text-white" />
@@ -109,6 +108,34 @@ const WorkDetails: FC = () => {
               <p className="mt-4 text-[15px] leading-6">
                 {artwork.description}
               </p>
+            </div>
+          </section>
+
+          {/* FAQ Section */}
+          <section>
+            <div className="border-t border-[#B0B0B0] pt-6">
+              <h3 className="text-[#747472] text-base mb-4">趣味问答</h3>
+              {artwork.faqs.map((faq, index) => (
+                <div key={index} className="mb-4">
+                  <h4 className="text-[15px] font-medium mb-2">{faq.question}</h4>
+                  <p className="text-[15px] leading-6 text-[#747472]">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Comments Section */}
+          <section>
+            <div className="border-t border-[#B0B0B0] pt-6">
+              <h3 className="text-[#747472] text-base mb-4">评论区</h3>
+              <div className="flex gap-4 items-start">
+                <textarea 
+                  className="flex-1 p-2 rounded-lg border border-[#B0B0B0] bg-white"
+                  placeholder="写下你的评论..."
+                  rows={3}
+                />
+                <Button variant="outline">发布</Button>
+              </div>
             </div>
           </section>
         </div>
