@@ -1,7 +1,9 @@
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useParams } from "wouter";
 import Icons from "@/components/icons";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import VideoPlayer from "@/components/video-player";
 
 const STATIC_ARTWORK = {
   id: 1,
