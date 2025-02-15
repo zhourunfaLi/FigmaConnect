@@ -51,13 +51,13 @@ const WorkDetails: FC = () => {
               SVIP
             </div>
 
-            {/* Fullscreen Button */}
-            <button className="absolute right-[25px] top-[45px] text-white">
-              <Icons.maximize className="w-6 h-6" />
-            </button>
-
             {/* Zoom Slider */}
             <div className="absolute left-1/2 -translate-x-1/2 bottom-[12px] w-[324px]">
+              
+            {/* Fullscreen Button */}
+            <button className="absolute -top-[33px] right-0 text-white">
+              <Icons.maximize className="w-6 h-6" />
+            </button>
               <div className="relative">
                 <input 
                   type="range"
