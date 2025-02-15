@@ -49,6 +49,7 @@ const WorkDetails: FC = () => {
   const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
+  const [expandedComments, setExpandedComments] = useState<{[key: number]: boolean}>({});
 
   const handleAnswer = (questionId: number, answer: string) => {
     setUserAnswers(prev => ({...prev, [questionId]: answer}));
@@ -326,8 +327,19 @@ const WorkDetails: FC = () => {
 
                       {/* Replies */}
                       {comment.replies.length > 0 && (
-                        <div className="mt-4 space-y-4 pl-4 border-l-2 border-gray-100">
-                          {comment.replies.map(reply => (
+                        <>
+                          <button 
+                            onClick={() => setExpandedComments(prev => ({
+                              ...prev, 
+                              [comment.id]: !prev[comment.id]
+                            }))}
+                            className="mt-2 text-sm text-blue-500 hover:text-blue-600"
+                          >
+                            {expandedComments[comment.id] ? '收起评论' : `显示更多评论 (${comment.replies.length})`}
+                          </button>
+                          {expandedComments[comment.id] && (
+                            <div className="mt-4 space-y-4 pl-4 border-l-2 border-gray-100">
+                              {comment.replies.map(reply => (
                             <div key={reply.id} className="flex gap-3">
                               <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                                 <img 
@@ -350,7 +362,9 @@ const WorkDetails: FC = () => {
                               </div>
                             </div>
                           ))}
-                        </div>
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>
