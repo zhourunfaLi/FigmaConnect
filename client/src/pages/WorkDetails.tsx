@@ -13,24 +13,28 @@ const STATIC_ARTWORK = {
   videoThumbnail: "/src/assets/design/works-02.png",
   faqs: [
     {
+      id: 1,
       question: "蒙娜丽莎的眼睛会跟随观众移动？",
       type: "yes_no",
       answer: "YES",
       explanation: "这是一种视觉错觉,画中人物的眼睛似乎会跟随观众移动。"
     },
     {
+      id: 2,
       question: "蒙娜丽莎原画上有眉毛？",
       type: "yes_no", 
       answer: "NO",
       explanation: "X光扫描显示原画上确实没有眉毛。"
     },
     {
+      id: 3,
       question: "达芬奇曾将画作卖给法国国王？",
       type: "yes_no",
       answer: "YES",
       explanation: "达芬奇在1516年将画作卖给了法国国王弗朗索瓦一世。"
     },
     {
+      id: 4,
       question: "蒙娜丽莎的背景是虚构的？",
       type: "yes_no",
       answer: "NO",
@@ -42,6 +46,27 @@ const STATIC_ARTWORK = {
 const WorkDetails: FC = () => {
   const params = useParams<{ id: string }>();
   const artwork = STATIC_ARTWORK;
+  const [userAnswers, setUserAnswers] = React.useState<{[key: number]: string}>({});
+  const [submitted, setSubmitted] = React.useState(false);
+  const [score, setScore] = React.useState(0);
+
+  const handleAnswer = (questionId: number, answer: string) => {
+    setUserAnswers(prev => ({...prev, [questionId]: answer}));
+  };
+
+  const handleSubmit = () => {
+    const totalQuestions = artwork.faqs.length;
+    let correctAnswers = 0;
+    
+    artwork.faqs.forEach(faq => {
+      if (userAnswers[faq.id] === faq.answer) {
+        correctAnswers++;
+      }
+    });
+
+    setScore(correctAnswers * 10);
+    setSubmitted(true);
+  };
 
   return (
     <div className="min-h-screen bg-[#EEEAE2] py-[102px]">
@@ -133,32 +158,53 @@ const WorkDetails: FC = () => {
         <section>
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base mb-4">趣味问答</h3>
-            {artwork.faqs.map((faq, index) => (
-              <div key={index} className="mb-6 bg-white rounded-xl p-4 shadow-sm">
+            {artwork.faqs.map((faq) => (
+              <div key={faq.id} className="mb-6 bg-white rounded-xl p-4 shadow-sm">
                 <h4 className="text-[15px] font-medium mb-3">{faq.question}</h4>
                 <div className="flex gap-3">
                   <button 
+                    onClick={() => handleAnswer(faq.id, 'YES')}
                     className={`px-6 py-2 rounded-full transition-all ${
-                      faq.answer === 'YES' 
-                        ? 'bg-green-500 text-white' 
-                        : 'bg-white border border-gray-200 hover:bg-green-50'
+                      userAnswers[faq.id] === 'YES'
+                        ? 'bg-blue-500 text-white' 
+                        : 'bg-white border border-gray-200 hover:bg-blue-50'
                     }`}
                   >
                     YES
                   </button>
                   <button 
+                    onClick={() => handleAnswer(faq.id, 'NO')}
                     className={`px-6 py-2 rounded-full transition-all ${
-                      faq.answer === 'NO'
-                        ? 'bg-red-500 text-white'
-                        : 'bg-white border border-gray-200 hover:bg-red-50'
+                      userAnswers[faq.id] === 'NO'
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-white border border-gray-200 hover:bg-blue-50'
                     }`}
                   >
                     NO
                   </button>
                 </div>
-                <p className="mt-3 text-[14px] leading-6 text-[#747472]">{faq.explanation}</p>
+                {submitted && (
+                  <div className={`mt-3 text-[14px] leading-6 ${userAnswers[faq.id] === faq.answer ? 'text-green-600' : 'text-red-600'}`}>
+                    {userAnswers[faq.id] === faq.answer ? '✓ 回答正确' : '✗ 回答错误'}
+                    <p className="text-[#747472] mt-1">{faq.explanation}</p>
+                  </div>
+                )}
               </div>
             ))}
+            <div className="flex flex-col items-center gap-4 mt-8">
+              <button
+                onClick={handleSubmit}
+                disabled={submitted || Object.keys(userAnswers).length !== artwork.faqs.length}
+                className="px-8 py-3 bg-blue-500 text-white rounded-full transition-all hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                提交答案
+              </button>
+              {submitted && (
+                <div className="text-lg font-medium">
+                  你的得分: <span className="text-blue-500">{score}</span> 分
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
