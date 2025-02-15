@@ -11,7 +11,7 @@ import {
   AtSign as AtSignIcon,
   Smile as SmileIcon
 } from "lucide-react";
-import Icons from "@/components/icons"; // Added import statement
+import Icons from "@/components/icons"; 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
