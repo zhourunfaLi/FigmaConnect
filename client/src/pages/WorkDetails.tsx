@@ -219,7 +219,7 @@ const WorkDetails: FC = () => {
             <div className="flex gap-4 items-start mb-6">
               <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                 <img 
-                  src="https://api.dicebear.com/7.x/avatars/svg?seed=current-user" 
+                  src="/src/assets/design/avatar/001.png"
                   alt="User avatar"
                   className="w-full h-full object-cover"
                 />
@@ -230,7 +230,20 @@ const WorkDetails: FC = () => {
                   placeholder="写下你的评论..."
                   rows={3}
                 />
-                <Button>发布评论</Button>
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="icon" className="h-8 w-8">
+                      <Icons.image className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="icon" className="h-8 w-8">
+                      <Icons.atSign className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="icon" className="h-8 w-8">
+                      <Icons.smile className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <Button>发布评论</Button>
+                </div>
               </div>
             </div>
 
