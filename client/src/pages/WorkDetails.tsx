@@ -118,7 +118,7 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* Work Info Section */}
-        <section className="mt-8">
+        <section className="mt-8 px-[8px]">
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base">{artwork.title}</h3>
             <p className="mt-4 text-[15px] leading-6">
