@@ -38,6 +38,7 @@ const WorkDetails: FC = () => {
   const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
+  const [comment, setComment] = useState('');
 
   const handleAnswerChange = (questionId: number, answer: string) => {
     setUserAnswers(prev => ({
@@ -112,9 +113,9 @@ const WorkDetails: FC = () => {
         )}
 
         {/* Art Quiz Section */}
-        <section className="mb-16">
-          <div className="bg-white rounded-xl p-8 shadow-lg border border-[#E8E6E1]">
-            <h2 className="text-2xl font-serif mb-6 text-center">艺术趣味问答</h2>
+        <section className="mb-8">
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">趣味问答</h2>
             <div className="space-y-8">
               {artwork.faqs.map((faq) => (
                 <div key={faq.id} className="bg-[#FAF9F6] p-6 rounded-lg">
@@ -160,9 +161,9 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* Comments Section */}
-        <section className="mb-20">
-          <div className="bg-white rounded-xl p-8 shadow-lg border border-[#E8E6E1]">
-            <h3 className="text-2xl font-serif mb-8 text-center">艺术评论</h3>
+        <section className="mb-8">
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="text-xl font-semibold mb-4">评论区</h3>
 
             {/* Comments List */}
             <div className="space-y-8">
