@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { useParams } from "wouter";
 import { Button } from "@/components/ui/button";
 import Icons from "@/components/icons";
+import { Calendar, Ruler, PaintBucket } from "lucide-react";
 
 const STATIC_ARTWORK = {
   id: 1,
