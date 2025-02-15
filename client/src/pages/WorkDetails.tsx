@@ -34,7 +34,7 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#EEEAE2]">
-      <div className="mx-auto max-w-[390px] px-[8px]">
+      <div className="mx-auto max-w-[374px]">
         {/* Works Show Section */}
         <section className="mt-[102px] relative">
           <div className="relative w-[374px] h-[537px]">
@@ -131,9 +131,21 @@ const WorkDetails: FC = () => {
         <section className="mt-8 border-t border-[#D9D9D9]">
           <h3 className="mt-4 text-[#747472] text-[15px]">趣闻问答</h3>
           {artwork.faqs.map((faq, index) => (
-            <div key={index} className="mt-4">
-              <h4 className="font-medium">{faq.question}</h4>
-              <p className="mt-2 text-sm text-gray-600">{faq.answer}</p>
+            <div key={index} className="mt-6">
+              <h4 className="font-medium mb-3">{faq.question}</h4>
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                  <input type="radio" name={`faq-${index}`} className="w-4 h-4 text-blue-600" />
+                  <span>是</span>
+                </label>
+                <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                  <input type="radio" name={`faq-${index}`} className="w-4 h-4 text-blue-600" />
+                  <span>否</span>
+                </label>
+              </div>
+              <div className="mt-3 text-sm text-gray-600 p-3 bg-gray-50 rounded-lg">
+                {faq.answer}
+              </div>
             </div>
           ))}
         </section>
