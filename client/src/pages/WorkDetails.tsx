@@ -1,33 +1,28 @@
+
 import { FC } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 
-interface ArtworkDetails {
-  id: number;
-  title: string;
-  imageUrl: string;
-  description: string;
-}
+// 静态作品数据
+const STATIC_ARTWORK = {
+  id: 1,
+  title: "蒙娜丽莎",
+  imageUrl: "/src/assets/design/works-01.png",
+  description: "《蒙娜丽莎》（Mona Lisa）是意大利文艺复兴时期画家列奥纳多·达·芬奇创作的油画，现收藏于法国卢浮宫博物馆。该画作主要表现了女性的典雅和恬静的典型形象，塑造了资本主义上升时期一位城市有产阶级的妇女形象。",
+  videoTitle: "《蒙娜丽莎的20个秘密》",
+  videoThumbnail: "/src/assets/design/works-02.png",
+  faqs: [
+    {
+      question: "蒙娜丽莎微笑之谜是什么？",
+      answer: "蒙娜丽莎的微笑一直是艺术史上最大的谜团之一。有人认为这是达芬奇运用特殊的绘画技法所创造的视觉效果，当观众从不同角度观看时，会产生不同的表情感受。"
+    }
+  ]
+};
 
 const WorkDetails: FC = () => {
   const params = useParams<{ id: string }>();
-  const id = params?.id;
-
-  // 获取作品详情数据
-  const { data: artwork, isLoading } = useQuery<ArtworkDetails>({
-    queryKey: ['/api/artworks', id],
-    enabled: !!id
-  });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!artwork) {
-    return <div>Artwork not found</div>;
-  }
+  const artwork = STATIC_ARTWORK;
 
   return (
     <div className="w-full min-h-screen bg-[#EEEAE2]">
@@ -37,8 +32,8 @@ const WorkDetails: FC = () => {
           <div className="relative w-[374px] h-[537px]">
             {/* Main Image */}
             <img 
-              src={artwork?.imageUrl || "https://placehold.co/374x477"} 
-              alt={artwork?.title}
+              src={artwork.imageUrl}
+              alt={artwork.title}
               className="w-[374px] h-[477px] rounded-xl object-cover"
             />
 
@@ -74,7 +69,7 @@ const WorkDetails: FC = () => {
 
             {/* Title */}
             <h1 className="mt-3 text-[15px] leading-6">
-              {artwork?.title || "达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团"}
+              达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
             </h1>
           </div>
         </section>
@@ -83,7 +78,7 @@ const WorkDetails: FC = () => {
         <section className="mt-7">
           <div className="relative w-[374px] h-[211px] bg-[#171A1F] rounded-xl overflow-hidden">
             <img
-              src="https://placehold.co/374x211"
+              src={artwork.videoThumbnail}
               alt="Video thumbnail"
               className="w-full h-full object-cover rounded-xl opacity-70"
             />
@@ -111,15 +106,15 @@ const WorkDetails: FC = () => {
               <Icons.maximize className="ml-4 h-4 w-4 text-white" />
             </div>
           </div>
-          <h2 className="mt-3 text-[15px] leading-6">《蒙娜丽莎的20个秘密》</h2>
+          <h2 className="mt-3 text-[15px] leading-6">{artwork.videoTitle}</h2>
         </section>
 
         {/* Work Info Section */}
         <section className="mt-8">
           <div className="border-t border-[#B0B0B0] pt-6">
-            <h3 className="text-[#747472] text-base">《蒙娜丽莎》</h3>
+            <h3 className="text-[#747472] text-base">{artwork.title}</h3>
             <p className="mt-4 text-[15px] leading-6">
-              《蒙娜丽莎》（Mona Lisa）是意大利文艺复兴时期画家列奥纳多·达·芬奇创作的油画，现收藏于法国卢浮宫博物馆。该画作主要表现了女性的典雅和恬静的典型形象，塑造了资本主义上升时期一位城市有产阶级的妇女形象。...
+              {artwork.description}
             </p>
           </div>
         </section>
@@ -127,13 +122,17 @@ const WorkDetails: FC = () => {
         {/* FAQ Section */}
         <section className="mt-8 border-t border-[#D9D9D9]">
           <h3 className="mt-4 text-[#747472] text-[15px]">趣闻问答</h3>
-          {/* FAQ items will be rendered here */}
+          {artwork.faqs.map((faq, index) => (
+            <div key={index} className="mt-4">
+              <h4 className="font-medium">{faq.question}</h4>
+              <p className="mt-2 text-sm text-gray-600">{faq.answer}</p>
+            </div>
+          ))}
         </section>
 
         {/* Comments Section */}
-        <section className="mt-8 border-t border-[#B0B0B0] pt-4">
+        <section className="mt-8 border-t border-[#B0B0B0] pt-4 pb-20">
           <h3 className="text-center text-[15px]">516条评论</h3>
-          {/* Comments will be rendered here */}
         </section>
       </div>
     </div>
