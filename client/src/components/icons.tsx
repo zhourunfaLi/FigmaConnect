@@ -1,4 +1,3 @@
-
 import {
   Play,
   SkipForward,
@@ -7,6 +6,9 @@ import {
   Maximize,
   ThumbsUp,
   MessageCircle,
+  Image,
+  AtSign,
+  Smile,
   type Icon as LucideIcon,
 } from "lucide-react";
 
@@ -20,6 +22,9 @@ export const Icons = {
   maximize: Maximize,
   thumbsUp: ThumbsUp,
   messageCircle: MessageCircle,
+  image: Image,
+  atSign: AtSign,
+  smile: Smile,
 };
 
 export default Icons;
