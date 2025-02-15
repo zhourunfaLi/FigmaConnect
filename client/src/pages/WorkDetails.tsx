@@ -8,7 +8,11 @@ const STATIC_ARTWORK = {
   title: "蒙娜丽莎",
   artist: "达芬奇",
   imageUrl: "/src/assets/design/works-01.png",
-  description: "这是一幅著名的艺术作品",
+  videoUrl: "https://example.com/video.mp4",
+  description: "这是一幅著名的艺术作品，展现了独特的艺术风格和深刻的含义。",
+  createTime: "2024-02-14",
+  dimensions: "77 cm × 53 cm",
+  medium: "油画",
   faqs: [
     {
       id: 1,
@@ -55,7 +59,7 @@ const WorkDetails: FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
       <div className="max-w-3xl mx-auto px-4 py-8">
-        {/* Image and Title Section */}
+        {/* 作品展示区 */}
         <section className="mb-12">
           <img
             src={artwork.imageUrl}
@@ -66,9 +70,48 @@ const WorkDetails: FC = () => {
             <h1 className="text-3xl font-serif mb-2">{artwork.title}</h1>
             <p className="text-gray-600 italic">by {artwork.artist}</p>
           </div>
+
+          {/* 作品信息区 */}
+          <div className="mt-8 bg-white rounded-xl p-6 shadow-lg border border-[#E8E6E1]">
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Icons.calendar className="w-5 h-5 text-[#8B4513]" />
+                  <span className="text-gray-600">创作时间：{artwork.createTime}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Icons.ruler className="w-5 h-5 text-[#8B4513]" />
+                  <span className="text-gray-600">尺寸：{artwork.dimensions}</span>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Icons.paintBucket className="w-5 h-5 text-[#8B4513]" />
+                  <span className="text-gray-600">媒介：{artwork.medium}</span>
+                </div>
+              </div>
+            </div>
+            <p className="mt-6 text-gray-700 leading-relaxed">{artwork.description}</p>
+          </div>
         </section>
 
-        {/* Art Quiz Section */}
+        {/* 视频展示区 */}
+        {artwork.videoUrl && (
+          <section className="mb-12">
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-[#E8E6E1]">
+              <h2 className="text-2xl font-serif mb-6">创作视频</h2>
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <video
+                  src={artwork.videoUrl}
+                  controls
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* 趣味问答区 */}
         <section className="mb-8">
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">趣味问答</h2>
@@ -116,7 +159,7 @@ const WorkDetails: FC = () => {
           </div>
         </section>
 
-        {/* Comments Section */}
+        {/* 评论区 */}
         <section className="mb-8">
           <div className="bg-white p-6 rounded-lg shadow">
             <h3 className="text-xl font-semibold mb-4">评论区</h3>
@@ -184,7 +227,7 @@ const WorkDetails: FC = () => {
           </div>
         </section>
 
-        {/* Download Button */}
+        {/* 下载按钮 */}
         <section className="mt-12 mb-20 flex justify-center">
           <Button 
             size="lg"
