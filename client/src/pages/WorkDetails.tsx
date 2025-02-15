@@ -34,9 +34,10 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#EEEAE2]">
-      <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-[8px] flex flex-col">
-        {/* Works Show Section */}
-        <section className="mt-[102px] relative">
+      <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-[8px]">
+        <div className="grid grid-cols-1 gap-8 mt-[102px]">
+          {/* Works Show Section */}
+          <section className="relative">
           <div className="relative w-full h-auto aspect-[0.7] mx-auto">
             <div className="relative w-full h-[477px] rounded-xl overflow-hidden">
               {/* Main Image */}
@@ -84,8 +85,8 @@ const WorkDetails: FC = () => {
           </div>
         </section>
 
-        {/* Video Section */}
-        <section className="mt-8">
+          {/* Video Section */}
+          <section>
           <div className="relative w-full aspect-[16/9] bg-[#171A1F] rounded-xl overflow-hidden">
             <img
               src={artwork.videoThumbnail}
@@ -119,8 +120,8 @@ const WorkDetails: FC = () => {
           <h2 className="mt-3 text-[15px] leading-6">{artwork.videoTitle}</h2>
         </section>
 
-        {/* Work Info Section */}
-        <section className="mt-[16px]">
+          {/* Work Info Section */}
+          <section>
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base">{artwork.title}</h3>
             <p className="mt-4 text-[15px] leading-6">
