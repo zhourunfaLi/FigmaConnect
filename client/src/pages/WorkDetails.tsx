@@ -34,10 +34,10 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#EEEAE2]">
-      <div className="mx-auto max-w-[374px] md:max-w-[768px] lg:max-w-[1024px] px-[8px]">
+      <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-[8px]">
         {/* Works Show Section */}
         <section className="mt-[102px] relative">
-          <div className="relative w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] h-auto aspect-[0.7] mx-auto">
+          <div className="relative w-full h-auto aspect-[0.7] mx-auto">
             <div className="relative w-full h-[477px] rounded-xl overflow-hidden">
               {/* Main Image */}
               <img 
@@ -86,7 +86,7 @@ const WorkDetails: FC = () => {
 
         {/* Video Section */}
         <section className="mt-[32px]">
-          <div className="relative w-full max-w-[374px] mx-auto h-[211px] bg-[#171A1F] rounded-xl overflow-hidden">
+          <div className="relative w-full h-[211px] bg-[#171A1F] rounded-xl overflow-hidden">
             <img
               src={artwork.videoThumbnail}
               alt="Video thumbnail"
