@@ -5,11 +5,11 @@ import {
   Ruler, 
   PaintBucket,
   Download,
-  ThumbsUp,
-  MessageCircle,
-  Image,
-  AtSign,
-  Smile
+  ThumbsUp as ThumbsUpIcon,
+  MessageCircle as MessageCircleIcon,
+  Image as ImageIcon,
+  AtSign as AtSignIcon,
+  Smile as SmileIcon
 } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
@@ -103,7 +103,7 @@ const WorkDetails: FC = () => {
               </div>
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <Icons.paintBucket className="w-5 h-5 text-[#8B4513]" />
+                  <PaintBucket className="w-5 h-5 text-[#8B4513]" />
                   <span className="text-gray-600">媒介：{artwork.medium}</span>
                 </div>
               </div>
@@ -207,11 +207,11 @@ const WorkDetails: FC = () => {
                   </p>
                   <div className="flex items-center gap-6">
                     <button className="flex items-center gap-2 text-gray-600 hover:text-[#8B4513] transition-colors">
-                      <Icons.thumbsUp className="w-5 h-5" />
+                      <ThumbsUpIcon className="w-5 h-5" />
                       <span>{comment.likes}</span>
                     </button>
                     <button className="flex items-center gap-2 text-gray-600 hover:text-[#8B4513] transition-colors">
-                      <Icons.messageCircle className="w-5 h-5" />
+                      <MessageCircleIcon className="w-5 h-5" />
                       <span>回复</span>
                     </button>
                   </div>
@@ -229,13 +229,13 @@ const WorkDetails: FC = () => {
               <div className="flex justify-between items-center">
                 <div className="flex gap-4">
                   <button className="text-gray-600 hover:text-[#8B4513] transition-colors">
-                    <Icons.image className="w-5 h-5" />
+                    <ImageIcon className="w-5 h-5" />
                   </button>
                   <button className="text-gray-600 hover:text-[#8B4513] transition-colors">
-                    <Icons.atSign className="w-5 h-5" />
+                    <AtSignIcon className="w-5 h-5" />
                   </button>
                   <button className="text-gray-600 hover:text-[#8B4513] transition-colors">
-                    <Icons.smile className="w-5 h-5" />
+                    <SmileIcon className="w-5 h-5" />
                   </button>
                 </div>
                 <button className="px-6 py-2 bg-[#8B4513] text-white rounded-full font-serif hover:bg-[#6F2F0A] transition-colors">
@@ -252,7 +252,7 @@ const WorkDetails: FC = () => {
             className="bg-[#8B4513] hover:bg-[#6F2F0A] text-white rounded-full px-12 py-6 shadow-lg flex items-center gap-2 text-base font-serif transition-colors"
             onClick={() => window.open(artwork.imageUrl, '_blank')}
           >
-            <Icons.download className="w-6 h-6" />
+            <Download className="w-6 h-6" />
             下载原图
           </button>
         </section>
