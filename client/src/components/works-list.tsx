@@ -57,9 +57,8 @@ function AdCard() {
 }
 
 function calculateHorizontalIndex(index: number, totalColumns: number): number {
-  const row = Math.floor(index / totalColumns);
-  const col = index % totalColumns;
-  return row * totalColumns + col + 1;
+  // 直接返回 index + 1 实现水平方向优先的编号
+  return index + 1;
 }
 
 function ArtworkItem({ 
