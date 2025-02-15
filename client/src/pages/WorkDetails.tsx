@@ -51,12 +51,12 @@ const WorkDetails: FC = () => {
             </div>
 
             {/* Fullscreen Button */}
-            <button className="absolute right-[50px] bottom-[93px] text-white">
+            <button className="absolute right-[14px] top-[12px] text-white">
               <Icons.maximize className="w-6 h-6" />
             </button>
 
             {/* Zoom Slider */}
-            <div className="absolute left-[21px] bottom-[79px] w-[324px]">
+            <div className="absolute left-[14px] bottom-[12px] w-[324px]">
               <div className="relative">
                 <input 
                   type="range"
@@ -83,7 +83,7 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* Video Section */}
-        <section className="mt-7">
+        <section className="mt-[15px]">
           <div className="relative w-[374px] h-[211px] bg-[#171A1F] rounded-xl overflow-hidden">
             <img
               src={artwork.videoThumbnail}
@@ -118,7 +118,7 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* Work Info Section */}
-        <section className="mt-8">
+        <section className="mt-[16px]">
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base">{artwork.title}</h3>
             <p className="mt-4 text-[15px] leading-6">
@@ -128,7 +128,7 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* FAQ Section */}
-        <section className="mt-8 border-t border-[#D9D9D9]">
+        <section className="mt-[16px] border-t border-[#D9D9D9]">
           <h3 className="mt-4 text-[#747472] text-[15px]">趣闻问答</h3>
           {artwork.faqs.map((faq, index) => (
             <div key={index} className="mt-6">
@@ -151,7 +151,7 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* Comments Section */}
-        <section className="mt-8 border-t border-[#B0B0B0] pt-4 pb-20">
+        <section className="mt-[16px] border-t border-[#B0B0B0] pt-4 pb-20">
           <h3 className="text-center text-[15px]">516条评论</h3>
         </section>
       </div>
