@@ -9,24 +9,32 @@ const STATIC_ARTWORK = {
   title: "蒙娜丽莎",
   imageUrl: "/src/assets/design/works-01.png",
   description: "《蒙娜丽莎》是意大利文艺复兴时期画家列奥纳多·达·芬奇于1503年至1506年创作的一幅肖像画，是世界上最著名的画作之一。这幅油画以一位神秘优雅的年轻女子为主题，其面部表情充满深意，特别是那若隐若现的微笑成为了艺术史上最令人着迷的谜团之一。",
-  videoTitle: "《蒙娜丽莎的20个秘密》",
+  videoTitle: "《蒙娜丽莎的20个秘密》", 
   videoThumbnail: "/src/assets/design/works-02.png",
   faqs: [
     {
-      question: "为什么蒙娜丽莎如此著名？",
-      answer: "蒙娜丽莎之所以成为世界上最著名的艺术品，不仅因为它精湛的艺术技法，更因为画中女子神秘的微笑和目光。达芬奇运用特殊的渐变技法(sfumato)创造出柔和的轮廓，使得观众从不同角度观看时，会感受到不同的表情变化。"
+      question: "蒙娜丽莎的眼睛会跟随观众移动？",
+      type: "yes_no",
+      answer: "YES",
+      explanation: "这是一种视觉错觉,画中人物的眼睛似乎会跟随观众移动。"
     },
     {
-      question: "画中人物的真实身份是谁？",
-      answer: "关于蒙娜丽莎真实身份的讨论从未停止。最广为接受的说法是她是佛罗伦萨丝绸商人弗朗切斯科·德尔·乔孔多的妻子丽莎·格拉迪尼，这也是这幅画被称为《蒙娜丽莎》的原因。"
+      question: "蒙娜丽莎原画上有眉毛？",
+      type: "yes_no", 
+      answer: "NO",
+      explanation: "X光扫描显示原画上确实没有眉毛。"
     },
     {
-      question: "达芬奇花了多长时间创作这幅画？",
-      answer: "达芬奇从1503年开始创作这幅画，一直持续到1519年去世，前后花费了约16年时间。有趣的是，他始终认为这幅画「未完成」，一直随身携带，不断修改完善。"
+      question: "达芬奇曾将画作卖给法国国王？",
+      type: "yes_no",
+      answer: "YES",
+      explanation: "达芬奇在1516年将画作卖给了法国国王弗朗索瓦一世。"
     },
     {
-      question: "画作中隐藏了哪些秘密？",
-      answer: "专家们在画作中发现了多个有趣的细节：背景风景可能是托斯卡纳地区；丽莎的眉毛和睫毛已消失（可能是后期修复时被擦掉）；通过X射线扫描发现画作下还有其他草图。这些发现让这幅画更增添了几分神秘色彩。"
+      question: "蒙娜丽莎的背景是虚构的？",
+      type: "yes_no",
+      answer: "NO",
+      explanation: "背景描绘的是托斯卡纳地区的真实风景。"
     }
   ]
 };
@@ -126,9 +134,29 @@ const WorkDetails: FC = () => {
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base mb-4">趣味问答</h3>
             {artwork.faqs.map((faq, index) => (
-              <div key={index} className="mb-4">
-                <h4 className="text-[15px] font-medium mb-2">{faq.question}</h4>
-                <p className="text-[15px] leading-6 text-[#747472]">{faq.answer}</p>
+              <div key={index} className="mb-6 bg-white rounded-xl p-4 shadow-sm">
+                <h4 className="text-[15px] font-medium mb-3">{faq.question}</h4>
+                <div className="flex gap-3">
+                  <button 
+                    className={`px-6 py-2 rounded-full transition-all ${
+                      faq.answer === 'YES' 
+                        ? 'bg-green-500 text-white' 
+                        : 'bg-white border border-gray-200 hover:bg-green-50'
+                    }`}
+                  >
+                    YES
+                  </button>
+                  <button 
+                    className={`px-6 py-2 rounded-full transition-all ${
+                      faq.answer === 'NO'
+                        ? 'bg-red-500 text-white'
+                        : 'bg-white border border-gray-200 hover:bg-red-50'
+                    }`}
+                  >
+                    NO
+                  </button>
+                </div>
+                <p className="mt-3 text-[14px] leading-6 text-[#747472]">{faq.explanation}</p>
               </div>
             ))}
           </div>
