@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "wouter";
 import { Button } from "@/components/ui/button";
 import Icons from "@/components/icons";
 
