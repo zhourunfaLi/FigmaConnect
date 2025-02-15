@@ -1,8 +1,8 @@
-
 import { FC } from 'react';
 import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
+import React, { useState } from "react";
 
 const STATIC_ARTWORK = {
   id: 1,
@@ -46,9 +46,9 @@ const STATIC_ARTWORK = {
 const WorkDetails: FC = () => {
   const params = useParams<{ id: string }>();
   const artwork = STATIC_ARTWORK;
-  const [userAnswers, setUserAnswers] = React.useState<{[key: number]: string}>({});
-  const [submitted, setSubmitted] = React.useState(false);
-  const [score, setScore] = React.useState(0);
+  const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
 
   const handleAnswer = (questionId: number, answer: string) => {
     setUserAnswers(prev => ({...prev, [questionId]: answer}));
@@ -58,7 +58,7 @@ const WorkDetails: FC = () => {
   const handleSubmit = () => {
     const totalQuestions = artwork.faqs.length;
     let correctAnswers = 0;
-    
+
     // 验证每个问题的答案
     artwork.faqs.forEach(faq => {
       if (userAnswers[faq.id] === faq.answer) {
