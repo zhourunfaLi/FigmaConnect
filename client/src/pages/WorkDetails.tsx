@@ -85,8 +85,8 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* Video Section */}
-        <section className="mt-[32px]">
-          <div className="relative w-full h-[211px] bg-[#171A1F] rounded-xl overflow-hidden">
+        <section className="mt-[32px] max-w-[374px] md:max-w-[600px] lg:max-w-[800px] mx-auto">
+          <div className="relative w-full aspect-[4/3] bg-[#171A1F] rounded-xl overflow-hidden">
             <img
               src={artwork.videoThumbnail}
               alt="Video thumbnail"
