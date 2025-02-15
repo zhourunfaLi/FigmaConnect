@@ -54,17 +54,20 @@ const WorkDetails: FC = () => {
     setUserAnswers(prev => ({...prev, [questionId]: answer}));
   };
 
+  // 本地验证逻辑
   const handleSubmit = () => {
     const totalQuestions = artwork.faqs.length;
     let correctAnswers = 0;
     
+    // 验证每个问题的答案
     artwork.faqs.forEach(faq => {
       if (userAnswers[faq.id] === faq.answer) {
         correctAnswers++;
       }
     });
 
-    setScore(correctAnswers * 10);
+    // 计算分数(每题25分)
+    setScore(Math.floor((correctAnswers / totalQuestions) * 100));
     setSubmitted(true);
   };
 
