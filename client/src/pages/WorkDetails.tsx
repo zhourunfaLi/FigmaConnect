@@ -38,25 +38,26 @@ const WorkDetails: FC = () => {
         {/* Works Show Section */}
         <section className="mt-[102px] relative">
           <div className="relative w-full md:w-[600px] lg:w-[800px] h-auto aspect-[0.7] mx-auto">
-            {/* Main Image */}
-            <img 
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              className="w-[374px] h-[477px] rounded-xl object-cover"
-            />
+            <div className="relative w-[374px] h-[477px] rounded-xl overflow-hidden">
+              {/* Main Image */}
+              <img 
+                src={artwork.imageUrl}
+                alt={artwork.title}
+                className="w-full h-full object-cover"
+              />
 
-            {/* SVIP Badge */}
-            <div className="absolute left-[14px] top-[12px] text-white text-[14px] leading-[22px] shadow-text">
-              SVIP
-            </div>
+              {/* SVIP Badge */}
+              <div className="absolute left-[14px] top-[12px] text-white text-[14px] leading-[22px] shadow-text">
+                SVIP
+              </div>
 
-            {/* Fullscreen Button */}
-            <button className="absolute right-[14px] top-[12px] text-white">
-              <Icons.maximize className="w-6 h-6" />
-            </button>
+              {/* Fullscreen Button */}
+              <button className="absolute right-[14px] top-[12px] text-white">
+                <Icons.maximize className="w-6 h-6" />
+              </button>
 
-            {/* Zoom Slider */}
-            <div className="absolute left-[14px] bottom-[12px] w-[324px]">
+              {/* Zoom Slider */}
+              <div className="absolute left-[14px] bottom-[12px] w-[324px]">
               <div className="relative">
                 <input 
                   type="range"
