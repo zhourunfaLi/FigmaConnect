@@ -34,10 +34,10 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#EEEAE2]">
-      <div className="mx-auto max-w-[374px] px-[8px]">
+      <div className="mx-auto max-w-[374px] md:max-w-[768px] lg:max-w-[1024px] px-[8px]">
         {/* Works Show Section */}
         <section className="mt-[102px] relative">
-          <div className="relative w-[374px] h-[537px]">
+          <div className="relative w-full md:w-[600px] lg:w-[800px] h-auto aspect-[0.7] mx-auto">
             {/* Main Image */}
             <img 
               src={artwork.imageUrl}
