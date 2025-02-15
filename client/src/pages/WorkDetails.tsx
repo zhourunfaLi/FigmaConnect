@@ -216,37 +216,7 @@ const WorkDetails: FC = () => {
         <section>
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base mb-4">评论区</h3>
-            <div className="flex gap-4 items-start mb-6">
-              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                <img 
-                  src="/src/assets/design/avatar/001.png"
-                  alt="User avatar"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1">
-                <textarea 
-                  className="w-full p-3 rounded-lg border border-[#B0B0B0] bg-white mb-2"
-                  placeholder="写下你的评论..."
-                  rows={3}
-                />
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="icon" className="h-8 w-8">
-                      <Icons.image className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="h-8 w-8">
-                      <Icons.atSign className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="h-8 w-8">
-                      <Icons.smile className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <Button>发布评论</Button>
-                </div>
-              </div>
-            </div>
-
+            
             {/* Comments List */}
             <div className="space-y-6">
               {[
@@ -383,6 +353,38 @@ const WorkDetails: FC = () => {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Comment Input Panel */}
+            <div className="mt-6 flex gap-4 items-start">
+              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                <img 
+                  src="/src/assets/design/avatar/001.png"
+                  alt="User avatar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-1">
+                <textarea 
+                  className="w-full p-3 rounded-lg border border-[#B0B0B0] bg-white mb-2"
+                  placeholder="写下你的评论..."
+                  rows={3}
+                />
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="icon" className="h-8 w-8">
+                      <Icons.image className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="icon" className="h-8 w-8">
+                      <Icons.atSign className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="icon" className="h-8 w-8">
+                      <Icons.smile className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <Button>发布评论</Button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
