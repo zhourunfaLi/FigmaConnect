@@ -215,13 +215,111 @@ const WorkDetails: FC = () => {
         <section>
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base mb-4">评论区</h3>
-            <div className="flex gap-4 items-start">
-              <textarea 
-                className="flex-1 p-2 rounded-lg border border-[#B0B0B0] bg-white"
-                placeholder="写下你的评论..."
-                rows={3}
-              />
-              <Button variant="outline">发布</Button>
+            <div className="flex gap-4 items-start mb-6">
+              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                <img 
+                  src="https://api.dicebear.com/7.x/avatars/svg?seed=current-user" 
+                  alt="User avatar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-1">
+                <textarea 
+                  className="w-full p-3 rounded-lg border border-[#B0B0B0] bg-white mb-2"
+                  placeholder="写下你的评论..."
+                  rows={3}
+                />
+                <Button>发布评论</Button>
+              </div>
+            </div>
+
+            {/* Comments List */}
+            <div className="space-y-6">
+              {[
+                {
+                  id: 1,
+                  user: { id: 1, name: "艺术爱好者", avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=user1" },
+                  content: "这幅画真的让人印象深刻，特别是那神秘的微笑！",
+                  likes: 12,
+                  replies: [
+                    {
+                      id: 2,
+                      user: { id: 2, name: "美术老师", avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=user2" },
+                      content: "同意！达芬奇的渐变技法(sfumato)在这里展现得淋漓尽致。",
+                      likes: 8,
+                    }
+                  ],
+                  createdAt: "2024-02-10T10:00:00Z"
+                },
+                {
+                  id: 3,
+                  user: { id: 3, name: "历史研究者", avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=user3" },
+                  content: "画作背后的历史故事同样引人入胜，值得深入了解。",
+                  likes: 5,
+                  replies: [],
+                  createdAt: "2024-02-09T15:30:00Z"
+                }
+              ].map(comment => (
+                <div key={comment.id} className="bg-white rounded-lg p-4">
+                  <div className="flex gap-3">
+                    <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                      <img 
+                        src={comment.user.avatar}
+                        alt={comment.user.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-medium">{comment.user.name}</span>
+                        <span className="text-sm text-gray-500">
+                          {new Date(comment.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p className="text-[15px] leading-6 mb-2">{comment.content}</p>
+                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <button className="flex items-center gap-1 hover:text-blue-500">
+                          <Icons.thumbsUp className="w-4 h-4" />
+                          <span>{comment.likes}</span>
+                        </button>
+                        <button className="flex items-center gap-1 hover:text-blue-500">
+                          <Icons.messageCircle className="w-4 h-4" />
+                          <span>回复</span>
+                        </button>
+                      </div>
+
+                      {/* Replies */}
+                      {comment.replies.length > 0 && (
+                        <div className="mt-4 space-y-4 pl-4 border-l-2 border-gray-100">
+                          {comment.replies.map(reply => (
+                            <div key={reply.id} className="flex gap-3">
+                              <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                                <img 
+                                  src={reply.user.avatar}
+                                  alt={reply.user.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="font-medium">{reply.user.name}</span>
+                                </div>
+                                <p className="text-[14px] leading-6 mb-2">{reply.content}</p>
+                                <div className="flex items-center gap-4 text-sm text-gray-500">
+                                  <button className="flex items-center gap-1 hover:text-blue-500">
+                                    <Icons.thumbsUp className="w-4 h-4" />
+                                    <span>{reply.likes}</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
