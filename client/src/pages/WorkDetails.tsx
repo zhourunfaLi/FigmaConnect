@@ -44,20 +44,20 @@ const WorkDetails: FC = () => {
                 src={artwork.imageUrl}
                 alt={artwork.title}
                 className="w-full h-full object-cover"
-              />
+            />
 
-              {/* SVIP Badge */}
-              <div className="absolute left-[14px] top-[12px] text-white text-[14px] leading-[22px] shadow-text">
-                SVIP
-              </div>
+            {/* SVIP Badge */}
+            <div className="absolute left-[14px] top-[12px] text-white text-[14px] leading-[22px] shadow-text">
+              SVIP
+            </div>
 
-              {/* Fullscreen Button */}
-              <button className="absolute right-[14px] top-[12px] text-white">
-                <Icons.maximize className="w-6 h-6" />
-              </button>
+            {/* Fullscreen Button */}
+            <button className="absolute right-[14px] top-[12px] text-white">
+              <Icons.maximize className="w-6 h-6" />
+            </button>
 
-              {/* Zoom Slider */}
-              <div className="absolute left-[14px] bottom-[12px] w-[324px]">
+            {/* Zoom Slider */}
+            <div className="absolute left-[14px] bottom-[12px] w-[324px]">
               <div className="relative">
                 <input 
                   type="range"
@@ -75,11 +75,12 @@ const WorkDetails: FC = () => {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Title */}
-            <h1 className="mt-3 text-[15px] leading-6">
-              达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
-            </h1>
+          {/* Title */}
+          <h1 className="mt-3 text-[15px] leading-6">
+            达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
+          </h1>
           </div>
         </section>
 
