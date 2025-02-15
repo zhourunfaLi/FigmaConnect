@@ -392,13 +392,13 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* Download Button */}
-        <section className="fixed bottom-6 left-0 right-0 flex justify-center">
+        <section className="mt-12 mb-20 flex justify-center">
           <Button 
             size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-8 shadow-lg flex items-center gap-2"
+            className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-12 py-6 shadow-lg flex items-center gap-2 text-base"
             onClick={() => window.open(artwork.imageUrl, '_blank')}
           >
-            <Icons.download className="w-5 h-5" />
+            <Icons.download className="w-6 h-6" />
             下载原图
           </Button>
         </section>
