@@ -9,13 +9,21 @@ const STATIC_ARTWORK = {
   id: 1,
   title: "蒙娜丽莎",
   imageUrl: "/src/assets/design/works-01.png",
-  description: "《蒙娜丽莎》（Mona Lisa）是意大利文艺复兴时期画家列奥纳多·达·芬奇创作的油画，现收藏于法国卢浮宫博物馆。该画作主要表现了女性的典雅和恬静的典型形象，塑造了资本主义上升时期一位城市有产阶级的妇女形象。",
+  description: "《蒙娜丽莎》是意大利文艺复兴时期画家列奥纳多·达·芬奇于1503年至1506年创作的一幅肖像画，是世界上最著名的画作之一。这幅油画以一位神秘优雅的年轻女子为主题，其面部表情充满深意，特别是那若隐若现的微笑成为了艺术史上最令人着迷的谜团之一。",
   videoTitle: "《蒙娜丽莎的20个秘密》",
   videoThumbnail: "/src/assets/design/works-02.png",
   faqs: [
     {
-      question: "蒙娜丽莎微笑之谜是什么？",
-      answer: "蒙娜丽莎的微笑一直是艺术史上最大的谜团之一。有人认为这是达芬奇运用特殊的绘画技法所创造的视觉效果，当观众从不同角度观看时，会产生不同的表情感受。"
+      question: "为什么蒙娜丽莎如此著名？",
+      answer: "蒙娜丽莎之所以成为世界上最著名的艺术品，不仅因为它精湛的艺术技法，更因为画中女子神秘的微笑和目光。达芬奇运用特殊的渐变技法(sfumato)创造出柔和的轮廓，使得观众从不同角度观看时，会感受到不同的表情变化。"
+    },
+    {
+      question: "画中人物是谁？",
+      answer: "关于画中人物的身份一直存在争议。最广为接受的说法是她是佛罗伦萨丝绸商人弗朗切斯科·德尔·焦孔多的妻子丽莎·格拉尔迪尼。这也是'蒙娜丽莎'这个名字的由来，'蒙娜'在意大利语中是'夫人'的意思。"
+    },
+    {
+      question: "画作的尺寸有多大？",
+      answer: "与很多人的想象不同，《蒙娜丽莎》的实际尺寸并不大，画作高77厘米，宽53厘米，是一幅相对小巧的油画，采用意大利白杨木为画板。"
     }
   ]
 };
@@ -26,7 +34,7 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#EEEAE2]">
-      <div className="mx-auto max-w-[390px] px-2">
+      <div className="mx-auto max-w-[390px] px-[8px]">
         {/* Works Show Section */}
         <section className="mt-[102px] relative">
           <div className="relative w-[374px] h-[537px]">
