@@ -15,7 +15,11 @@ import NotFound from "@/pages/not-found";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={WorkDetails} />
+      <Route path="/" component={HomePage} />
+      <Route path="/artwork/:id" component={WorkDetails} />
+      <Route path="/auth" component={AuthPage} />
+      <Route path="/add" component={AddArtworkPage} />
+      <Route path="/:rest*" component={NotFound} />
     </Switch>
   );
 }
