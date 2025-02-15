@@ -115,6 +115,21 @@ const WorkDetails: FC = () => {
           </div>
         </section>
 
+        {/* Separator and Download Button */}
+        <section>
+          <div className="border-t border-[#B0B0B0] py-6">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="w-full flex items-center justify-center gap-2"
+              onClick={() => window.open(artwork.imageUrl, '_blank')}
+            >
+              <Icons.download className="w-5 h-5" />
+              下载原图
+            </Button>
+          </div>
+        </section>
+
         {/* Video Section */}
         <section>
           <div className="relative w-full aspect-[16/9] bg-[#171A1F] rounded-xl overflow-hidden">

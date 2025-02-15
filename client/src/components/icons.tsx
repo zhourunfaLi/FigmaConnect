@@ -9,6 +9,7 @@ import {
   Image,
   AtSign,
   Smile,
+  Download,
   type Icon as LucideIcon,
 } from "lucide-react";
 
@@ -25,6 +26,7 @@ export const Icons = {
   image: Image,
   atSign: AtSign,
   smile: Smile,
+  download: Download,
 };
 
 export default Icons;
