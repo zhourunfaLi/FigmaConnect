@@ -1,6 +1,16 @@
 import { FC, useState } from "react";
 import { useParams } from "wouter";
-import Icons from "@/components/icons";
+import { 
+  Calendar, 
+  Ruler, 
+  PaintBucket,
+  Download,
+  ThumbsUp,
+  MessageCircle,
+  Image,
+  AtSign,
+  Smile
+} from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -83,11 +93,11 @@ const WorkDetails: FC = () => {
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <Icons.calendar className="w-5 h-5 text-[#8B4513]" />
+                  <Calendar className="w-5 h-5 text-[#8B4513]" />
                   <span className="text-gray-600">创作时间：{artwork.createTime}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Icons.ruler className="w-5 h-5 text-[#8B4513]" />
+                  <Ruler className="w-5 h-5 text-[#8B4513]" />
                   <span className="text-gray-600">尺寸：{artwork.dimensions}</span>
                 </div>
               </div>
