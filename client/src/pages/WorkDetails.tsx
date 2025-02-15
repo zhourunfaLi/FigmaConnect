@@ -1,15 +1,15 @@
-import { FC, useState } from "react";
+
+import { FC } from "react";
 import { useParams } from "wouter";
-import { Button } from "@/components/ui/button";
 import Icons from "@/components/icons";
 
 const STATIC_ARTWORK = {
   id: 1,
   title: "蒙娜丽莎",
-  artist: "达芬奇",
+  artist: "达芬奇", 
   imageUrl: "/src/assets/design/works-01.png",
   videoUrl: "https://example.com/video.mp4",
-  description: "这是一幅著名的艺术作品，展现了独特的艺术风格和深刻的含义。",
+  description: "《蒙娜丽莎》（Mona Lisa）是意大利文艺复兴时期画家列奥纳多·达·芬奇创作的油画，现收藏于法国卢浮宫博物馆。该画作主要表现了女性的典雅和恬静的典型形象，塑造了资本主义上升时期一位城市有产阶级的妇女形象。《蒙娜丽莎》代表了文艺复兴时期的美学方向；该作品折射出来的女性的深邃与高尚的思想品质，反映了文艺复兴时期人们对于女性美的审美理念和审美追求。",
   createTime: "2024-02-14",
   dimensions: "77 cm × 53 cm",
   medium: "油画",
@@ -24,19 +24,20 @@ const STATIC_ARTWORK = {
     {
       id: 2,
       question: "画中人物是否有眉毛？",
-      type: "yes_no",
+      type: "yes_no", 
       answer: "NO",
       explanation: "X光扫描显示原画上确实没有眉毛。"
     }
-  ]
+  ],
+  isPremium: true
 };
 
 const WorkDetails: FC = () => {
-  const params = useParams<{ id: string }>();
-  const artwork = STATIC_ARTWORK;
   const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
+  const params = useParams<{ id: string }>();
+  const artwork = STATIC_ARTWORK;
 
   const handleAnswerChange = (questionId: number, answer: string) => {
     setUserAnswers(prev => ({
@@ -185,7 +186,9 @@ const WorkDetails: FC = () => {
                       <p className="text-gray-600 text-sm">艺术鉴赏家</p>
                     </div>
                   </div>
-                  <p className="text-gray-800 font-serif leading-relaxed mb-4">{comment.content}</p>
+                  <p className="text-gray-800 font-serif leading-relaxed mb-4">
+                    {comment.content}
+                  </p>
                   <div className="flex items-center gap-6">
                     <button className="flex items-center gap-2 text-gray-600 hover:text-[#8B4513] transition-colors">
                       <Icons.thumbsUp className="w-5 h-5" />
@@ -200,7 +203,7 @@ const WorkDetails: FC = () => {
               ))}
             </div>
 
-            {/* Comment Input */}
+            {/* 评论输入框 */}
             <div className="mt-8 bg-[#FAF9F6] p-6 rounded-lg">
               <textarea
                 placeholder="分享你的艺术见解..."
@@ -219,9 +222,9 @@ const WorkDetails: FC = () => {
                     <Icons.smile className="w-5 h-5" />
                   </button>
                 </div>
-                <Button className="bg-[#8B4513] hover:bg-[#6F2F0A] font-serif">
+                <button className="px-6 py-2 bg-[#8B4513] text-white rounded-full font-serif hover:bg-[#6F2F0A] transition-colors">
                   发表评论
-                </Button>
+                </button>
               </div>
             </div>
           </div>
@@ -229,14 +232,13 @@ const WorkDetails: FC = () => {
 
         {/* 下载按钮 */}
         <section className="mt-12 mb-20 flex justify-center">
-          <Button 
-            size="lg"
-            className="bg-[#8B4513] hover:bg-[#6F2F0A] text-white rounded-full px-12 py-6 shadow-lg flex items-center gap-2 text-base font-serif"
+          <button 
+            className="bg-[#8B4513] hover:bg-[#6F2F0A] text-white rounded-full px-12 py-6 shadow-lg flex items-center gap-2 text-base font-serif transition-colors"
             onClick={() => window.open(artwork.imageUrl, '_blank')}
           >
             <Icons.download className="w-6 h-6" />
             下载原图
-          </Button>
+          </button>
         </section>
       </div>
     </div>
