@@ -238,13 +238,13 @@ const WorkDetails: FC = () => {
               {[
                 {
                   id: 1,
-                  user: { id: 1, name: "艺术爱好者", avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=user1" },
+                  user: { id: 1, name: "艺术爱好者", avatar: "/src/assets/design/avatar/001.png" },
                   content: "这幅画真的让人印象深刻，特别是那神秘的微笑！",
                   likes: 12,
                   replies: [
                     {
                       id: 2,
-                      user: { id: 2, name: "美术老师", avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=user2" },
+                      user: { id: 2, name: "美术老师", avatar: "/src/assets/design/avatar/002.png" },
                       content: "同意！达芬奇的渐变技法(sfumato)在这里展现得淋漓尽致。",
                       likes: 8,
                     }
@@ -253,11 +253,47 @@ const WorkDetails: FC = () => {
                 },
                 {
                   id: 3,
-                  user: { id: 3, name: "历史研究者", avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=user3" },
+                  user: { id: 3, name: "历史研究者", avatar: "/src/assets/design/avatar/003.png" },
                   content: "画作背后的历史故事同样引人入胜，值得深入了解。",
                   likes: 5,
                   replies: [],
                   createdAt: "2024-02-09T15:30:00Z"
+                },
+                {
+                  id: 4,
+                  user: { id: 4, name: "艺术收藏家", avatar: "/src/assets/design/avatar/004.png" },
+                  content: "我很欣赏这幅作品对光影的处理，非常精妙。",
+                  likes: 15,
+                  replies: [
+                    {
+                      id: 5,
+                      user: { id: 5, name: "光影专家", avatar: "/src/assets/design/avatar/005.png" },
+                      content: "确实，尤其是背景中的光线渐变，展现了高超的技巧。",
+                      likes: 7,
+                    }
+                  ],
+                  createdAt: "2024-02-08T14:20:00Z"
+                },
+                {
+                  id: 6,
+                  user: { id: 6, name: "文艺青年", avatar: "/src/assets/design/avatar/006.png" },
+                  content: "每次看这幅画都能发现新的细节，真是令人着迷。",
+                  likes: 9,
+                  replies: [
+                    {
+                      id: 7,
+                      user: { id: 7, name: "艺术史学者", avatar: "/src/assets/design/avatar/007.png" },
+                      content: "这就是艺术的魅力所在，永远有新的发现。",
+                      likes: 6,
+                    },
+                    {
+                      id: 8,
+                      user: { id: 8, name: "博物馆导览员", avatar: "/src/assets/design/avatar/008.png" },
+                      content: "建议大家多关注画作中的背景细节，那里藏着很多有趣的故事。",
+                      likes: 4,
+                    }
+                  ],
+                  createdAt: "2024-02-07T09:15:00Z"
                 }
               ].map(comment => (
                 <div key={comment.id} className="bg-white rounded-lg p-4">
