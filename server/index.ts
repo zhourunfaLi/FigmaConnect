@@ -37,11 +37,7 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = app.listen(process.env.PORT || 5000, "0.0.0.0", () => {
-    log(`Server is running at http://0.0.0.0:${process.env.PORT || 5000}`);
-  });
-
-  registerRoutes(app);
+  const server = registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
@@ -60,27 +56,10 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Server is already listening
-
-  server.on('error', (err) => {
-    console.error('Server error:', err);
-  });
-
-  // 保持进程运行
-  process.on('uncaughtException', (err) => {
-    console.error('Uncaught Exception:', err);
-    // 不退出进程
-  });
-
-  process.on('unhandledRejection', (reason, promise) => {
-    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-    // 不退出进程
-  });
-
-  // 优雅关闭
-  process.on('SIGTERM', () => {
-    server.close(() => {
-      console.log('Server gracefully closed');
-    });
+  // ALWAYS serve the app on port 5000
+  // this serves both the API and the client
+  const PORT = 5000;
+  server.listen(PORT, "0.0.0.0", () => {
+    log(`serving on port ${PORT}`);
   });
 })();
