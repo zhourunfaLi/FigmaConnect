@@ -75,8 +75,8 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="min-h-screen bg-[#111111]">
-      <section className="mb-8">
-        <div className="relative w-full h-[80vh] bg-black rounded-lg overflow-hidden">
+      <section className="mb-8 px-4">
+        <div className="relative w-full h-[80vh] bg-black rounded-2xl overflow-hidden">
           {/* SVIP Badge */}
           <div className="absolute top-4 left-4 z-10">
             <div className="bg-[#EB9800] text-white px-3 py-1 rounded-full font-medium">
@@ -93,15 +93,21 @@ const WorkDetails: FC = () => {
             />
             
             {/* Controls Overlay */}
-            <div className="absolute bottom-4 right-4 flex items-center gap-4">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+              {/* Zoom Value Display */}
+              <div className="bg-black/50 px-3 py-1 rounded-full text-white text-sm">
+                {zoom}x
+              </div>
               {/* Zoom Slider */}
-              <div className="bg-black/50 rounded-full px-4 py-2 flex items-center gap-2">
+              <div className="bg-black/50 rounded-full px-6 py-3 flex items-center gap-4">
                 <button className="text-white">-</button>
                 <input
                   type="range"
                   min="1"
-                  max="100"
-                  className="w-24"
+                  max="300"
+                  value={zoom * 100}
+                  onChange={(e) => setZoom(Number(e.target.value) / 100)}
+                  className="w-40"
                 />
                 <button className="text-white">+</button>
               </div>
@@ -121,7 +127,7 @@ const WorkDetails: FC = () => {
       </section>
 
       {/* Description Section */}
-      <section className="mb-8">
+      <section className="mb-8 px-4">
         <h2 className="text-2xl text-white mb-4">作品介绍</h2>
         <p className="text-lg text-white/80 leading-relaxed">
           {artwork.description}
