@@ -75,22 +75,62 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="min-h-screen bg-[#111111]">
-      <section className="relative w-full h-[80vh]">
-        <img 
-          src={artwork.imageUrl}
-          alt={artwork.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-          <h1 className="text-4xl font-bold mb-4">{artwork.title}</h1>
-          <p className="text-lg max-w-2xl leading-relaxed">{artwork.description}</p>
+      <section className="mb-8">
+        <div className="relative w-full h-[80vh] bg-black rounded-lg overflow-hidden">
+          {/* SVIP Badge */}
+          <div className="absolute top-4 left-4 z-10">
+            <div className="bg-[#EB9800] text-white px-3 py-1 rounded-full font-medium">
+              SVIP
+            </div>
+          </div>
+          
+          {/* Image Container */}
+          <div className="relative w-full h-full">
+            <img 
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className="w-full h-full object-cover"
+            />
+            
+            {/* Controls Overlay */}
+            <div className="absolute bottom-4 right-4 flex items-center gap-4">
+              {/* Zoom Slider */}
+              <div className="bg-black/50 rounded-full px-4 py-2 flex items-center gap-2">
+                <button className="text-white">-</button>
+                <input
+                  type="range"
+                  min="1"
+                  max="100"
+                  className="w-24"
+                />
+                <button className="text-white">+</button>
+              </div>
+              
+              {/* Fullscreen Button */}
+              <button className="bg-black/50 p-2 rounded-full text-white">
+                <Icons.maximize className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
         </div>
+        
+        {/* Title */}
+        <h1 className="text-2xl text-white mt-4">
+          达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
+        </h1>
+      </section>
+
+      {/* Description Section */}
+      <section className="mb-8">
+        <h2 className="text-2xl text-white mb-4">作品介绍</h2>
+        <p className="text-lg text-white/80 leading-relaxed">
+          {artwork.description}
+        </p>
       </section>
 
       <div className="max-w-5xl mx-auto px-4 py-12">
         <section className="mb-16">
-          <h2 className="text-2xl text-white mb-6">视频解析</h2>
+          <h2 className="text-2xl text-white mb-6">《蒙娜丽莎的20个秘密》</h2>
           <div className="relative aspect-video rounded-lg overflow-hidden">
             <img
               src={artwork.videoThumbnail}
