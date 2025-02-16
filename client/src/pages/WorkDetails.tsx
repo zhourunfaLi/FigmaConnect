@@ -40,6 +40,7 @@ const STATIC_ARTWORK = {
 const WorkDetails: FC = () => {
   const params = useParams<{ id: string }>();
   const artwork = STATIC_ARTWORK;
+  const [zoom, setZoom] = useState(1);
   const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
