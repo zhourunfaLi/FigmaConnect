@@ -76,7 +76,7 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="min-h-screen bg-[#111111]">
-      <section className="mb-8 px-4">
+      <section className="mb-8 px-4 pt-4">
         <div className="relative w-full h-[80vh] bg-black rounded-2xl overflow-hidden">
           {/* SVIP Badge */}
           <div className="absolute top-4 left-4 z-10">
@@ -165,7 +165,7 @@ const WorkDetails: FC = () => {
                   <Button
                     onClick={() => handleAnswer(faq.id, 'YES')}
                     variant="outline"
-                    className={`w-32 border-gray-600 hover:border-green-500 transition-colors ${
+                    className={`w-32 border-gray-600 hover:border-green-500 transition-colors active:bg-green-500 active:text-white active:border-green-500 ${
                       userAnswers[faq.id] === 'YES' 
                         ? 'bg-green-500 text-white border-green-500' 
                         : 'text-gray-400'
@@ -176,7 +176,7 @@ const WorkDetails: FC = () => {
                   <Button
                     onClick={() => handleAnswer(faq.id, 'NO')}
                     variant="outline"
-                    className={`w-32 border-gray-600 hover:border-red-500 transition-colors ${
+                    className={`w-32 border-gray-600 hover:border-red-500 transition-colors active:bg-red-500 active:text-white active:border-red-500 ${
                       userAnswers[faq.id] === 'NO' 
                         ? 'bg-red-500 text-white border-red-500' 
                         : 'text-gray-400'
@@ -197,7 +197,7 @@ const WorkDetails: FC = () => {
               <Button
                 onClick={handleSubmit}
                 disabled={submitted || Object.keys(userAnswers).length !== artwork.faqs.length}
-                className="w-48 bg-white/10 text-white hover:bg-white/20"
+                className="w-48 bg-blue-600 text-white hover:bg-blue-700 font-medium text-lg py-6"
               >
                 提交答案
               </Button>
