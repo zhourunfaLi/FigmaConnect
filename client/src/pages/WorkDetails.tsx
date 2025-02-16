@@ -76,7 +76,7 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-3 py-6">
         {/* 作品展示区 */}
         <section className="mb-12">
           <img
