@@ -84,7 +84,7 @@ const WorkDetails: FC = () => {
               SVIP
             </div>
           </div>
-          
+
           {/* Image Container */}
           <div className="relative w-full h-full">
             <img 
@@ -92,7 +92,7 @@ const WorkDetails: FC = () => {
               alt={artwork.title}
               className="w-full h-full object-cover"
             />
-            
+
             {/* Controls Overlay */}
             <div className="absolute bottom-4 w-full px-4 flex justify-center">
               {/* Zoom Controls */}
@@ -115,7 +115,7 @@ const WorkDetails: FC = () => {
                   <button className="text-white">+</button>
                 </div>
               </div>
-              
+
               {/* Fullscreen Button */}
               <button className="absolute right-8 bottom-16 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors">
                 <Icons.maximize className="w-6 h-6" />
@@ -123,7 +123,7 @@ const WorkDetails: FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Title */}
         <h1 className="text-2xl text-white mt-4">
           达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
@@ -197,7 +197,7 @@ const WorkDetails: FC = () => {
               <Button
                 onClick={handleSubmit}
                 disabled={submitted || Object.keys(userAnswers).length !== artwork.faqs.length}
-                className="w-48"
+                className="w-48 bg-white/10 text-white hover:bg-white/20"
               >
                 提交答案
               </Button>
