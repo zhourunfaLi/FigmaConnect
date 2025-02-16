@@ -3,6 +3,7 @@ import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import React, { useState } from "react";
+import CommentSection from '@/components/comment-section';
 
 const STATIC_ARTWORK = {
   id: 1,
@@ -140,7 +141,7 @@ const WorkDetails: FC = () => {
         </section>
 
         {/* Download Button */}
-        <section className="flex justify-center">
+        <section className="flex justify-center mb-16">
           <Button 
             size="lg"
             className="bg-white text-black hover:bg-white/90 px-12 py-6"
@@ -149,6 +150,12 @@ const WorkDetails: FC = () => {
             <Icons.download className="w-6 h-6 mr-2" />
             下载原图
           </Button>
+        </section>
+
+        {/* Comments Section */}
+        <section className="mb-16">
+          <h2 className="text-2xl text-white mb-6">评论区</h2>
+          <CommentSection artworkId={artwork.id} />
         </section>
       </div>
     </div>
