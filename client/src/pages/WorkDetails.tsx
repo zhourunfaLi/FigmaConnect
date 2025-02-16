@@ -33,6 +33,20 @@ const STATIC_ARTWORK = {
       type: "yes_no",
       answer: "YES",
       explanation: "达芬奇在1516年将画作卖给了法国国王弗朗索瓦一世。"
+    },
+    {
+      id: 4,
+      question: "蒙娜丽莎的微笑是怎样产生的？",
+      type: "yes_no",
+      answer: "NO",
+      explanation: "这是一种视觉错觉，由达芬奇的sfumato绘画技巧造成的。"
+    },
+    {
+      id: 5,
+      question: "蒙娜丽莎的背景是什么？",
+      type: "yes_no",
+      answer: "YES",
+      explanation: "背景是朦胧的山峦和河流，增加了画面的神秘感。"
     }
   ]
 };
@@ -70,7 +84,7 @@ const WorkDetails: FC = () => {
         correctAnswers++;
       }
     });
-    setScore(Math.floor((correctAnswers / totalQuestions) * 100));
+    setScore(correctAnswers * 10); //Score is now 10 points per correct answer.
     setSubmitted(true);
   };
 
@@ -165,7 +179,7 @@ const WorkDetails: FC = () => {
                   <Button
                     onClick={() => handleAnswer(faq.id, 'YES')}
                     variant="outline"
-                    className={`w-32 border-gray-600 hover:border-green-500 transition-colors active:bg-green-500 active:text-white active:border-green-500 ${
+                    className={`w-32 border-gray-600 ${
                       userAnswers[faq.id] === 'YES' 
                         ? 'bg-green-500 text-white border-green-500' 
                         : 'text-gray-400'
@@ -176,7 +190,7 @@ const WorkDetails: FC = () => {
                   <Button
                     onClick={() => handleAnswer(faq.id, 'NO')}
                     variant="outline"
-                    className={`w-32 border-gray-600 hover:border-red-500 transition-colors active:bg-red-500 active:text-white active:border-red-500 ${
+                    className={`w-32 border-gray-600 ${
                       userAnswers[faq.id] === 'NO' 
                         ? 'bg-red-500 text-white border-red-500' 
                         : 'text-gray-400'
