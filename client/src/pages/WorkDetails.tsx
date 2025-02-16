@@ -115,7 +115,7 @@ const WorkDetails: FC = () => {
           </div>
         </section>
 
-        
+
 
         {/* Video Section */}
         <section>
@@ -218,7 +218,7 @@ const WorkDetails: FC = () => {
         <section>
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base mb-4">评论区</h3>
-            
+
             {/* Comments List */}
             <div className="space-y-6">
               {[
