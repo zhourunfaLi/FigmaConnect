@@ -394,7 +394,7 @@ const WorkDetails: FC = () => {
         <section className="flex justify-center mb-16">
           <Button 
             size="lg"
-            className="bg-white text-gray-800 hover:bg-white/90 px-12 py-6" {/* Changed color */}
+            className="bg-white text-gray-800 hover:bg-white/90 px-12 py-6"
             onClick={() => window.open(artwork.imageUrl, '_blank')}
           >
             <Icons.download className="w-6 h-6 mr-2" />
