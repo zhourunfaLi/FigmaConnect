@@ -179,10 +179,10 @@ const WorkDetails: FC = () => {
                   <Button
                     onClick={() => handleAnswer(faq.id, 'YES')}
                     variant="outline"
-                    className={`w-32 border-gray-600 ${
+                    className={`w-32 border-2 transition-colors ${
                       userAnswers[faq.id] === 'YES' 
                         ? 'bg-green-500 text-white border-green-500' 
-                        : 'text-gray-400'
+                        : 'border-gray-600 text-gray-400'
                     }`}
                   >
                     YES
@@ -190,10 +190,10 @@ const WorkDetails: FC = () => {
                   <Button
                     onClick={() => handleAnswer(faq.id, 'NO')}
                     variant="outline"
-                    className={`w-32 border-gray-600 ${
+                    className={`w-32 border-2 transition-colors ${
                       userAnswers[faq.id] === 'NO' 
                         ? 'bg-red-500 text-white border-red-500' 
-                        : 'text-gray-400'
+                        : 'border-gray-600 text-gray-400'
                     }`}
                   >
                     NO
