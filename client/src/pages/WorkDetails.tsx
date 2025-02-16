@@ -94,27 +94,30 @@ const WorkDetails: FC = () => {
             />
             
             {/* Controls Overlay */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-              {/* Zoom Value Display */}
-              <div className="bg-black/50 px-3 py-1 rounded-full text-white text-sm">
-                {zoom}x
-              </div>
-              {/* Zoom Slider */}
-              <div className="bg-black/50 rounded-full px-6 py-3 flex items-center gap-4">
-                <button className="text-white">-</button>
-                <input
-                  type="range"
-                  min="1"
-                  max="300"
-                  value={zoom * 100}
-                  onChange={(e) => setZoom(Number(e.target.value) / 100)}
-                  className="w-40"
-                />
-                <button className="text-white">+</button>
+            <div className="absolute bottom-4 w-full px-4 flex justify-center">
+              {/* Zoom Controls */}
+              <div className="flex flex-col items-center gap-2">
+                {/* Zoom Value Display */}
+                <div className="bg-black/50 px-3 py-1 rounded-full text-white text-sm">
+                  {zoom}x
+                </div>
+                {/* Zoom Slider */}
+                <div className="bg-black/50 rounded-full px-6 py-3 flex items-center gap-4">
+                  <button className="text-white">-</button>
+                  <input
+                    type="range"
+                    min="1"
+                    max="300"
+                    value={zoom * 100}
+                    onChange={(e) => setZoom(Number(e.target.value) / 100)}
+                    className="w-48"
+                  />
+                  <button className="text-white">+</button>
+                </div>
               </div>
               
               {/* Fullscreen Button */}
-              <button className="bg-black/50 p-2 rounded-full text-white">
+              <button className="absolute right-8 bottom-16 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors">
                 <Icons.maximize className="w-6 h-6" />
               </button>
             </div>
@@ -134,6 +137,8 @@ const WorkDetails: FC = () => {
           {artwork.description}
         </p>
       </section>
+
+      <div className="w-full h-px bg-gray-800" />
 
       <div className="max-w-5xl mx-auto px-4 py-12">
         <section className="mb-16">
@@ -160,14 +165,22 @@ const WorkDetails: FC = () => {
                   <Button
                     onClick={() => handleAnswer(faq.id, 'YES')}
                     variant="outline"
-                    className={`w-32 ${userAnswers[faq.id] === 'YES' ? 'bg-white text-black' : ''}`}
+                    className={`w-32 border-gray-600 hover:border-green-500 transition-colors ${
+                      userAnswers[faq.id] === 'YES' 
+                        ? 'bg-green-500 text-white border-green-500' 
+                        : 'text-gray-400'
+                    }`}
                   >
                     YES
                   </Button>
                   <Button
                     onClick={() => handleAnswer(faq.id, 'NO')}
                     variant="outline"
-                    className={`w-32 ${userAnswers[faq.id] === 'NO' ? 'bg-white text-black' : ''}`}
+                    className={`w-32 border-gray-600 hover:border-red-500 transition-colors ${
+                      userAnswers[faq.id] === 'NO' 
+                        ? 'bg-red-500 text-white border-red-500' 
+                        : 'text-gray-400'
+                    }`}
                   >
                     NO
                   </Button>
