@@ -73,16 +73,16 @@ const WorkDetails: FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5]">
+    <div className="min-h-screen bg-[#FDFBF7]">
       <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-[8px] flex flex-col gap-[8px]">
         {/* Works Show Section */}
         <section className="relative">
           <div className="relative w-full h-auto aspect-[0.7]">
-            <div className="relative w-full h-[477px] rounded-[4px] overflow-hidden shadow-lg">
+            <div className="relative w-full h-[477px] rounded-none overflow-hidden">
               <img 
                 src={artwork.imageUrl}
                 alt={artwork.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700"
               />
               <div className="absolute left-[14px] top-[12px] text-white text-[14px] leading-[22px] shadow-text">
                 SVIP
@@ -153,8 +153,8 @@ const WorkDetails: FC = () => {
         {/* Work Info Section */}
         <section>
           <div className="border-t border-[#B0B0B0] pt-6">
-            <h3 className="text-[#333333] text-[18px] font-serif">{artwork.title}</h3>
-            <p className="mt-[8px] text-[14px] leading-[1.6] text-[#666666] font-serif">
+            <h3 className="text-[#1A1A1A] text-[24px] font-serif tracking-wide">{artwork.title}</h3>
+            <p className="mt-[8px] text-[15px] leading-[1.8] text-[#4A4A4A] font-serif tracking-wide">
               {artwork.description}
             </p>
           </div>
@@ -165,8 +165,8 @@ const WorkDetails: FC = () => {
           <div className="border-t border-[#B0B0B0] pt-6">
             <h3 className="text-[#747472] text-base mb-4">趣味问答</h3>
             {artwork.faqs.map((faq) => (
-              <div key={faq.id} className="mb-[8px] bg-white rounded-[4px] p-[8px] border border-[#EEEEEE]">
-                <h4 className="text-[15px] font-medium mb-3">{faq.question}</h4>
+              <div key={faq.id} className="mb-[8px] bg-[#FDFBF7] p-[16px] border-l-2 border-[#C9BCA3]">
+                <h4 className="text-[16px] font-serif mb-3 tracking-wide">{faq.question}</h4>
                 <div className="flex gap-3">
                   <button 
                     onClick={() => handleAnswer(faq.id, 'YES')}
@@ -282,7 +282,7 @@ const WorkDetails: FC = () => {
                   createdAt: "2024-02-07T09:15:00Z"
                 }
               ].map(comment => (
-                <div key={comment.id} className="bg-white rounded-[4px] p-[8px] border border-[#EEEEEE]">
+                <div key={comment.id} className="bg-[#FDFBF7] p-[16px] border-b border-[#E5DED3]">
                   <div className="flex gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                       <img 
