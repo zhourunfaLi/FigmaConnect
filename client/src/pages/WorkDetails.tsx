@@ -1,265 +1,112 @@
-import { FC, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { 
-  Calendar, 
-  Ruler, 
-  PaintBucket,
-  Download,
-  ThumbsUp as ThumbsUpIcon,
-  MessageCircle as MessageCircleIcon,
-  Image as ImageIcon,
-  AtSign as AtSignIcon,
-  Smile as SmileIcon
-} from "lucide-react";
-import Icons from "@/components/icons"; 
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { type Artwork } from "@shared/schema";
 import VideoPlayer from "@/components/video-player";
-import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import CommentSection from "@/components/comment-section";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Card, CardContent } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Slider } from "@/components/ui/slider";
+import { Loader2, ZoomIn, ZoomOut } from "lucide-react";
+import { useState } from "react";
 
-const STATIC_ARTWORK = {
-  id: 1,
-  title: "蒙娜丽莎",
-  artist: "达芬奇", 
-  imageUrl: "/src/assets/design/works-01.png",
-  videoUrl: "https://example.com/video.mp4",
-  description: "《蒙娜丽莎》（Mona Lisa）是意大利文艺复兴时期画家列奥纳多·达·芬奇创作的油画，现收藏于法国卢浮宫博物馆。该画作主要表现了女性的典雅和恬静的典型形象，塑造了资本主义上升时期一位城市有产阶级的妇女形象。《蒙娜丽莎》代表了文艺复兴时期的美学方向；该作品折射出来的女性的深邃与高尚的思想品质，反映了文艺复兴时期人们对于女性美的审美理念和审美追求。",
-  createTime: "2024-02-14",
-  dimensions: "77 cm × 53 cm",
-  medium: "油画",
-  faqs: [
-    {
-      id: 1,
-      question: "蒙娜丽莎是否微笑？",
-      type: "yes_no",
-      answer: "YES",
-      explanation: "蒙娜丽莎的微笑是这幅画最著名的特征之一。"
-    },
-    {
-      id: 2,
-      question: "画中人物是否有眉毛？",
-      type: "yes_no", 
-      answer: "NO",
-      explanation: "X光扫描显示原画上确实没有眉毛。"
-    }
-  ],
-  isPremium: true
-};
+export default function ArtworkPage() {
+  const params = useParams();
+  const id = parseInt(params.id || "0", 10);
+  const [zoom, setZoom] = useState(1);
 
-const WorkDetails: FC = () => {
-  const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [score, setScore] = useState(0);
-  const params = useParams<{ id: string }>();
-  const artwork = STATIC_ARTWORK;
+  const { data: artwork, isError, error, isLoading } = useQuery<Artwork>({
+    queryKey: [`/api/artworks/${id}`],
+    enabled: id > 0,
+    retry: false,
+  });
 
-  const handleAnswerChange = (questionId: number, answer: string) => {
-    setUserAnswers(prev => ({
-      ...prev,
-      [questionId]: answer
-    }));
-  };
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
-  const handleSubmit = () => {
-    const correctAnswers = artwork.faqs.reduce((acc, faq) => {
-      if (userAnswers[faq.id] === faq.answer) {
-        acc += 1;
-      }
-      return acc;
-    }, 0);
-    setScore((correctAnswers / artwork.faqs.length) * 100);
-    setSubmitted(true);
-  };
+  if (isError) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <AlertDescription>
+            {(error as Error).message || "Failed to load artwork"}
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
+  if (!artwork) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert>
+          <AlertDescription>
+            Artwork not found
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6]">
-      <div className="max-w-2xl mx-auto px-3 py-6">
-        {/* 作品展示区 */}
-        <section className="mb-12">
-          <img
-            src={artwork.imageUrl}
-            alt={artwork.title}
-            className="w-full h-auto rounded-lg shadow-lg"
-          />
-          <div className="mt-6">
-            <h1 className="text-3xl font-serif mb-2">{artwork.title}</h1>
-            <p className="text-gray-600 italic">by {artwork.artist}</p>
-          </div>
+    <div className="container mx-auto px-4 py-8">
+      <Card>
+        <CardContent className="p-6">
+          <h1 className="text-3xl font-bold mb-4">{artwork.title}</h1>
 
-          {/* 作品信息区 */}
-          <div className="mt-8 bg-white rounded-xl p-6 shadow-lg border border-[#E8E6E1]">
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-[#8B4513]" />
-                  <span className="text-gray-600">创作时间：{artwork.createTime}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Ruler className="w-5 h-5 text-[#8B4513]" />
-                  <span className="text-gray-600">尺寸：{artwork.dimensions}</span>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <PaintBucket className="w-5 h-5 text-[#8B4513]" />
-                  <span className="text-gray-600">媒介：{artwork.medium}</span>
-                </div>
-              </div>
-            </div>
-            <p className="mt-6 text-gray-700 leading-relaxed">{artwork.description}</p>
-          </div>
-        </section>
-
-        {/* 视频展示区 */}
-        {artwork.videoUrl && (
-          <section className="mb-12">
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-[#E8E6E1]">
-              <h2 className="text-2xl font-serif mb-6">创作视频</h2>
-              <div className="aspect-video rounded-lg overflow-hidden">
-                <video
-                  src={artwork.videoUrl}
-                  controls
-                  className="w-full h-full object-cover"
+          <div className="relative mb-6">
+            <AspectRatio ratio={4/3}>
+              <div 
+                className="w-full h-full overflow-auto bg-gray-100 rounded-lg"
+                style={{ position: 'relative' }}
+              >
+                <img
+                  src={artwork.imageUrl}
+                  alt={artwork.title}
+                  className="w-full h-full object-contain transition-transform duration-200 ease-out"
+                  style={{
+                    transform: `scale(${zoom})`,
+                    transformOrigin: '0 0',
+                    maxWidth: 'none',
+                    maxHeight: 'none'
+                  }}
                 />
               </div>
-            </div>
-          </section>
-        )}
+            </AspectRatio>
 
-        {/* 趣味问答区 */}
-        <section className="mb-8">
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">趣味问答</h2>
-            <div className="space-y-8">
-              {artwork.faqs.map((faq) => (
-                <div key={faq.id} className="bg-[#FAF9F6] p-6 rounded-lg">
-                  <p className="text-lg font-medium mb-4 font-serif">{faq.question}</p>
-                  <div className="flex gap-4 justify-center">
-                    {["YES", "NO"].map((option) => (
-                      <button
-                        key={option}
-                        onClick={() => handleAnswerChange(faq.id, option)}
-                        className={`px-6 py-2 rounded-full font-serif transition-all ${
-                          userAnswers[faq.id] === option
-                            ? "bg-[#8B4513] text-white"
-                            : "bg-[#E8E6E1] hover:bg-[#D3CEC4]"
-                        }`}
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                  {submitted && (
-                    <div className="mt-4 p-4 bg-[#E8E6E1] rounded-lg font-serif">
-                      <p className="text-[#8B4513]">{faq.explanation}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-col items-center gap-4 mt-8">
-              <button
-                onClick={handleSubmit}
-                disabled={submitted || Object.keys(userAnswers).length !== artwork.faqs.length}
-                className="px-12 py-3 bg-[#8B4513] text-white rounded-full font-serif transition-all hover:bg-[#6F2F0A] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                提交答案
-              </button>
-              {submitted && (
-                <div className="text-xl font-serif text-[#8B4513]">
-                  你的得分: <span>{score}</span> 分
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* 评论区 */}
-        <section className="mb-8">
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold mb-4">评论区</h3>
-            <div className="space-y-8">
-              {[
-                {
-                  id: 1,
-                  user: { id: 1, name: "艺术爱好者", avatar: "/src/assets/design/avatar/001.png" },
-                  content: "这幅画真的让人印象深刻，特别是那神秘的微笑！",
-                  likes: 12,
-                  replies: []
-                }
-              ].map((comment) => (
-                <div key={comment.id} className="bg-[#FAF9F6] p-6 rounded-lg">
-                  <div className="flex items-center gap-4 mb-4">
-                    <img
-                      src={comment.user.avatar}
-                      alt={comment.user.name}
-                      className="w-12 h-12 rounded-full border-2 border-[#8B4513]"
-                    />
-                    <div>
-                      <h4 className="font-serif text-lg">{comment.user.name}</h4>
-                      <p className="text-gray-600 text-sm">艺术鉴赏家</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-800 font-serif leading-relaxed mb-4">
-                    {comment.content}
-                  </p>
-                  <div className="flex items-center gap-6">
-                    <button className="flex items-center gap-2 text-gray-600 hover:text-[#8B4513] transition-colors">
-                      <ThumbsUpIcon className="w-5 h-5" />
-                      <span>{comment.likes}</span>
-                    </button>
-                    <button className="flex items-center gap-2 text-gray-600 hover:text-[#8B4513] transition-colors">
-                      <MessageCircleIcon className="w-5 h-5" />
-                      <span>回复</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* 评论输入框 */}
-            <div className="mt-8 bg-[#FAF9F6] p-6 rounded-lg">
-              <textarea
-                placeholder="分享你的艺术见解..."
-                className="w-full p-4 border border-[#E8E6E1] rounded-lg font-serif mb-4 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B4513]"
-                rows={4}
+            <div className="flex items-center gap-4 mt-4">
+              <ZoomOut className="w-4 h-4 text-gray-500" />
+              <Slider
+                value={[zoom]}
+                onValueChange={([value]) => setZoom(value)}
+                min={1}
+                max={4}
+                step={0.1}
+                className="w-48"
               />
-              <div className="flex justify-between items-center">
-                <div className="flex gap-4">
-                  <button className="text-gray-600 hover:text-[#8B4513] transition-colors">
-                    <ImageIcon className="w-5 h-5" />
-                  </button>
-                  <button className="text-gray-600 hover:text-[#8B4513] transition-colors">
-                    <AtSignIcon className="w-5 h-5" />
-                  </button>
-                  <button className="text-gray-600 hover:text-[#8B4513] transition-colors">
-                    <SmileIcon className="w-5 h-5" />
-                  </button>
-                </div>
-                <button className="px-6 py-2 bg-[#8B4513] text-white rounded-full font-serif hover:bg-[#6F2F0A] transition-colors">
-                  发表评论
-                </button>
-              </div>
+              <ZoomIn className="w-4 h-4 text-gray-500" />
             </div>
           </div>
-        </section>
 
-        {/* 下载按钮 */}
-        <section className="mt-12 mb-20 flex justify-center">
-          <button 
-            className="bg-[#8B4513] hover:bg-[#6F2F0A] text-white rounded-full px-12 py-6 shadow-lg flex items-center gap-2 text-base font-serif transition-colors"
-            onClick={() => window.open(artwork.imageUrl, '_blank')}
-          >
-            <Download className="w-6 h-6" />
-            下载原图
-          </button>
-        </section>
-      </div>
+          <p className="text-lg text-muted-foreground mb-8">
+            {artwork.description}
+          </p>
+
+          {artwork.videoUrl && (
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">Video Presentation</h2>
+              <VideoPlayer url={artwork.videoUrl} />
+            </div>
+          )}
+
+          <CommentSection artworkId={artwork.id} />
+        </CardContent>
+      </Card>
     </div>
   );
-};
-
-export default WorkDetails;
+}
