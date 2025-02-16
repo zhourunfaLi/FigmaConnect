@@ -43,7 +43,7 @@ const WorkDetails: FC = () => {
   const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
-const [expandedComments, setExpandedComments] = useState<Set<number>>(new Set());
+  const [expandedComments, setExpandedComments] = useState<Set<number>>(new Set());
 
 const toggleComments = (commentId: number) => {
   setExpandedComments(prev => {
@@ -153,8 +153,12 @@ const toggleComments = (commentId: number) => {
           </div>
         </section>
 
-        {/* Download Button */}
-        <section className="flex justify-center mb-16">
+        <div className="my-8 border-t border-gray-800"></div>
+
+        {/* Comments Section */}
+        <section className="mb-16">
+          <h2 className="text-2xl text-white mb-6">评论区</h2>
+          <div className="space-y-6">
           <Button 
             size="lg"
             className="bg-white text-black hover:bg-white/90 px-12 py-6"
@@ -179,8 +183,13 @@ const toggleComments = (commentId: number) => {
                     <span className="text-gray-400 text-sm">2024-01-15</span>
                   </div>
                   <p className="text-gray-200 mt-2">这幅画真的太震撼了，每次看都能发现新的细节。达芬奇的技法真是让人叹为观止。</p>
-                  <button className="text-blue-400 text-sm mt-2">展开 3 条回复</button>
-                  <div className="hidden mt-4 space-y-4 pl-4 border-l border-gray-700">
+                  <button 
+                    className="text-blue-400 text-sm mt-2"
+                    onClick={() => toggleComments(1)}
+                  >
+                    {expandedComments.has(1) ? '收起回复' : '展开 3 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(1) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
                     <div className="flex items-start gap-3">
                       <img src="/src/assets/design/avatar/002.png" className="w-8 h-8 rounded-full" />
                       <div>
@@ -318,6 +327,20 @@ const toggleComments = (commentId: number) => {
               </div>
             </div>
           </div>
+        </section>
+
+        <div className="my-8 border-t border-gray-800"></div>
+
+        {/* Download Button */}
+        <section className="flex justify-center mb-16">
+          <Button 
+            size="lg"
+            className="bg-white text-black hover:bg-white/90 px-12 py-6"
+            onClick={() => window.open(artwork.imageUrl, '_blank')}
+          >
+            <Icons.download className="w-6 h-6 mr-2" />
+            下载原图
+          </Button>
         </section>
       </div>
     </div>
