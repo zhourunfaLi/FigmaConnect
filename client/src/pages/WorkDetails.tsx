@@ -230,7 +230,7 @@ const WorkDetails: FC = () => {
           <h2 className="text-2xl text-white mb-6">评论区</h2>
           <div className="space-y-6">
             {/* Comment 1 */}
-            <div className="bg-[#1A1A1A] p-4 rounded-lg">
+            <div className="bg-white/80 p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/001.png" className="w-10 h-10 rounded-full" />
                 <div className="flex-1">
@@ -262,7 +262,7 @@ const WorkDetails: FC = () => {
             </div>
 
             {/* Comment 2 */}
-            <div className="bg-[#1A1A1A] p-4 rounded-lg">
+            <div className="bg-white/80 p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/003.png" className="w-10 h-10 rounded-full" />
                 <div className="flex-1">
@@ -293,7 +293,7 @@ const WorkDetails: FC = () => {
               </div>
             </div>
             {/* Comment 3 to 6 */}
-            <div className="bg-[#1A1A1A] p-4 rounded-lg">
+            <div className="bg-white/80 p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/005.png" className="w-10 h-10 rounded-full" />
                 <div className="flex-1">
@@ -320,7 +320,7 @@ const WorkDetails: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-[#1A1A1A] p-4 rounded-lg">
+            <div className="bg-white/80 p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/007.png" className="w-10 h-10 rounded-full" />
                 <div className="flex-1">
@@ -332,7 +332,7 @@ const WorkDetails: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-[#1A1A1A] p-4 rounded-lg">
+            <div className="bg-white/80 p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/008.png" className="w-10 h-10 rounded-full" />
                 <div className="flex-1">
@@ -359,7 +359,7 @@ const WorkDetails: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-[#1A1A1A] p-4 rounded-lg">
+            <div className="bg-white/80 p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/002.png" className="w-10 h-10 rounded-full" />
                 <div className="flex-1">
