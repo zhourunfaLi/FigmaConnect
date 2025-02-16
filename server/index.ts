@@ -63,9 +63,14 @@ app.use((req, res, next) => {
     log(`Server is running at http://0.0.0.0:${PORT}`);
   }).on('error', (err) => {
     console.error('Server error:', err);
-    // 保持进程运行，不要退出
-    process.on('SIGTERM', () => {
-      server.close();
-    });
+  });
+
+  // 防止进程意外退出
+  process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+  });
+
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
   });
 })();
