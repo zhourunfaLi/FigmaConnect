@@ -45,17 +45,17 @@ const WorkDetails: FC = () => {
   const [score, setScore] = useState(0);
   const [expandedComments, setExpandedComments] = useState<Set<number>>(new Set());
 
-const toggleComments = (commentId: number) => {
-  setExpandedComments(prev => {
-    const newSet = new Set(prev);
-    if (newSet.has(commentId)) {
-      newSet.delete(commentId);
-    } else {
-      newSet.add(commentId);
-    }
-    return newSet;
-  });
-};
+  const toggleComments = (commentId: number) => {
+    setExpandedComments(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(commentId)) {
+        newSet.delete(commentId);
+      } else {
+        newSet.add(commentId);
+      }
+      return newSet;
+    });
+  };
 
   const handleAnswer = (questionId: number, answer: string) => {
     setUserAnswers(prev => ({...prev, [questionId]: answer}));
@@ -75,7 +75,6 @@ const toggleComments = (commentId: number) => {
 
   return (
     <div className="min-h-screen bg-[#111111]">
-      {/* Hero Section */}
       <section className="relative w-full h-[80vh]">
         <img 
           src={artwork.imageUrl}
@@ -90,7 +89,6 @@ const toggleComments = (commentId: number) => {
       </section>
 
       <div className="max-w-5xl mx-auto px-4 py-12">
-        {/* Video Section */}
         <section className="mb-16">
           <h2 className="text-2xl text-white mb-6">视频解析</h2>
           <div className="relative aspect-video rounded-lg overflow-hidden">
@@ -105,7 +103,6 @@ const toggleComments = (commentId: number) => {
           </div>
         </section>
 
-        {/* Quiz Section */}
         <section className="mb-16">
           <h2 className="text-2xl text-white mb-6">趣味问答</h2>
           <div className="space-y-6">
@@ -155,21 +152,6 @@ const toggleComments = (commentId: number) => {
 
         <div className="my-8 border-t border-gray-800"></div>
 
-        {/* Comments Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl text-white mb-6">评论区</h2>
-          <div className="space-y-6">
-          <Button 
-            size="lg"
-            className="bg-white text-black hover:bg-white/90 px-12 py-6"
-            onClick={() => window.open(artwork.imageUrl, '_blank')}
-          >
-            <Icons.download className="w-6 h-6 mr-2" />
-            下载原图
-          </Button>
-        </section>
-
-        {/* Comments Section */}
         <section className="mb-16">
           <h2 className="text-2xl text-white mb-6">评论区</h2>
           <div className="space-y-6">
@@ -215,8 +197,13 @@ const toggleComments = (commentId: number) => {
                     <span className="text-gray-400 text-sm">2024-01-14</span>
                   </div>
                   <p className="text-gray-200 mt-2">从艺术史的角度来看，这幅画对后世的影响无可估量。</p>
-                  <button className="text-blue-400 text-sm mt-2">展开 5 条回复</button>
-                  <div className="hidden mt-4 space-y-4 pl-4 border-l border-gray-700">
+                  <button 
+                    className="text-blue-400 text-sm mt-2"
+                    onClick={() => toggleComments(2)}
+                  >
+                    {expandedComments.has(2) ? '收起回复' : '展开 5 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(2) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
                     <div className="flex items-start gap-3">
                       <img src="/src/assets/design/avatar/004.png" className="w-8 h-8 rounded-full" />
                       <div>
@@ -231,8 +218,7 @@ const toggleComments = (commentId: number) => {
                 </div>
               </div>
             </div>
-
-            {/* Comment 3 */}
+            {/* Comment 3 to 6 */}
             <div className="bg-[#1A1A1A] p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/005.png" className="w-10 h-10 rounded-full" />
@@ -242,8 +228,10 @@ const toggleComments = (commentId: number) => {
                     <span className="text-gray-400 text-sm">2024-01-13</span>
                   </div>
                   <p className="text-gray-200 mt-2">光影处理太妙了，作为一名摄影师，我从中学到了很多。</p>
-                  <button className="text-blue-400 text-sm mt-2">展开 2 条回复</button>
-                  <div className="hidden mt-4 space-y-4 pl-4 border-l border-gray-700">
+                  <button className="text-blue-400 text-sm mt-2" onClick={() => toggleComments(3)}>
+                    {expandedComments.has(3) ? '收起回复' : '展开 2 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(3) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
                     <div className="flex items-start gap-3">
                       <img src="/src/assets/design/avatar/006.png" className="w-8 h-8 rounded-full" />
                       <div>
@@ -258,8 +246,6 @@ const toggleComments = (commentId: number) => {
                 </div>
               </div>
             </div>
-
-            {/* Comment 4 */}
             <div className="bg-[#1A1A1A] p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/007.png" className="w-10 h-10 rounded-full" />
@@ -272,8 +258,6 @@ const toggleComments = (commentId: number) => {
                 </div>
               </div>
             </div>
-
-            {/* Comment 5 */}
             <div className="bg-[#1A1A1A] p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/008.png" className="w-10 h-10 rounded-full" />
@@ -283,8 +267,10 @@ const toggleComments = (commentId: number) => {
                     <span className="text-gray-400 text-sm">2024-01-11</span>
                   </div>
                   <p className="text-gray-200 mt-2">色彩的层次感非常丰富，尤其是背景的渐变处理。</p>
-                  <button className="text-blue-400 text-sm mt-2">展开 4 条回复</button>
-                  <div className="hidden mt-4 space-y-4 pl-4 border-l border-gray-700">
+                  <button className="text-blue-400 text-sm mt-2" onClick={() => toggleComments(5)}>
+                    {expandedComments.has(5) ? '收起回复' : '展开 4 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(5) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
                     <div className="flex items-start gap-3">
                       <img src="/src/assets/design/avatar/001.png" className="w-8 h-8 rounded-full" />
                       <div>
@@ -299,8 +285,6 @@ const toggleComments = (commentId: number) => {
                 </div>
               </div>
             </div>
-
-            {/* Comment 6 */}
             <div className="bg-[#1A1A1A] p-4 rounded-lg">
               <div className="flex items-start gap-3">
                 <img src="/src/assets/design/avatar/002.png" className="w-10 h-10 rounded-full" />
@@ -310,8 +294,10 @@ const toggleComments = (commentId: number) => {
                     <span className="text-gray-400 text-sm">2024-01-10</span>
                   </div>
                   <p className="text-gray-200 mt-2">每次讲解这幅画时，都能感受到游客们的惊叹。</p>
-                  <button className="text-blue-400 text-sm mt-2">展开 6 条回复</button>
-                  <div className="hidden mt-4 space-y-4 pl-4 border-l border-gray-700">
+                  <button className="text-blue-400 text-sm mt-2" onClick={() => toggleComments(6)}>
+                    {expandedComments.has(6) ? '收起回复' : '展开 6 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(6) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
                     <div className="flex items-start gap-3">
                       <img src="/src/assets/design/avatar/003.png" className="w-8 h-8 rounded-full" />
                       <div>
@@ -331,7 +317,6 @@ const toggleComments = (commentId: number) => {
 
         <div className="my-8 border-t border-gray-800"></div>
 
-        {/* Download Button */}
         <section className="flex justify-center mb-16">
           <Button 
             size="lg"
