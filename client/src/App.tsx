@@ -7,18 +7,15 @@ import { ProtectedRoute } from "./lib/protected-route";
 
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
-import WorkDetails from "./pages/WorkDetails";
+import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
+import WorkDetails from "@/pages/WorkDetails";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={HomePage} />
-      <Route path="/auth" component={AuthPage} />
-      <ProtectedRoute path="/artwork/:id" component={WorkDetails} />
-      <ProtectedRoute path="/add" component={AddArtworkPage} />
-      <Route component={NotFound} />
+      <Route path="/" component={WorkDetails} />
     </Switch>
   );
 }

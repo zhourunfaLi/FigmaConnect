@@ -1,9 +1,21 @@
+// 将当前的 WorksList.tsx 的完整内容复制到这里作为备份
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
 import { Link } from "wouter";
+
+// Constants for layout configuration
+const GRID_CONFIG = {
+  MOBILE_COLUMNS: 2,
+  TABLET_COLUMNS: 3,
+  DESKTOP_COLUMNS: 4,
+  GROUP_SIZE: 7, // 2*3 + 1 pattern for wide artwork
+  BASE_HEIGHT: 128,
+  TABLET_SCALE: 1.5,
+  DESKTOP_SCALE: 2,
+} as const;
 
 // Common aspect ratios for artwork display
 const ARTWORK_ASPECT_RATIOS = [3/4, 4/5, 2/3, 5/4, 1] as const;
@@ -16,82 +28,39 @@ type WorksListProps = {
 // Advertisement component for the artwork grid
 function AdCard() {
   return (
-    <div className="w-full break-inside-avoid mb-9">
-      <div className="relative aspect-[3/4] w-full bg-white rounded-lg overflow-hidden border border-black/5">
-        {/* Ad Image */}
-        <img 
-          src="https://placehold.co/400x600/EEEAE2/111111?text=广告" 
-          alt="广告内容"
-          className="w-full h-full object-cover"
-        />
-
-        {/* Ad Label */}
+    <div className="w-full">
+      <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
         </div>
-
-        {/* Hover Effect - Similar to artwork cards */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-          <div className="space-y-2 mt-auto">
-            <h3 className="text-white font-medium line-clamp-2">
-              推广内容标题
-            </h3>
-            <p className="text-white/80 text-sm line-clamp-2">
-              了解更多详情
-            </p>
-          </div>
+        <div className="w-full h-full flex items-center justify-center text-black/30">
+          Google Ads
         </div>
       </div>
-
-      {/* Title Bar - Similar to artwork cards */}
-      <div className="flex justify-between items-center mt-[2px]">
+      <div className="flex justify-between items-center px-2 mt-2">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           推广内容
         </div>
-        <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-          <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-        </button>
       </div>
     </div>
   );
 }
 
-function calculateHorizontalIndex(index: number, totalColumns: number): number {
-  // 直接返回 index + 1 实现水平方向优先的编号
-  return index + 1;
-}
-
-function ArtworkItem({ 
+export function ArtworkItem({ 
   artwork, 
-  index,
-  isWide 
+  isWide, 
+  wideHeight, 
+  index 
 }: { 
-  artwork: Artwork & { aspectRatio: number }; 
+  artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
+  isWide: boolean; 
+  wideHeight: number;
   index: number;
-  isWide?: boolean;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  const getColumnCount = () => {
-    if (typeof window === 'undefined') return 2;
-    const width = window.innerWidth;
-    if (width >= 1024) return 4;
-    if (width >= 768) return 3;
-    return 2;
-  };
-
-  const [columnCount, setColumnCount] = useState(getColumnCount());
-
-  useEffect(() => {
-    const updateColumnCount = () => {
-      setColumnCount(getColumnCount());
-    };
-
-    window.addEventListener('resize', updateColumnCount);
-    return () => window.removeEventListener('resize', updateColumnCount);
-  }, []);
-
+  // Setup intersection observer for lazy loading
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -100,7 +69,9 @@ function ArtworkItem({
           observer.disconnect();
         }
       },
-      { rootMargin: '50px' }
+      {
+        rootMargin: '50px'
+      }
     );
 
     const element = document.getElementById(`artwork-${artwork.id}`);
@@ -111,27 +82,31 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
-  const horizontalIndex = calculateHorizontalIndex(index, columnCount);
-
   return (
     <Link 
       to={`/works/${artwork.id}`}
       className={cn(
-        "group block w-full break-inside-avoid mb-9",
-        isWide && "column-span-all"
+        "break-inside-avoid mb-4 group",
+        isWide && "-ml-[4px]"
       )}
+      style={{
+        columnSpan: isWide ? "all" : "none",
+        breakBefore: isWide ? "column" : "auto",
+        position: 'relative'
+      }}
     >
       <div 
         id={`artwork-${artwork.id}`}
-        className="relative overflow-hidden rounded-lg"
+        className="w-full relative overflow-hidden rounded-xl"
         style={{ 
-          aspectRatio: isWide ? 2.4 : artwork.aspectRatio
+          height: isWide ? `${wideHeight}px` : undefined,
+          aspectRatio: isWide ? undefined : artwork.aspectRatio,
         }}
       >
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
             className={cn(
-              "absolute inset-0 rounded-lg",
+              "absolute inset-0 rounded-xl",
               !imageLoaded && "animate-pulse"
             )}
           />
@@ -140,7 +115,7 @@ function ArtworkItem({
         {isVisible && (
           <>
             <img
-              src={`/src/assets/design/works-${String((index % 8) + 1).padStart(2, '0')}.png`}
+              src={`/src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
@@ -154,7 +129,7 @@ function ArtworkItem({
             {/* Labels */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                #{horizontalIndex}
+                #{index + 1}
               </div>
               {artwork.isPremium && (
                 <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
@@ -163,7 +138,7 @@ function ArtworkItem({
               )}
             </div>
 
-            {/* Hover overlay */}
+            {/* Hover overlay with actions */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
               <div className="flex justify-end items-start">
                 <div className="flex gap-2">
@@ -189,8 +164,8 @@ function ArtworkItem({
         )}
       </div>
 
-      {/* Title and options */}
-      <div className="flex justify-between items-center mt-[2px] group-hover:opacity-0 transition-opacity duration-300">
+      {/* Title and options (visible when not hovering) */}
+      <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
         </div>
@@ -203,52 +178,71 @@ function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  // Transform artwork data for display and insert ads
-  const contentItems = Array.from({ length: 30 }, (_, index) => {
-    // Insert an ad after every 6 artworks
-    if ((index + 1) % 6 === 0) {
-      return {
-        type: 'ad',
-        id: `ad-${Math.floor(index / 6)}`
-      };
-    }
+  const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
-    // Calculate the actual artwork index (excluding ad positions)
-    const artworkIndex = index - Math.floor(index / 6);
-    const isWide = ((artworkIndex + 1) % 7 === 0);
-
-    return {
-      type: 'artwork',
-      data: {
-        ...artworks[artworkIndex % artworks.length],
-        id: artworkIndex + 1,
-        aspectRatio: ARTWORK_ASPECT_RATIOS[artworkIndex % ARTWORK_ASPECT_RATIOS.length],
-        isWide
+  // Update wide artwork height based on screen size
+  useEffect(() => {
+    const updateWideHeight = () => {
+      const width = window.innerWidth;
+      if (width < 768) { // Mobile: 2 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT);
+      } else if (width < 1024) { // Tablet: 3 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
+      } else { // Desktop: 4 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
       }
+    };
+
+    updateWideHeight();
+    window.addEventListener('resize', updateWideHeight);
+    return () => window.removeEventListener('resize', updateWideHeight);
+  }, []);
+
+  // Transform artwork data for display
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
+    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
+    const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
+    return {
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
+      isWide
     };
   });
 
+  // Combine artworks with advertisements
+  const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
+    // Add artwork
+    acc.push(
+      <ArtworkItem 
+        key={artwork.id}
+        artwork={artwork}
+        isWide={artwork.isWide}
+        wideHeight={wideHeight}
+        index={index}
+      />
+    );
+
+    // Add advertisement after every 6 artworks (before wide artwork)
+    if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
+      acc.push(
+        <div key={`ad-${index}`} className="break-inside-avoid mb-4">
+          <AdCard />
+        </div>
+      );
+    }
+
+    return acc;
+  }, []);
+
   return (
-    <div className="w-full max-w-[1440px] mx-auto">
-      <div 
-        className={cn(
-          "columns-2 md:columns-3 lg:columns-4 gap-[10px] px-2",
-          className
-        )}
-      >
-        {contentItems.map((item, index) => (
-          item.type === 'ad' ? (
-            <AdCard key={item.id} />
-          ) : (
-            <ArtworkItem 
-              key={item.data.id}
-              artwork={item.data}
-              index={index - Math.floor(index / 6)} // Adjust index for horizontal numbering
-              isWide={item.data.isWide}
-            />
-          )
-        ))}
-      </div>
+    <div 
+      className={cn(
+        "columns-2 md:columns-3 lg:columns-4 gap-4 px-2 pb-20",
+        className
+      )}
+    >
+      {contentWithAds}
     </div>
   );
 }
