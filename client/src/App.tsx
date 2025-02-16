@@ -7,7 +7,7 @@ import { ProtectedRoute } from "./lib/protected-route";
 
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
-import WorkDetails from "@/pages/WorkDetails";
+import WorkDetails from "./pages/WorkDetails";
 import AddArtworkPage from "@/pages/add-artwork-page";
 import NotFound from "@/pages/not-found";
 
