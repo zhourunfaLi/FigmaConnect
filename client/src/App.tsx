@@ -11,6 +11,7 @@ import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
 import WorkDetails from "@/pages/WorkDetails";
 import NotFound from "@/pages/not-found";
+import UserPage from "@/pages/user-page";
 
 function Router() {
   return (
