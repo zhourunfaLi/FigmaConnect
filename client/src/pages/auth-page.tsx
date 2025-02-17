@@ -1,3 +1,4 @@
+
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -10,8 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { insertUserSchema, type InsertUser } from "@shared/schema";
 
 export default function AuthPage() {
-  const { user, loginMutation, registerMutation } = useAuth();
   const [, setLocation] = useLocation();
+  const { user, loginMutation, registerMutation } = useAuth();
 
   if (user) {
     setLocation("/");
