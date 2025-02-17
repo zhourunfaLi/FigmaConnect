@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap');
+
+@layer base {
+  h1, h2, h3, .font-art {
+    font-family: 'Cinzel', serif;
+  }
+}
+
 .text-shadow {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.22);
 }

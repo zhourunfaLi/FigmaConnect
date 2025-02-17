@@ -74,7 +74,7 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2] py-[102px]">
-      <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-[8px] flex flex-col gap-8">
+      <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-2 pt-2 flex flex-col gap-8">
         {/* Works Show Section */}
         <section className="relative">
           <div className="relative w-full h-auto aspect-[0.7]">
@@ -100,11 +100,19 @@ const WorkDetails: FC = () => {
                     defaultValue="2.4"
                     className="w-full h-[10px] bg-[#D5D1AE] rounded-[5px]"
                   />
-                  <div className="absolute -top-10 left-1/2 -translate-x-1/2">
-                    <div className="bg-[#C1AB09] text-white px-5 py-1 rounded-full text-[14px]">
-                      2.4 X
+                  <div className="flex items-center gap-2">
+                    <button className="text-white bg-[#C1AB09] rounded-full w-6 h-6 flex items-center justify-center">
+                      <Icons.minus className="w-4 h-4" />
+                    </button>
+                    <div className="relative">
+                      <div className="bg-[#C1AB09] text-white px-5 py-1 rounded-full text-[14px] font-art">
+                        2.4 X
+                      </div>
+                      <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[#C1AB09] mx-auto" />
                     </div>
-                    <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[#C1AB09] mx-auto" />
+                    <button className="text-white bg-[#C1AB09] rounded-full w-6 h-6 flex items-center justify-center">
+                      <Icons.plus className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               </div>
