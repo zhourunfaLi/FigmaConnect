@@ -20,6 +20,24 @@ const Icons = {
   download: Download,
   thumbsUp: ThumbsUp
 };
+
+const Icons = {
+  minus: Minus,
+  plus: Plus,
+  play: Play,
+  skipForward: SkipForward,
+  volume2: Volume2,
+  settings: Settings,
+  maximize: Maximize,
+  heart: Heart,
+  share2: Share2,
+  messageCircle: MessageCircle,
+  image: Image,
+  atSign: AtSign,
+  smile: Smile,
+  download: Download,
+  thumbsUp: ThumbsUp
+};
 import React, { useState } from "react";
 
 const STATIC_ARTWORK = {
@@ -150,33 +168,7 @@ const WorkDetails: FC = () => {
                 <Icons.maximize className="w-5 h-5" />
               </button>
             </div>
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-[12px] w-[324px] flex flex-col items-center">
-                <div className="bg-[#C1AB09] text-white px-4 py-1 rounded-full text-[14px] mb-2">
-                  2.4 X
-                </div>
-                <div className="relative w-full flex items-center">
-                  <button className="text-white absolute left-0 -translate-x-1/2">
-                    <Icons.minus className="w-5 h-5" />
-                  </button>
-                  <input 
-                    type="range"
-                    min="1"
-                    max="5"
-                    step="0.1"
-                    defaultValue="2.4"
-                    className="w-full h-[3px] bg-gradient-to-r from-[#C1AB09] via-[#C1AB09] to-[#D5D1AE] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer"
-                  />
-                  <button className="text-white absolute right-0 translate-x-1/2">
-                    <Icons.plus className="w-5 h-5" />
-                  </button>
-                </div>
-                <div className="absolute right-0 -bottom-[30px]">
-                  <button className="text-white opacity-80 hover:opacity-100 transition-opacity">
-                    <Icons.maximize className="w-5 h-5" />
-                  </button>
-                </div>
               </div>
-            </div>
             <h1 className="mt-3 text-[15px] leading-6">
               达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
             </h1>
