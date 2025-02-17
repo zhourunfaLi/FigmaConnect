@@ -87,7 +87,8 @@ export function setupAuth(app: Express) {
     storage.getUser(parseInt(userId))
       .then(user => {
         if (!user) return res.sendStatus(401);
-        res.json(user);
+        // Modification to always return non-premium user
+        res.json({...user, isPremium: false}); // Temporarily disable premium status
       })
       .catch(() => res.sendStatus(500));
   });

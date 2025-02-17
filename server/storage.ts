@@ -65,7 +65,12 @@ export class MemoryStorage implements IStorage {
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
-    return this.artworks.find(a => a.id === id);
+    // Temporarily return artwork without premium check
+    const artwork = this.artworks.find(a => a.id === id);
+    if (artwork) {
+      artwork.isPremium = false; // Temporarily disable premium status
+    }
+    return artwork;
   }
 
   async createArtwork(artwork: Omit<Artwork, "id">): Promise<Artwork> {
