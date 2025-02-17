@@ -173,7 +173,8 @@ const WorkDetails: FC = () => {
               达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
             </h1>
           </div>
-        </section>
+        </div>
+      </section>
 
 
 
