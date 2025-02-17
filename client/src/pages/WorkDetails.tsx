@@ -2,6 +2,24 @@ import { FC } from 'react';
 import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Minus, Plus, Play, SkipForward, Volume2, Settings, Maximize, Heart, Share2, MessageCircle, Image, AtSign, Smile, Download, ThumbsUp } from 'lucide-react';
+
+const Icons = {
+  minus: Minus,
+  plus: Plus,
+  play: Play,
+  skipForward: SkipForward,
+  volume2: Volume2,
+  settings: Settings,
+  maximize: Maximize,
+  heart: Heart,
+  share2: Share2,
+  messageCircle: MessageCircle,
+  image: Image,
+  atSign: AtSign,
+  smile: Smile,
+  download: Download,
+  thumbsUp: ThumbsUp
+};
 import React, { useState } from "react";
 
 const STATIC_ARTWORK = {
