@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
+import { Minus, Plus, Play, SkipForward, Volume2, Settings, Maximize, Heart, Share2, MessageCircle, Image, AtSign, Smile, Download, ThumbsUp } from 'lucide-react';
 import React, { useState } from "react";
 
 const STATIC_ARTWORK = {
