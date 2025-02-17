@@ -33,6 +33,20 @@ const STATIC_ARTWORK = {
       type: "yes_no",
       answer: "YES",
       explanation: "达芬奇在1516年将画作卖给了法国国王弗朗索瓦一世。"
+    },
+    {
+      id: 4,
+      question: "蒙娜丽莎的背景是真实存在的风景？",
+      type: "yes_no",
+      answer: "NO",
+      explanation: "背景是达芬奇想象中的理想化风景。"
+    },
+    {
+      id: 5,
+      question: "蒙娜丽莎的画像下面还有其他画作？",
+      type: "yes_no",
+      answer: "YES",
+      explanation: "科学家通过X光发现画布下还有其他版本的画作。"
     }
   ]
 };
@@ -70,40 +84,34 @@ const WorkDetails: FC = () => {
         correctAnswers++;
       }
     });
-    setScore(Math.floor((correctAnswers / totalQuestions) * 100));
+    setScore(correctAnswers * 10);
     setSubmitted(true);
   };
 
   return (
     <div className="min-h-screen bg-[#111111]">
-      <section className="mb-8 px-4">
+      <section className="mb-8 px-4 pt-8">
         <div className="relative w-full h-[80vh] bg-black rounded-2xl overflow-hidden">
-          {/* SVIP Badge */}
           <div className="absolute top-4 left-4 z-10">
-            <div className="bg-[#EB9800] text-white px-3 py-1 rounded-full font-medium">
+            <div className="bg-[#EB9800] text-white px-3 py-1 rounded-full text-sm font-medium">
               SVIP
             </div>
           </div>
-          
-          {/* Image Container */}
+
           <div className="relative w-full h-full">
             <img 
               src={artwork.imageUrl}
               alt={artwork.title}
               className="w-full h-full object-cover"
             />
-            
-            {/* Controls Overlay */}
+
             <div className="absolute bottom-4 w-full px-4 flex justify-center">
-              {/* Zoom Controls */}
               <div className="flex flex-col items-center gap-2">
-                {/* Zoom Value Display */}
-                <div className="bg-black/50 px-3 py-1 rounded-full text-white text-sm">
+                <div className="bg-black/50 px-3 py-1 rounded-full text-white text-xs">
                   {zoom}x
                 </div>
-                {/* Zoom Slider */}
                 <div className="bg-black/50 rounded-full px-6 py-3 flex items-center gap-4">
-                  <button className="text-white">-</button>
+                  <button className="text-white text-sm">-</button>
                   <input
                     type="range"
                     min="1"
@@ -112,28 +120,25 @@ const WorkDetails: FC = () => {
                     onChange={(e) => setZoom(Number(e.target.value) / 100)}
                     className="w-48"
                   />
-                  <button className="text-white">+</button>
+                  <button className="text-white text-sm">+</button>
                 </div>
               </div>
-              
-              {/* Fullscreen Button */}
+
               <button className="absolute right-8 bottom-16 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors">
-                <Icons.maximize className="w-6 h-6" />
+                <Icons.maximize className="w-5 h-5" />
               </button>
             </div>
           </div>
         </div>
-        
-        {/* Title */}
-        <h1 className="text-2xl text-white mt-4">
+
+        <h1 className="text-xl text-white mt-6">
           达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
         </h1>
       </section>
 
-      {/* Description Section */}
       <section className="mb-8 px-4">
-        <h2 className="text-2xl text-white mb-4">作品介绍</h2>
-        <p className="text-lg text-white/80 leading-relaxed">
+        <h2 className="text-xl text-white mb-4">作品介绍</h2>
+        <p className="text-base text-white/80 leading-relaxed">
           {artwork.description}
         </p>
       </section>
@@ -142,7 +147,7 @@ const WorkDetails: FC = () => {
 
       <div className="max-w-5xl mx-auto px-4 py-12">
         <section className="mb-16">
-          <h2 className="text-2xl text-white mb-6">《蒙娜丽莎的20个秘密》</h2>
+          <h2 className="text-xl text-white mb-6">《蒙娜丽莎的20个秘密》</h2>
           <div className="relative aspect-video rounded-lg overflow-hidden">
             <img
               src={artwork.videoThumbnail}
@@ -150,36 +155,34 @@ const WorkDetails: FC = () => {
               className="w-full h-full object-cover"
             />
             <button className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/40 transition-colors">
-              <Icons.play className="w-16 h-16 text-white" />
+              <Icons.play className="w-14 h-14 text-white" />
             </button>
           </div>
         </section>
 
         <section className="mb-16">
-          <h2 className="text-2xl text-white mb-6">趣味问答</h2>
+          <h2 className="text-xl text-white mb-6">趣味问答</h2>
           <div className="space-y-6">
             {artwork.faqs.map((faq) => (
               <div key={faq.id} className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                <h3 className="text-xl text-white mb-4">{faq.question}</h3>
+                <h3 className="text-base text-white mb-4">{faq.question}</h3>
                 <div className="flex gap-4">
                   <Button
                     onClick={() => handleAnswer(faq.id, 'YES')}
-                    variant="outline"
-                    className={`w-32 border-gray-600 hover:border-green-500 transition-colors ${
+                    className={`w-32 transition-colors ${
                       userAnswers[faq.id] === 'YES' 
-                        ? 'bg-green-500 text-white border-green-500' 
-                        : 'text-gray-400'
+                        ? 'bg-green-500 hover:bg-green-600'
+                        : 'bg-gray-700 hover:bg-gray-600'
                     }`}
                   >
                     YES
                   </Button>
                   <Button
                     onClick={() => handleAnswer(faq.id, 'NO')}
-                    variant="outline"
-                    className={`w-32 border-gray-600 hover:border-red-500 transition-colors ${
+                    className={`w-32 transition-colors ${
                       userAnswers[faq.id] === 'NO' 
-                        ? 'bg-red-500 text-white border-red-500' 
-                        : 'text-gray-400'
+                        ? 'bg-red-500 hover:bg-red-600'
+                        : 'bg-gray-700 hover:bg-gray-600'
                     }`}
                   >
                     NO
@@ -188,7 +191,7 @@ const WorkDetails: FC = () => {
                 {submitted && (
                   <div className={`mt-4 ${userAnswers[faq.id] === faq.answer ? 'text-green-400' : 'text-red-400'}`}>
                     <p>{userAnswers[faq.id] === faq.answer ? '✓ 回答正确' : '✗ 回答错误'}</p>
-                    <p className="text-white/80 mt-2">{faq.explanation}</p>
+                    <p className="text-white/80 mt-2 text-sm">{faq.explanation}</p>
                   </div>
                 )}
               </div>
@@ -197,12 +200,12 @@ const WorkDetails: FC = () => {
               <Button
                 onClick={handleSubmit}
                 disabled={submitted || Object.keys(userAnswers).length !== artwork.faqs.length}
-                className="w-48"
+                className="w-64 h-12 text-lg bg-blue-500 hover:bg-blue-600 transition-colors"
               >
                 提交答案
               </Button>
               {submitted && (
-                <div className="text-2xl text-white">
+                <div className="text-xl text-white">
                   得分: <span className="text-green-400">{score}</span>
                 </div>
               )}
@@ -213,7 +216,7 @@ const WorkDetails: FC = () => {
         <div className="my-8 border-t border-gray-800"></div>
 
         <section className="mb-16">
-          <h2 className="text-2xl text-white mb-6">评论区</h2>
+          <h2 className="text-xl text-white mb-6">评论</h2>
           <div className="space-y-6">
             {/* Comment 1 */}
             <div className="bg-[#1A1A1A] p-4 rounded-lg">
@@ -380,10 +383,10 @@ const WorkDetails: FC = () => {
         <section className="flex justify-center mb-16">
           <Button 
             size="lg"
-            className="bg-white text-black hover:bg-white/90 px-12 py-6"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-12 py-6 text-base"
             onClick={() => window.open(artwork.imageUrl, '_blank')}
           >
-            <Icons.download className="w-6 h-6 mr-2" />
+            <Icons.download className="w-5 h-5 mr-2" />
             下载原图
           </Button>
         </section>
