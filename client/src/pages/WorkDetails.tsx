@@ -106,30 +106,30 @@ const WorkDetails: FC = () => {
                 SVIP
               </div>
               <div className="absolute left-1/2 -translate-x-1/2 bottom-[12px] w-[324px]">
-                <div className="flex justify-between mb-2">
+                <div className="relative flex items-center justify-between mb-4">
                   <button className="text-white bg-[#C1AB09] rounded-full w-6 h-6 flex items-center justify-center">
                     <Icons.minus className="w-4 h-4" />
                   </button>
-                  <div className="relative">
-                    <div className="bg-[#C1AB09] text-white px-5 py-1 rounded-full text-[14px] font-art">
+                  <div className="absolute left-[45%] -top-8">
+                    <div className="bg-[#C1AB09] text-white px-5 py-1 rounded-full text-[14px] font-art whitespace-nowrap">
                       2.4 X
                     </div>
                     <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[#C1AB09] mx-auto" />
                   </div>
-                  <button className="text-white bg-[#C1AB09] rounded-full w-6 h-6 flex items-center justify-center">
-                    <Icons.plus className="w-4 h-4" />
-                  </button>
-                </div>
-                <div className="relative flex items-center">
                   <input 
                     type="range"
                     min="1"
                     max="5"
                     step="0.1"
                     defaultValue="2.4"
-                    className="w-full h-[10px] bg-[#D5D1AE] rounded-[5px]"
+                    className="w-[240px] h-[10px] bg-[#D5D1AE] rounded-[5px] mx-2"
                   />
-                  <button className="ml-2 text-white">
+                  <button className="text-white bg-[#C1AB09] rounded-full w-6 h-6 flex items-center justify-center">
+                    <Icons.plus className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="absolute right-0 bottom-[-24px]">
+                  <button className="text-white">
                     <Icons.maximize className="w-6 h-6" />
                   </button>
                 </div>
