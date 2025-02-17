@@ -380,7 +380,14 @@ const WorkDetails: FC = () => {
 
         <div className="my-8 border-t border-gray-300"></div>
 
-        <section className="flex justify-center mb-16">
+        <section className="flex flex-col items-center gap-8 mb-16">
+          <div className="max-w-xl w-full rounded-lg overflow-hidden shadow-lg">
+            <img 
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className="w-full h-auto"
+            />
+          </div>
           <Button 
             size="lg"
             className="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white px-12 py-6 text-base shadow-lg"
