@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
+import { ArrowLeft, Heart, MessageCircle, Share2 } from 'lucide-react';
 import React, { useState } from "react";
 import CommentSection from '@/components/comment-section';
 
