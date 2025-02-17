@@ -92,9 +92,9 @@ const WorkDetails: FC = () => {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2] py-[102px]">
-      <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-2 pt-[8px] flex flex-col gap-8">
+      <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-2 flex flex-col gap-8">
         {/* Works Show Section */}
-        <section className="relative">
+        <section className="relative pt-[8px] !mt-0">
           <div className="relative w-full h-auto aspect-[0.7]">
             <div className="relative w-full h-[477px] rounded-xl overflow-hidden">
               <img 
