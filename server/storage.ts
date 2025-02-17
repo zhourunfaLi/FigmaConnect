@@ -11,7 +11,6 @@ export interface IStorage {
   getArtwork(id: number): Promise<Artwork | undefined>;
   getComments(artworkId: number): Promise<Comment[]>;
   createComment(comment: Omit<Comment, "id" | "createdAt">): Promise<Comment>;
-  sessionStore: Store;
 }
 
 class MemorySessionStore extends Store {
@@ -40,11 +39,8 @@ export class MemoryStorage implements IStorage {
   private nextUserId = 1;
   private nextArtworkId = 1;
   private nextCommentId = 1;
-  readonly sessionStore: Store;
 
-  constructor() {
-    this.sessionStore = new MemorySessionStore();
-  }
+  constructor() {}
 
   async getUser(id: number): Promise<User | undefined> {
     return this.users.find(u => u.id === id);
