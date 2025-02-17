@@ -172,7 +172,7 @@ const WorkDetails: FC = () => {
                     className={`w-32 transition-colors ${
                       userAnswers[faq.id] === 'YES' 
                         ? 'bg-green-500 hover:bg-green-600'
-                        : 'bg-gray-700 hover:bg-gray-600'
+                        : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
                     }`}
                   >
                     YES
@@ -182,7 +182,7 @@ const WorkDetails: FC = () => {
                     className={`w-32 transition-colors ${
                       userAnswers[faq.id] === 'NO' 
                         ? 'bg-red-500 hover:bg-red-600'
-                        : 'bg-gray-700 hover:bg-gray-600'
+                        : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
                     }`}
                   >
                     NO
