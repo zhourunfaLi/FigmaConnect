@@ -24,8 +24,8 @@ export default function UserPage() {
       <div className="relative bg-[#FFFDFB] mt-4 pb-8 pt-6 px-4 rounded-t-[20px]">
         <div className="flex justify-between items-center mb-4 px-4">
           <div className="flex flex-col gap-2">
-            <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
-            <div className="flex items-center text-[#747472] text-sm gap-2">
+            <h2 className="text-black text-sm font-normal">{user.username || "达芬奇的幻想"}</h2>
+            <div className="flex items-center text-[#747472] text-xs gap-2">
               <span>艺术天赋</span>
               <span className="text-[#147ADA]">885</span>
             </div>
