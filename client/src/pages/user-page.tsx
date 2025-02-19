@@ -21,30 +21,22 @@ export default function UserPage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* User Card */}
-      <div className="relative bg-[#FFFDFB] mt-4 pb-12 pt-16 px-4 rounded-t-[20px]">
+      <div className="relative bg-[#FFFDFB] mt-8 pb-12 pt-16 px-4 rounded-t-[20px]">
+        <div className="flex items-center justify-between px-4 absolute top-4 left-0 right-0">
+          <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
+          <Button className="bg-[#147ADA] text-xs px-3 py-1 h-[27px] rounded">
+            SVIP充值
+          </Button>
+        </div>
+
         <Avatar 
-          className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 border-[9px] border-white"
+          className="mx-auto w-24 h-24 border-[9px] border-white"
         >
           <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
         </Avatar>
 
-        <div className="text-center mt-8">
-          <div className="flex justify-center gap-8 text-[#747472] text-sm">
-            <div className="flex items-center">
-              <h2 className="text-black text-base font-normal mr-2">{user.username || "达芬奇的幻想"}</h2>
-              <div>
-                <span>您的收藏</span>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <span>艺术天赋</span>
-              <span>885</span>
-            </div>
-          </div>
-        </div>
-
         {/* Invite Card */}
-        <div className="mt-6 bg-gradient-to-br from-[#E6AF22E0] to-[#7A6119] p-6 rounded-[20px]">
+        <div className="mt-6 bg-gradient-to-br from-[#1a1a1a] to-[#333333] p-6 rounded-[20px] text-white">
           <p className="text-white text-xs text-center mb-8">
             您的朋友凭此邀请码，订阅可以优惠5元 您也可以获得1周会员延期（可累加）
           </p>
@@ -65,8 +57,16 @@ export default function UserPage() {
         </Button>
       </div>
 
+      {/* Collection Header */}
+      <div className="bg-[#FFFDFB] px-4 pt-4">
+        <div className="flex items-center gap-2 text-[#747472] text-sm mb-4">
+          <span className="font-medium">您的收藏</span>
+          <span className="text-[#147ADA]">885</span>
+        </div>
+      </div>
+      
       {/* Artwork Grid */}
-      <div className="bg-[#FFFDFB] px-2 py-4 grid grid-cols-3 gap-[18px]">
+      <div className="bg-[#FFFDFB] px-2 pb-4 grid grid-cols-3 gap-[18px]">
         {artworks.map((artwork) => (
           <div key={artwork.id} className="relative">
             <img 
