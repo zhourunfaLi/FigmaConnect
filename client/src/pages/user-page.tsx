@@ -22,30 +22,47 @@ export default function UserPage() {
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* User Card */}
       <div className="relative bg-[#FFFDFB] mt-8 pb-12 pt-16 px-4 rounded-t-[20px]">
-        <div className="flex items-center justify-between px-4 absolute top-4 left-0 right-0">
-          <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
-          <Button className="bg-[#147ADA] text-xs px-3 py-1 h-[27px] rounded">
-            SVIP充值
-          </Button>
-        </div>
-
         <Avatar 
           className="mx-auto w-24 h-24 border-[9px] border-white"
         >
           <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
         </Avatar>
 
-        {/* Invite Card */}
-        <div className="mt-6 bg-gradient-to-br from-[#1a1a1a] to-[#333333] p-6 rounded-[20px] text-white">
-          <p className="text-white text-xs text-center mb-8">
-            您的朋友凭此邀请码，订阅可以优惠5元 您也可以获得1周会员延期（可累加）
-          </p>
-          <div className="flex items-center gap-4 justify-center">
-            <span className="text-[#E9E9E9] text-xs">邀请码</span>
-            <div className="bg-[#D9D9D9] bg-opacity-60 px-4 py-1 rounded">
-              <span className="text-black text-xs">GHJO#$675sg</span>
+        <div className="flex items-center justify-between px-4 mt-8">
+          <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
+          <Button className="bg-[#147ADA] text-xs px-3 py-1 h-[27px] rounded">
+            SVIP充值
+          </Button>
+        </div>
+
+        <div className="text-center mt-2">
+          <div className="flex justify-center items-center text-[#747472] text-sm">
+            <span>艺术天赋</span>
+            <span className="ml-2 text-[#147ADA]">885</span>
+          </div>
+        </div>
+
+        {/* Invite Card - Luxury Design */}
+        <div className="mt-6 bg-gradient-to-br from-[#8B7355] to-[#4A3C2C] p-6 rounded-[20px] shadow-lg border border-[#D4AF37]/20">
+          <div className="flex items-center justify-between mb-6">
+            <span className="text-[#D4AF37] text-lg font-medium">尊享特权卡</span>
+            <div className="w-8 h-8">
+              <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
+                <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" stroke="#D4AF37" strokeWidth="2"/>
+              </svg>
             </div>
-            <Button className="bg-[#147ADA] text-xs px-3 py-1 h-auto rounded">
+          </div>
+          <p className="text-[#D4AF37] text-sm mb-6 leading-relaxed">
+            邀请好友订阅即可获得：
+            <br/>• 好友订阅优惠 5 元
+            <br/>• 您获得 1 周会员延期（可累加）
+          </p>
+          <div className="flex items-center gap-4 justify-between bg-[#D4AF37]/10 p-4 rounded-xl">
+            <div>
+              <span className="text-[#D4AF37] text-xs block mb-1">您的专属邀请码</span>
+              <span className="text-[#D4AF37] font-medium">GHJO#$675sg</span>
+            </div>
+            <Button className="bg-[#D4AF37] hover:bg-[#B8860B] text-xs px-4 py-1 h-auto rounded-full">
               复制
             </Button>
           </div>
