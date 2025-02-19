@@ -22,9 +22,9 @@ export default function UserPage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* User Card */}
-      <div className="relative bg-[#FFFDFB] pb-12 pt-20 px-4 rounded-t-[20px] mt-12">
+      <div className="relative bg-[#FFFDFB] pb-12 pt-24 px-4 rounded-t-[20px] mt-16">
         <Avatar 
-          className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 border-[6px] border-white"
+          className="absolute -top-12 left-1/2 -translate-x-1/2 w-20 h-20 border-[6px] border-white"
         >
           <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
         </Avatar>
@@ -40,16 +40,16 @@ export default function UserPage() {
         </div>
 
         {/* Invite Card */}
-        <div className="mt-6 bg-gradient-to-br from-[#E6AF22E0] to-[#7A6119] p-6 rounded-[20px]">
-          <p className="text-white text-xs text-center mb-8">
+        <div className="mt-6 bg-white border border-gray-100 shadow-sm p-6 rounded-[20px]">
+          <p className="text-gray-600 text-xs text-center mb-6">
             您的朋友凭此邀请码，订阅可以优惠5元 您也可以获得1周会员延期（可累加）
           </p>
-          <div className="flex items-center gap-4 justify-center">
-            <span className="text-[#E9E9E9] text-xs">邀请码</span>
-            <div className="bg-[#D9D9D9] bg-opacity-60 px-4 py-1 rounded">
-              <span className="text-black text-xs">GHJO#$675sg</span>
+          <div className="flex items-center gap-3 justify-center bg-gray-50 p-3 rounded-xl">
+            <span className="text-gray-500 text-xs">邀请码</span>
+            <div className="bg-white px-4 py-1.5 rounded-lg border border-gray-100">
+              <span className="text-gray-800 text-xs font-medium">GHJO#$675sg</span>
             </div>
-            <Button className="bg-[#147ADA] text-xs px-3 py-1 h-auto rounded">
+            <Button className="bg-[#4094F7] hover:bg-[#2D7FE0] text-xs px-4 py-1.5 h-auto rounded-lg transition-colors">
               复制
             </Button>
           </div>
