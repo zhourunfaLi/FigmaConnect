@@ -1,27 +1,30 @@
+
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import React from 'react';
-
 
 export default function AuthPage() {
-  const [, setLocation] = useLocation();
   const { user, loginMutation } = useAuth();
-
-  React.useEffect(() => {
-    if (user) {
-      setLocation("/");
-    }
-  }, [user, setLocation]);
+  const [, setLocation] = useLocation();
 
   const handleWechatLogin = () => {
     // 模拟微信登录，使用测试账号
-    loginMutation.mutate({ 
-      username: "test", 
-      password: "test123" 
-    });
+    try {
+      loginMutation.mutate({ 
+        username: "test", 
+        password: "test123" 
+      });
+    } catch (error) {
+      console.error("登录失败:", error);
+    }
   };
+
+  // 如果用户已登录，重定向到首页
+  if (user) {
+    setLocation("/");
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-[#EEEAE2] relative">
