@@ -11,11 +11,18 @@ import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
 import WorkDetails from "@/pages/WorkDetails";
 import NotFound from "@/pages/not-found";
+import UserPage from "@/pages/user-page";
 
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={WorkDetails} />
+      <Route path="/home">{HomePage}</Route>
+      <Route path="/auth">{AuthPage}</Route>
+      <Route path="/artwork/:id">{ArtworkPage}</Route>
+      <Route path="/add-artwork">{AddArtworkPage}</Route>
+      <Route path="/">{ProtectedRoute(UserPage)}</Route>
+      <Route path="/work/:id">{WorkDetails}</Route>
+      <Route>{NotFound}</Route>
     </Switch>
   );
 }

@@ -1,44 +1,9 @@
 import { FC } from 'react';
 import { useParams } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Minus, Plus, Play, SkipForward, Volume2, Settings, Maximize, Heart, Share2, MessageCircle, Image, AtSign, Smile, Download, ThumbsUp } from 'lucide-react';
-
-const Icons = {
-  minus: Minus,
-  plus: Plus,
-  play: Play,
-  skipForward: SkipForward,
-  volume2: Volume2,
-  settings: Settings,
-  maximize: Maximize,
-  heart: Heart,
-  share2: Share2,
-  messageCircle: MessageCircle,
-  image: Image,
-  atSign: AtSign,
-  smile: Smile,
-  download: Download,
-  thumbsUp: ThumbsUp
-};
-
-const Icons = {
-  minus: Minus,
-  plus: Plus,
-  play: Play,
-  skipForward: SkipForward,
-  volume2: Volume2,
-  settings: Settings,
-  maximize: Maximize,
-  heart: Heart,
-  share2: Share2,
-  messageCircle: MessageCircle,
-  image: Image,
-  atSign: AtSign,
-  smile: Smile,
-  download: Download,
-  thumbsUp: ThumbsUp
-};
+import { ArrowLeft, Heart, MessageCircle, Share2 } from 'lucide-react';
 import React, { useState } from "react";
+import CommentSection from '@/components/comment-section';
 
 const STATIC_ARTWORK = {
   id: 1,
@@ -71,10 +36,17 @@ const STATIC_ARTWORK = {
     },
     {
       id: 4,
-      question: "蒙娜丽莎的背景是虚构的？",
+      question: "蒙娜丽莎的背景是真实存在的风景？",
       type: "yes_no",
       answer: "NO",
-      explanation: "背景描绘的是托斯卡纳地区的真实风景。"
+      explanation: "背景是达芬奇想象中的理想化风景。"
+    },
+    {
+      id: 5,
+      question: "蒙娜丽莎的画像下面还有其他画作？",
+      type: "yes_no",
+      answer: "YES",
+      explanation: "科学家通过X光发现画布下还有其他版本的画作。"
     }
   ]
 };
@@ -82,384 +54,346 @@ const STATIC_ARTWORK = {
 const WorkDetails: FC = () => {
   const params = useParams<{ id: string }>();
   const artwork = STATIC_ARTWORK;
+  const [zoom, setZoom] = useState(1);
   const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
-  const [zoom, setZoom] = useState(1);
+  const [expandedComments, setExpandedComments] = useState<Set<number>>(new Set());
 
-  const toggleFullScreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
+  const toggleComments = (commentId: number) => {
+    setExpandedComments(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(commentId)) {
+        newSet.delete(commentId);
+      } else {
+        newSet.add(commentId);
+      }
+      return newSet;
+    });
   };
-  const [expandedComments, setExpandedComments] = useState<{[key: number]: boolean}>({});
 
   const handleAnswer = (questionId: number, answer: string) => {
     setUserAnswers(prev => ({...prev, [questionId]: answer}));
   };
 
-  // 本地验证逻辑
   const handleSubmit = () => {
     const totalQuestions = artwork.faqs.length;
     let correctAnswers = 0;
-
-    // 验证每个问题的答案
     artwork.faqs.forEach(faq => {
       if (userAnswers[faq.id] === faq.answer) {
         correctAnswers++;
       }
     });
-
-    // 计算分数(每题25分)
-    setScore(Math.floor((correctAnswers / totalQuestions) * 100));
+    setScore(correctAnswers * 10);
     setSubmitted(true);
   };
 
   return (
-    <div className="min-h-screen bg-[#EEEAE2] py-[102px]">
-      <div className="mx-auto w-full max-w-[374px] md:max-w-[600px] lg:max-w-[800px] px-2 pt-[8px] flex flex-col gap-8">
-        {/* Works Show Section */}
-        <section className="relative">
-          <div className="relative w-full h-auto aspect-[0.7]">
-            <div className="relative w-full h-[477px] rounded-xl overflow-hidden">
-              <img 
-                src={artwork.imageUrl}
-                alt={artwork.title}
-                className="w-full h-full object-cover"
-                style={{
-                  transform: `scale(${zoom})`,
-                  transformOrigin: 'center center'
-                }}
-              />
-              <div className="absolute left-[14px] top-[12px] text-white text-[14px] leading-[22px] shadow-text">
-                SVIP
-              </div>
-              <div className="absolute bottom-[12px] left-1/2 -translate-x-1/2 w-[324px] flex flex-col items-center">
-                <div 
-                  className="bg-[#C1AB09] text-white px-4 py-1 rounded-full text-[14px] mb-2"
-                  style={{ transform: `translateX(${(zoom - 1) * 142}px)` }}
-                >
-                  {zoom.toFixed(1)} X
+    <div className="min-h-screen bg-gray-100">
+      <section className="mb-8 px-4 pt-8">
+        <div className="relative w-full h-[80vh] bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div className="absolute top-4 left-4 z-10">
+            <div className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+              SVIP
+            </div>
+          </div>
+
+          <div className="relative w-full h-full">
+            <img 
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className="w-full h-full object-cover"
+            />
+
+            <div className="absolute bottom-4 w-full px-4 flex justify-center">
+              <div className="flex flex-col items-center gap-2">
+                <div className="bg-gray-200 px-3 py-1 rounded-full text-gray-800 text-xs">
+                  {zoom}x
                 </div>
-                <div className="relative w-full flex items-center">
-                  <button className="absolute left-0 -translate-x-1/2 text-white opacity-80 hover:opacity-100">
-                    <Icons.minus className="w-5 h-5" />
-                  </button>
-                  <input 
+                <div className="bg-gray-200 rounded-full px-6 py-3 flex items-center gap-4">
+                  <button className="text-gray-800 text-sm">-</button>
+                  <input
                     type="range"
                     min="1"
-                    max="5"
-                    step="0.1"
-                    value={zoom}
-                    onChange={(e) => setZoom(parseFloat(e.target.value))}
-                    className="w-full h-[3px] bg-gradient-to-r from-[#C1AB09] via-[#C1AB09] to-[#D5D1AE] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer"
+                    max="300"
+                    value={zoom * 100}
+                    onChange={(e) => setZoom(Number(e.target.value) / 100)}
+                    className="w-48"
                   />
-                  <button className="absolute right-0 translate-x-1/2 text-white opacity-80 hover:opacity-100">
-                    <Icons.plus className="w-5 h-5" />
-                  </button>
+                  <button className="text-gray-800 text-sm">+</button>
                 </div>
               </div>
-              <button 
-                onClick={toggleFullScreen}
-                className="absolute right-3 bottom-[42px] text-white opacity-80 hover:opacity-100 transition-opacity"
-              >
+
+              <button className="absolute right-8 bottom-16 bg-gray-200 p-2 rounded-full text-gray-800 hover:bg-gray-300 transition-colors">
                 <Icons.maximize className="w-5 h-5" />
               </button>
             </div>
-              </div>
-            <h1 className="mt-3 text-[15px] leading-6">
-              达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
-            </h1>
           </div>
         </div>
+
+        <h1 className="text-xl text-gray-900 mt-6">
+          达芬奇密码在线破解！高清《蒙娜丽莎》带你揭开艺术史上的最大谜团
+        </h1>
       </section>
 
+      <section className="mb-8 px-4">
+        <h2 className="text-xl text-gray-900 mb-4">作品介绍</h2>
+        <p className="text-base text-gray-700 leading-relaxed">
+          {artwork.description}
+        </p>
+      </section>
 
+      <div className="w-full h-px bg-gray-300" />
 
-        {/* Video Section */}
-        <section>
-          <div className="relative w-full aspect-[16/9] bg-[#171A1F] rounded-xl overflow-hidden">
+      <div className="max-w-5xl mx-auto px-4 py-12">
+        <section className="mb-16">
+          <h2 className="text-xl text-gray-900 mb-6">《蒙娜丽莎的20个秘密》</h2>
+          <div className="relative aspect-video rounded-lg overflow-hidden">
             <img
               src={artwork.videoThumbnail}
               alt="Video thumbnail"
-              className="w-full h-full object-cover rounded-xl opacity-70"
+              className="w-full h-full object-cover"
             />
-            <Button 
-              variant="outline"
-              size="icon"
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-red-500 text-red-500"
-            >
-              <Icons.play className="h-6 w-6" />
-            </Button>
-            <div className="absolute bottom-0 w-full h-[36px] flex items-center px-4 bg-black/50">
-              <Icons.play className="h-4 w-4 text-white" />
-              <Icons.skipForward className="ml-4 h-4 w-4 text-white" />
-              <Icons.volume2 className="ml-4 h-4 w-4 text-white" />
-              <span className="ml-4 text-white text-xs">1:11 / 2:58</span>
-              <div className="flex-1 mx-4">
-                <div className="relative h-[2px] bg-red-100">
-                  <div className="absolute left-0 top-0 h-full w-1/3 bg-red-500" />
-                  <div className="absolute left-1/3 top-[-5px] w-3 h-3 rounded-full bg-white shadow" />
-                </div>
-              </div>
-              <Icons.settings className="h-4 w-4 text-white" />
-              <Icons.maximize className="ml-4 h-4 w-4 text-white" />
-            </div>
-          </div>
-          <h2 className="mt-3 text-[15px] leading-6">{artwork.videoTitle}</h2>
-        </section>
-
-        {/* Work Info Section */}
-        <section>
-          <div className="border-t border-[#B0B0B0] pt-6">
-            <h3 className="text-[#747472] text-base">{artwork.title}</h3>
-            <p className="mt-4 text-[15px] leading-6">
-              {artwork.description}
-            </p>
+            <button className="absolute inset-0 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors">
+              <Icons.play className="w-14 h-14 text-gray-800" />
+            </button>
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section>
-          <div className="border-t border-[#B0B0B0] pt-6">
-            <h3 className="text-[#747472] text-base mb-4">趣味问答</h3>
+        <section className="mb-16">
+          <h2 className="text-xl text-gray-900 mb-6">趣味问答</h2>
+          <div className="space-y-6">
             {artwork.faqs.map((faq) => (
-              <div key={faq.id} className="mb-6 bg-white rounded-xl p-4 shadow-sm">
-                <h4 className="text-[15px] font-medium mb-3">{faq.question}</h4>
-                <div className="flex gap-3">
-                  <button 
+              <div key={faq.id} className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                <h3 className="text-base text-gray-900 mb-4">{faq.question}</h3>
+                <div className="flex gap-4">
+                  <Button
                     onClick={() => handleAnswer(faq.id, 'YES')}
-                    className={`px-6 py-2 rounded-full transition-all ${
-                      userAnswers[faq.id] === 'YES'
-                        ? 'bg-blue-500 text-white' 
-                        : 'bg-white border border-gray-200 hover:bg-blue-50'
+                    className={`w-32 transition-colors ${
+                      userAnswers[faq.id] === 'YES' 
+                        ? 'bg-green-500 hover:bg-green-600'
+                        : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
                     }`}
                   >
                     YES
-                  </button>
-                  <button 
+                  </Button>
+                  <Button
                     onClick={() => handleAnswer(faq.id, 'NO')}
-                    className={`px-6 py-2 rounded-full transition-all ${
-                      userAnswers[faq.id] === 'NO'
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-white border border-gray-200 hover:bg-blue-50'
+                    className={`w-32 transition-colors ${
+                      userAnswers[faq.id] === 'NO' 
+                        ? 'bg-red-500 hover:bg-red-600'
+                        : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
                     }`}
                   >
                     NO
-                  </button>
+                  </Button>
                 </div>
                 {submitted && (
-                  <div className={`mt-3 text-[14px] leading-6 ${userAnswers[faq.id] === faq.answer ? 'text-green-600' : 'text-red-600'}`}>
-                    {userAnswers[faq.id] === faq.answer ? '✓ 回答正确' : '✗ 回答错误'}
-                    <p className="text-[#747472] mt-1">{faq.explanation}</p>
+                  <div className={`mt-4 ${userAnswers[faq.id] === faq.answer ? 'text-green-400' : 'text-red-400'}`}>
+                    <p>{userAnswers[faq.id] === faq.answer ? '✓ 回答正确' : '✗ 回答错误'}</p>
+                    <p className="text-gray-700 mt-2 text-sm">{faq.explanation}</p>
                   </div>
                 )}
               </div>
             ))}
             <div className="flex flex-col items-center gap-4 mt-8">
-              <button
+              <Button
                 onClick={handleSubmit}
                 disabled={submitted || Object.keys(userAnswers).length !== artwork.faqs.length}
-                className="px-8 py-3 bg-blue-500 text-white rounded-full transition-all hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-64 h-12 text-lg bg-blue-500 hover:bg-blue-600 transition-colors"
               >
                 提交答案
-              </button>
+              </Button>
               {submitted && (
-                <div className="text-lg font-medium">
-                  你的得分: <span className="text-blue-500">{score}</span> 分
+                <div className="text-xl text-gray-900">
+                  得分: <span className="text-green-400">{score}</span>
                 </div>
               )}
             </div>
           </div>
         </section>
 
-        {/* Comments Section */}
-        <section>
-          <div className="border-t border-[#B0B0B0] pt-6">
-            <h3 className="text-[#747472] text-base mb-4">评论区</h3>
+        <div className="my-8 border-t border-gray-300"></div>
 
-            {/* Comments List */}
-            <div className="space-y-6">
-              {[
-                {
-                  id: 1,
-                  user: { id: 1, name: "艺术爱好者", avatar: "/src/assets/design/avatar/001.png" },
-                  content: "这幅画真的让人印象深刻，特别是那神秘的微笑！",
-                  likes: 12,
-                  replies: [
-                    {
-                      id: 2,
-                      user: { id: 2, name: "美术老师", avatar: "/src/assets/design/avatar/002.png" },
-                      content: "同意！达芬奇的渐变技法(sfumato)在这里展现得淋漓尽致。",
-                      likes: 8,
-                    }
-                  ],
-                  createdAt: "2024-02-10T10:00:00Z"
-                },
-                {
-                  id: 3,
-                  user: { id: 3, name: "历史研究者", avatar: "/src/assets/design/avatar/003.png" },
-                  content: "画作背后的历史故事同样引人入胜，值得深入了解。",
-                  likes: 5,
-                  replies: [],
-                  createdAt: "2024-02-09T15:30:00Z"
-                },
-                {
-                  id: 4,
-                  user: { id: 4, name: "艺术收藏家", avatar: "/src/assets/design/avatar/004.png" },
-                  content: "我很欣赏这幅作品对光影的处理，非常精妙。",
-                  likes: 15,
-                  replies: [
-                    {
-                      id: 5,
-                      user: { id: 5, name: "光影专家", avatar: "/src/assets/design/avatar/005.png" },
-                      content: "确实，尤其是背景中的光线渐变，展现了高超的技巧。",
-                      likes: 7,
-                    }
-                  ],
-                  createdAt: "2024-02-08T14:20:00Z"
-                },
-                {
-                  id: 6,
-                  user: { id: 6, name: "文艺青年", avatar: "/src/assets/design/avatar/006.png" },
-                  content: "每次看这幅画都能发现新的细节，真是令人着迷。",
-                  likes: 9,
-                  replies: [
-                    {
-                      id: 7,
-                      user: { id: 7, name: "艺术史学者", avatar: "/src/assets/design/avatar/007.png" },
-                      content: "这就是艺术的魅力所在，永远有新的发现。",
-                      likes: 6,
-                    },
-                    {
-                      id: 8,
-                      user: { id: 8, name: "博物馆导览员", avatar: "/src/assets/design/avatar/008.png" },
-                      content: "建议大家多关注画作中的背景细节，那里藏着很多有趣的故事。",
-                      likes: 4,
-                    }
-                  ],
-                  createdAt: "2024-02-07T09:15:00Z"
-                }
-              ].map(comment => (
-                <div key={comment.id} className="bg-white rounded-lg p-4">
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                      <img 
-                        src={comment.user.avatar}
-                        alt={comment.user.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium">{comment.user.name}</span>
-                        <span className="text-sm text-gray-500">
-                          {new Date(comment.createdAt).toLocaleDateString()}
-                        </span>
+        <section className="mb-16">
+          <h2 className="text-xl text-gray-900 mb-6">评论</h2>
+          <div className="space-y-6">
+            {/* Comment 1 */}
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <div className="flex items-start gap-3">
+                <img src="/src/assets/design/avatar/001.png" className="w-10 h-10 rounded-full" />
+                <div className="flex-1">
+                  <div className="flex justify-between">
+                    <h3 className="text-gray-900 font-medium">艺术爱好者</h3>
+                    <span className="text-gray-500 text-sm">2024-01-15</span>
+                  </div>
+                  <p className="text-gray-700 mt-2">这幅画真的太震撼了，每次看都能发现新的细节。达芬奇的技法真是让人叹为观止。</p>
+                  <button 
+                    className="text-blue-400 text-sm mt-2"
+                    onClick={() => toggleComments(1)}
+                  >
+                    {expandedComments.has(1) ? '收起回复' : '展开 3 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(1) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
+                    <div className="flex items-start gap-3">
+                      <img src="/src/assets/design/avatar/002.png" className="w-8 h-8 rounded-full" />
+                      <div>
+                        <div className="flex gap-2">
+                          <h4 className="text-gray-900">美术老师</h4>
+                          <span className="text-gray-500 text-sm">2024-01-15</span>
+                        </div>
+                        <p className="text-gray-700 text-sm mt-1">确实，尤其是她的眼神，太迷人了。</p>
                       </div>
-                      <p className="text-[15px] leading-6 mb-2">{comment.content}</p>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <button className="flex items-center gap-1 hover:text-blue-500">
-                          <Icons.thumbsUp className="w-4 h-4" />
-                          <span>{comment.likes}</span>
-                        </button>
-                        <button className="flex items-center gap-1 hover:text-blue-500">
-                          <Icons.messageCircle className="w-4 h-4" />
-                          <span>回复</span>
-                        </button>
-                      </div>
-
-                      {/* Replies */}
-                      {comment.replies.length > 0 && (
-                        <>
-                          <button 
-                            onClick={() => setExpandedComments(prev => ({
-                              ...prev, 
-                              [comment.id]: !prev[comment.id]
-                            }))}
-                            className="mt-2 text-sm text-blue-500 hover:text-blue-600"
-                          >
-                            {expandedComments[comment.id] ? '收起评论' : `显示更多评论 (${comment.replies.length})`}
-                          </button>
-                          {expandedComments[comment.id] && (
-                            <div className="mt-4 space-y-4 pl-4 border-l-2 border-gray-100">
-                              {comment.replies.map(reply => (
-                            <div key={reply.id} className="flex gap-3">
-                              <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                                <img 
-                                  src={reply.user.avatar}
-                                  alt={reply.user.name}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="font-medium">{reply.user.name}</span>
-                                </div>
-                                <p className="text-[14px] leading-6 mb-2">{reply.content}</p>
-                                <div className="flex items-center gap-4 text-sm text-gray-500">
-                                  <button className="flex items-center gap-1 hover:text-blue-500">
-                                    <Icons.thumbsUp className="w-4 h-4" />
-                                    <span>{reply.likes}</span>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                            </div>
-                          )}
-                        </>
-                      )}
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
 
-            {/* Comment Input Panel */}
-            <div className="mt-6 flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                <img 
-                  src="/src/assets/design/avatar/001.png"
-                  alt="User avatar"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1">
-                <textarea 
-                  className="w-full p-3 rounded-lg border border-[#B0B0B0] bg-white mb-2"
-                  placeholder="写下你的评论..."
-                  rows={3}
-                />
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="icon" className="h-8 w-8">
-                      <Icons.image className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="h-8 w-8">
-                      <Icons.atSign className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="h-8 w-8">
-                      <Icons.smile className="h-4 w-4" />
-                    </Button>
+            {/* Comment 2 */}
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <div className="flex items-start gap-3">
+                <img src="/src/assets/design/avatar/003.png" className="w-10 h-10 rounded-full" />
+                <div className="flex-1">
+                  <div className="flex justify-between">
+                    <h3 className="text-gray-900 font-medium">历史研究者</h3>
+                    <span className="text-gray-500 text-sm">2024-01-14</span>
                   </div>
-                  <Button>发布评论</Button>
+                  <p className="text-gray-700 mt-2">从艺术史的角度来看，这幅画对后世的影响无可估量。</p>
+                  <button 
+                    className="text-blue-400 text-sm mt-2"
+                    onClick={() => toggleComments(2)}
+                  >
+                    {expandedComments.has(2) ? '收起回复' : '展开 5 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(2) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
+                    <div className="flex items-start gap-3">
+                      <img src="/src/assets/design/avatar/004.png" className="w-8 h-8 rounded-full" />
+                      <div>
+                        <div className="flex gap-2">
+                          <h4 className="text-gray-900">艺术史专家</h4>
+                          <span className="text-gray-500 text-sm">2024-01-14</span>
+                        </div>
+                        <p className="text-gray-700 text-sm mt-1">完全同意，这幅画开创了肖像画的新纪元。</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Comment 3 to 6 */}
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <div className="flex items-start gap-3">
+                <img src="/src/assets/design/avatar/005.png" className="w-10 h-10 rounded-full" />
+                <div className="flex-1">
+                  <div className="flex justify-between">
+                    <h3 className="text-gray-900 font-medium">摄影师小王</h3>
+                    <span className="text-gray-500 text-sm">2024-01-13</span>
+                  </div>
+                  <p className="text-gray-700 mt-2">光影处理太妙了，作为一名摄影师，我从中学到了很多。</p>
+                  <button className="text-blue-400 text-sm mt-2" onClick={() => toggleComments(3)}>
+                    {expandedComments.has(3) ? '收起回复' : '展开 2 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(3) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
+                    <div className="flex items-start gap-3">
+                      <img src="/src/assets/design/avatar/006.png" className="w-8 h-8 rounded-full" />
+                      <div>
+                        <div className="flex gap-2">
+                          <h4 className="text-gray-900">光影大师</h4>
+                          <span className="text-gray-500 text-sm">2024-01-13</span>
+                        </div>
+                        <p className="text-gray-700 text-sm mt-1">sfumato技法的运用确实高超。</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <div className="flex items-start gap-3">
+                <img src="/src/assets/design/avatar/007.png" className="w-10 h-10 rounded-full" />
+                <div className="flex-1">
+                  <div className="flex justify-between">
+                    <h3 className="text-gray-900 font-medium">艺术学院学生</h3>
+                    <span className="text-gray-500 text-sm">2024-01-12</span>
+                  </div>
+                  <p className="text-gray-700 mt-2">正在临摹这幅画，细节真的太多了，每天都有新发现。</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <div className="flex items-start gap-3">
+                <img src="/src/assets/design/avatar/008.png" className="w-10 h-10 rounded-full" />
+                <div className="flex-1">
+                  <div className="flex justify-between">
+                    <h3 className="text-gray-900 font-medium">色彩研究员</h3>
+                    <span className="text-gray-500 text-sm">2024-01-11</span>
+                  </div>
+                  <p className="text-gray-700 mt-2">色彩的层次感非常丰富，尤其是背景的渐变处理。</p>
+                  <button className="text-blue-400 text-sm mt-2" onClick={() => toggleComments(5)}>
+                    {expandedComments.has(5) ? '收起回复' : '展开 4 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(5) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
+                    <div className="flex items-start gap-3">
+                      <img src="/src/assets/design/avatar/001.png" className="w-8 h-8 rounded-full" />
+                      <div>
+                        <div className="flex gap-2">
+                          <h4 className="text-gray-900">油画爱好者</h4>
+                          <span className="text-gray-500 text-sm">2024-01-11</span>
+                        </div>
+                        <p className="text-gray-700 text-sm mt-1">请问这种效果要怎么才能画出来呢？</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <div className="flex items-start gap-3">
+                <img src="/src/assets/design/avatar/002.png" className="w-10 h-10 rounded-full" />
+                <div className="flex-1">
+                  <div className="flex justify-between">
+                    <h3 className="text-gray-900 font-medium">博物馆讲解员</h3>
+                    <span className="text-gray-500 text-sm">2024-01-10</span>
+                  </div>
+                  <p className="text-gray-700 mt-2">每次讲解这幅画时，都能感受到游客们的惊叹。</p>
+                  <button className="text-blue-400 text-sm mt-2" onClick={() => toggleComments(6)}>
+                    {expandedComments.has(6) ? '收起回复' : '展开 6 条回复'}
+                  </button>
+                  <div className={`${expandedComments.has(6) ? 'block' : 'hidden'} mt-4 space-y-4 pl-4 border-l border-gray-700`}>
+                    <div className="flex items-start gap-3">
+                      <img src="/src/assets/design/avatar/003.png" className="w-8 h-8 rounded-full" />
+                      <div>
+                        <div className="flex gap-2">
+                          <h4 className="text-gray-900">游客</h4>
+                          <span className="text-gray-500 text-sm">2024-01-10</span>
+                        </div>
+                        <p className="text-gray-700 text-sm mt-1">上周听了您的讲解，收获很大！</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Download Button */}
-        <section className="mt-12 mb-20 flex justify-center">
+        <div className="my-8 border-t border-gray-300"></div>
+
+        <section className="flex flex-col items-center gap-8 mb-16">
+          <div className="max-w-xl w-full rounded-lg overflow-hidden shadow-lg">
+            <img 
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className="w-full h-auto"
+            />
+          </div>
           <Button 
             size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-12 py-6 shadow-lg flex items-center gap-2 text-base"
+            className="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white px-12 py-6 text-base shadow-lg"
             onClick={() => window.open(artwork.imageUrl, '_blank')}
           >
-            <Icons.download className="w-6 h-6" />
+            <Icons.download className="w-5 h-5 mr-2" />
             下载原图
           </Button>
         </section>
