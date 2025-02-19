@@ -65,7 +65,7 @@ export default function UserPage() {
             </Button>
           </div>
         </div>
-      
+
         <div className="bg-[#FFFDFB] px-4 pt-6">
           <span className="text-[#747472] text-sm font-medium">您的收藏</span>
           
@@ -75,7 +75,6 @@ export default function UserPage() {
                 key={artwork.id} 
                 className="relative touch-manipulation"
                 onClick={() => {
-                  // TODO: Navigate to artwork details
                   console.log('Navigate to artwork:', artwork.id);
                 }}
                 onTouchStart={(e) => {
@@ -104,7 +103,6 @@ export default function UserPage() {
                             bg-black/70 text-white px-4 py-2 rounded-full text-xs"
                   onClick={(e) => {
                     e.stopPropagation();
-                    // TODO: Delete artwork logic
                     console.log('Delete artwork:', artwork.id);
                   }}
                 >
