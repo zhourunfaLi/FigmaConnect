@@ -21,13 +21,8 @@ export default function UserPage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      {/* Header */}
-      <div className="w-full h-[90px] bg-white">
-        <img src="/src/assets/design/weixin NAV.png" alt="WeChat Nav" className="w-full h-full object-cover" />
-      </div>
-
       {/* User Card */}
-      <div className="relative bg-[#FFFDFB] mt-[70px] pb-12 pt-16 px-4 rounded-t-[20px]">
+      <div className="relative bg-[#FFFDFB] pb-12 pt-16 px-4 rounded-t-[20px]">
         <Avatar 
           className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 border-[9px] border-white"
         >
@@ -35,12 +30,9 @@ export default function UserPage() {
         </Avatar>
 
         <div className="text-center">
-          <h2 className="text-black text-base font-normal mt-4">{user.username || "达芬奇的幻想"}</h2>
-          <div className="flex justify-center gap-8 mt-4 text-[#747472] text-sm">
-            <div>
-              <span>您的收藏</span>
-            </div>
-            <div className="flex gap-2">
+          <div className="flex justify-center items-center gap-4 mt-4">
+            <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
+            <div className="flex gap-2 text-[#747472] text-sm">
               <span>艺术天赋</span>
               <span>885</span>
             </div>
@@ -69,24 +61,34 @@ export default function UserPage() {
         </Button>
       </div>
 
-      {/* Artwork Grid */}
-      <div className="bg-[#FFFDFB] px-2 py-4 grid grid-cols-3 gap-[18px]">
-        {artworks.map((artwork) => (
-          <div key={artwork.id} className="relative">
-            <img 
-              src={artwork.image} 
-              alt={artwork.title}
-              className="w-[112px] h-[128px] rounded-md object-cover"
-            />
-            <button className="absolute top-1 right-1 w-[13px] h-[13px] bg-[#1C1C1C] rounded-full flex items-center justify-center">
-              <span className="text-[#EEEAE2] text-xs">×</span>
-            </button>
-            <p className="text-[#E9E9E9] text-xs text-center mt-1 drop-shadow-sm">
-              中国十大名画<br/>
-              {artwork.title}
-            </p>
-          </div>
-        ))}
+      {/* Collections Section */}
+      <div className="bg-[#FFFDFB] px-4 py-6">
+        <div className="flex items-center mb-4">
+          <h3 className="text-[#747472] text-sm">您的收藏</h3>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {artworks.map((artwork) => (
+            <div key={artwork.id} className="bg-white rounded-lg p-2 shadow-sm relative group">
+              <img 
+                src={artwork.image} 
+                alt={artwork.title}
+                className="w-full h-[160px] rounded-md object-cover"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all rounded-md">
+                <button 
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all bg-red-500 text-white px-2 py-1 rounded text-xs"
+                  onClick={() => console.log('Delete artwork:', artwork.id)}
+                >
+                  删除
+                </button>
+              </div>
+              <div className="mt-2">
+                <p className="text-black text-sm">中国十大名画</p>
+                <p className="text-gray-600 text-xs">{artwork.title}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Footer */}
