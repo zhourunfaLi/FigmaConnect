@@ -15,9 +15,10 @@ export function ProtectedRoute(Component: React.ComponentType) {
       );
     }
 
-    if (!user) {
-      return <Redirect to="/auth" />;
-    }
+    // 暂时禁用认证检查，方便开发
+    // if (!user) {
+    //   return <Redirect to="/auth" />;
+    // }
 
     return <Component {...props} />;
   };
