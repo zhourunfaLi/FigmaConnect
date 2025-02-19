@@ -1,4 +1,3 @@
-
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
@@ -22,43 +21,43 @@ export default function UserPage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* User Card */}
-      <div className="relative bg-[#FFFDFB] pb-12 pt-28 px-4 rounded-t-[20px] mt-16">
+      <div className="relative bg-gradient-to-b from-[#FFFDFB] to-[#F8F6F0] pb-12 pt-28 px-4 rounded-t-[20px] mt-16">
         <Avatar 
-          className="absolute -top-8 left-1/2 -translate-x-1/2 w-20 h-20 border-[6px] border-white"
+          className="absolute -top-8 left-1/2 -translate-x-1/2 w-20 h-20 border-[6px] border-[#F4E7D4] shadow-xl"
         >
           <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
         </Avatar>
 
+        {/* SVIP Button */}
+        <Button className="absolute right-4 top-4 bg-gradient-to-r from-[#D4AF37] to-[#C5A028] text-white text-xs px-4 py-1.5 h-auto rounded-full shadow-md hover:from-[#E5BE3D] hover:to-[#D4AF37] transition-all duration-300">
+          SVIP充值
+        </Button>
+
         <div className="px-2">
-          <div className="flex justify-between items-center mt-8">
-            <h2 className="text-black text-lg font-medium">{user.username || "达芬奇的幻想"}</h2>
-            <div className="flex gap-2 text-[#747472] text-base bg-gray-50 px-3 py-1 rounded-full">
-              <span>艺术天赋</span>
-              <span className="font-semibold text-[#4094F7]">885</span>
+          <div className="flex flex-col items-center gap-3 mt-8">
+            <h2 className="text-[#1A1A1A] text-xl font-semibold tracking-wide">{user.username || "达芬奇的幻想"}</h2>
+            <div className="flex gap-2 items-center bg-gradient-to-r from-[#F4E7D4] to-[#E5D4BC] px-4 py-1.5 rounded-full shadow-sm">
+              <span className="text-[#8B7355] font-medium">艺术天赋</span>
+              <span className="text-[#D4AF37] font-bold text-lg">885</span>
             </div>
           </div>
         </div>
 
         {/* Invite Card */}
-        <div className="mt-6 bg-gradient-to-r from-[#4094F7] to-[#2D7FE0] p-6 rounded-[20px] shadow-lg">
-          <p className="text-white text-sm text-center mb-6 font-medium">
+        <div className="mt-8 bg-gradient-to-r from-[#D4AF37]/10 to-[#C5A028]/10 p-6 rounded-[20px] border border-[#D4AF37]/20">
+          <p className="text-[#8B7355] text-sm text-center mb-6 font-medium">
             您的朋友凭此邀请码，订阅可以优惠5元 您也可以获得1周会员延期（可累加）
           </p>
-          <div className="flex items-center gap-3 justify-center bg-white/10 backdrop-blur-sm p-4 rounded-xl">
-            <span className="text-white text-sm">邀请码</span>
-            <div className="bg-white px-4 py-2 rounded-lg shadow-sm">
-              <span className="text-[#2D7FE0] text-sm font-bold">GHJO#$675sg</span>
+          <div className="flex items-center gap-3 justify-center bg-gradient-to-r from-[#D4AF37]/5 to-[#C5A028]/5 p-4 rounded-xl border border-[#D4AF37]/30">
+            <span className="text-[#8B7355] font-medium">邀请码</span>
+            <div className="bg-gradient-to-r from-[#F4E7D4] to-[#E5D4BC] px-5 py-2 rounded-lg shadow-sm">
+              <span className="text-[#8B7355] font-bold tracking-wider">GHJO#$675sg</span>
             </div>
-            <Button className="bg-white hover:bg-gray-50 text-[#2D7FE0] font-bold text-sm px-4 py-2 h-auto rounded-lg transition-colors">
+            <Button className="bg-gradient-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#E5BE3D] hover:to-[#D4AF37] text-white font-medium px-5 py-2 h-auto rounded-lg transition-all duration-300 shadow-md">
               复制
             </Button>
           </div>
         </div>
-
-        {/* SVIP Button */}
-        <Button className="absolute right-4 top-4 bg-[#147ADA] text-xs px-3 py-1 h-[27px] rounded">
-          SVIP充值
-        </Button>
       </div>
 
       {/* Collections Section */}
