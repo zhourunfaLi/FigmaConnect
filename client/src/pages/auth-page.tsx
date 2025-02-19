@@ -10,19 +10,15 @@ export default function AuthPage() {
 
   React.useEffect(() => {
     if (user) {
-      setLocation("/");
+      setLocation("/user");
     }
   }, [user, setLocation]);
 
-  const handleWechatLogin = async () => {
-    try {
-      await loginMutation.mutateAsync({ 
-        username: "test", 
-        password: "test123" 
-      });
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
+  const handleWechatLogin = () => {
+    loginMutation.mutate({ 
+      username: "test", 
+      password: "test123" 
+    });
   };
 
   return (
