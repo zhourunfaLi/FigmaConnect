@@ -22,34 +22,34 @@ export default function UserPage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* User Card */}
-      <div className="relative bg-[#FFFDFB] pb-12 pt-24 px-4 rounded-t-[20px] mt-16">
+      <div className="relative bg-[#FFFDFB] pb-12 pt-28 px-4 rounded-t-[20px] mt-16">
         <Avatar 
-          className="absolute -top-12 left-1/2 -translate-x-1/2 w-20 h-20 border-[6px] border-white"
+          className="absolute -top-8 left-1/2 -translate-x-1/2 w-20 h-20 border-[6px] border-white"
         >
           <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
         </Avatar>
 
-        <div className="text-center">
-          <div className="flex justify-center items-center gap-4 mt-4">
-            <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
-            <div className="flex gap-2 text-[#747472] text-sm">
+        <div className="px-2">
+          <div className="flex justify-between items-center mt-8">
+            <h2 className="text-black text-lg font-medium">{user.username || "达芬奇的幻想"}</h2>
+            <div className="flex gap-2 text-[#747472] text-base bg-gray-50 px-3 py-1 rounded-full">
               <span>艺术天赋</span>
-              <span>885</span>
+              <span className="font-semibold text-[#4094F7]">885</span>
             </div>
           </div>
         </div>
 
         {/* Invite Card */}
-        <div className="mt-6 bg-white border border-gray-100 shadow-sm p-6 rounded-[20px]">
-          <p className="text-gray-600 text-xs text-center mb-6">
+        <div className="mt-6 bg-gradient-to-r from-[#4094F7] to-[#2D7FE0] p-6 rounded-[20px] shadow-lg">
+          <p className="text-white text-sm text-center mb-6 font-medium">
             您的朋友凭此邀请码，订阅可以优惠5元 您也可以获得1周会员延期（可累加）
           </p>
-          <div className="flex items-center gap-3 justify-center bg-gray-50 p-3 rounded-xl">
-            <span className="text-gray-500 text-xs">邀请码</span>
-            <div className="bg-white px-4 py-1.5 rounded-lg border border-gray-100">
-              <span className="text-gray-800 text-xs font-medium">GHJO#$675sg</span>
+          <div className="flex items-center gap-3 justify-center bg-white/10 backdrop-blur-sm p-4 rounded-xl">
+            <span className="text-white text-sm">邀请码</span>
+            <div className="bg-white px-4 py-2 rounded-lg shadow-sm">
+              <span className="text-[#2D7FE0] text-sm font-bold">GHJO#$675sg</span>
             </div>
-            <Button className="bg-[#4094F7] hover:bg-[#2D7FE0] text-xs px-4 py-1.5 h-auto rounded-lg transition-colors">
+            <Button className="bg-white hover:bg-gray-50 text-[#2D7FE0] font-bold text-sm px-4 py-2 h-auto rounded-lg transition-colors">
               复制
             </Button>
           </div>
