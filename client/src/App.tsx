@@ -21,7 +21,7 @@ function Router() {
       <Route path="/artwork/:id" component={ArtworkPage} />
       <Route path="/add-artwork" component={AddArtworkPage} />
       <Route path="/" component={HomePage} />
-      <Route path="/user" component={ProtectedRoute(UserPage)} />
+      <Route path="/user">{ProtectedRoute(UserPage)}</Route>
       <Route path="/work/:id" component={WorkDetails} />
       <Route component={NotFound} />
     </Switch>
