@@ -21,8 +21,8 @@ export default function UserPage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      <div className="relative bg-[#FFFDFB] mt-8 pb-12 pt-8 px-4 rounded-t-[20px]">
-        <div className="flex justify-between items-center mb-8 px-4">
+      <div className="relative bg-[#FFFDFB] mt-4 pb-8 pt-6 px-4 rounded-t-[20px]">
+        <div className="flex justify-between items-center mb-4 px-4">
           <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
           <Avatar className="w-24 h-24 border-[9px] border-white">
             <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
@@ -32,15 +32,13 @@ export default function UserPage() {
           </Button>
         </div>
 
-        <div className="text-center mb-8">
-          <div className="flex justify-center items-center text-[#747472] text-sm gap-2">
-            <span>艺术天赋</span>
-            <span className="text-[#147ADA]">885</span>
-          </div>
+        <div className="flex justify-center items-center text-[#747472] text-sm gap-2 mb-6">
+          <span>艺术天赋</span>
+          <span className="text-[#147ADA]">885</span>
         </div>
 
         {/* 特权卡片 */}
-        <div className="bg-[#1C1C1C] p-6 rounded-[20px] text-white">
+        <div className="bg-[#1C1C1C] p-4 rounded-[20px] text-white mb-4">
           <div className="flex items-center justify-between mb-4">
             <span className="text-lg">尊享特权</span>
             <div className="bg-[#D4AF37] p-1 rounded-full">
