@@ -22,9 +22,9 @@ export default function UserPage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* User Card */}
-      <div className="relative bg-[#FFFDFB] pb-12 pt-16 px-4 rounded-t-[20px]">
+      <div className="relative bg-[#FFFDFB] pb-12 pt-20 px-4 rounded-t-[20px] mt-12">
         <Avatar 
-          className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 border-[9px] border-white"
+          className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 border-[6px] border-white"
         >
           <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
         </Avatar>
