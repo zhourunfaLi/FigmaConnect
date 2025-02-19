@@ -21,7 +21,7 @@ export default function UserPage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      <div className="relative bg-[#FFFDFB] mt-4 pb-8 pt-6 px-4 rounded-t-[20px]">
+      <div className="relative mt-4 pb-8 pt-6 px-4">
         <div className="flex justify-between items-center mb-4 px-4">
           <div className="flex flex-col gap-2">
             <h2 className="text-black text-sm font-normal">{user.username || "达芬奇的幻想"}</h2>
