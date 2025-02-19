@@ -37,9 +37,6 @@ export default function UserPage() {
             SVIP充值
           </Button>
         </div>
-          <span>艺术天赋</span>
-          <span className="text-[#147ADA]">885</span>
-        </div>
 
         {/* 特权卡片 */}
         <div className="bg-[#624811] p-4 rounded-[20px] text-white mb-2">
@@ -68,58 +65,58 @@ export default function UserPage() {
             </Button>
           </div>
         </div>
-      </div>
-
-      <div className="bg-[#FFFDFB] px-4 pt-6">
-        <span className="text-[#747472] text-sm font-medium">您的收藏</span>
-        
-        <div className="mt-4 grid grid-cols-3 gap-[18px] pb-20">
-          {artworks.map((artwork) => (
-            <div 
-              key={artwork.id} 
-              className="relative touch-manipulation"
-              onClick={() => {
-                // TODO: Navigate to artwork details
-                console.log('Navigate to artwork:', artwork.id);
-              }}
-              onTouchStart={(e) => {
-                const element = e.currentTarget;
-                const timer = setTimeout(() => {
-                  const deleteBtn = element.querySelector('.delete-btn');
-                  if (deleteBtn) {
-                    deleteBtn.classList.remove('hidden');
-                  }
-                }, 500);
-                element.setAttribute('data-timer', timer.toString());
-              }}
-              onTouchEnd={(e) => {
-                const element = e.currentTarget;
-                const timer = parseInt(element.getAttribute('data-timer') || '0');
-                clearTimeout(timer);
-              }}
-            >
-              <img 
-                src={artwork.image} 
-                alt={artwork.title}
-                className="w-[112px] h-[128px] rounded-md object-cover"
-              />
-              <button 
-                className="delete-btn hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-                          bg-black/70 text-white px-4 py-2 rounded-full text-xs"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // TODO: Delete artwork logic
-                  console.log('Delete artwork:', artwork.id);
+      
+        <div className="bg-[#FFFDFB] px-4 pt-6">
+          <span className="text-[#747472] text-sm font-medium">您的收藏</span>
+          
+          <div className="mt-4 grid grid-cols-3 gap-[18px] pb-20">
+            {artworks.map((artwork) => (
+              <div 
+                key={artwork.id} 
+                className="relative touch-manipulation"
+                onClick={() => {
+                  // TODO: Navigate to artwork details
+                  console.log('Navigate to artwork:', artwork.id);
+                }}
+                onTouchStart={(e) => {
+                  const element = e.currentTarget;
+                  const timer = setTimeout(() => {
+                    const deleteBtn = element.querySelector('.delete-btn');
+                    if (deleteBtn) {
+                      deleteBtn.classList.remove('hidden');
+                    }
+                  }, 500);
+                  element.setAttribute('data-timer', timer.toString());
+                }}
+                onTouchEnd={(e) => {
+                  const element = e.currentTarget;
+                  const timer = parseInt(element.getAttribute('data-timer') || '0');
+                  clearTimeout(timer);
                 }}
               >
-                删除
-              </button>
-              <p className="text-[#747472] text-xs text-center mt-1">
-                中国十大名画<br/>
-                {artwork.title}
-              </p>
-            </div>
-          ))}
+                <img 
+                  src={artwork.image} 
+                  alt={artwork.title}
+                  className="w-[112px] h-[128px] rounded-md object-cover"
+                />
+                <button 
+                  className="delete-btn hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                            bg-black/70 text-white px-4 py-2 rounded-full text-xs"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // TODO: Delete artwork logic
+                    console.log('Delete artwork:', artwork.id);
+                  }}
+                >
+                  删除
+                </button>
+                <p className="text-[#747472] text-xs text-center mt-1">
+                  中国十大名画<br/>
+                  {artwork.title}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
