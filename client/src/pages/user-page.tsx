@@ -1,9 +1,10 @@
+
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 
 export default function UserPage() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   if (!user) {
     return null;
@@ -20,79 +21,82 @@ export default function UserPage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      {/* User Card */}
-      <div className="relative bg-[#FFFDFB] mt-8 pb-12 pt-16 px-4 rounded-t-[20px]">
-        <div className="flex flex-col items-center">
-          <Avatar 
-            className="w-24 h-24 border-[9px] border-white"
-          >
+      <div className="relative bg-[#FFFDFB] mt-8 pb-12 pt-8 px-4 rounded-t-[20px]">
+        <div className="flex justify-between items-center mb-8 px-4">
+          <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
+          <Avatar className="w-24 h-24 border-[9px] border-white">
             <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
           </Avatar>
+          <Button className="bg-[#147ADA] text-xs px-3 py-1 h-[27px] rounded">
+            SVIP充值
+          </Button>
+        </div>
 
-          <div className="mt-8 w-full flex items-center justify-between px-4">
-            <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
-            <Button className="bg-[#147ADA] text-xs px-3 py-1 h-[27px] rounded">
-              SVIP充值
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-2 text-[#747472] text-sm mt-2">
+        <div className="text-center mb-8">
+          <div className="flex justify-center items-center text-[#747472] text-sm gap-2">
             <span>艺术天赋</span>
-            <span>885</span>
+            <span className="text-[#147ADA]">885</span>
           </div>
         </div>
 
-        {/* Invite Card */}
-        <div className="mt-6 bg-gradient-to-br from-[#72510B] to-[#72510B] p-6 rounded-[20px]">
-          <p className="text-white text-xs text-center mb-8">
-            您的朋友凭此邀请码，订阅可以优惠5元 您也可以获得1周会员延期（可累加）
-          </p>
-          <div className="flex items-center gap-4 justify-center">
-            <span className="text-[#E9E9E9] text-xs">邀请码</span>
-            <div className="bg-[#D9D9D9] bg-opacity-60 px-4 py-1 rounded">
-              <span className="text-black text-xs">GHJO#$675sg</span>
+        {/* 特权卡片 */}
+        <div className="bg-[#1C1C1C] p-6 rounded-[20px] text-white">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-lg">尊享特权</span>
+            <div className="bg-[#D4AF37] p-1 rounded-full">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" stroke="white" strokeWidth="2"/>
+              </svg>
             </div>
-            <Button className="bg-black text-[#EEEAE2] text-xs px-3 py-1 h-auto rounded">
+          </div>
+          
+          <p className="text-sm mb-6 opacity-80">
+            邀请好友订阅即可获得：
+            <br/>• 好友订阅优惠 5 元
+            <br/>• 您获得 1 周会员延期（可累加）
+          </p>
+
+          <div className="bg-white/10 p-4 rounded-xl flex items-center justify-between">
+            <div>
+              <span className="text-xs opacity-80 block mb-1">您的专属邀请码</span>
+              <span className="text-base">GHJO#$675sg</span>
+            </div>
+            <Button className="bg-white text-black text-xs px-4 py-1 h-auto rounded-full hover:bg-white/90">
               复制
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Collection Header */}
-      <div className="bg-[#FFFDFB] px-4 pt-4">
-        <div className="flex items-center gap-2 text-[#747472] text-sm mb-4">
-          <span className="font-medium">您的收藏</span>
+      <div className="bg-[#FFFDFB] px-4 pt-6">
+        <span className="text-[#747472] text-sm font-medium">您的收藏</span>
+        
+        <div className="mt-4 grid grid-cols-3 gap-[18px] pb-20">
+          {artworks.map((artwork) => (
+            <div key={artwork.id} className="relative">
+              <img 
+                src={artwork.image} 
+                alt={artwork.title}
+                className="w-[112px] h-[128px] rounded-md object-cover"
+              />
+              <button className="absolute top-1 right-1 w-[13px] h-[13px] bg-[#1C1C1C] rounded-full flex items-center justify-center">
+                <span className="text-[#EEEAE2] text-xs">×</span>
+              </button>
+              <p className="text-[#747472] text-xs text-center mt-1">
+                中国十大名画<br/>
+                {artwork.title}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Artwork Grid */}
-      <div className="bg-[#FFFDFB] px-2 pb-4 grid grid-cols-3 gap-[18px]">
-        {artworks.map((artwork) => (
-          <div key={artwork.id} className="relative">
-            <img 
-              src={artwork.image} 
-              alt={artwork.title}
-              className="w-[112px] h-[128px] rounded-md object-cover"
-            />
-            <button className="absolute top-1 right-1 w-[13px] h-[13px] bg-[#1C1C1C] rounded-full flex items-center justify-center">
-              <span className="text-[#EEEAE2] text-xs">×</span>
-            </button>
-            <p className="text-[#E9E9E9] text-xs text-center mt-1 drop-shadow-sm">
-              中国十大名画<br/>
-              {artwork.title}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Footer */}
+      {/* 底部导航 */}
       <div className="fixed bottom-0 w-full h-[73px] bg-white border-t border-black/20">
         <div className="flex justify-around items-center h-full px-16">
           <button className="p-2">
             <svg width="37" height="37" viewBox="0 0 37 37" fill="none">
               <path d="M7.70837 19.6711C7.70837 17.5779 7.70837 16.5313 8.1315 15.6113C8.55463 14.6913 9.34927 14.0102 10.9386 12.648L12.4802 11.3265C15.3528 8.8643 16.7891 7.63318 18.5 7.63318C20.2109 7.63318 21.6472 8.8643 24.5199 11.3265L26.0615 12.648C27.6508 14.0102 28.4455 14.6913 28.8686 15.6113C29.2917 16.5313 29.2917 17.5779 29.2917 19.6711V26.2084C29.2917 29.1154 29.2917 30.5689 28.3886 31.4719C27.4855 32.375 26.032 32.375 23.125 32.375H13.875C10.968 32.375 9.51455 32.375 8.61146 31.4719C7.70837 30.5689 7.70837 29.1154 7.70837 26.2084V19.6711Z" stroke="#1C1C1C" strokeWidth="2"/>
-              <path d="M22.3542 32.375V24.125C22.3542 23.5727 21.9065 23.125 21.3542 23.125H15.6459C15.0936 23.125 14.6459 23.5727 14.6459 24.125V32.375" stroke="#1C1C1C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
           <button className="p-2">
