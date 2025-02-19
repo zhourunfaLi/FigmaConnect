@@ -1,4 +1,3 @@
-
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
@@ -29,13 +28,15 @@ export default function UserPage() {
           <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
         </Avatar>
 
-        <div className="text-center">
-          <h2 className="text-black text-base font-normal mt-4">{user.username || "达芬奇的幻想"}</h2>
-          <div className="flex justify-center gap-8 mt-4 text-[#747472] text-sm">
-            <div>
-              <span>您的收藏</span>
+        <div className="text-center mt-8">
+          <div className="flex justify-center gap-8 text-[#747472] text-sm">
+            <div className="flex items-center">
+              <h2 className="text-black text-base font-normal mr-2">{user.username || "达芬奇的幻想"}</h2>
+              <div>
+                <span>您的收藏</span>
+              </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <span>艺术天赋</span>
               <span>885</span>
             </div>
