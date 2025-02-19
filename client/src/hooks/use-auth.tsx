@@ -41,19 +41,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const loginMutation = useMutation({
-    mutationFn: async (credentials: LoginData) => {
-      const res = await apiRequest("POST", "/api/login", credentials);
-      return await res.json();
+    mutationFn: async (_credentials: LoginData) => {
+      // 使用模拟数据
+      const mockUser = {
+        id: 1,
+        username: "test",
+        isPremium: false,
+        createdAt: new Date().toISOString()
+      };
+      return mockUser;
     },
     onSuccess: (user: SelectUser) => {
       localStorage.setItem("userId", user.id.toString());
       queryClient.setQueryData(["/api/user"], user);
-    },
-    onError: (error: Error) => {
       toast({
-        title: "登录失败",
-        description: error.message,
-        variant: "destructive",
+        title: "登录成功",
+        description: "欢迎回来",
       });
     },
   });
