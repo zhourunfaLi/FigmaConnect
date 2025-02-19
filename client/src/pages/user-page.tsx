@@ -21,13 +21,8 @@ export default function UserPage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      {/* Header */}
-      <div className="w-full h-[90px] bg-white">
-        <img src="/src/assets/design/weixin NAV.png" alt="WeChat Nav" className="w-full h-full object-cover" />
-      </div>
-
       {/* User Card */}
-      <div className="relative bg-[#FFFDFB] mt-[70px] pb-12 pt-16 px-4 rounded-t-[20px]">
+      <div className="relative bg-[#FFFDFB] mt-4 pb-12 pt-16 px-4 rounded-t-[20px]">
         <Avatar 
           className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 border-[9px] border-white"
         >
