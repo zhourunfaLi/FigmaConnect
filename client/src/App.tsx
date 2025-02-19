@@ -20,7 +20,8 @@ function Router() {
       <Route path="/auth">{AuthPage}</Route>
       <Route path="/artwork/:id">{ArtworkPage}</Route>
       <Route path="/add-artwork">{AddArtworkPage}</Route>
-      <Route path="/">{ProtectedRoute(UserPage)}</Route>
+      <Route path="/" exact>{HomePage}</Route>
+      <Route path="/user">{ProtectedRoute(UserPage)}</Route>
       <Route path="/work/:id">{WorkDetails}</Route>
       <Route>{NotFound}</Route>
     </Switch>
