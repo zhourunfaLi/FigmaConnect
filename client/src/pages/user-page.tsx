@@ -69,7 +69,7 @@ export default function UserPage() {
         <div className="bg-[#FFFDFB] px-4 pt-6">
           <span className="text-[#747472] text-sm font-medium">您的收藏</span>
           
-          <div className="mt-4 grid grid-cols-3 gap-[18px] pb-20">
+          <div className="mt-4 grid grid-cols-3 gap-[18px] pb-0">
             {artworks.map((artwork) => (
               <div 
                 key={artwork.id} 
