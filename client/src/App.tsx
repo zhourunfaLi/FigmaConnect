@@ -17,13 +17,13 @@ function Router() {
   return (
     <Switch>
       <Route path="/home">{HomePage}</Route>
-      <Route path="/auth">{AuthPage}</Route>
-      <Route path="/artwork/:id">{ArtworkPage}</Route>
-      <Route path="/add-artwork">{AddArtworkPage}</Route>
-      <Route path="/" exact>{HomePage}</Route>
-      <Route path="/user">{ProtectedRoute(UserPage)}</Route>
-      <Route path="/work/:id">{WorkDetails}</Route>
-      <Route>{NotFound}</Route>
+      <Route path="/auth" component={AuthPage} />
+      <Route path="/artwork/:id" component={ArtworkPage} />
+      <Route path="/add-artwork" component={AddArtworkPage} />
+      <Route path="/" component={HomePage} />
+      <Route path="/user" component={ProtectedRoute(UserPage)} />
+      <Route path="/work/:id" component={WorkDetails} />
+      <Route component={NotFound} />
     </Switch>
   );
 }
