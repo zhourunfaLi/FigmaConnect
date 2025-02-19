@@ -23,7 +23,13 @@ export default function UserPage() {
     <div className="min-h-screen bg-[#EEEAE2]">
       <div className="relative bg-[#FFFDFB] mt-4 pb-8 pt-6 px-4 rounded-t-[20px]">
         <div className="flex justify-between items-center mb-4 px-4">
-          <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
+          <div className="flex flex-col gap-2">
+            <h2 className="text-black text-base font-normal">{user.username || "达芬奇的幻想"}</h2>
+            <div className="flex items-center text-[#747472] text-sm gap-2">
+              <span>艺术天赋</span>
+              <span className="text-[#147ADA]">885</span>
+            </div>
+          </div>
           <Avatar className="w-24 h-24 border-[9px] border-white">
             <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
           </Avatar>
@@ -31,14 +37,12 @@ export default function UserPage() {
             SVIP充值
           </Button>
         </div>
-
-        <div className="flex justify-center items-center text-[#747472] text-sm gap-2 mb-6">
           <span>艺术天赋</span>
           <span className="text-[#147ADA]">885</span>
         </div>
 
         {/* 特权卡片 */}
-        <div className="bg-[#624811] p-4 rounded-[20px] text-white mb-4">
+        <div className="bg-[#624811] p-4 rounded-[20px] text-white mb-2">
           <div className="flex items-center justify-between mb-4">
             <span className="text-lg">尊享特权</span>
             <div className="bg-[#D4AF37] p-1 rounded-full">
@@ -108,7 +112,7 @@ export default function UserPage() {
                   console.log('Delete artwork:', artwork.id);
                 }}
               >
-                删除作品
+                删除
               </button>
               <p className="text-[#747472] text-xs text-center mt-1">
                 中国十大名画<br/>
