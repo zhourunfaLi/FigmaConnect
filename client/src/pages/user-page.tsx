@@ -21,7 +21,7 @@ export default function UserPage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      <div className="bg-gradient-to-b from-[#FFFDFB] to-[#F8F6F0] pb-4 pt-4 px-3 rounded-t-[20px]">
+      <div className="pb-4 pt-4 px-3">
         {/* 顶部布局 */}
         <div className="flex justify-between items-center mb-4">
           {/* 左侧用户信息 */}
