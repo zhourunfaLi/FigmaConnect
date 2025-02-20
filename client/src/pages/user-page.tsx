@@ -16,6 +16,14 @@ export default function UserPage() {
     { id: 4, title: "清明上河图", image: "/src/assets/design/works-04.png" },
     { id: 5, title: "清明上河图", image: "/src/assets/design/works-05.png" },
     { id: 6, title: "清明上河图", image: "/src/assets/design/works-06.png" },
+    { id: 7, title: "清明上河图", image: "/src/assets/design/works-07.png" },
+    { id: 8, title: "清明上河图", image: "/src/assets/design/works-08.png" },
+    { id: 9, title: "清明上河图", image: "/src/assets/design/works-10.png" },
+    { id: 10, title: "清明上河图", image: "/src/assets/design/works-11.png" },
+    { id: 11, title: "清明上河图", image: "/src/assets/design/works-01.png" },
+    { id: 12, title: "清明上河图", image: "/src/assets/design/works-02.png" },
+    { id: 13, title: "清明上河图", image: "/src/assets/design/works-03.png" },
+    { id: 14, title: "清明上河图", image: "/src/assets/design/works-04.png" },
   ];
 
   return (
@@ -63,7 +71,7 @@ export default function UserPage() {
 
           <div className="bg-white/10 p-3 rounded-xl flex items-center justify-between">
             <div>
-              <span className="text-xs opacity-80 block mb-1">您的专属邀请码</span>
+              <span className="text-xs opacity-80 block mb-1">优惠码给朋友充值使用</span>
               <span className="text-base">GHJO#$675sg</span>
             </div>
             <Button className="bg-white text-black text-xs px-4 py-1 h-auto rounded-full hover:bg-white/90">
