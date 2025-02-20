@@ -23,9 +23,9 @@ function Router() {
       <Route path="/add-artwork" component={AddArtworkPage} />
       <Route path="/latest" component={HomePage} />
       <Route path="/user" component={ProtectedRoute(UserPage)} />
-      <Route path="/" component={ProtectedRoute(UserPage)} />
       <Route path="/work/:id" component={WorkDetails} />
       <Route path="/price" component={PricePage} />
+      <Route path="/" component={PricePage} />
       <Route component={NotFound} />
     </Switch>
   );
