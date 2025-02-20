@@ -4,9 +4,9 @@ import React from 'react';
 export default function PricePage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2] flex justify-center overflow-x-hidden">
-      <div className="relative w-[390px] h-[844px] bg-[#8B7C7C] flex-shrink-0 space-y-2">
+      <div className="relative w-[390px] h-[844px] bg-[#8B7C7C] flex-shrink-0 space-y-6">
         {/* Upgrade Notice - 调小字体，增加上下间距 */}
-        <div className="w-full py-8 text-center">
+        <div className="w-full py-10 text-center">
           <div className="text-white text-base">您需要升级至SVIP</div>
           <div className="text-white text-sm mt-1">才能使用此权限</div>
         </div>
@@ -57,33 +57,33 @@ export default function PricePage() {
           </div>
 
           {/* Membership Plans - 缩小文字 */}
-          <div className="space-y-2 mt-4">
+          <div className="space-y-4 mt-6">
             {/* 12个月会员 */}
-            <div className="w-full h-[86px] bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] rounded-xl p-4 flex justify-between items-center">
+            <div className="w-full h-[80px] bg-gradient-to-r from-[#624811] to-[#D4AF37] rounded-xl p-4 flex justify-between items-center shadow-lg border border-white/10">
               <div className="text-white">
-                <div className="text-base font-bold">12个月会员</div>
-                <div className="text-xs mt-1">限时特惠 · 每月仅11.5元</div>
+                <div className="text-sm font-bold tracking-wider">12个月会员</div>
+                <div className="text-xs mt-1.5 opacity-90">限时特惠 · 每月仅11.5元</div>
               </div>
               <div className="text-white">
-                <span className="text-2xl font-bold">¥138</span>
-                <span className="text-xs ml-1">/ 年</span>
+                <span className="text-xl font-bold">¥138</span>
+                <span className="text-xs ml-1 opacity-90">/ 年</span>
               </div>
             </div>
             
             {/* 6个月会员 */}
-            <div className="w-full h-[75px] bg-gradient-to-r from-[#4F46E5] to-[#818CF8] rounded-xl p-4 flex justify-between items-center">
+            <div className="w-full h-[70px] bg-gradient-to-r from-[#624811] to-[#9F7E2B] rounded-xl p-4 flex justify-between items-center shadow-md border border-white/10">
               <div className="text-white">
-                <div className="text-base font-bold">6个月会员</div>
-                <div className="text-xs mt-1">超值优惠 · 每月仅16.3元</div>
+                <div className="text-sm font-bold tracking-wider">6个月会员</div>
+                <div className="text-xs mt-1.5 opacity-90">超值优惠 · 每月仅16.3元</div>
               </div>
               <div className="text-white">
-                <span className="text-2xl font-bold">¥98</span>
-                <span className="text-xs ml-1">/ 半年</span>
+                <span className="text-xl font-bold">¥98</span>
+                <span className="text-xs ml-1 opacity-90">/ 半年</span>
               </div>
             </div>
             
             {/* 1个月会员 */}
-            <div className="w-full h-[74px] bg-gradient-to-r from-[#6B7280] to-[#9CA3AF] rounded-xl p-4 flex justify-between items-center">
+            <div className="w-full h-[70px] bg-gradient-to-r from-[#624811] to-[#876923] rounded-xl p-4 flex justify-between items-center shadow-md border border-white/10">
               <div className="text-white">
                 <div className="text-base font-bold">1个月会员</div>
                 <div className="text-xs mt-1">随时体验</div>
