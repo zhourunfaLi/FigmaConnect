@@ -26,10 +26,10 @@ export default function PricePage() {
               <img 
                 src="/src/assets/design/element/price_img_01.png"
                 alt="Price Feature"
-                className="w-[163px] h-[235px] object-cover"
+                className="w-[163px] h-[235px] object-cover relative z-10 -mt-2"
               />
               
-              <div className="w-[206px] space-y-2 relative -ml-16">
+              <div className="w-[206px] space-y-2 relative -ml-16 z-0">
                 {['所有作品观看特权', '去除广告', '高清下载', '作品全屏观看'].map((right, index) => (
                   <div key={index} className="w-full h-[43px] bg-[rgba(49,49,49,0.56)] backdrop-blur-[2.5px] rounded-[10px] flex items-center justify-end pr-4">
                     <span className="text-white text-xs">{right}</span>
