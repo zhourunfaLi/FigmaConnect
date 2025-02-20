@@ -4,7 +4,7 @@ import React from 'react';
 export default function PricePage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2] flex justify-center overflow-x-hidden">
-      <div className="relative w-[390px] h-[844px] bg-[#8B7C7C] flex-shrink-0 space-y-6">
+      <div className="relative w-full max-w-[390px] min-h-screen bg-[#8B7C7C] flex-shrink-0 space-y-6">
         {/* Upgrade Notice - 调小字体，增加上下间距 */}
         <div className="w-full py-10 text-center">
           <div className="text-white text-base">您需要升级至SVIP</div>
