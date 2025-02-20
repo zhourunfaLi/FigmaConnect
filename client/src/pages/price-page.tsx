@@ -5,6 +5,15 @@ export default function PricePage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       <div className="relative w-[390px] h-[844px] bg-[#8B7C7C]">
+        {/* Upgrade Notice */}
+        <div className="w-full pt-6 pb-4 text-center">
+          <div className="text-white text-xl">您需要升级至SVIP</div>
+          <div className="text-white text-lg mt-1">才能使用此权限</div>
+        </div>
+        
+        {/* Divider Line */}
+        <div className="w-full h-[1px] bg-white/30"></div>
+
         {/* Membership Introduction */}
         <div className="absolute left-2 top-[116px] w-[374px] h-[630px]">
           <div className="relative w-[347px] h-[300px] ml-[13px] -mt-[9px]">
