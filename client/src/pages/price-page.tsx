@@ -49,7 +49,7 @@ export default function PricePage() {
                   placeholder="请输入5元优惠邀请码"
                   className="flex-1 h-[34px] bg-transparent text-[#C3BFBF] text-xs px-3 border border-white/50 rounded-lg focus:outline-none focus:border-white"
                 />
-                <button className="h-[34px] px-4 bg-gradient-to-r from-[#624811] to-[#D4AF37] rounded-lg text-[#EEEAE2] text-xs">
+                <button className="h-[34px] px-4 bg-[#D4AF37] rounded-lg text-[#EEEAE2] text-xs">
                   提交
                 </button>
               </div>
@@ -59,7 +59,7 @@ export default function PricePage() {
           {/* Membership Plans - 缩小文字 */}
           <div className="space-y-4 mt-6">
             {/* 12个月会员 */}
-            <div className="w-full h-[80px] bg-gradient-to-r from-[#624811] to-[#D4AF37] rounded-xl p-4 flex justify-between items-center shadow-lg border border-white/10">
+            <div className="w-full h-[80px] bg-[#D4AF37] rounded-xl p-4 flex justify-between items-center shadow-lg border border-white/10">
               <div className="text-white">
                 <div className="text-sm font-bold tracking-wider">12个月会员</div>
                 <div className="text-xs mt-1.5 opacity-90">限时特惠 · 每月仅11.5元</div>
@@ -71,7 +71,7 @@ export default function PricePage() {
             </div>
             
             {/* 6个月会员 */}
-            <div className="w-full h-[70px] bg-gradient-to-r from-[#624811] to-[#9F7E2B] rounded-xl p-4 flex justify-between items-center shadow-md border border-white/10">
+            <div className="w-full h-[70px] bg-[#9F7E2B] rounded-xl p-4 flex justify-between items-center shadow-md border border-white/10">
               <div className="text-white">
                 <div className="text-sm font-bold tracking-wider">6个月会员</div>
                 <div className="text-xs mt-1.5 opacity-90">超值优惠 · 每月仅16.3元</div>
@@ -83,7 +83,7 @@ export default function PricePage() {
             </div>
             
             {/* 1个月会员 */}
-            <div className="w-full h-[70px] bg-gradient-to-r from-[#624811] to-[#876923] rounded-xl p-4 flex justify-between items-center shadow-md border border-white/10">
+            <div className="w-full h-[70px] bg-[#876923] rounded-xl p-4 flex justify-between items-center shadow-md border border-white/10">
               <div className="text-white">
                 <div className="text-base font-bold">1个月会员</div>
                 <div className="text-xs mt-1">随时体验</div>
