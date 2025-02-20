@@ -72,7 +72,7 @@ export default function UserPage() {
           </div>
         </div>
 
-        <div className="bg-[#FFFDFB] px-2 pt-6 rounded-t-[20px]">
+        <div className="bg-[#FFFDFB] px-8 pt-6 rounded-t-[20px]">
           <span className="text-[#747472] text-sm font-medium">您的收藏</span>
 
           <div className="mt-4 grid grid-cols-3 gap-[18px] pb-0">
