@@ -17,7 +17,6 @@ import PricePage from './pages/price-page'; // Added import for PricePage
 function Router() {
   return (
     <Switch>
-      <Route path="/home">{HomePage}</Route>
       <Route path="/auth" component={AuthPage} />
       <Route path="/artwork/:id" component={ArtworkPage} />
       <Route path="/add-artwork" component={AddArtworkPage} />
