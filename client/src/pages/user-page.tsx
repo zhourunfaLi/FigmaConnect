@@ -21,19 +21,19 @@ export default function UserPage() {
   return (
     <div className="min-h-screen bg-[#DDD8D0]">
       <div className="relative mt-4 pb-8 pt-6">
-        <div className="flex items-center gap-3 mb-4 px-4">
-          <Avatar className="w-14 h-14 border-[2px] border-white">
+        <div className="flex items-center gap-2 mb-4 px-2">
+          <Avatar className="w-12 h-12 border-[2px] border-white">
             <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
           </Avatar>
           <div className="flex-1">
             <div className="flex items-center justify-between">
-              <h2 className="text-black text-sm font-medium leading-tight mb-1">会飞的大象豆豆豆</h2>
-              <Button className="bg-[#147ADA] text-xs px-4 py-1 h-[27px] rounded-full hover:bg-[#147ADA]/90 ml-2">
+              <h2 className="text-black text-xs font-medium leading-tight mb-1">会飞的大象豆豆豆</h2>
+              <Button className="bg-[#147ADA] text-[10px] px-3 py-0.5 h-[22px] rounded-full hover:bg-[#147ADA]/90 ml-2">
                 SVIP充值
               </Button>
             </div>
             <span 
-              className="inline-block bg-secondary rounded-full px-3 py-1 cursor-help text-[10px]"
+              className="inline-block bg-secondary rounded-full px-2 py-0.5 cursor-help text-[9px]"
               title="这是您趣闻问答的得分"
               onClick={() => {
                 alert("这是您趣闻问答的得分！通过回答艺术趣闻问题来提升分数。");
@@ -45,9 +45,9 @@ export default function UserPage() {
         </div>
 
         {/* 特权卡片 */}
-        <div className="bg-[#624811] p-4 rounded-[20px] text-white mb-2">
+        <div className="bg-[#624811] p-2 mx-2 rounded-[20px] text-white mb-2">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-lg">尊享特权</span>
+            <span className="text-lg">优惠福利</span>
             <div className="bg-[#D4AF37] p-1 rounded-full">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" stroke="white" strokeWidth="2"/>
@@ -58,7 +58,7 @@ export default function UserPage() {
           <p className="text-sm mb-6 opacity-80">
             邀请好友订阅即可获得：
             <br/>• 好友订阅优惠 5 元
-            <br/>• 您获得 1 周会员延期（可累加）
+            <br/>• 您获得 1 月会员延期（可累加）
           </p>
 
           <div className="bg-white/10 p-4 rounded-xl flex items-center justify-between">
@@ -72,7 +72,7 @@ export default function UserPage() {
           </div>
         </div>
 
-        <div className="bg-[#FFFDFB] px-4 pt-6 rounded-t-[20px]">
+        <div className="bg-[#FFFDFB] px-2 pt-6 rounded-t-[20px]">
           <span className="text-[#747472] text-sm font-medium">您的收藏</span>
 
           <div className="mt-4 grid grid-cols-3 gap-[18px] pb-0">
