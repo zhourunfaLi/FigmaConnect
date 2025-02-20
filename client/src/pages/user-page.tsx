@@ -20,20 +20,20 @@ export default function UserPage() {
 
   return (
     <div className="min-h-screen bg-[#DDD8D0]">
-      <div className="relative mt-4 pb-8 pt-6 px-4">
+      <div className="relative mt-4 pb-8 pt-6">
         <div className="flex items-center gap-3 mb-4 px-4">
-          <Avatar className="w-16 h-16 border-[4px] border-white">
+          <Avatar className="w-14 h-14 border-[2px] border-white">
             <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
           </Avatar>
           <div className="flex-1">
             <div className="flex items-center justify-between">
-              <h2 className="text-black text-base font-medium leading-tight mb-1">会飞的大象豆豆豆</h2>
+              <h2 className="text-black text-sm font-medium leading-tight mb-1">会飞的大象豆豆豆</h2>
               <Button className="bg-[#147ADA] text-xs px-4 py-1 h-[27px] rounded-full hover:bg-[#147ADA]/90 ml-2">
                 SVIP充值
               </Button>
             </div>
             <span 
-              className="inline-block bg-secondary rounded-full px-3 py-1.5 cursor-help text-xs"
+              className="inline-block bg-secondary rounded-full px-3 py-1 cursor-help text-[10px]"
               title="这是您趣闻问答的得分"
               onClick={() => {
                 alert("这是您趣闻问答的得分！通过回答艺术趣闻问题来提升分数。");
