@@ -29,9 +29,9 @@ export default function PricePage() {
                 className="w-[163px] h-[235px] object-cover"
               />
               
-              <div className="w-[206px] space-y-2">
+              <div className="w-[206px] space-y-2 relative -ml-16">
                 {['所有作品观看特权', '去除广告', '高清下载', '作品全屏观看'].map((right, index) => (
-                  <div key={index} className="w-full h-[43px] bg-[rgba(49,49,49,0.56)] backdrop-blur-[2.5px] rounded-[10px] flex items-center justify-center">
+                  <div key={index} className="w-full h-[43px] bg-[rgba(49,49,49,0.56)] backdrop-blur-[2.5px] rounded-[10px] flex items-center justify-end pr-4">
                     <span className="text-white text-xs">{right}</span>
                   </div>
                 ))}
@@ -40,7 +40,7 @@ export default function PricePage() {
           </div>
 
           {/* Invite Code Section - 添加背景 */}
-          <div className="mt-4 p-4 bg-black/20 rounded-lg">
+          <div className="mt-8 mb-8 p-4 bg-black/20 rounded-lg">
             <div className="relative">
               <div className="text-white text-xs mb-1">优惠邀请码</div>
               <div className="flex items-center gap-2">
