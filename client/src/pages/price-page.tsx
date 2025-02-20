@@ -5,15 +5,6 @@ export default function PricePage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       <div className="relative w-[390px] h-[844px] bg-[#8B7C7C]">
-        {/* Header WeChat Bar */}
-        <div className="w-full h-[90px] bg-white flex items-center justify-center border-b border-black/10">
-          <img 
-            src="/src/assets/design/weixin NAV.png" 
-            alt="WeChat Navigation" 
-            className="w-full h-full object-contain" 
-          />
-        </div>
-
         {/* Membership Introduction */}
         <div className="absolute left-2 top-[116px] w-[374px] h-[630px]">
           <div className="relative w-[347px] h-[300px] ml-[13px] -mt-[9px]">
