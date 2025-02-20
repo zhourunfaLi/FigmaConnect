@@ -21,11 +21,10 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <Route path="/artwork/:id" component={ArtworkPage} />
       <Route path="/add-artwork" component={AddArtworkPage} />
-      <Route path="/latest" component={HomePage} />
       <Route path="/user" component={ProtectedRoute(UserPage)} />
       <Route path="/work/:id" component={WorkDetails} />
       <Route path="/price" component={PricePage} />
-      <Route path="/" component={PricePage} />
+      <Route path="/" component={HomePage} />
       <Route component={NotFound} />
     </Switch>
   );
