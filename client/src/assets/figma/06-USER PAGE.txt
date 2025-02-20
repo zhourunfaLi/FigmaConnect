@@ -1,207 +1,148 @@
 <div data-layer="USER PAGE" className="UserPage" style={{width: 390, height: 844, position: 'relative', background: '#EEEAE2'}}>
-  <div data-layer="user pages" className="UserPages" style={{width: 372, height: 535, left: 9, top: 399, position: 'absolute'}}>
-    <div data-svg-wrapper data-layer="bg" className="Bg" style={{left: -9, top: -53, position: 'absolute'}}>
-    <svg width="390" height="498" viewBox="0 0 390 498" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 18.675C146.774 -6.22499 242.177 -6.22502 390 18.675C390 73.1438 390 498 390 498H0C0 498 0.000113979 84.8156 0 18.675Z" fill="#FFFDFB"/>
-    </svg>
+  <div data-layer="collect bg" className="CollectBg" style={{width: 372, height: 458, left: 9, top: 384, position: 'absolute'}}>
+    <div data-layer="Frame 151" className="Frame151" style={{width: 390, height: 452, left: -9, top: -7, position: 'absolute'}}>
+      <div data-svg-wrapper data-layer="bg" className="Bg" style={{left: 0, top: 0, position: 'absolute'}}>
+      <svg width="390" height="452" viewBox="0 0 390 452" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0C150.5 -1.25903e-05 242.5 8.99308e-06 390 0C390 51.3636 390 452 390 452H0C0 452 0.000113979 62.3701 0 0Z" fill="#FFFDFB"/>
+      </svg>
+      </div>
+      <div data-layer="您的收藏" style={{left: 9, top: 17, position: 'absolute', textAlign: 'center', color: '#747472', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>您的收藏</div>
     </div>
-    <img data-layer="user avatar" className="UserAvatar" style={{width: 98, height: 98, left: 130, top: -93, position: 'absolute', borderRadius: 9999, border: '9px white solid'}} src="https://placehold.co/98x98" />
-    <div data-layer="您的收藏" style={{left: 0, top: 10, position: 'absolute', textAlign: 'center', color: '#747472', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>您的收藏</div>
-    <div data-layer="FAQ grade" className="FaqGrade" style={{left: 252, top: 10, position: 'absolute', textAlign: 'center', color: '#747472', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>艺术天赋</div>
-    <div data-layer="FAQ  Score" className="FaqScore" style={{left: 314, top: 10, position: 'absolute', textAlign: 'center', color: '#747472', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>885</div>
+    <div data-layer="collect section" className="CollectSection" style={{width: 372, height: 345, left: -2, top: 44, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
+      <div data-layer="Frame 71" className="Frame71" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
+        <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+      </div>
+      <div data-layer="Frame 72" className="Frame72" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
+        <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+      </div>
+      <div data-layer="Frame 73" className="Frame73" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
+        <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+      </div>
+      <div data-layer="Frame 74" className="Frame74" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
+        <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
+            <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
+            <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
+              <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
+              <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
+            </div>
+          </div>
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
+            <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
+            <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
+              <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
+              <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
+            </div>
+          </div>
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
+            <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
+            <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
+              <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
+              <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
+            </div>
+          </div>
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+      </div>
+      <div data-layer="Frame 75" className="Frame75" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
+        <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
+            <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
+            <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
+              <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
+              <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
+            </div>
+          </div>
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
+            <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
+            <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
+              <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
+              <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
+            </div>
+          </div>
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+        <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
+          <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
+            <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
+            <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
+              <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
+              <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
+            </div>
+          </div>
+          <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div data-layer="Recharge button" className="RechargeButton" style={{width: 78, height: 27, left: 273, top: 290, position: 'absolute'}}>
-    <div data-layer="Rectangle 4165" className="Rectangle4165" style={{width: 78, height: 27, left: 0, top: 0, position: 'absolute', background: '#147ADA', borderRadius: 3}} />
-    <div data-layer="SVIP充值" className="Svip" style={{left: 12, top: 1, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 25, letterSpacing: 1, wordWrap: 'break-word'}}>SVIP充值</div>
+  <div data-layer="Frame 150" className="Frame150" style={{width: 330, height: 98, left: 16, top: 31, position: 'absolute'}}>
+    <img data-layer="user avatar" className="UserAvatar" style={{width: 98, height: 98, left: 123, top: 0, position: 'absolute', borderRadius: 9999, border: '9px white solid'}} src="https://placehold.co/98x98" />
+    <div data-layer="FAQ grade" className="FaqGrade" style={{left: 243, top: 56, position: 'absolute', textAlign: 'center', color: '#747472', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>艺术天赋</div>
+    <div data-layer="FAQ  Score" className="FaqScore" style={{left: 305, top: 56, position: 'absolute', textAlign: 'center', color: '#747472', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>885</div>
+    <div data-layer="Recharge button" className="RechargeButton" style={{width: 78, height: 27, left: 0, top: 35, position: 'absolute'}}>
+      <div data-layer="Rectangle 4165" className="Rectangle4165" style={{width: 78, height: 27, left: 0, top: 0, position: 'absolute', background: '#147ADA', borderRadius: 3}} />
+      <div data-layer="SVIP充值" className="Svip" style={{left: 12, top: 1, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 25, letterSpacing: 1, wordWrap: 'break-word'}}>SVIP充值</div>
+    </div>
+    <div data-layer="user name" className="UserName" style={{left: 246, top: 19, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>达芬奇的幻想</div>
   </div>
-  <div data-layer="user name" className="UserName" style={{left: 7, top: 296, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 22, wordWrap: 'break-word'}}>达芬奇的幻想</div>
-  <div data-layer="Invite Code Card" className="InviteCodeCard" style={{width: 390, height: 162, left: 0, top: 90, position: 'absolute', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'}}>
-    <div data-layer="Rectangle 4161" className="Rectangle4161" style={{width: 390, height: 162, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(309deg, rgba(230.77, 175.14, 34.42, 0.88) 20%, #7A6119 36%)', borderTopLeftRadius: 20, borderTopRightRadius: 20}} />
-    <div data-layer="您的朋友凭此邀请码，订阅可以优惠5元     您也可以获得1周会员延期（可累加）" className="51" style={{left: 84, top: 21, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 25, letterSpacing: 1, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>您的朋友凭此邀请码，订阅可以优惠5元     您也可以获得1周会员延期（可累加）</div>
+  <div data-layer="Invite Code Card" className="InviteCodeCard" style={{width: 390, height: 162, left: 0, top: 167, position: 'absolute', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'}}>
+    <div data-layer="Rectangle 4161" className="Rectangle4161" style={{width: 370, height: 162, left: 10, top: 0, position: 'absolute', background: '#72510B', borderRadius: 15}} />
+    <div data-layer="您的朋友凭此邀请码，订阅可以优惠5元     您也可以获得1月会员延期（可累加）" className="51" style={{left: 84, top: 21, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 25, letterSpacing: 1, wordWrap: 'break-word'}}>您的朋友凭此邀请码，订阅可以优惠5元     您也可以获得1月会员延期（可累加）</div>
     <div data-layer="Frame 47" className="Frame47" style={{width: 235, height: 28, left: 76, top: 98, position: 'absolute'}}>
       <div data-layer="Rectangle 4163" className="Rectangle4163" style={{width: 112, height: 21, left: 61, top: 4, position: 'absolute', background: 'rgba(217, 217, 217, 0.62)', borderRadius: 3}} />
       <div data-layer="GHJO#$675sg" className="Ghjo675sg" style={{width: 111, height: 18.18, left: 61, top: 6.36, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 12, fontFamily: 'Roboto', fontWeight: '400', lineHeight: 20, letterSpacing: 0.50, wordWrap: 'break-word'}}>GHJO#$675sg</div>
       <div data-layer="label-text" className="LabelText" style={{left: 0, top: 0, position: 'absolute', color: '#E9E9E9', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 25, letterSpacing: 1, wordWrap: 'break-word'}}>邀请码</div>
       <div data-layer="Frame 136" className="Frame136" style={{width: 51, height: 27, left: 184, top: 1, position: 'absolute'}}>
-        <div data-layer="Rectangle 4165" className="Rectangle4165" style={{width: 51, height: 27, left: 0, top: 0, position: 'absolute', background: '#147ADA', borderRadius: 3}} />
+        <div data-layer="Rectangle 4165" className="Rectangle4165" style={{width: 51, height: 27, left: 0, top: 0, position: 'absolute', background: 'black', borderRadius: 3}} />
         <div data-layer="label-text" className="LabelText" style={{width: 31.10, left: 11, top: 0, position: 'absolute', color: '#EEEAE2', fontSize: 12, fontFamily: 'Microsoft YaHei UI', fontWeight: '400', lineHeight: 25, letterSpacing: 1, wordWrap: 'break-word'}}>复制</div>
-      </div>
-    </div>
-  </div>
-  <div data-layer="collect section" className="CollectSection" style={{width: 372, height: 330, left: 9, top: 443, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
-    <div data-layer="Frame 71" className="Frame71" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
-      <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="delete collect works" className="DeleteCollectWorks" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-    </div>
-    <div data-layer="Frame 72" className="Frame72" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
-      <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-    </div>
-    <div data-layer="Frame 73" className="Frame73" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
-      <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-    </div>
-    <div data-layer="Frame 74" className="Frame74" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
-      <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-    </div>
-    <div data-layer="Frame 75" className="Frame75" style={{width: 372, height: 128, justifyContent: 'center', alignItems: 'flex-start', gap: 18, display: 'inline-flex'}}>
-      <div data-layer="Frame 68" className="Frame68" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 69" className="Frame69" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
-      </div>
-      <div data-layer="Frame 70" className="Frame70" style={{width: 112, height: 128, position: 'relative', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <img data-layer="Rectangle 1134" className="Rectangle1134" style={{width: 112, height: 128, borderRadius: 6}} src="https://placehold.co/112x128" />
-        <div data-layer="Group 41" className="Group41" style={{width: 13, height: 13, position: 'relative'}}>
-          <div data-layer="Ellipse 26" className="Ellipse26" style={{width: 13, height: 13, left: 0, top: 0, position: 'absolute', background: '#1C1C1C', borderRadius: 9999}} />
-          <div data-layer="Group 40" className="Group40" style={{width: 9, height: 9, left: 0, top: 6.36, position: 'absolute', transform: 'rotate(-45deg)', transformOrigin: 'top left'}}>
-            <div data-layer="Line 6" className="Line6" style={{width: 9, height: 0, left: 3.54, top: 3.54, position: 'absolute', border: '1px #EEEAE2 solid'}}></div>
-            <div data-layer="Line 7" className="Line7" style={{width: 9, height: 0, left: 9.90, top: 2.83, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', border: '1px #EEEAE2 solid'}}></div>
-          </div>
-        </div>
-        <div data-layer="中国十大名画 清明上河图" style={{textAlign: 'center', color: '#E9E9E9', fontSize: 14, fontFamily: 'MS Gothic', fontWeight: '400', lineHeight: 16, wordWrap: 'break-word', textShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)'}}>中国十大名画<br/>清明上河图</div>
       </div>
     </div>
   </div>
@@ -225,15 +166,6 @@
       <path d="M2.93273 5.8306C3.86707 3.11605 6.56337 1.58331 9.43423 1.58331H15.5657C18.4366 1.58331 21.1329 3.11604 22.0672 5.8306C22.6255 7.45254 23.1257 9.39139 23.2578 11.3757C23.2944 11.9267 22.8439 12.375 22.2916 12.375H2.70831C2.15603 12.375 1.70554 11.9267 1.7422 11.3757C1.87421 9.39139 2.37447 7.45254 2.93273 5.8306Z" stroke="#1C1C1C" stroke-width="2" stroke-linecap="round"/>
       </svg>
       </div>
-    </div>
-  </div>
-  <div data-layer="header weixinbar" className="HeaderWeixinbar" style={{width: 390, height: 90, left: 0, top: 0, position: 'absolute'}}>
-    <img data-layer="weixinBar" className="Weixinbar" style={{width: 390, height: 90, left: 0, top: 0, position: 'absolute'}} src="https://placehold.co/390x90" />
-    <div data-svg-wrapper data-layer="home button" className="HomeButton" style={{left: 8, top: 47, position: 'absolute'}}>
-    <svg width="37" height="36" viewBox="0 0 37 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M7.70837 18.9946C7.70837 16.9734 7.70837 15.9628 8.1315 15.0745C8.55463 14.1861 9.34927 13.5284 10.9386 12.213L12.4802 10.937C15.3528 8.55946 16.7891 7.37067 18.5 7.37067C20.2109 7.37067 21.6472 8.55946 24.5199 10.937L26.0615 12.213C27.6508 13.5284 28.4455 14.1861 28.8686 15.0745C29.2917 15.9628 29.2917 16.9734 29.2917 18.9946V25.3071C29.2917 28.1141 29.2917 29.5177 28.3886 30.3897C27.4855 31.2617 26.032 31.2617 23.125 31.2617H13.875C10.968 31.2617 9.51455 31.2617 8.61146 30.3897C7.70837 29.5177 7.70837 28.1141 7.70837 25.3071V18.9946Z" stroke="#1C1C1C" stroke-width="2"/>
-    <path d="M22.3542 31.2617V23.3298C22.3542 22.7775 21.9065 22.3298 21.3542 22.3298H15.6459C15.0936 22.3298 14.6459 22.7775 14.6459 23.3298V31.2617" stroke="#1C1C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
     </div>
   </div>
 </div>

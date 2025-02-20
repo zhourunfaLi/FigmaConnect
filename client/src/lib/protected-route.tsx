@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { Redirect } from "wouter";
 
 export function ProtectedRoute(Component: React.ComponentType) {
-  return function WrappedComponent(props: any) {
+  return function WrappedComponent() {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
@@ -15,11 +15,10 @@ export function ProtectedRoute(Component: React.ComponentType) {
       );
     }
 
-    // 暂时禁用认证检查，方便开发
-    // if (!user) {
-    //   return <Redirect to="/auth" />;
-    // }
+    if (!user) {
+      return <Redirect to="/auth" />;
+    }
 
-    return <Component {...props} />;
+    return <Component />;
   };
 }

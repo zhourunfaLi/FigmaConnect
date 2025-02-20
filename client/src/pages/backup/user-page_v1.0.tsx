@@ -1,3 +1,4 @@
+
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
@@ -19,13 +20,14 @@ export default function UserPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#DDD8D0]">
+    <div className="min-h-screen bg-[#EEEAE2]">
       <div className="relative mt-4 pb-8 pt-6 px-4">
         <div className="flex justify-between items-center mb-4 px-4">
           <div className="flex flex-col gap-2">
             <h2 className="text-black text-sm font-normal">{user.username || "达芬奇的幻想"}</h2>
             <div className="flex items-center text-[#747472] text-xs gap-2">
-              <span className="bg-secondary rounded-full px-2 py-1">艺术天赋 885</span>
+              <span>艺术天赋</span>
+              <span className="text-[#147ADA]">885</span>
             </div>
           </div>
           <Avatar className="w-24 h-24 border-[9px] border-white">
@@ -46,7 +48,7 @@ export default function UserPage() {
               </svg>
             </div>
           </div>
-
+          
           <p className="text-sm mb-6 opacity-80">
             邀请好友订阅即可获得：
             <br/>• 好友订阅优惠 5 元
@@ -66,7 +68,7 @@ export default function UserPage() {
 
         <div className="bg-[#FFFDFB] px-4 pt-6">
           <span className="text-[#747472] text-sm font-medium">您的收藏</span>
-
+          
           <div className="mt-4 grid grid-cols-3 gap-[18px] pb-0">
             {artworks.map((artwork) => (
               <div 
