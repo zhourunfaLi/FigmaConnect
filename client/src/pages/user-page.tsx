@@ -25,7 +25,15 @@ export default function UserPage() {
           <div className="flex flex-col gap-2">
             <h2 className="text-black text-sm font-normal">{user.username || "达芬奇的幻想"}</h2>
             <div className="flex items-center text-[#747472] text-xs gap-2">
-              <span className="bg-secondary rounded-full px-2 py-1">艺术天赋 885</span>
+              <span 
+                className="bg-secondary rounded-full px-2 py-1 cursor-help"
+                title="这是您趣闻问答的得分"
+                onClick={() => {
+                  alert("这是您趣闻问答的得分！通过回答艺术趣闻问题来提升分数。");
+                }}
+              >
+                艺术天赋 885
+              </span>
             </div>
           </div>
           <Avatar className="w-24 h-24 border-[9px] border-white">
