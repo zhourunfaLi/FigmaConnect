@@ -12,6 +12,7 @@ import AddArtworkPage from "@/pages/add-artwork-page";
 import WorkDetails from "@/pages/WorkDetails";
 import NotFound from "@/pages/not-found";
 import UserPage from "@/pages/user-page";
+import PricePage from './pages/price-page'; // Added import for PricePage
 
 function Router() {
   return (
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/user" component={ProtectedRoute(UserPage)} />
       <Route path="/" component={ProtectedRoute(UserPage)} />
       <Route path="/work/:id" component={WorkDetails} />
+      <Route path="/price" element={<PricePage />} /> {/* Added route for PricePage */}
       <Route component={NotFound} />
     </Switch>
   );
