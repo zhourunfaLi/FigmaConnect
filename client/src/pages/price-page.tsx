@@ -49,7 +49,7 @@ export default function PricePage() {
                   placeholder="请输入5元优惠邀请码"
                   className="flex-1 h-[34px] bg-transparent text-[#C3BFBF] text-xs px-3 border border-white/50 rounded-lg focus:outline-none focus:border-white"
                 />
-                <button className="h-[34px] px-4 bg-[#147ADA] rounded-lg text-[#EEEAE2] text-xs">
+                <button className="h-[34px] px-4 bg-gradient-to-r from-[#624811] to-[#D4AF37] rounded-lg text-[#EEEAE2] text-xs">
                   提交
                 </button>
               </div>
