@@ -21,27 +21,27 @@ export default function UserPage() {
   return (
     <div className="min-h-screen bg-[#DDD8D0]">
       <div className="relative mt-4 pb-8 pt-6 px-4">
-        <div className="flex justify-between items-center mb-4 px-4">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-black text-sm font-normal">{user.username || "达芬奇的幻想"}</h2>
-            <div className="flex items-center text-[#747472] text-xs gap-2">
-              <span 
-                className="bg-secondary rounded-full px-2 py-1 cursor-help"
-                title="这是您趣闻问答的得分"
-                onClick={() => {
-                  alert("这是您趣闻问答的得分！通过回答艺术趣闻问题来提升分数。");
-                }}
-              >
-                艺术天赋 885
-              </span>
-            </div>
-          </div>
-          <Avatar className="w-24 h-24 border-[9px] border-white">
+        <div className="flex items-start gap-4 mb-4 px-4">
+          <Avatar className="w-20 h-20 border-[6px] border-white">
             <img src="/src/assets/design/avatar/001.png" alt="avatar" className="w-full h-full object-cover" />
           </Avatar>
-          <Button className="bg-[#147ADA] text-xs px-3 py-1 h-[27px] rounded">
-            SVIP充值
-          </Button>
+          <div className="flex-1">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-black text-base font-medium">{user.username || "达芬奇的幻想"}</h2>
+              <Button className="bg-[#147ADA] text-xs px-4 py-1 h-[27px] rounded-full hover:bg-[#147ADA]/90">
+                SVIP充值
+              </Button>
+            </div>
+            <span 
+              className="inline-block bg-secondary rounded-full px-3 py-1.5 cursor-help text-xs"
+              title="这是您趣闻问答的得分"
+              onClick={() => {
+                alert("这是您趣闻问答的得分！通过回答艺术趣闻问题来提升分数。");
+              }}
+            >
+              艺术天赋 885
+            </span>
+          </div>
         </div>
 
         {/* 特权卡片 */}
@@ -72,7 +72,7 @@ export default function UserPage() {
           </div>
         </div>
 
-        <div className="bg-[#FFFDFB] px-4 pt-6">
+        <div className="bg-[#FFFDFB] px-4 pt-6 rounded-t-[20px]">
           <span className="text-[#747472] text-sm font-medium">您的收藏</span>
 
           <div className="mt-4 grid grid-cols-3 gap-[18px] pb-0">
