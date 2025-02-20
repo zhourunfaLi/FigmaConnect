@@ -45,8 +45,8 @@ export default function UserPage() {
         </div>
 
         {/* 特权卡片 */}
-        <div className="bg-[#624811] p-2 mx-2 rounded-[20px] text-white mb-2">
-          <div className="flex items-center justify-between mb-4">
+        <div className="bg-[#624811] p-4 mx-2 rounded-[20px] text-white mb-4">
+          <div className="flex items-center justify-between mb-6">
             <span className="text-lg">优惠福利</span>
             <div className="bg-[#D4AF37] p-1 rounded-full">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -72,7 +72,7 @@ export default function UserPage() {
           </div>
         </div>
 
-        <div className="bg-[#FFFDFB] px-2 pt-6 rounded-t-[20px]">
+        <div className="bg-[#FFFDFB] px-8 pt-6 rounded-t-[20px]">
           <span className="text-[#747472] text-sm font-medium">您的收藏</span>
 
           <div className="mt-4 grid grid-cols-3 gap-[18px] pb-0">
