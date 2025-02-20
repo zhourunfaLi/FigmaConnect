@@ -3,8 +3,8 @@ import React from 'react';
 
 export default function PricePage() {
   return (
-    <div className="min-h-screen bg-[#EEEAE2]">
-      <div className="relative w-[390px] h-[844px] bg-[#8B7C7C]">
+    <div className="min-h-screen bg-[#EEEAE2] flex justify-center overflow-x-hidden">
+      <div className="relative w-[390px] h-[844px] bg-[#8B7C7C] flex-shrink-0">
         {/* Upgrade Notice */}
         <div className="w-full pt-6 pb-4 text-center">
           <div className="text-white text-xl">您需要升级至SVIP</div>
