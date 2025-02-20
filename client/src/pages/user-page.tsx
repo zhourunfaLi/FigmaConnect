@@ -71,7 +71,7 @@ export default function UserPage() {
             {artworks.map((artwork) => (
               <div 
                 key={artwork.id} 
-                className="relative touch-manipulation"
+                className="relative touch-manipulation flex flex-col items-center"
                 onClick={() => {
                   console.log('Navigate to artwork:', artwork.id);
                 }}
@@ -106,7 +106,7 @@ export default function UserPage() {
                 >
                   删除
                 </button>
-                <p className="text-[#747472] text-xs text-center mt-1">
+                <p className="text-[#747472] text-xs text-center mt-1 w-[112px]">
                   中国十大名画<br/>
                   {artwork.title}
                 </p>
