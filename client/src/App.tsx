@@ -16,8 +16,16 @@ import PricePage from './pages/price-page'; // Added import for PricePage
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/auth" component={AuthPage} />
+    <div>
+      <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 py-2">
+        <div className="flex justify-around items-center">
+          <Link href="/">首页</Link>
+          <Link href="/user">用户</Link>
+          <Link href="/price">价格</Link>
+        </div>
+      </nav>
+      <Switch>
+        <Route path="/auth" component={AuthPage} />
       <Route path="/artwork/:id" component={ArtworkPage} />
       <Route path="/add-artwork" component={AddArtworkPage} />
       <Route path="/user" component={ProtectedRoute(UserPage)} />
