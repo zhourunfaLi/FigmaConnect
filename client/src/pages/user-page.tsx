@@ -19,7 +19,7 @@ export default function UserPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#EEEAE2]">
+    <div className="min-h-screen bg-[#DDD8D0]">
       <div className="relative mt-4 pb-8 pt-6 px-4">
         <div className="flex justify-between items-center mb-4 px-4">
           <div className="flex flex-col gap-2">
