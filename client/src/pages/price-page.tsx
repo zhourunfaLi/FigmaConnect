@@ -59,7 +59,8 @@ export default function PricePage() {
           {/* Membership Plans - 缩小文字 */}
           <div className="space-y-4 mt-6">
             {/* 12个月会员 */}
-            <div className="w-full h-[80px] bg-[#D4AF37] rounded-xl p-4 flex justify-between items-center shadow-lg border border-white/10">
+            <div className="w-full h-[80px] bg-[#D4AF37] rounded-xl p-4 flex justify-between items-center shadow-lg border border-white/10 relative">
+              <div className="absolute -top-2 -right-2 bg-[#FF3B30] px-2 py-0.5 rounded text-[10px] text-white font-medium">超值</div>
               <div className="text-white">
                 <div className="text-sm font-bold tracking-wider">12个月会员</div>
                 <div className="text-xs mt-1.5 opacity-90">限时特惠 · 每月仅11.5元</div>
@@ -71,7 +72,8 @@ export default function PricePage() {
             </div>
             
             {/* 6个月会员 */}
-            <div className="w-full h-[70px] bg-[#9F7E2B] rounded-xl p-4 flex justify-between items-center shadow-md border border-white/10">
+            <div className="w-full h-[70px] bg-[#9F7E2B] rounded-xl p-4 flex justify-between items-center shadow-md border border-white/10 relative">
+              <div className="absolute -top-2 -right-2 bg-[#FF9500] px-2 py-0.5 rounded text-[10px] text-white font-medium">推荐</div>
               <div className="text-white">
                 <div className="text-sm font-bold tracking-wider">6个月会员</div>
                 <div className="text-xs mt-1.5 opacity-90">超值优惠 · 每月仅16.3元</div>
