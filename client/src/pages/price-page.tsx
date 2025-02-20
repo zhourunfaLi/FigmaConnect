@@ -57,9 +57,41 @@ export default function PricePage() {
 
           {/* Membership Plans */}
           <div className="mt-[38px] ml-[13px] space-y-3">
-            <img src="/src/assets/design/works-02.png" alt="12 month plan" className="w-[361px] h-[86px] object-cover" />
-            <img src="/src/assets/design/works-03.png" alt="6 month plan" className="w-[360px] h-[75px] object-cover" />
-            <img src="/src/assets/design/works-04.png" alt="1 month plan" className="w-[358px] h-[74px] object-cover" />
+            {/* 12个月会员 */}
+            <div className="w-[361px] h-[86px] bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] rounded-xl p-4 flex justify-between items-center">
+              <div className="text-white">
+                <div className="text-xl font-bold">12个月会员</div>
+                <div className="text-sm mt-1">限时特惠 · 每月仅11.5元</div>
+              </div>
+              <div className="text-white">
+                <span className="text-3xl font-bold">¥138</span>
+                <span className="text-sm ml-1">/ 年</span>
+              </div>
+            </div>
+            
+            {/* 6个月会员 */}
+            <div className="w-[360px] h-[75px] bg-gradient-to-r from-[#4F46E5] to-[#818CF8] rounded-xl p-4 flex justify-between items-center">
+              <div className="text-white">
+                <div className="text-xl font-bold">6个月会员</div>
+                <div className="text-sm mt-1">超值优惠 · 每月仅16.3元</div>
+              </div>
+              <div className="text-white">
+                <span className="text-3xl font-bold">¥98</span>
+                <span className="text-sm ml-1">/ 半年</span>
+              </div>
+            </div>
+            
+            {/* 1个月会员 */}
+            <div className="w-[358px] h-[74px] bg-gradient-to-r from-[#6B7280] to-[#9CA3AF] rounded-xl p-4 flex justify-between items-center">
+              <div className="text-white">
+                <div className="text-xl font-bold">1个月会员</div>
+                <div className="text-sm mt-1">随时体验</div>
+              </div>
+              <div className="text-white">
+                <span className="text-3xl font-bold">¥58</span>
+                <span className="text-sm ml-1">/ 月</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
