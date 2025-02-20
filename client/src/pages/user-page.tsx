@@ -45,8 +45,8 @@ export default function UserPage() {
         </div>
 
         {/* 特权卡片 */}
-        <div className="bg-[#624811] p-4 mx-2 rounded-[20px] text-white mb-4">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-[#624811] p-6 mx-2 rounded-[20px] text-white mb-4">
+          <div className="flex items-center justify-between mb-8">
             <span className="text-lg">优惠福利</span>
             <div className="bg-[#D4AF37] p-1 rounded-full">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -55,13 +55,13 @@ export default function UserPage() {
             </div>
           </div>
 
-          <p className="text-sm mb-6 opacity-80">
+          <p className="text-sm mb-8 opacity-80">
             邀请好友订阅即可获得：
             <br/>• 好友订阅优惠 5 元
             <br/>• 您获得 1 月会员延期（可累加）
           </p>
 
-          <div className="bg-white/10 p-4 rounded-xl flex items-center justify-between">
+          <div className="bg-white/10 p-6 rounded-xl flex items-center justify-between">
             <div>
               <span className="text-xs opacity-80 block mb-1">您的专属邀请码</span>
               <span className="text-base">GHJO#$675sg</span>
