@@ -56,9 +56,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Use port 3002
-  const PORT = 3002;
+  const PORT = process.env.PORT || 3000;
   server.listen(PORT, "0.0.0.0", () => {
-    log(`serving on port ${PORT}`);
+    log(`服务器启动成功，运行在端口 ${PORT}`);
   });
 })();
