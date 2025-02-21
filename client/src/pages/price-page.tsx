@@ -3,7 +3,6 @@ import React from 'react';
 
 export default function PricePage() {
   return (
-    {/* A区: 页面容器 */}
     <div className="min-h-screen bg-[#EEEAE2] flex justify-center overflow-x-hidden">
       {/* B区: 内容主体区域 */}
       <div className="relative w-full max-w-[390px] min-h-screen bg-[#8B7C7C] flex-shrink-0 space-y-6">
