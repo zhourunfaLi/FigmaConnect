@@ -1,171 +1,66 @@
-import { type Artwork } from "@shared/schema";
-import { cn } from "@/lib/utils";
-import React, { useState, useEffect } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Heart, Share2, MoreHorizontal } from "lucide-react";
-
-// Constants for layout configuration
-const GRID_CONFIG = {
-  MOBILE_COLUMNS: 2,
-  TABLET_COLUMNS: 3,
-  DESKTOP_COLUMNS: 4,
-  GROUP_SIZE: 7, // 2*3 + 1 pattern
-  BASE_HEIGHT: 128,
-  TABLET_SCALE: 1.5,
-  DESKTOP_SCALE: 2,
-} as const;
-
-// Common aspect ratios for artwork display
-const ARTWORK_ASPECT_RATIOS = [3/4, 4/5, 2/3, 5/4, 1] as const;
+import { useState, useEffect } from 'react';
+import { MoreHorizontal, Heart, Share2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type WorksListProps = {
-  artworks: Artwork[];
+  artworks: any[];
   className?: string;
 };
 
-// Advertisement component for the artwork grid
-function AdCard() {
+const GRID_CONFIG = {
+  BASE_HEIGHT: 280,
+  TABLET_SCALE: 1.2,
+  DESKTOP_SCALE: 1.4,
+  GROUP_SIZE: 7
+};
+
+const ARTWORK_ASPECT_RATIOS = [1.33, 1.5, 1.25, 1.6, 1.4, 1.8];
+
+function ArtworkItem({ artwork, isWide, wideHeight, index }: any) {
   return (
-    <div className="w-full">
-      <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
-        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-          广告
-        </div>
-        <div className="w-full h-full flex items-center justify-center text-black/30">
-          Google Ads
-        </div>
-      </div>
-      <div className="flex justify-between items-center px-2 mt-2">
-        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-          推广内容
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Artwork component with lazy loading and loading state
-function ArtworkItem({ 
-  artwork, 
-  isWide, 
-  wideHeight, 
-  index 
-}: { 
-  artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
-  isWide: boolean; 
-  wideHeight: number;
-  index: number;
-}) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: '50px'
-      }
-    );
-
-    const element = document.getElementById(`artwork-${artwork.id}`);
-    if (element) {
-      observer.observe(element);
-    }
-
-    return () => observer.disconnect();
-  }, [artwork.id]);
-
-  return (
-    <div 
-      id={`artwork-${artwork.id}`}
-      className={cn(
-        "break-inside-avoid mb-4 group",
-        isWide && "-ml-[4px]"
-      )}
-      style={{
-        columnSpan: isWide ? "all" : "none",
-        breakBefore: isWide ? "column" : "auto",
-        position: 'relative'
-      }}
-    >
+    <div className="group relative break-inside-avoid mb-4">
       <div 
-        className="w-full relative overflow-hidden rounded-xl"
-        style={{ 
-          height: isWide ? `${wideHeight}px` : undefined,
-          aspectRatio: isWide ? undefined : artwork.aspectRatio,
+        className="relative w-full rounded-xl overflow-hidden bg-white"
+        style={{
+          height: isWide ? wideHeight : undefined,
+          aspectRatio: isWide ? undefined : artwork.aspectRatio
         }}
       >
-        {/* Loading skeleton */}
-        {(!isVisible || !imageLoaded) && (
-          <Skeleton 
-            className={cn(
-              "absolute inset-0 rounded-xl",
-              !imageLoaded && "animate-pulse"
-            )}
-          />
-        )}
+        <img 
+          src={artwork.imageUrl || `https://source.unsplash.com/random/800x${Math.floor(800/artwork.aspectRatio)}?art`} 
+          alt={artwork.title}
+          className="w-full h-full object-cover"
+        />
 
-        {isVisible && (
-          <>
-            <img
-              src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
-              alt={artwork.title}
-              className={cn(
-                "w-full h-full object-cover transition-all duration-300",
-                imageLoaded ? "opacity-100" : "opacity-0",
-                "group-hover:scale-105"
-              )}
-              loading="lazy"
-              onLoad={() => setImageLoaded(true)}
-            />
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+          <div className="flex justify-end items-start gap-2">
+            <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+              <Heart className="w-4 h-4 text-white" />
+            </button>
+            <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+              <Share2 className="w-4 h-4 text-white" />
+            </button>
+          </div>
 
-            {/* Always visible labels */}
-            <div className="absolute top-2 left-2 flex gap-2">
-              <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                #{index + 1}
-              </div>
-              {artwork.isPremium && (
-                <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-                  SVIP
-                </div>
-              )}
+          <div className="space-y-2">
+            <h3 className="text-white font-medium line-clamp-2">{artwork.title}</h3>
+            <p className="text-white/80 text-sm line-clamp-2">{artwork.description}</p>
+          </div>
+        </div>
+
+        <div className="absolute top-2 left-2 flex gap-2">
+          <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+            #{index + 1}
+          </div>
+          {artwork.isPremium && (
+            <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
+              SVIP
             </div>
-
-            {/* Hover overlay with actions */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-              <div className="flex justify-end items-start">
-                {/* Action buttons */}
-                <div className="flex gap-2">
-                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                    <Heart className="w-4 h-4 text-white" />
-                  </button>
-                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                    <Share2 className="w-4 h-4 text-white" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Bottom content */}
-              <div className="space-y-2">
-                <h3 className="text-white font-medium line-clamp-2">
-                  {artwork.title}
-                </h3>
-                <p className="text-white/80 text-sm line-clamp-2">
-                  {artwork.description}
-                </p>
-              </div>
-            </div>
-          </>
-        )}
+          )}
+        </div>
       </div>
 
-      {/* Title and options (visible when not hovering) */}
-      <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+      <div className="flex justify-between items-center px-2 mt-2">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
         </div>
@@ -180,15 +75,14 @@ function ArtworkItem({
 export default function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
-  // Update wide artwork height based on screen size
   useEffect(() => {
     const updateWideHeight = () => {
       const width = window.innerWidth;
-      if (width < 768) { // Mobile: 2 columns
+      if (width < 768) {
         setWideHeight(GRID_CONFIG.BASE_HEIGHT);
-      } else if (width < 1024) { // Tablet: 3 columns
+      } else if (width < 1024) {
         setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
-      } else { // Desktop: 4 columns
+      } else {
         setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
       }
     };
@@ -198,9 +92,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  // Transform artwork data for display
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
+  const displayArtworks = Array.from({ length: Math.min(30, artworks.length) }, (_, index) => {
     const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
     return {
       ...artworks[index % artworks.length],
@@ -210,39 +102,17 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     };
   });
 
-  // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
-    // Add artwork
-    acc.push(
-      <ArtworkItem 
-        key={artwork.id}
-        artwork={artwork}
-        isWide={artwork.isWide}
-        wideHeight={wideHeight}
-        index={index}
-      />
-    );
-
-    // Add advertisement after every 6 artworks
-    if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
-      acc.push(
-        <div key={`ad-${index}`} className="break-inside-avoid mb-4">
-          <AdCard />
-        </div>
-      );
-    }
-
-    return acc;
-  }, []);
-
   return (
-    <div 
-      className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-4 px-[8px] pb-20",
-        className
-      )}
-    >
-      {contentWithAds}
+    <div className={cn("columns-2 md:columns-3 lg:columns-4 gap-4 px-2", className)}>
+      {displayArtworks.map((artwork, index) => (
+        <ArtworkItem 
+          key={artwork.id}
+          artwork={artwork}
+          isWide={artwork.isWide}
+          wideHeight={wideHeight}
+          index={index}
+        />
+      ))}
     </div>
   );
 }
