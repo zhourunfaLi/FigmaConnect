@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { MoreHorizontal, Heart, Share2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { Heart, MoreHorizontal, Share2 } from "lucide-react";
 
 type WorksListProps = {
   artworks: any[];
