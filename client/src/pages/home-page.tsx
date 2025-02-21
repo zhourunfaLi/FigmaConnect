@@ -12,12 +12,12 @@ type Category = {
 };
 
 const CATEGORIES: Category[] = [
-  { id: "latest", name: "最新", color: "#111111" },
-  { id: "hottest", name: "最热", color: "#6D6D6D" },
-  { id: "earliest", name: "最早", color: "#6D6D6D" },
-  { id: "special", name: "专题", color: "#6D6D6D" },
-  { id: "member", name: "会员", color: "#EB9800" },
-  { id: "city", name: "城市", color: "#6D6D6D" }
+  { id: "latest", name: "最新", color: "#111111", icon: "🌟" },
+  { id: "hottest", name: "最热", color: "#FF4D4D", icon: "🔥" },
+  { id: "earliest", name: "最早", color: "#4A90E2", icon: "⏰" },
+  { id: "special", name: "专题", color: "#7ED321", icon: "📌" },
+  { id: "member", name: "会员", color: "#EB9800", icon: "👑" },
+  { id: "city", name: "城市", color: "#9013FE", icon: "🏙️" }
 ];
 
 export default function HomePage() {
