@@ -56,8 +56,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Use a less common port
-  const PORT = 3333;
+  // Use port 3000
+  const PORT = 3000;
   server.listen(PORT, "0.0.0.0", () => {
     log(`serving on port ${PORT}`);
   });
