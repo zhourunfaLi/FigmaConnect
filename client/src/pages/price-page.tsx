@@ -9,7 +9,7 @@ export default function PricePage() {
       <div className="relative w-full max-w-[390px] min-h-screen bg-[#8B7C7C] flex-shrink-0 space-y-6">
         {/* C区: 升级提示区域 */}
         <div className="w-full py-10 text-center">
-          <div className="text-white text-base">您需要升级至SVIP</div>
+          <div className="text-white text-base">升级至SVIP</div>
           <div className="text-white text-sm mt-1">才能使用此权限</div>
         </div>
         
