@@ -46,18 +46,8 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async getArtworks(): Promise<(Artwork & { views?: number; createdAt?: Date })[]> {
-    // For demo purposes, return mock data with views and timestamps
-    const mockArtworks = [
-      { id: 1, title: "Artwork 1", description: "Description 1", userId: 1 },
-      { id: 2, title: "Artwork 2", description: "Description 2", userId: 2 },
-      { id: 3, title: "Artwork 3", description: "Description 3", userId: 1 }
-    ];
-    return mockArtworks.map((artwork, index) => ({
-      ...artwork,
-      views: Math.floor(Math.random() * 1000), // 模拟随机访问量
-      createdAt: new Date(2024, 0, index + 1) // 模拟不同的创建时间
-    }));
+  async getArtworks(): Promise<Artwork[]> {
+    return await db.select().from(artworks);
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
