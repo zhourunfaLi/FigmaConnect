@@ -57,10 +57,12 @@ const mockThemes = [
   }
 ];
 
-const mockArtworks = mockThemes.flatMap(theme => theme.artworks);: true,
-    themeId: "vangogh",
-    cityId: "amsterdam"
-  }
+const mockArtworks = mockThemes.flatMap(theme => 
+  theme.artworks.map(artwork => ({
+    ...artwork,
+    themeId: theme.id
+  }))
+);
 ];
 
 type Category = {
