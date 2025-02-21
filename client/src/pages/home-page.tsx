@@ -47,12 +47,10 @@ export default function HomePage() {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`text-sm sm:text-base font-normal transition-colors px-1.5 whitespace-nowrap ${
-                  activeCategory === category.id ? "font-medium" : ""
+                style={{ color: category.id === 'member' ? "#EB9800" : "#6D6D6D" }}
+                className={`text-sm sm:text-base font-normal transition-colors px-1.5 whitespace-nowrap rounded-full ${
+                  activeCategory === category.id ? 'bg-black/5' : ''
                 }`}
-                style={{ 
-                  color: activeCategory === category.id ? "#111111" : category.color 
-                }}
               >
                 {category.name}
               </button>
