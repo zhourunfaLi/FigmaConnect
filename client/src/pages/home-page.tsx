@@ -1,134 +1,105 @@
-import { useState } from "react";
-import mockThemes from "../data/mock";
-import mockArtworks from "../data/mock"; // Assuming this file exists and exports mockArtworks and mockThemes
+
+import { useState, useMemo } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import WorksList from "@/components/works-list";
+
+// Mock data
+const mockArtworks = [
+  {
+    id: 1,
+    title: "蒙娜丽莎",
+    description: "达芬奇最著名的作品",
+    imageUrl: "https://placehold.co/400x600",
+    likes: 1000,
+    isPremium: false,
+    themeId: "davinci",
+    cityId: "paris"
+  },
+  {
+    id: 2,
+    title: "向日葵",
+    description: "梵高的经典作品",
+    imageUrl: "https://placehold.co/400x400",
+    likes: 800,
+    isPremium: true,
+    themeId: "vangogh",
+    cityId: "amsterdam"
+  },
+  {
+    id: 3,
+    title: "星空",
+    description: "梵高的代表作",
+    imageUrl: "https://placehold.co/400x500",
+    likes: 1200,
+    isPremium: true,
+    themeId: "vangogh",
+    cityId: "amsterdam"
+  }
+];
+
+type Category = {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+};
+
+const CATEGORIES: Category[] = [
+  { id: "latest", name: "最新", color: "#333333" },
+  { id: "hottest", name: "最热", color: "#333333" },
+  { id: "special", name: "专题", color: "#333333" },
+  { id: "member", name: "会员", color: "#EB9800" },
+  { id: "city", name: "城市", color: "#333333" }
+];
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState("latest");
+  const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
-  const renderContent = () => {
-    switch (activeTab) {
+  const filteredArtworks = useMemo(() => {
+    switch (activeCategory) {
       case "latest":
-        return mockArtworks.sort((a, b) => b.id - a.id);
+        return [...mockArtworks].sort((a, b) => b.id - a.id);
       case "hottest":
-        return mockArtworks.sort((a, b) => b.likes - a.likes);
+        return [...mockArtworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
       case "earliest":
-        return mockArtworks.sort((a, b) => a.id - b.id);
-      case "theme":
-        return (
-          <div className="space-y-8">
-            {mockThemes.map((theme) => (
-              <div key={theme.id}>
-                <div className="flex items-center gap-2 mb-4">
-                  <h2 className="text-xl font-bold">{theme.name}</h2>
-                  <div className="flex-1 h-px bg-gray-200"></div>
-                </div>
-                <WorksList artworks={theme.artworks} /> {/* Added WorksList component */}
-              </div>
-            ))}
-          </div>
-        );
-      case "city":
-        return (
-          <div data-layer="CITY page" className="min-h-screen bg-[#EEEAE2]">
-            <div data-layer="works list section" className="px-2 pt-[148px]">
-              <div className="grid grid-cols-1 gap-[21px]">
-                {mockThemes.map((theme, index) => (
-                  <div key={index} data-layer={`works ${index + 1}`} className="group">
-                    <div className="relative w-[374px] h-[198px] mx-auto">
-                      <img 
-                        data-layer="Rectangle 1121"
-                        className="w-full h-full rounded-[5px] object-cover"
-                        src={theme.imageUrl || "https://placehold.co/374x198"}
-                        alt={theme.name}
-                      />
-                    </div>
-                    <div data-layer="Frame 11" className="w-[360px] mx-auto mt-1 flex justify-between items-center">
-                      <div className="text-[14px] font-['MS Gothic'] leading-[22px] text-[#111111]">
-                        {theme.name}
-                      </div>
-                      <div data-layer="Group 37" className="flex gap-[2px]">
-                        {[...Array(3)].map((_, i) => (
-                          <div 
-                            key={i}
-                            className="w-[3px] h-[3px] rounded-full bg-[#111111]"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      case "member":
-                    <div className="text-[#111111] text-[14px] font-['MS Gothic'] leading-[22px]">
-                      {theme.name}
-                    </div>
-                    <div className="flex gap-[2px]">
-                      {[...Array(3)].map((_, i) => (
-                        <div key={i} className="w-[3px] h-[3px] bg-[#111111] rounded-full"/>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
+        return [...mockArtworks].sort((a, b) => a.id - b.id);
+      case "special":
+        return mockArtworks.filter(art => art.themeId);
       case "member":
         return mockArtworks.filter(art => art.isPremium);
+      case "city":
+        return mockArtworks.filter(art => art.cityId);
       default:
         return mockArtworks;
     }
-  };
+  }, [activeCategory]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 right-0 bg-white z-50">
-        <div className="h-[90px] bg-gray-100"></div>
-        <div className="px-2 py-4">
-          <div className="flex justify-between items-center text-[18px] leading-[22px] tracking-[3px]">
-            <button 
-              onClick={() => setActiveTab("latest")}
-              className={activeTab === "latest" ? "text-black" : "text-[#6D6D6D]"}
-            >
-              最新
-            </button>
-            <button
-              onClick={() => setActiveTab("hottest")}
-              className={activeTab === "hottest" ? "text-black" : "text-[#6D6D6D]"}
-            >
-              最热
-            </button>
-            <button
-              onClick={() => setActiveTab("earliest")}
-              className={activeTab === "earliest" ? "text-black" : "text-[#6D6D6D]"}
-            >
-              最早
-            </button>
-            <button
-              onClick={() => setActiveTab("theme")}
-              className={activeTab === "theme" ? "text-black" : "text-[#6D6D6D]"}
-            >
-              专题
-            </button>
-            <button
-              onClick={() => setActiveTab("member")}
-              className={activeTab === "member" ? "text-[#EB9800]" : "text-[#6D6D6D]"}
-            >
-              会员
-            </button>
-            <button
-              onClick={() => setActiveTab("city")}
-              className={activeTab === "city" ? "text-black" : "text-[#6D6D6D]"}
-            >
-              城市
-            </button>
+    <div className="min-h-screen bg-[#EEEAE2]">
+      {/* Category Navigation */}
+      <div className="sticky top-0 bg-[#EEEAE2] z-10 flex justify-center">
+        <ScrollArea className="w-full max-w-screen-md">
+          <div className="flex items-center justify-center gap-3 px-4 py-2">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                style={{ color: category.color }}
+                className={`text-sm sm:text-base font-normal transition-colors px-4 py-1.5 whitespace-nowrap rounded-full ${
+                  activeCategory === category.id ? 'bg-blue-500 text-white' : ''
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
           </div>
-        </div>
-      </header>
-      <main className="pt-[148px] px-2">{renderContent()}</main>
+        </ScrollArea>
+      </div>
+
+      {/* Artwork Grid */}
+      <div className="pt-4">
+        <WorksList artworks={filteredArtworks} />
+      </div>
     </div>
   );
 }

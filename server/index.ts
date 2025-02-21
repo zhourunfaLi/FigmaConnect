@@ -56,7 +56,7 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const PORT = 5000;
+  const PORT = 3002;
   server.listen(PORT, "0.0.0.0", () => {
     log(`服务器启动成功，运行在端口 ${PORT} (对外端口5000)`);
   }).on('error', (err) => {
