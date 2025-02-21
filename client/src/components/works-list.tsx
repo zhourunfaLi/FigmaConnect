@@ -1,7 +1,7 @@
 
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
-import { Heart, MoreHorizontal, Share2 } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { MoreHorizontal, Heart, Share2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type WorksListProps = {
   artworks: any[];
@@ -73,7 +73,7 @@ function ArtworkItem({ artwork, isWide, wideHeight, index }: any) {
   );
 }
 
-export default function WorksList({ artworks, className }: WorksListProps) {
+export function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
   useEffect(() => {
