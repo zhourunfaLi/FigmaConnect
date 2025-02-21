@@ -92,11 +92,33 @@ export default function HomePage() {
         return [...mockArtworks].sort((a, b) => a.id - b.id);
       case "special":
         return (
-          <div className="space-y-8 px-4 max-w-screen-xl mx-auto">
+          <div className="space-y-12 px-4 max-w-screen-xl mx-auto py-6">
             {mockThemes.map(theme => (
               <div key={theme.id} className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <h2 className="text-xl font-bold">{theme.name}</h2>
+                <div className="border-b border-gray-200 pb-2">
+                  <h2 className="text-2xl font-medium text-gray-900">{theme.name}</h2>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {theme.artworks.map(artwork => (
+                    <div key={artwork.id} className="group relative">
+                      <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg">
+                        <img
+                          src={artwork.imageUrl}
+                          alt={artwork.title}
+                          className="object-cover object-center"
+                        />
+                      </div>
+                      <div className="mt-2">
+                        <h3 className="text-sm font-medium text-gray-900">{artwork.title}</h3>
+                        <p className="text-sm text-gray-500">{artwork.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        );t-bold">{theme.name}</h2>
                   <div className="flex-1 h-px bg-gray-200"></div>
                 </div>
                 <WorksList artworks={theme.artworks} />
