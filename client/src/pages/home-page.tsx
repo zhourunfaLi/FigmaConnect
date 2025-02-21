@@ -63,7 +63,6 @@ const mockArtworks = mockThemes.flatMap(theme =>
     themeId: theme.id
   }))
 );
-];
 
 type Category = {
   id: string;
