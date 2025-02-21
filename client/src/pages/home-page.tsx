@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { mockThemes, mockArtworks } from "@/data/mock"; // Assuming this file exists and exports mockArtworks and mockThemes
+import mockThemes from "../data/mock";
+import mockArtworks from "../data/mock"; // Assuming this file exists and exports mockArtworks and mockThemes
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("latest");
