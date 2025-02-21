@@ -30,15 +30,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      {/* WeChat Navigation Bar */}
-      <div className="w-full h-[90px] bg-white flex items-center justify-center border-b border-black/10">
-        <img 
-          src="./src/assets/design/weixin NAV.png" 
-          alt="WeChat Navigation" 
-          className="w-full h-full object-contain" 
-        />
-      </div>
-
       {/* Category Navigation */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10">
         <ScrollArea className="w-full max-w-screen">
