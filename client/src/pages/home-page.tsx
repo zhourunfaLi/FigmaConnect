@@ -45,11 +45,11 @@ type Category = {
 };
 
 const CATEGORIES: Category[] = [
-  { id: "latest", name: "最新", color: "#111111", icon: "🌟" },
-  { id: "hottest", name: "最热", color: "#FF4D4D", icon: "🔥" },
-  { id: "special", name: "专题", color: "#7ED321", icon: "📌" },
-  { id: "member", name: "会员", color: "#EB9800", icon: "👑" },
-  { id: "city", name: "城市", color: "#9013FE", icon: "🏙️" }
+  { id: "latest", name: "最新", color: "#333333" },
+  { id: "hottest", name: "最热", color: "#333333" },
+  { id: "special", name: "专题", color: "#333333" },
+  { id: "member", name: "会员", color: "#EB9800" },
+  { id: "city", name: "城市", color: "#333333" }
 ];
 
 export default function HomePage() {
@@ -85,11 +85,11 @@ export default function HomePage() {
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
                 style={{ color: category.color }}
-                className={`text-sm sm:text-base font-normal transition-colors px-1.5 whitespace-nowrap rounded-full ${
-                  activeCategory === category.id ? 'bg-black/5' : ''
+                className={`text-sm sm:text-base font-normal transition-colors px-4 py-1.5 whitespace-nowrap rounded-full ${
+                  activeCategory === category.id ? 'bg-blue-500 text-white' : ''
                 }`}
               >
-                {category.icon} {category.name}
+                {category.name}
               </button>
             ))}
           </div>
