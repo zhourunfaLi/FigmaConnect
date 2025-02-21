@@ -56,8 +56,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Use port 8080 which is mapped to external port 80
-  const PORT = 8080;
+  // Use a less common port
+  const PORT = 3333;
   server.listen(PORT, "0.0.0.0", () => {
     log(`serving on port ${PORT}`);
   });
