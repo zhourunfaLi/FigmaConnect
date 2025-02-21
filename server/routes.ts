@@ -6,8 +6,23 @@ import { setupAuth } from "./auth";
 export function registerRoutes(app: Express): Server {
   setupAuth(app);
 
-  app.get("/api/artworks", async (_req, res) => {
-    const artworks = await storage.getArtworks();
+  app.get("/api/artworks", async (req, res) => {
+    const sortBy = req.query.sortBy || 'latest';
+    let artworks = await storage.getArtworks();
+    
+    switch(sortBy) {
+      case 'hottest':
+        artworks = artworks.sort((a, b) => (b.views || 0) - (a.views || 0));
+        break;
+      case 'earliest':
+        artworks = artworks.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        break;
+      case 'latest':
+      default:
+        artworks = artworks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        break;
+    }
+    
     res.json(artworks);
   });
 

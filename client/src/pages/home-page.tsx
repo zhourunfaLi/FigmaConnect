@@ -25,7 +25,11 @@ export default function HomePage() {
 
   // Fetch artworks data
   const { data: artworks } = useQuery<Artwork[]>({ 
-    queryKey: ["/api/artworks"]
+    queryKey: ["/api/artworks", activeCategory],
+    queryFn: async () => {
+      const response = await fetch(`/api/artworks?sortBy=${activeCategory}`);
+      return response.json();
+    }
   });
 
   return (
