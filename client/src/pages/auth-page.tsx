@@ -1,61 +1,129 @@
-
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import React from 'react';
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { insertUserSchema, type InsertUser } from "@shared/schema";
 
 export default function AuthPage() {
-  const { user, loginMutation } = useAuth();
+  const { user, loginMutation, registerMutation } = useAuth();
   const [, setLocation] = useLocation();
 
-  React.useEffect(() => {
-    if (user) {
-      setLocation("/user");
-    }
-  }, [user, setLocation]);
-
-  const handleWechatLogin = () => {
-    loginMutation.mutate({ 
-      username: "test", 
-      password: "test123" 
-    });
-  };
+  if (user) {
+    setLocation("/");
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-[#EEEAE2] relative">
-      <img 
-        src="/src/assets/design/works-01.png" 
-        alt="background" 
-        className="w-full h-screen object-cover absolute inset-0"
-      />
+    <div className="min-h-screen flex">
+      <div className="flex-1 flex items-center justify-center">
+        <Card className="w-full max-w-md mx-4">
+          <CardHeader>
+            <CardTitle className="text-2xl">欢迎来到艺术博物馆</CardTitle>
+            <CardDescription>
+              请先点击"注册"标签页创建一个新账号，或使用以下测试账号登录：
+              <div className="mt-2 p-2 bg-muted rounded-md">
+                <div>用户名：test</div>
+                <div>密码：test123</div>
+              </div>
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="login">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="login">登录</TabsTrigger>
+                <TabsTrigger value="register">注册</TabsTrigger>
+              </TabsList>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/50 to-black/17" />
+              <TabsContent value="login">
+                <AuthForm 
+                  mode="login" 
+                  onSubmit={(data) => loginMutation.mutate(data)} 
+                  isLoading={loginMutation.isPending}
+                />
+              </TabsContent>
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <h2 className="text-white text-lg tracking-[3px] mb-16">
-          请微信登录后查看
-        </h2>
+              <TabsContent value="register">
+                <AuthForm 
+                  mode="register" 
+                  onSubmit={(data) => registerMutation.mutate(data)}
+                  isLoading={registerMutation.isPending}
+                />
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
 
-        <Button 
-          onClick={handleWechatLogin}
-          disabled={loginMutation.isPending}
-          className="w-[234px] h-[42px] bg-[#007AFF] rounded-[20px] text-[#FCF7F1] text-base font-normal disabled:opacity-50"
-        >
-          {loginMutation.isPending ? "登录中..." : "同意并继续"}
-        </Button>
-
-        <div className="mt-14 text-center relative">
-          <span className="text-white text-sm">我已阅读并同意</span>
-          <div className="w-[11px] h-[11px] border border-white rounded-full absolute left-[66px] top-[5px]">
-            <div className="w-[5px] h-[5px] bg-white rounded-full absolute left-[2px] top-[2px]" />
-          </div>
-          <div className="mt-1">
-            <a href="#" className="text-[#4FA8EC] text-sm">《用户协议》</a>
-            <a href="#" className="text-[#4FA8EC] text-sm">《隐私协议》</a>
-            <a href="#" className="text-[#4FA8EC] text-sm">《支付协议》</a>
-          </div>
+      <div className="hidden lg:flex flex-1 bg-muted items-center justify-center p-12">
+        <div className="max-w-lg">
+          <h2 className="text-3xl font-bold mb-4">探索世界级艺术品</h2>
+          <p className="text-lg text-muted-foreground">
+            加入我们的社区，探索高清艺术作品，观看独家视频，
+            与其他艺术爱好者交流。
+          </p>
         </div>
       </div>
     </div>
+  );
+}
+
+function AuthForm({ 
+  mode, 
+  onSubmit, 
+  isLoading 
+}: { 
+  mode: "login" | "register";
+  onSubmit: (data: InsertUser) => void;
+  isLoading: boolean;
+}) {
+  const form = useForm<InsertUser>({
+    resolver: zodResolver(insertUserSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>用户名</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>密码</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "加载中..." : mode === "login" ? "登录" : "注册"}
+        </Button>
+      </form>
+    </Form>
   );
 }

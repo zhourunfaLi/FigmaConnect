@@ -52,12 +52,11 @@ export function registerRoutes(app: Express): Server {
         return;
       }
 
-      // Premium check temporarily disabled
-      // if (artwork.isPremium && !req.user?.isPremium) {
-      //   console.log(`[Debug] Premium content access denied for user:`, req.user);
-      //   res.status(403).send("Premium content requires membership");
-      //   return;
-      // }
+      if (artwork.isPremium && !req.user?.isPremium) {
+        console.log(`[Debug] Premium content access denied for user:`, req.user);
+        res.status(403).send("Premium content requires membership");
+        return;
+      }
 
       res.json(artwork);
     } catch (error) {

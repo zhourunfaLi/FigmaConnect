@@ -1,24 +1,33 @@
-
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
-import { Redirect } from "wouter";
+import { Redirect, Route } from "wouter";
 
-export function ProtectedRoute(Component: React.ComponentType) {
-  return function WrappedComponent() {
-    const { user, isLoading } = useAuth();
+export function ProtectedRoute({
+  path,
+  component: Component,
+}: {
+  path: string;
+  component: () => React.JSX.Element;
+}) {
+  const { user, isLoading } = useAuth();
 
-    if (isLoading) {
-      return (
+  if (isLoading) {
+    return (
+      <Route path={path}>
         <div className="flex items-center justify-center min-h-screen">
           <Loader2 className="h-8 w-8 animate-spin text-border" />
         </div>
-      );
-    }
+      </Route>
+    );
+  }
 
-    if (!user) {
-      return <Redirect to="/auth" />;
-    }
+  if (!user) {
+    return (
+      <Route path={path}>
+        <Redirect to="/auth" />
+      </Route>
+    );
+  }
 
-    return <Component />;
-  };
+  return <Component />
 }

@@ -1,100 +1,85 @@
-
-import { type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
+import { artworks, comments, users, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 import session from "express-session";
-import { Store } from "express-session";
+import connectPg from "connect-pg-simple";
+import { pool } from "./db";
+
+const PostgresSessionStore = connectPg(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+
   getArtworks(): Promise<Artwork[]>;
   getArtwork(id: number): Promise<Artwork | undefined>;
+
   getComments(artworkId: number): Promise<Comment[]>;
   createComment(comment: Omit<Comment, "id" | "createdAt">): Promise<Comment>;
+
+  sessionStore: session.Store;
 }
 
-class MemorySessionStore extends Store {
-  private sessions: Map<string, any> = new Map();
+export class DatabaseStorage implements IStorage {
+  readonly sessionStore: session.Store;
 
-  get(sid: string, callback: (err: any, session?: any) => void): void {
-    const data = this.sessions.get(sid);
-    callback(null, data);
+  constructor() {
+    this.sessionStore = new PostgresSessionStore({
+      pool,
+      createTableIfMissing: true,
+    });
   }
-
-  set(sid: string, session: any, callback?: (err?: any) => void): void {
-    this.sessions.set(sid, session);
-    if (callback) callback();
-  }
-
-  destroy(sid: string, callback?: (err?: any) => void): void {
-    this.sessions.delete(sid);
-    if (callback) callback();
-  }
-}
-
-export class MemoryStorage implements IStorage {
-  private users: User[] = [];
-  private artworks: Artwork[] = [];
-  private comments: Comment[] = [];
-  private nextUserId = 1;
-  private nextArtworkId = 1;
-  private nextCommentId = 1;
-
-  constructor() {}
 
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.find(u => u.id === id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return this.users.find(u => u.username === username);
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const user: User = {
-      id: this.nextUserId++,
-      ...insertUser,
-      isPremium: false,
-    };
-    this.users.push(user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
 
   async getArtworks(): Promise<Artwork[]> {
-    return this.artworks;
+    return await db.select().from(artworks);
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
-    // Temporarily return artwork without premium check
-    const artwork = this.artworks.find(a => a.id === id);
-    if (artwork) {
-      artwork.isPremium = false; // Temporarily disable premium status
-    }
+    console.log(`[Debug] Executing getArtwork query with ID: ${id}`);
+    const [artwork] = await db.select().from(artworks).where(eq(artworks.id, id));
+    console.log(`[Debug] getArtwork query result:`, artwork);
     return artwork;
   }
 
   async createArtwork(artwork: Omit<Artwork, "id">): Promise<Artwork> {
-    const newArtwork: Artwork = {
-      id: this.nextArtworkId++,
-      ...artwork,
-    };
-    this.artworks.push(newArtwork);
+    const [newArtwork] = await db.insert(artworks)
+      .values(artwork)
+      .returning();
     return newArtwork;
   }
 
   async getComments(artworkId: number): Promise<Comment[]> {
-    return this.comments.filter(c => c.artworkId === artworkId);
+    return await db.select()
+      .from(comments)
+      .where(eq(comments.artworkId, artworkId))
+      .orderBy(comments.createdAt);
   }
 
   async createComment(comment: Omit<Comment, "id" | "createdAt">): Promise<Comment> {
-    const newComment: Comment = {
-      id: this.nextCommentId++,
-      ...comment,
-      createdAt: new Date(),
-    };
-    this.comments.push(newComment);
+    const [newComment] = await db.insert(comments)
+      .values({
+        ...comment,
+        createdAt: new Date(),
+      })
+      .returning();
     return newComment;
   }
 }
 
-export const storage = new MemoryStorage();
+export const storage = new DatabaseStorage();
