@@ -129,10 +129,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-        );t-bold">{theme.name}</h2>
-                  <div className="flex-1 h-px bg-gray-200"></div>
-                </div>
-                <WorksList artworks={theme.artworks} />
+        );
               </div>
             ))}
           </div>
