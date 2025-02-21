@@ -104,6 +104,39 @@ export default function HomePage() {
             ))}
           </div>
         );
+      case "city":
+        return (
+          <div className="bg-[#EEEAE2] min-h-screen">
+            <div data-layer="works list section" className="pt-[148px] px-2 flex flex-col gap-[21px]">
+              {mockThemes.map((theme, index) => (
+                <div key={index} className="flex flex-col items-center gap-1">
+                  <img 
+                    className="w-[374px] h-[198px] rounded-[5px] object-cover" 
+                    src={theme.imageUrl || "https://placehold.co/374x198"} 
+                    alt={theme.name}
+                  />
+                  <div className="w-[360px] flex justify-between items-center">
+                    <div className="text-[#111111] text-[14px] font-['MS Gothic'] leading-[22px]">
+                      {theme.name}
+                    </div>
+                    <div className="flex gap-[2px]">
+                      {[...Array(3)].map((_, i) => (
+                        <div key={i} className="w-[3px] h-[3px] bg-[#111111] rounded-full"/>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );t-bold">{theme.name}</h2>
+                  <div className="flex-1 h-px bg-gray-200"></div>
+                </div>
+                <WorksList artworks={theme.artworks} />
+              </div>
+            ))}
+          </div>
+        );
       case "member":
         return mockArtworks.filter(art => art.isPremium);
       case "city":
