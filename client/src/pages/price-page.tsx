@@ -3,9 +3,11 @@ import React from 'react';
 
 export default function PricePage() {
   return (
+    {/* A区: 页面容器 */}
     <div className="min-h-screen bg-[#EEEAE2] flex justify-center overflow-x-hidden">
+      {/* B区: 内容主体区域 */}
       <div className="relative w-full max-w-[390px] min-h-screen bg-[#8B7C7C] flex-shrink-0 space-y-6">
-        {/* Upgrade Notice - 调小字体，增加上下间距 */}
+        {/* C区: 升级提示区域 */}
         <div className="w-full py-10 text-center">
           <div className="text-white text-base">您需要升级至SVIP</div>
           <div className="text-white text-sm mt-1">才能使用此权限</div>
@@ -14,9 +16,9 @@ export default function PricePage() {
         {/* Divider Line */}
         <div className="w-full h-[1px] bg-white/30"></div>
 
-        {/* Main Content Area */}
+        {/* D区: 主要内容区域 */}
         <div className="px-4 space-y-2">
-          {/* SVIP Rights Section - 居中文字，更换图片 */}
+          {/* E区: SVIP特权展示区 */}
           <div className="relative mt-2">
             <div className="text-white text-base text-center tracking-[3px] font-['Zilla_Slab']">
               SVIP特权
@@ -39,7 +41,7 @@ export default function PricePage() {
             </div>
           </div>
 
-          {/* Invite Code Section - 添加背景 */}
+          {/* F区: 邀请码输入区 */}
           <div className="mt-8 mb-8 p-4 bg-black/20 rounded-lg">
             <div className="relative">
               <div className="text-white text-xs mb-1">优惠邀请码</div>
@@ -56,7 +58,7 @@ export default function PricePage() {
             </div>
           </div>
 
-          {/* Membership Plans - 缩小文字 */}
+          {/* G区: 会员套餐列表区 */}
           <div className="space-y-4 mt-6">
             {/* 12个月会员 */}
             <div className="w-full h-[80px] bg-[#D4AF37] rounded-xl p-4 flex justify-between items-center shadow-lg border border-white/10 relative">
