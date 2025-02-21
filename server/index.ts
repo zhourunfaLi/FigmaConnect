@@ -56,8 +56,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = 3002;  // 使用.replit中配置的本地端口
   server.listen(PORT, "0.0.0.0", () => {
-    log(`服务器启动成功，运行在端口 ${PORT}`);
+    log(`服务器启动成功，运行在端口 ${PORT} (对外端口5000)`);
   });
 })();
