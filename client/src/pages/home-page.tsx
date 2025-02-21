@@ -30,6 +30,15 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
+      {/* WeChat Navigation Bar */}
+      <div className="w-full h-[90px] bg-white flex items-center justify-center border-b border-black/10">
+        <img 
+          src="./src/assets/design/weixin NAV.png" 
+          alt="WeChat Navigation" 
+          className="w-full h-full object-contain" 
+        />
+      </div>
+
       {/* Category Navigation */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10">
         <ScrollArea className="w-full max-w-screen">
@@ -38,10 +47,12 @@ export default function HomePage() {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                style={{ color: category.id === 'member' ? "#EB9800" : "#6D6D6D" }}
-                className={`text-sm sm:text-base font-normal transition-colors px-1.5 whitespace-nowrap rounded-full ${
-                  activeCategory === category.id ? 'bg-black/5' : ''
+                className={`text-sm sm:text-base font-normal transition-colors px-1.5 whitespace-nowrap ${
+                  activeCategory === category.id ? "font-medium" : ""
                 }`}
+                style={{ 
+                  color: activeCategory === category.id ? "#111111" : category.color 
+                }}
               >
                 {category.name}
               </button>
