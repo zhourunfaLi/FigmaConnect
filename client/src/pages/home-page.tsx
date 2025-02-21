@@ -29,16 +29,39 @@ export default function HomePage() {
         );
       case "city":
         return (
-          <div className="bg-[#EEEAE2] min-h-screen">
-            <div data-layer="works list section" className="pt-[148px] px-2 flex flex-col gap-[21px]">
-              {mockThemes.map((theme, index) => (
-                <div key={index} className="flex flex-col items-center gap-1">
-                  <img 
-                    className="w-[374px] h-[198px] rounded-[5px] object-cover" 
-                    src={theme.imageUrl || "https://placehold.co/374x198"} 
-                    alt={theme.name}
-                  />
-                  <div className="w-[360px] flex justify-between items-center">
+          <div data-layer="CITY page" className="min-h-screen bg-[#EEEAE2]">
+            <div data-layer="works list section" className="px-2 pt-[148px]">
+              <div className="grid grid-cols-1 gap-[21px]">
+                {mockThemes.map((theme, index) => (
+                  <div key={index} data-layer={`works ${index + 1}`} className="group">
+                    <div className="relative w-[374px] h-[198px] mx-auto">
+                      <img 
+                        data-layer="Rectangle 1121"
+                        className="w-full h-full rounded-[5px] object-cover"
+                        src={theme.imageUrl || "https://placehold.co/374x198"}
+                        alt={theme.name}
+                      />
+                    </div>
+                    <div data-layer="Frame 11" className="w-[360px] mx-auto mt-1 flex justify-between items-center">
+                      <div className="text-[14px] font-['MS Gothic'] leading-[22px] text-[#111111]">
+                        {theme.name}
+                      </div>
+                      <div data-layer="Group 37" className="flex gap-[2px]">
+                        {[...Array(3)].map((_, i) => (
+                          <div 
+                            key={i}
+                            className="w-[3px] h-[3px] rounded-full bg-[#111111]"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      case "member":
                     <div className="text-[#111111] text-[14px] font-['MS Gothic'] leading-[22px]">
                       {theme.name}
                     </div>
