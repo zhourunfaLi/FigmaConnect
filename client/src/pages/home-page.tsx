@@ -22,11 +22,35 @@ const CATEGORIES: Category[] = [
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
+  const { user } = useAuth();
 
   // Fetch artworks data
   const { data: artworks } = useQuery<Artwork[]>({ 
-    queryKey: ["/api/artworks"]
+    queryKey: ["/api/artworks", activeCategory]
   });
+
+  const filteredArtworks = useMemo(() => {
+    if (!artworks) return [];
+    
+    switch (activeCategory) {
+      case "latest":
+        return [...artworks].sort((a, b) => b.id - a.id);
+      case "hottest":
+        return [...artworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+      case "earliest":
+        return [...artworks].sort((a, b) => a.id - b.id);
+      case "special":
+        return artworks.filter(art => art.themeId); // 按专题ID分组
+      case "member":
+        if (!user?.isPremium) return [];
+        return [...artworks].filter(art => art.isPremium)
+          .sort((a, b) => (b.likes || 0) - (a.likes || 0));
+      case "city":
+        return artworks.filter(art => art.cityId); // 城市相关作品
+      default:
+        return artworks;
+    }
+  }, [artworks, activeCategory, user?.isPremium]);
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
