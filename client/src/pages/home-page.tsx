@@ -47,7 +47,6 @@ type Category = {
 const CATEGORIES: Category[] = [
   { id: "latest", name: "最新", color: "#111111", icon: "🌟" },
   { id: "hottest", name: "最热", color: "#FF4D4D", icon: "🔥" },
-  { id: "earliest", name: "最早", color: "#4A90E2", icon: "⏰" },
   { id: "special", name: "专题", color: "#7ED321", icon: "📌" },
   { id: "member", name: "会员", color: "#EB9800", icon: "👑" },
   { id: "city", name: "城市", color: "#9013FE", icon: "🏙️" }
@@ -78,9 +77,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* Category Navigation */}
-      <div className="sticky top-0 bg-[#EEEAE2] z-10">
-        <ScrollArea className="w-full">
-          <div className="flex items-center gap-2 px-4 py-2 min-w-max">
+      <div className="sticky top-0 bg-[#EEEAE2] z-10 overflow-x-auto">
+        <ScrollArea className="w-full" type="always">
+          <div className="flex items-center gap-4 px-4 py-2">
             {CATEGORIES.map((category) => (
               <button
                 key={category.id}
