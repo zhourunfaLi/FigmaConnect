@@ -79,8 +79,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* Category Navigation */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10">
-        <ScrollArea className="w-full max-w-screen">
-          <div className="flex justify-center items-center gap-2 px-2 py-1">
+        <ScrollArea className="w-full">
+          <div className="flex items-center gap-2 px-4 py-2 min-w-max">
             {CATEGORIES.map((category) => (
               <button
                 key={category.id}
