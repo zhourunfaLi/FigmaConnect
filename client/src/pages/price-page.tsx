@@ -9,7 +9,7 @@ export default function PricePage() {
         {/* C区: 升级提示区域 */}
         <div className="w-full py-10 text-center">
           <div className="text-white text-base">升级至SVIP</div>
-          <div className="text-white text-sm mt-1">才能使用此权限</div>
+          <div className="text-white text-sm mt-1">获得更多特权</div>
         </div>
         
         {/* Divider Line */}
