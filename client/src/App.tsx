@@ -10,6 +10,7 @@ import AuthPage from "@/pages/auth-page";
 import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
 import NotFound from "@/pages/not-found";
+import { CityPage } from "@/components/city-page";
 
 function Router() {
   return (
