@@ -67,7 +67,7 @@ export default function HomePage() {
       case "member":
         return mockArtworks.filter(art => art.isPremium);
       case "city":
-        return mockArtworks;cityId);
+        return mockArtworks.filter(art => art.cityId);
       default:
         return mockArtworks;
     }
