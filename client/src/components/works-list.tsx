@@ -221,7 +221,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   return (
     <div 
       className={cn(
-        "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-[8px] pb-20",
+        "columns-2 md:columns-3 lg:columns-4 gap-4 px-[8px] pb-20",
         className
       )}
     >
