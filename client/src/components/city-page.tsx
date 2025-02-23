@@ -4,6 +4,8 @@ interface CityPageProps {
   artworks?: Artwork[];
 }
 
+import { Heart, Share2 } from "lucide-react";
+
 export function CityPage() {
   const cities = [
     { name: '威尼斯', img: '/src/assets/design/img/city-01.jpg' },
