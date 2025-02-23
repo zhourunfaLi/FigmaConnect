@@ -1,24 +1,6 @@
 import { Heart, Share2 } from "lucide-react";
 
 export function CityPage() {
-  const AdCard = () => (
-    <div className="w-full max-w-[390px] mx-auto mb-[21px]">
-      <div className="relative aspect-[374/198] w-full bg-white rounded-[5px] overflow-hidden border border-black/5">
-        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-          广告
-        </div>
-        <div className="w-full h-full flex items-center justify-center text-black/30">
-          广告位招租
-        </div>
-      </div>
-      <div className="flex justify-between items-center px-2 mt-2">
-        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-          推广内容
-        </div>
-      </div>
-    </div>
-  );
-
   const cities = [
     { name: '威尼斯', img: '/src/assets/design/img/city-01.jpg' },
     { name: '梵蒂冈', img: '/src/assets/design/img/city-02.jpg' },
@@ -46,9 +28,9 @@ export function CityPage() {
     <div className="min-h-screen w-full bg-[#EEEAE2]">
       <div className="max-w-[390px] mx-auto py-[20px] px-2 flex flex-col gap-[21px]">
         {cities.map((city, index) => (
-          <>
+          <div key={index}>
             {index > 0 && index % 4 === 0 && (
-              <div className="w-full max-w-[390px] mx-auto">
+              <div className="w-full max-w-[390px] mx-auto mb-[21px]">
                 <div className="relative aspect-[374/198] w-full bg-white rounded-[5px] overflow-hidden border border-black/5">
                   <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
                     广告
@@ -64,40 +46,41 @@ export function CityPage() {
                 </div>
               </div>
             )}
-          <div key={index} className="group flex flex-col gap-[1px] cursor-pointer">
-            <div className="relative overflow-hidden rounded-[5px]">
-              <img 
-                src={city.img}
-                alt={city.name}
-                className="w-[374px] h-[198px] object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-                <div className="flex justify-end gap-2">
-                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                    <Heart className="w-5 h-5 text-white" />
-                  </button>
-                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                    <Share2 className="w-5 h-5 text-white" />
-                  </button>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-white font-medium">
-                    {city.name}
-                  </h3>
-                  <p className="text-white text-sm opacity-90">
-                    探索{city.name}的艺术与文化
-                  </p>
+            <div className="group flex flex-col gap-[1px] cursor-pointer">
+              <div className="relative overflow-hidden rounded-[5px]">
+                <img 
+                  src={city.img}
+                  alt={city.name}
+                  className="w-[374px] h-[198px] object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+                  <div className="flex justify-end gap-2">
+                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                      <Heart className="w-5 h-5 text-white" />
+                    </button>
+                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                      <Share2 className="w-5 h-5 text-white" />
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-white font-medium">
+                      {city.name}
+                    </h3>
+                    <p className="text-white text-sm opacity-90">
+                      探索{city.name}的艺术与文化
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
-              <div className="text-[#111111] text-[14px] font-normal leading-[22px] font-['MS Gothic']">
-                {city.name}
-              </div>
-              <div className="w-[13px] h-[3px] flex justify-center items-center gap-[2px]">
-                <div className="w-[3px] h-[3px] bg-[#111111] rounded-full" />
-                <div className="w-[3px] h-[3px] bg-[#111111] rounded-full" />
-                <div className="w-[3px] h-[3px] bg-[#111111] rounded-full" />
+              <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+                <div className="text-[#111111] text-[14px] font-normal leading-[22px] font-['MS Gothic']">
+                  {city.name}
+                </div>
+                <div className="w-[13px] h-[3px] flex justify-center items-start gap-[2px]">
+                  <div className="w-[3px] h-[3px] bg-[#111111] rounded-[9999px]" />
+                  <div className="w-[3px] h-[3px] bg-[#111111] rounded-[9999px]" />
+                  <div className="w-[3px] h-[3px] bg-[#111111] rounded-[9999px]" />
+                </div>
               </div>
             </div>
           </div>
