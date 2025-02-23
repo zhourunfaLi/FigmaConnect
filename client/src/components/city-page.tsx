@@ -30,10 +30,23 @@ export function CityPage() {
     { name: '威尼斯', img: '/src/assets/design/img/city-01.jpg' },
     { name: '梵蒂冈', img: '/src/assets/design/img/city-02.jpg' },
     { name: '巴黎', img: '/src/assets/design/img/city-03.jpg' },
-    { name: '罗马废墟', img: '/src/assets/design/img/city-04.jpg' },
+    { name: '罗马', img: '/src/assets/design/img/city-04.jpg' },
     { name: '劳特布莱嫩', img: '/src/assets/design/img/city-05.jpg' },
     { name: '苏黎世', img: '/src/assets/design/img/city-06.jpg' },
-    { name: '纽约', img: '/src/assets/design/img/city-07.jpg' }
+    { name: '纽约', img: '/src/assets/design/img/city-07.jpg' },
+    { name: '伦敦', img: '/src/assets/design/img/city-08.jpg' },
+    { name: '阿姆斯特丹', img: '/src/assets/design/img/city-09.jpg' },
+    { name: '维也纳', img: '/src/assets/design/img/city-10.jpg' },
+    { name: '布拉格', img: '/src/assets/design/img/city-11.jpg' },
+    { name: '柏林', img: '/src/assets/design/img/city-12.jpg' },
+    { name: '马德里', img: '/src/assets/design/img/city-13.jpg' },
+    { name: '巴塞罗那', img: '/src/assets/design/img/city-14.jpg' },
+    { name: '佛罗伦萨', img: '/src/assets/design/img/city-15.jpg' },
+    { name: '米兰', img: '/src/assets/design/img/city-16.jpg' },
+    { name: '雅典', img: '/src/assets/design/img/city-17.jpg' },
+    { name: '斯德哥尔摩', img: '/src/assets/design/img/city-18.jpg' },
+    { name: '慕尼黑', img: '/src/assets/design/img/city-19.jpg' },
+    { name: '里斯本', img: '/src/assets/design/img/city-20.jpg' }
   ];
 
   return (
