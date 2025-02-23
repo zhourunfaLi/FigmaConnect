@@ -27,9 +27,9 @@ export function CityPage() {
   );
 
   const cities = [
-    { name: '威尼斯', img: '/assets/design/img/city-01.jpg' },
-    { name: '梵蒂冈', img: '/assets/design/img/city-02.jpg' },
-    { name: '巴黎', img: '/assets/design/img/city-03.jpg' },
+    { name: '威尼斯', img: '/src/assets/design/img/city-01.jpg' },
+    { name: '梵蒂冈', img: '/src/assets/design/img/city-02.jpg' },
+    { name: '巴黎', img: '/src/assets/design/img/city-03.jpg' },
     { name: '罗马', img: '/assets/design/img/city-04.jpg' },
     { name: '劳特布莱嫩', img: '/assets/design/img/city-05.jpg' },
     { name: '苏黎世', img: '/assets/design/img/city-06.jpg' },
