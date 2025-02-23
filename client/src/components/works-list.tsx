@@ -96,8 +96,8 @@ function ArtworkItem({
       <div 
         className="w-full relative overflow-hidden rounded-xl"
         style={{ 
-          height: isWide ? `${wideHeight}px` : undefined,
-          aspectRatio: isWide ? undefined : artwork.aspectRatio,
+          height: 'auto',
+          aspectRatio: artwork.aspectRatio,
         }}
       >
         {/* Loading skeleton */}
@@ -199,12 +199,16 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   // Transform artwork data for display
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
-    ...artworks[index % artworks.length],
-    id: index + 1,
-    aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-    isWide: false
-  }));
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
+    // 使用更多样化的宽高比来创造错落效果
+    const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
+    return {
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: ratios[index % ratios.length],
+      isWide: false
+    };
+  });
 
   // Combine artworks with advertisements
   const contentWithAds = displayArtworks.map((artwork, index) => (
