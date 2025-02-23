@@ -7,6 +7,25 @@ interface CityPageProps {
 import { Heart, Share2 } from "lucide-react";
 
 export function CityPage() {
+  // 广告组件
+  const AdCard = () => (
+    <div className="w-full max-w-[390px] mx-auto mb-[21px]">
+      <div className="relative aspect-[374/198] w-full bg-white rounded-[5px] overflow-hidden border border-black/5">
+        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+          广告
+        </div>
+        <div className="w-full h-full flex items-center justify-center text-black/30">
+          Google Ads
+        </div>
+      </div>
+      <div className="flex justify-between items-center px-2 mt-2">
+        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+          推广内容
+        </div>
+      </div>
+    </div>
+  );
+
   const cities = [
     { name: '威尼斯', img: '/src/assets/design/img/city-01.jpg' },
     { name: '梵蒂冈', img: '/src/assets/design/img/city-02.jpg' },
@@ -20,6 +39,7 @@ export function CityPage() {
   return (
     <div className="min-h-screen w-full bg-[#EEEAE2]">
       <div className="max-w-[390px] mx-auto py-[20px] px-2 flex flex-col gap-[21px]">
+        <AdCard /> {/* Inserting the AdCard component */}
         {cities.map((city, index) => (
           <div 
             key={index} 
