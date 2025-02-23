@@ -5,7 +5,7 @@ interface CityPageProps {
   artworks?: Artwork[];
 }
 
-export function CityPage({ artworks = [] }: CityPageProps) {
+export function CityPage() {
   const cities = [
     { name: '威尼斯', img: '/design/img/city-01.jpg' },
     { name: '梵蒂冈', img: '/design/img/city-02.jpg' },
