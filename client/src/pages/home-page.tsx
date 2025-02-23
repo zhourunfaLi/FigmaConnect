@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
+import { useLocation } from "wouter";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import WorksList from "@/components/works-list";
+import { CategoryNav } from "@/components/category-nav";
 
 // Mock data
 const mockArtworks = [

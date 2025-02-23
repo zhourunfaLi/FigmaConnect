@@ -16,10 +16,10 @@ export function CategoryNav() {
   const [, setLocation] = useLocation();
 
   const handleCategoryClick = (categoryId: string) => {
-    setActiveCategory(categoryId);
     if (categoryId === "city") {
       setLocation("/city");
     } else {
+      setActiveCategory(categoryId);
       setLocation(`/?category=${categoryId}`);
     }
   };
