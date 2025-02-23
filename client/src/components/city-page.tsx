@@ -1,4 +1,3 @@
-
 import { Heart, Share2 } from "lucide-react";
 
 export function CityPage() {
@@ -50,12 +49,7 @@ export function CityPage() {
     <div className="min-h-screen w-full bg-[#EEEAE2]">
       <div className="max-w-[390px] mx-auto py-[20px] px-2 flex flex-col gap-[21px]">
         {cities.map((city, index) => (
-          <>
-            {index > 0 && index % 4 === 0 && <AdCard />}
-            <div 
-              key={index} 
-              className="group flex flex-col gap-[1px] cursor-pointer"
-          >
+          <div key={index} className="group flex flex-col gap-[1px] cursor-pointer">
             <div className="relative overflow-hidden rounded-[5px]">
               <img 
                 src={city.img}
