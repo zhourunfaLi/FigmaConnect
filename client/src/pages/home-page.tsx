@@ -8,33 +8,54 @@ import { CategoryNav } from '@/components/category-nav'
 const mockArtworks = [
   {
     id: 1,
-    title: "蒙娜丽莎",
-    description: "达芬奇最著名的作品",
-    imageUrl: "https://placehold.co/400x600",
+    title: "威尼斯圣马可广场",
+    description: "威尼斯最著名的地标",
+    imageUrl: "/src/assets/design/img/city-01.jpg",
     likes: 1000,
     isPremium: false,
-    themeId: "davinci",
-    cityId: "paris"
+    themeId: "city",
+    cityId: "venice"
   },
   {
     id: 2,
-    title: "向日葵",
-    description: "梵高的经典作品",
-    imageUrl: "https://placehold.co/400x400",
+    title: "梵蒂冈圣彼得大教堂",
+    description: "天主教的中心",
+    imageUrl: "/src/assets/design/img/city-02.jpg",
     likes: 800,
     isPremium: true,
-    themeId: "vangogh",
-    cityId: "amsterdam"
+    themeId: "city",
+    cityId: "vatican"
   },
   {
     id: 3,
-    title: "星空",
-    description: "梵高的代表作",
-    imageUrl: "https://placehold.co/400x500",
+    title: "巴黎铁塔",
+    description: "浪漫之都的象征",
+    imageUrl: "/src/assets/design/img/city-03.jpg",
     likes: 1200,
     isPremium: true,
-    themeId: "vangogh",
-    cityId: "amsterdam"
+    themeId: "city",
+    cityId: "paris"
+  },
+  {
+    id: 4,
+    title: "罗马斗兽场",
+    description: "古罗马文明的见证",
+    imageUrl: "/src/assets/design/img/city-04.jpg",
+    likes: 950,
+    isPremium: false,
+    themeId: "city",
+    cityId: "rome"
+  },
+  {
+    id: 5,
+    title: "劳特布鲁嫩峡谷",
+    description: "瑞士阿尔卑斯山的明珠",
+    imageUrl: "/src/assets/design/img/city-05.jpg",
+    likes: 750,
+    isPremium: true,
+    themeId: "city",
+    cityId: "lauterbrunnen"
+  }d: "amsterdam"
   }
 ];
 
