@@ -202,11 +202,11 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
     ...artworks[index % artworks.length],
     id: index + 1,
-    aspectRatio: 1, //Removed aspect ratio logic for sequential display.
-    isWide: false //Removed isWide logic for sequential display.
+    aspectRatio: ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
+    isWide: false
   }));
 
-  // Combine artworks with advertisements - removed ad logic for sequential display
+  // Combine artworks with advertisements
   const contentWithAds = displayArtworks.map((artwork, index) => (
     <ArtworkItem 
       key={artwork.id}
