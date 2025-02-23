@@ -19,11 +19,14 @@ export function CityPage() {
     <div className="w-[390px] h-[844px] relative bg-[#EEEAE2]">
       <div className="left-[8px] top-[20px] absolute flex flex-col gap-[21px]">
         {cities.map((city, index) => (
-          <div key={index} className="flex flex-col items-center gap-[1px]">
+          <div 
+            key={index} 
+            className="group flex flex-col items-center gap-[1px] cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          >
             <img 
               src={city.img}
               alt={city.name}
-              className="w-[374px] h-[198px] rounded-[5px] object-cover"
+              className="w-[374px] h-[198px] rounded-[5px] object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <div className="w-[360px] flex justify-between items-center">
               <div className="text-[#111111] text-[14px] font-normal leading-[22px] font-['MS Gothic']">
