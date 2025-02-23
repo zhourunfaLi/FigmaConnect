@@ -36,19 +36,22 @@ const mockArtworks = [
   }
 ];
 
+type LayoutType = 'waterfall' | 'grid';
+
 type Category = {
   id: string;
   name: string;
   color: string;
   icon: string;
+  layout: LayoutType;
 };
 
 const CATEGORIES: Category[] = [
-  { id: "latest", name: "最新", color: "#333333" },
-  { id: "hottest", name: "最热", color: "#333333" },
-  { id: "special", name: "专题", color: "#333333" },
-  { id: "member", name: "会员", color: "#EB9800" },
-  { id: "city", name: "城市", color: "#333333" }
+  { id: "latest", name: "最新", color: "#333333", layout: "waterfall" },
+  { id: "hottest", name: "最热", color: "#333333", layout: "waterfall" },
+  { id: "special", name: "专题", color: "#333333", layout: "grid" },
+  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" },
+  { id: "city", name: "城市", color: "#333333", layout: "grid" }
 ];
 
 export default function HomePage() {
