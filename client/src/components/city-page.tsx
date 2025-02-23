@@ -7,13 +7,13 @@ interface CityPageProps {
 
 export function CityPage({ artworks = [] }: CityPageProps) {
   const cities = [
-    { name: '威尼斯', img: '/design/img/city-01.jpg' },
-    { name: '梵蒂冈', img: '/design/img/city-02.jpg' },
-    { name: '巴黎', img: '/design/img/city-03.jpg' },
-    { name: '罗马废墟', img: '/design/img/city-04.jpg' },
-    { name: '劳特布莱嫩', img: '/design/img/city-05.jpg' },
-    { name: '苏黎世', img: '/design/img/city-06.jpg' },
-    { name: '纽约', img: '/design/img/city-07.jpg' }
+    { name: '威尼斯', img: '../assets/design/img/city-01.jpg' },
+    { name: '梵蒂冈', img: '../assets/design/img/city-02.jpg' },
+    { name: '巴黎', img: '../assets/design/img/city-03.jpg' },
+    { name: '罗马废墟', img: '../assets/design/img/city-04.jpg' },
+    { name: '劳特布莱嫩', img: '../assets/design/img/city-05.jpg' },
+    { name: '苏黎世', img: '../assets/design/img/city-06.jpg' },
+    { name: '纽约', img: '../assets/design/img/city-07.jpg' }
   ];
 
   return (
