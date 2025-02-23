@@ -7,17 +7,14 @@ export function CityPage() {
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
         </div>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
-          crossOrigin="anonymous"></script>
-        <ins className="adsbygoogle"
-          style={{ display: 'block' }}
-          data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
-          data-ad-slot="YOUR_AD_SLOT_ID"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <div className="w-full h-full flex items-center justify-center text-black/30">
+          广告位招租
+        </div>
+      </div>
+      <div className="flex justify-between items-center px-2 mt-2">
+        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+          推广内容
+        </div>
       </div>
     </div>
   );
