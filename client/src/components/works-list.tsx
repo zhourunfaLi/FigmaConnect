@@ -199,46 +199,29 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   // Transform artwork data for display
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
-    const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
-    return {
-      ...artworks[index % artworks.length],
-      id: index + 1,
-      aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-      isWide
-    };
-  });
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => ({
+    ...artworks[index % artworks.length],
+    id: index + 1,
+    aspectRatio: 1, //Removed aspect ratio logic for sequential display.
+    isWide: false //Removed isWide logic for sequential display.
+  }));
 
-  // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
-    // Add artwork
-    acc.push(
-      <ArtworkItem 
-        key={artwork.id}
-        artwork={artwork}
-        isWide={artwork.isWide}
-        wideHeight={wideHeight}
-        index={index}
-      />
-    );
+  // Combine artworks with advertisements - removed ad logic for sequential display
+  const contentWithAds = displayArtworks.map((artwork, index) => (
+    <ArtworkItem 
+      key={artwork.id}
+      artwork={artwork}
+      isWide={false}
+      wideHeight={wideHeight}
+      index={index}
+    />
+  ));
 
-    // Add advertisement after every 6 artworks
-    if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
-      acc.push(
-        <div key={`ad-${index}`} className="break-inside-avoid mb-4">
-          <AdCard />
-        </div>
-      );
-    }
-
-    return acc;
-  }, []);
 
   return (
     <div 
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-4 px-[8px] pb-20",
+        "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-[8px] pb-20",
         className
       )}
     >

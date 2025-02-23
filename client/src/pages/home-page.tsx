@@ -78,9 +78,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      <a href="/city" className="mb-4 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-        前往城市页面
-      </a>
       {/* Category Navigation */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10 flex justify-center">
         <ScrollArea className="w-full max-w-screen-md">
