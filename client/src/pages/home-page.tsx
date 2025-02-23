@@ -78,25 +78,7 @@ export default function HomePage() {
       <a href="/city" className="mb-4 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         前往城市页面
       </a>
-      {/* Category Navigation */}
-      <div className="sticky top-0 bg-[#EEEAE2] z-10 flex justify-center">
-        <ScrollArea className="w-full max-w-screen-md">
-          <div className="flex items-center justify-center gap-3 px-4 py-2">
-            {CATEGORIES.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                style={{ color: category.color }}
-                className={`text-sm sm:text-base font-normal transition-colors px-4 py-1.5 whitespace-nowrap rounded-full ${
-                  activeCategory === category.id ? 'bg-blue-500 text-white' : ''
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </ScrollArea>
-      </div>
+      <CategoryNav />
 
       {/* Artwork Grid */}
       <div className="pt-4">
