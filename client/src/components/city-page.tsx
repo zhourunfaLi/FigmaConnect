@@ -34,7 +34,7 @@ export function CityPage() {
           <img 
             src={city.img}
             alt={city.name}
-            className="w-[374px] h-[198px] object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-[374px] h-[166px] object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
             <div className="flex justify-end gap-2">
@@ -63,7 +63,7 @@ export function CityPage() {
     if ((index === 2) || (index > 2 && (index - 2) % 3 === 0)) {
       acc.push(
         <div key={`ad-${index}`} className="w-full max-w-[390px] mx-auto">
-          <div className="relative aspect-[374/198] w-full bg-white rounded-[5px] overflow-hidden border border-black/5">
+          <div className="relative aspect-[374/166] w-full bg-white rounded-[5px] overflow-hidden border border-black/5">
             <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
               广告
             </div>
