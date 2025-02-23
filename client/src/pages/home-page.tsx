@@ -79,8 +79,7 @@ export default function HomePage() {
   }, [activeCategory]);
 
   return (
-    <div className="min-h-screen bg-[#EEEAE2]">
-      <a href="/city" className="mb-4 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+    <div className="min-h-screen bg-[#EEEAE2]">-white rounded hover:bg-blue-600">
         前往城市页面
       </a>
       <CategoryNav />

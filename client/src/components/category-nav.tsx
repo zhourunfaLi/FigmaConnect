@@ -12,14 +12,19 @@ const CATEGORIES = [
 ];
 
 export function CategoryNav() {
-  const [activeCategory, setActiveCategory] = useState("latest");
+  const [, location] = useLocation();
+  const [activeCategory, setActiveCategory] = useState(() => {
+    if (location === "/city") return "city";
+    const urlParams = new URLSearchParams(location.split('?')[1]);
+    return urlParams.get('category') || "latest";
+  });
   const [, setLocation] = useLocation();
 
   const handleCategoryClick = (categoryId: string) => {
+    setActiveCategory(categoryId);
     if (categoryId === "city") {
       setLocation("/city");
     } else {
-      setActiveCategory(categoryId);
       setLocation(`/?category=${categoryId}`);
     }
   };
