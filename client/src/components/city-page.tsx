@@ -46,6 +46,24 @@ export function CityPage() {
     <div className="min-h-screen w-full bg-[#EEEAE2]">
       <div className="max-w-[390px] mx-auto py-[20px] px-2 flex flex-col gap-[21px]">
         {cities.map((city, index) => (
+          <>
+            {index > 0 && index % 4 === 0 && (
+              <div className="w-full max-w-[390px] mx-auto">
+                <div className="relative aspect-[374/198] w-full bg-white rounded-[5px] overflow-hidden border border-black/5">
+                  <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+                    广告
+                  </div>
+                  <div className="w-full h-full flex items-center justify-center text-black/30">
+                    广告位招租 {Math.floor(index/4)}
+                  </div>
+                </div>
+                <div className="flex justify-between items-center px-2 mt-2">
+                  <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+                    推广内容 {Math.floor(index/4)}
+                  </div>
+                </div>
+              </div>
+            )}
           <div key={index} className="group flex flex-col gap-[1px] cursor-pointer">
             <div className="relative overflow-hidden rounded-[5px]">
               <img 
