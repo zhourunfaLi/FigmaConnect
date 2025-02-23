@@ -13,13 +13,13 @@ export function CityPage({ artworks = [] }: CityPageProps) {
         <div className="flex flex-col gap-[21px]">
           {/* 城市项目 */}
           {[
-            { name: '威尼斯', img: '/client/src/assets/design/img/venice.jpg' },
-            { name: '梵蒂冈', img: '/client/src/assets/design/img/vatican.jpg' },
-            { name: '巴黎', img: '/client/src/assets/design/img/paris.jpg' },
-            { name: '罗马废墟', img: '/client/src/assets/design/img/rome.jpg' },
-            { name: '劳特布莱嫩', img: '/client/src/assets/design/img/lauterbrunnen.jpg' },
-            { name: '苏黎世', img: '/client/src/assets/design/img/zurich.jpg' },
-            { name: '纽约', img: '/client/src/assets/design/img/newyork.jpg' }
+            { name: '威尼斯', img: '@/assets/design/img/venice.jpg' },
+            { name: '梵蒂冈', img: '@/assets/design/img/vatican.jpg' },
+            { name: '巴黎', img: '@/assets/design/img/paris.jpg' },
+            { name: '罗马废墟', img: '@/assets/design/img/rome.jpg' },
+            { name: '劳特布莱嫩', img: '@/assets/design/img/lauterbrunnen.jpg' },
+            { name: '苏黎世', img: '@/assets/design/img/zurich.jpg' },
+            { name: '纽约', img: '@/assets/design/img/newyork.jpg' }
           ].map((city, index) => (
             <div key={index} className="flex flex-col items-center gap-[1px]">
               <img 
