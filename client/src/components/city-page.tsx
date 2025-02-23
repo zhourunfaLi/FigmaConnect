@@ -1,18 +1,5 @@
 import { Heart, Share2 } from "lucide-react";
-
-// Add CategoryNav component here.  This component's implementation is not provided in the original code or changes.  A placeholder is used for demonstration.  Replace this with the actual implementation.
-const CategoryNav = () => {
-  return (
-    <nav>
-      {/* Navigation items here */}
-      <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
-      </ul>
-    </nav>
-  );
-};
+import { CategoryNav } from "@/components/category-nav";
 
 
 export function CityPage() {
