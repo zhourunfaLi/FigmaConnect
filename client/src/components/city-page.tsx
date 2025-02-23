@@ -1,10 +1,6 @@
 import type { Artwork } from "@shared/schema";
-import { useState, useEffect } from "react";
-import { Share2, Heart } from "lucide-react";
-
-interface CityPageProps {
-  artworks?: Artwork[];
-}
+import { useState, useEffect } from 'react';
+import { Heart, Share2 } from 'lucide-react';
 
 const cities = [
   { name: "威尼斯", img: "./src/assets/design/img/city-01.jpg" },
@@ -16,50 +12,20 @@ const cities = [
   { name: "纽约", img: "./src/assets/design/img/city-07.jpg" }
 ];
 
-function CityCard({ city, index }) {
+function CityCard({ city, index }: { city: typeof cities[0], index: number }) {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '50px' }
-    );
-
-    const element = document.getElementById(`city-${index}`);
-    if (element) {
-      observer.observe(element);
-    }
-
-    return () => observer.disconnect();
-  }, [index]);
 
   return (
-    <div 
-      id={`city-${index}`}
-      className="group flex flex-col items-center gap-[1px] cursor-pointer"
-    >
+    <div className="group relative">
       <div className="relative overflow-hidden rounded-[5px]">
-        {(!isVisible || !imageLoaded) && (
-          <div className="w-[374px] h-[198px] bg-gray-200 animate-pulse rounded-[5px]" />
-        )}
-
-        {isVisible && (
-          <img 
-            src={city.img}
-            alt={city.name}
-            className={`w-[374px] h-[198px] object-cover transition-all duration-300 
-              ${imageLoaded ? 'opacity-100' : 'opacity-0'}
-              group-hover:scale-105`}
-            loading="lazy"
-            onLoad={() => setImageLoaded(true)}
-          />
-        )}
+        <img 
+          src={city.img}
+          alt={city.name}
+          className={`w-[374px] h-[198px] object-cover transition-all duration-300 
+            ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+            group-hover:scale-105`}
+          onLoad={() => setImageLoaded(true)}
+        />
 
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
           <div className="flex justify-end gap-2">
@@ -77,7 +43,7 @@ function CityCard({ city, index }) {
         </div>
       </div>
 
-      <div className="w-[360px] flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+      <div className="w-[360px] flex justify-between items-center px-2 mt-2">
         <div className="text-[#111111] text-[14px] font-normal leading-[22px] font-['MS Gothic']">
           {city.name}
         </div>
@@ -90,7 +56,6 @@ function CityCard({ city, index }) {
     </div>
   );
 }
-
 
 export function CityPage() {
   return (
