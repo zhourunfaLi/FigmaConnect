@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import WorksList from "@/components/works-list";
-import { CategoryNav } from "@/components/category-nav";
 
 // Mock data
 const mockArtworks = [
@@ -53,10 +52,7 @@ const CATEGORIES: Category[] = [
 ];
 
 export default function HomePage() {
-  const [location] = useLocation();
-  const urlParams = new URLSearchParams(location.split('?')[1]);
-  const categoryFromUrl = urlParams.get('category') || 'latest';
-  const [activeCategory, setActiveCategory] = useState<Category["id"]>(categoryFromUrl);
+  const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
   const filteredArtworks = useMemo(() => {
     switch (activeCategory) {
@@ -79,12 +75,28 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
-      <a
-        href="/city"
-        className="absolute top-4 left-4 inline-block px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
+      <a href="/city" className="mb-4 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         前往城市页面
       </a>
-      <CategoryNav />
+      {/* Category Navigation */}
+      <div className="sticky top-0 bg-[#EEEAE2] z-10 flex justify-center">
+        <ScrollArea className="w-full max-w-screen-md">
+          <div className="flex items-center justify-center gap-3 px-4 py-2">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                style={{ color: category.color }}
+                className={`text-sm sm:text-base font-normal transition-colors px-4 py-1.5 whitespace-nowrap rounded-full ${
+                  activeCategory === category.id ? 'bg-blue-500 text-white' : ''
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
+        </ScrollArea>
+      </div>
 
       {/* Artwork Grid */}
       <div className="pt-4">

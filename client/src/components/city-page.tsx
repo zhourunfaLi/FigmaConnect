@@ -1,6 +1,5 @@
-import { Heart, Share2 } from "lucide-react";
-import { CategoryNav } from "@/components/category-nav";
 
+import { Heart, Share2 } from "lucide-react";
 
 export function CityPage() {
   const cities = [
@@ -85,8 +84,7 @@ export function CityPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#EEEAE2]">
-      <CategoryNav />
+    <div className="min-h-screen w-full bg-[#EEEAE2]">
       <div className="max-w-[390px] mx-auto py-[20px] px-2 flex flex-col gap-[21px]">
         {contentWithAds}
       </div>
