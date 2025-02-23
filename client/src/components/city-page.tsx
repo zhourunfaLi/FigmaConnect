@@ -1,52 +1,40 @@
-
-import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Artwork } from "@shared/schema";
 
 interface CityPageProps {
   artworks?: Artwork[];
 }
 
-export function CityPage({ artworks = [] }: CityPageProps) {
+export function CityPage() {
+  const cities = [
+    { name: '威尼斯', img: '/assets/design/img/city-01.jpg' },
+    { name: '梵蒂冈', img: '/assets/design/img/city-02.jpg' },
+    { name: '巴黎', img: '/assets/design/img/city-03.jpg' },
+    { name: '罗马废墟', img: '/assets/design/img/city-04.jpg' },
+    { name: '劳特布莱嫩', img: '/assets/design/img/city-05.jpg' },
+    { name: '苏黎世', img: '/assets/design/img/city-06.jpg' },
+    { name: '纽约', img: '/assets/design/img/city-07.jpg' }
+  ];
+
   return (
     <div className="w-[390px] h-[844px] relative bg-[#EEEAE2]">
-      {/* 城市列表部分 */}
-      <div className="h-[623px] left-[8px] top-[148px] absolute">
-        <div className="flex flex-col gap-[21px]">
-          {/* 城市项目 */}
-          {['威尼斯', '梵蒂冈', '巴黎', '罗马废墟', '劳特布莱嫩', '苏黎世', '纽约'].map((city, index) => (
-            <div key={index} className="flex flex-col items-center gap-[1px]">
-              <img 
-                src="https://placehold.co/374x198" 
-                alt={city}
-                className="w-[374px] h-[198px] rounded-[5px]"
-              />
-              <div className="w-[360px] flex justify-between items-center">
-                <div className="text-[#111111] text-[14px] font-normal leading-[22px] font-['MS Gothic']">
-                  {city}
-                </div>
-                <div className="w-[13px] h-[3px] flex justify-center items-start gap-[2px]">
-                  {[...Array(3)].map((_, i) => (
-                    <div key={i} className="w-[3px] h-[3px] bg-[#111111] rounded-full" />
-                  ))}
-                </div>
+      <div className="h-[623px] left-[8px] top-[148px] absolute flex flex-col gap-[21px]">
+        {cities.map((city, index) => (
+          <div key={index} className="flex flex-col items-center gap-[1px]">
+            <img 
+              src={city.img}
+              alt={city.name}
+              className="w-[374px] h-[198px] rounded-[5px] object-cover"
+            />
+            <div className="w-[360px] flex justify-between items-center">
+              <div className="text-[#111111] text-[14px] font-normal leading-[22px] font-['MS Gothic']">
+                {city.name}
+              </div>
+              <div className="w-[13px] h-[3px] flex justify-center items-start gap-[2px]">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="w-[3px] h-[3px] bg-[#111111] rounded-full" />
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 顶部导航 */}
-      <div className="w-[373px] h-[22px] left-[9px] top-[114px] absolute">
-        {['最新', '最热', '最早', '专题', '会员', '城市'].map((item, index) => (
-          <div 
-            key={index}
-            className={`w-[73px] h-[22px] absolute text-center text-[18px] font-normal leading-[22px] tracking-[3px] font-['Microsoft YaHei']`}
-            style={{
-              left: `${index * 60}px`,
-              color: item === '城市' ? 'black' : item === '会员' ? '#EB9800' : '#6D6D6D'
-            }}
-          >
-            {item}
           </div>
         ))}
       </div>
@@ -61,15 +49,10 @@ export function CityPage({ artworks = [] }: CityPageProps) {
         </div>
         <div className="left-[280px] top-[21px] absolute">
           <div className="w-[12.33px] h-[12.33px] rounded-full border-2 border-[#1C1C1C]" />
-          <svg width="25" height="14" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-[4.62px]">
+          <svg width="25" height="14" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2.93273 5.8306C3.86707 3.11605 6.56337 1.58331 9.43423 1.58331H15.5657C18.4366 1.58331 21.1329 3.11604 22.0672 5.8306C22.6255 7.45254 23.1257 9.39139 23.2578 11.3757C23.2944 11.9267 22.8439 12.375 22.2916 12.375H2.70831C2.15603 12.375 1.70554 11.9267 1.7422 11.3757C1.87421 9.39139 2.37447 7.45254 2.93273 5.8306Z" stroke="#1C1C1C" strokeWidth="2" strokeLinecap="round"/>
           </svg>
         </div>
-      </div>
-
-      {/* 顶部微信栏 */}
-      <div className="w-[390px] h-[90px] left-0 top-0 absolute flex justify-center items-center">
-        <img src="https://placehold.co/390x90" alt="微信栏" className="w-[390px] h-[90px]" />
       </div>
     </div>
   );
