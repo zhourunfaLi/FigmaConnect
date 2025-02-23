@@ -12,12 +12,7 @@ const CATEGORIES = [
 ];
 
 export function CategoryNav() {
-  const [, location] = useLocation();
-  const [activeCategory, setActiveCategory] = useState(() => {
-    if (location === "/city") return "city";
-    const urlParams = new URLSearchParams(location.split('?')[1]);
-    return urlParams.get('category') || "latest";
-  });
+  const [activeCategory, setActiveCategory] = useState("latest");
   const [, setLocation] = useLocation();
 
   const handleCategoryClick = (categoryId: string) => {
