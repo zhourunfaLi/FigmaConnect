@@ -7,13 +7,13 @@ interface CityPageProps {
 }
 
 const cities = [
-  { name: "威尼斯", img: "./src/assets/cities/venice.jpg" },
-  { name: "梵蒂冈", img: "./src/assets/cities/vatican.jpg" },
-  { name: "巴黎", img: "./src/assets/cities/paris.jpg" },
-  { name: "罗马废墟", img: "./src/assets/cities/rome.jpg" },
-  { name: "劳特布莱嫩", img: "./src/assets/cities/lauterbrunnen.jpg" },
-  { name: "苏黎世", img: "./src/assets/cities/zurich.jpg" },
-  { name: "纽约", img: "./src/assets/cities/newyork.jpg" }
+  { name: "威尼斯", img: "./src/assets/design/cities/city-01.jpg" },
+  { name: "梵蒂冈", img: "./src/assets/design/cities/city-02.jpg" },
+  { name: "巴黎", img: "./src/assets/design/cities/city-03.jpg" },
+  { name: "罗马废墟", img: "./src/assets/design/cities/city-04.jpg" },
+  { name: "劳特布莱嫩", img: "./src/assets/design/cities/city-05.jpg" },
+  { name: "苏黎世", img: "./src/assets/design/cities/city-06.jpg" },
+  { name: "纽约", img: "./src/assets/design/cities/city-07.jpg" }
 ];
 
 function CityCard({ city, index }) {
