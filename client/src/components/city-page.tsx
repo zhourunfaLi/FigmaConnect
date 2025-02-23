@@ -49,11 +49,12 @@ export function CityPage() {
   return (
     <div className="min-h-screen w-full bg-[#EEEAE2]">
       <div className="max-w-[390px] mx-auto py-[20px] px-2 flex flex-col gap-[21px]">
-        <AdCard />
         {cities.map((city, index) => (
-          <div 
-            key={index} 
-            className="group flex flex-col gap-[1px] cursor-pointer"
+          <>
+            {index > 0 && index % 4 === 0 && <AdCard />}
+            <div 
+              key={index} 
+              className="group flex flex-col gap-[1px] cursor-pointer"
           >
             <div className="relative overflow-hidden rounded-[5px]">
               <img 
