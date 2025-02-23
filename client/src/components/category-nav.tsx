@@ -19,6 +19,8 @@ export function CategoryNav() {
     setActiveCategory(categoryId);
     if (categoryId === "city") {
       setLocation("/city");
+    } else {
+      setLocation(`/?category=${categoryId}`);
     }
   };
 

@@ -52,7 +52,10 @@ const CATEGORIES: Category[] = [
 ];
 
 export default function HomePage() {
-  const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
+  const [location] = useLocation();
+  const urlParams = new URLSearchParams(location.split('?')[1]);
+  const categoryFromUrl = urlParams.get('category') || 'latest';
+  const [activeCategory, setActiveCategory] = useState<Category["id"]>(categoryFromUrl);
 
   const filteredArtworks = useMemo(() => {
     switch (activeCategory) {
