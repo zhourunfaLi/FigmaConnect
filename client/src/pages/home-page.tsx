@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import WorksList from "@/components/works-list";
+import { useLocation } from 'wouter'
+import { CategoryNav } from '@/components/category-nav'
 
 // Mock data
 const mockArtworks = [
@@ -55,6 +57,7 @@ const CATEGORIES: Category[] = [
 ];
 
 export default function HomePage() {
+  const [location] = useLocation()
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
   const filteredArtworks = useMemo(() => {
