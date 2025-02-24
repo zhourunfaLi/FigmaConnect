@@ -143,20 +143,10 @@ const mockArtworks = [
   },
   {
     id: 15,
-    title: "东京塔",
-    description: "日本现代化的象征",
-    imageUrl: "/images/city-08.jpg",
-    likes: 850,
-    isPremium: true,
-    themeId: "city",
-    cityId: "tokyo"
-  },
-  {
-    id: 16,
     title: "阿姆斯特丹运河",
-    description: "荷兰的水上城市",
-    imageUrl: "/images/city-09.jpg",
-    likes: 700,
+    description: "荷兰水上城市",
+    imageUrl: "/images/city-07.jpg",
+    likes: 850,
     isPremium: true,
     themeId: "city",
     cityId: "amsterdam"
