@@ -129,7 +129,7 @@ function ArtworkItem({
             {/* Always visible labels */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                #{index + 1}
+                #{artwork.id}
               </div>
               {artwork.isPremium && (
                 <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
