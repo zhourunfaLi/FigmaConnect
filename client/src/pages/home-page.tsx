@@ -117,19 +117,32 @@ export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
   const filteredArtworks = useMemo(() => {
-    // 首先按照主题和ID排序
-    const artworks = [...mockArtworks].sort((a, b) => {
+    let artworks = [...mockArtworks];
+    
+    // 先根据类别筛选
+    switch (activeCategory) {
+      case "special":
+        artworks = artworks.filter(art => art.themeId);
+        break;
+      case "member":
+        artworks = artworks.filter(art => art.isPremium);
+        break;
+      case "city":
+        artworks = artworks.filter(art => art.cityId);
+        break;
+    }
+
+    // 然后排序
+    return artworks.sort((a, b) => {
       // 优先显示艺术作品
       if (a.themeId === "art" && b.themeId !== "art") return -1;
       if (a.themeId !== "art" && b.themeId === "art") return 1;
-      // 相同主题按ID排序
+      // 根据类别排序
+      if (activeCategory === "latest") return b.id - a.id;
+      if (activeCategory === "hottest") return (b.likes || 0) - (a.likes || 0);
+      // 默认按ID排序
       return a.id - b.id;
     });
-
-    // 然后根据类别进行筛选
-    switch (activeCategory) {
-      case "latest":
-        return artworks.sort((a, b) => b.id - a.id);
       case "hottest":
         return artworks.sort((a, b) => (b.likes || 0) - (a.likes || 0));
       case "earliest":

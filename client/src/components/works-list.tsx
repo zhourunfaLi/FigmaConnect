@@ -201,8 +201,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   // Transform artwork data for display
-  const displayArtworks = [...artworks] // 创建数组副本以避免修改原数组
-    .map((artwork, index) => {
+  const displayArtworks = artworks.map((artwork, index) => {
       const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
       return {
         ...artwork,
