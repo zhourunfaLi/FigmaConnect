@@ -11,7 +11,7 @@ const mockArtworks = [
     id: 1,
     title: "静谧时光",
     description: "油画艺术展现的宁静午后",
-    imageUrl: "/src/assets/design/img/works-01.jpg",
+    imageUrl: "@/assets/design/img/works-01.jpg",
     likes: 1200,
     isPremium: true,
     themeId: "art",
