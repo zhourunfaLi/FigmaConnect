@@ -55,7 +55,6 @@ const mockArtworks = [
     isPremium: true,
     themeId: "city",
     cityId: "lauterbrunnen"
-  }d: "amsterdam"
   }
 ];
 
