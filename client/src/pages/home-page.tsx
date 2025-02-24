@@ -6,13 +6,42 @@ import { CategoryNav } from '@/components/category-nav'
 
 // Mock data including new city artwork
 const mockArtworks = [
+  // 艺术作品
   {
     id: 1,
-    title: "威尼斯圣马可广场",
-    description: "威尼斯最著名的地标",
-    imageUrl: "/images/city-01.jpg",
+    title: "现代艺术展览",
+    description: "抽象派艺术作品",
+    imageUrl: "/images/works-01.png",
     likes: 1000,
     isPremium: false,
+    themeId: "artwork"
+  },
+  {
+    id: 2,
+    title: "油画系列",
+    description: "经典油画艺术",
+    imageUrl: "/images/works-02.png",
+    likes: 850,
+    isPremium: true,
+    themeId: "artwork"
+  },
+  {
+    id: 3,
+    title: "当代艺术",
+    description: "现代艺术展示",
+    imageUrl: "/images/works-03.png",
+    likes: 920,
+    isPremium: false,
+    themeId: "artwork"
+  },
+  // 城市景观
+  {
+    id: 4,
+    title: "威尼斯圣马可广场",
+    description: "威尼斯地标建筑",
+    imageUrl: "/images/city-01.jpg",
+    likes: 780,
+    isPremium: true,
     themeId: "city",
     cityId: "venice"
   },
@@ -101,9 +130,9 @@ type Category = {
 const CATEGORIES: Category[] = [
   { id: "latest", name: "最新", color: "#333333", layout: "waterfall" },
   { id: "hottest", name: "最热", color: "#333333", layout: "waterfall" },
-  { id: "special", name: "专题", color: "#333333", layout: "grid" },
-  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" },
-  { id: "city", name: "城市", color: "#333333", layout: "grid" }
+  { id: "artwork", name: "艺术", color: "#333333", layout: "waterfall" },
+  { id: "city", name: "城市", color: "#333333", layout: "grid" },
+  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" }
 ];
 
 export default function HomePage() {
