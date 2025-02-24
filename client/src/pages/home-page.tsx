@@ -76,37 +76,37 @@ const mockArtworks = [
     id: 8,
     title: "梵蒂冈圣彼得大教堂",
     description: "天主教的中心",
-    imageUrl: "/src/assets/design/img/city-02.jpg",
+    imageUrl: "/images/city-02.jpg",
     likes: 800,
     isPremium: true,
     themeId: "city",
     cityId: "vatican"
   },
   {
-    id: 3,
+    id: 9,
     title: "巴黎铁塔",
     description: "浪漫之都的象征",
-    imageUrl: "/src/assets/design/img/city-03.jpg",
+    imageUrl: "/images/city-03.jpg",
     likes: 1200,
     isPremium: true,
     themeId: "city",
     cityId: "paris"
   },
   {
-    id: 4,
+    id: 10,
     title: "罗马斗兽场",
     description: "古罗马文明的见证",
-    imageUrl: "/src/assets/design/img/city-04.jpg",
+    imageUrl: "/images/city-04.jpg",
     likes: 950,
     isPremium: false,
     themeId: "city",
     cityId: "rome"
   },
   {
-    id: 5,
+    id: 11,
     title: "劳特布鲁嫩峡谷",
     description: "瑞士阿尔卑斯山的明珠",
-    imageUrl: "/src/assets/design/img/city-05.jpg",
+    imageUrl: "/images/city-05.jpg",
     likes: 750,
     isPremium: true,
     themeId: "city",
@@ -114,27 +114,27 @@ const mockArtworks = [
   },
   // Add more city images here...  (Assume more images exist in /src/assets/design/img/)
   {
-    id: 6,
+    id: 12,
     title: "纽约时代广场",
     description: "繁华都市的中心",
-    imageUrl: "/src/assets/design/img/city-06.jpg", // Replace with actual image path
+    imageUrl: "/images/city-06.jpg", 
     likes: 1500,
     isPremium: false,
     themeId: "city",
     cityId: "newyork"
   },
   {
-    id: 7,
+    id: 13,
     title: "东京涩谷十字路口",
     description: "世界著名的十字路口",
-    imageUrl: "/src/assets/design/img/city-07.jpg", // Replace with actual image path
+    imageUrl: "/images/city-07.jpg", 
     likes: 1100,
     isPremium: true,
     themeId: "city",
     cityId: "tokyo"
   },
   {
-    id: 30,
+    id: 14,
     title: "阿姆斯特丹运河",
     imageUrl: "/images/city-09.jpg",
     likes: 89,
