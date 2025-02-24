@@ -6,20 +6,9 @@ import { CategoryNav } from '@/components/category-nav'
 
 // Mock data including new city artwork
 const mockArtworks = [
-  // 城市作品
+  // 艺术作品组1
   {
     id: 1,
-    title: "威尼斯圣马可广场",
-    description: "威尼斯最著名的地标",
-    imageUrl: "/src/assets/design/img/city-01.jpg",
-    likes: 1000,
-    isPremium: false,
-    themeId: "city",
-    cityId: "venice"
-  },
-  // 艺术作品
-  {
-    id: 2,
     title: "星空下的舞者",
     description: "现代艺术展现舞蹈之美",
     imageUrl: "/src/assets/design/img/art-01.jpg",
@@ -28,17 +17,7 @@ const mockArtworks = [
     themeId: "art"
   },
   {
-    id: 3,
-    title: "巴黎铁塔",
-    description: "浪漫之都的象征",
-    imageUrl: "/src/assets/design/img/city-03.jpg",
-    likes: 1200,
-    isPremium: true,
-    themeId: "city",
-    cityId: "paris"
-  },
-  {
-    id: 4,
+    id: 2,
     title: "色彩的交响",
     description: "抽象艺术的视觉盛宴",
     imageUrl: "/src/assets/design/img/art-02.jpg",
@@ -47,17 +26,7 @@ const mockArtworks = [
     themeId: "art"
   },
   {
-    id: 5,
-    title: "罗马斗兽场",
-    description: "古罗马文明的见证",
-    imageUrl: "/src/assets/design/img/city-04.jpg",
-    likes: 950,
-    isPremium: false,
-    themeId: "city",
-    cityId: "rome"
-  },
-  {
-    id: 6,
+    id: 3,
     title: "自然之声",
     description: "水彩画展现大自然之美",
     imageUrl: "/src/assets/design/img/art-03.jpg",
@@ -65,8 +34,56 @@ const mockArtworks = [
     isPremium: true,
     themeId: "art"
   },
+  // 城市作品1
+  {
+    id: 4,
+    title: "威尼斯圣马可广场",
+    description: "威尼斯最著名的地标",
+    imageUrl: "/src/assets/design/img/city-01.jpg",
+    likes: 1000,
+    isPremium: false,
+    themeId: "city",
+    cityId: "venice"
+  },
+  // 艺术作品组2
+  {
+    id: 5,
+    title: "光影交织",
+    description: "光与影的艺术对话",
+    imageUrl: "/src/assets/design/img/art-04.jpg",
+    likes: 950,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 6,
+    title: "时空之门",
+    description: "现代艺术装置作品",
+    imageUrl: "/src/assets/design/img/art-05.jpg",
+    likes: 850,
+    isPremium: false,
+    themeId: "art"
+  },
   {
     id: 7,
+    title: "海洋之心",
+    description: "海洋主题抽象画作",
+    imageUrl: "/src/assets/design/img/art-06.jpg",
+    likes: 750,
+    isPremium: true,
+    themeId: "art"
+  },
+  // 城市作品2
+  {
+    id: 8,
+    title: "巴黎铁塔",
+    description: "浪漫之都的象征",
+    imageUrl: "/src/assets/design/img/city-02.jpg",
+    likes: 1200,
+    isPremium: true,
+    themeId: "city",
+    cityId: "paris"
+  },
     title: "纽约时代广场",
     description: "繁华都市的中心",
     imageUrl: "/src/assets/design/img/city-06.jpg",
