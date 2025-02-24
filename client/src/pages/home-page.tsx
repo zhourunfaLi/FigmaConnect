@@ -9,8 +9,8 @@ const mockArtworks = [
   // 艺术作品
   {
     id: 1,
-    title: "现代艺术展览",
-    description: "抽象派艺术作品",
+    title: "抽象艺术系列一号",
+    description: "现代抽象艺术",
     imageUrl: "/images/works-01.png",
     likes: 1000,
     isPremium: false,
@@ -18,8 +18,8 @@ const mockArtworks = [
   },
   {
     id: 2,
-    title: "油画系列",
-    description: "经典油画艺术",
+    title: "几何构图系列",
+    description: "现代几何艺术",
     imageUrl: "/images/works-02.png",
     likes: 850,
     isPremium: true,
@@ -27,16 +27,43 @@ const mockArtworks = [
   },
   {
     id: 3,
-    title: "当代艺术",
-    description: "现代艺术展示",
+    title: "色彩研究",
+    description: "色彩艺术探索",
     imageUrl: "/images/works-03.png",
     likes: 920,
     isPremium: false,
     themeId: "artwork"
   },
-  // 城市景观
   {
     id: 4,
+    title: "空间构成",
+    description: "空间艺术设计",
+    imageUrl: "/images/works-04.png",
+    likes: 880,
+    isPremium: true,
+    themeId: "artwork"
+  },
+  {
+    id: 5,
+    title: "光影交错",
+    description: "光影艺术创作",
+    imageUrl: "/images/works-05.png",
+    likes: 760,
+    isPremium: false,
+    themeId: "artwork"
+  },
+  {
+    id: 6,
+    title: "动态平衡",
+    description: "平衡艺术研究",
+    imageUrl: "/images/works-06.png",
+    likes: 890,
+    isPremium: true,
+    themeId: "artwork"
+  },
+  // 城市景观
+  {
+    id: 7,
     title: "威尼斯圣马可广场",
     description: "威尼斯地标建筑",
     imageUrl: "/images/city-01.jpg",
@@ -45,6 +72,16 @@ const mockArtworks = [
     themeId: "city",
     cityId: "venice"
   },
+  {
+    id: 8,
+    title: "梵蒂冈圣彼得大教堂",
+    description: "天主教的中心",
+    imageUrl: "/images/city-02.jpg",
+    likes: 800,
+    isPremium: true,
+    themeId: "city",
+    cityId: "vatican"
+  }
   {
     id: 2,
     title: "梵蒂冈圣彼得大教堂",
