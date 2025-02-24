@@ -1,4 +1,3 @@
-
 import { Heart, Share2 } from "lucide-react";
 
 export function CityPage() {
