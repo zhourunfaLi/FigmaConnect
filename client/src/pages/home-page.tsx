@@ -76,6 +76,16 @@ const mockArtworks = [
     id: 8,
     title: "梵蒂冈圣彼得大教堂",
     description: "天主教的中心",
+    imageUrl: "/images/city-02.jpg",
+    likes: 800,
+    isPremium: true,
+    themeId: "city",
+    cityId: "vatican"
+  }
+  {
+    id: 2,
+    title: "梵蒂冈圣彼得大教堂",
+    description: "天主教的中心",
     imageUrl: "/src/assets/design/img/city-02.jpg",
     likes: 800,
     isPremium: true,
@@ -129,7 +139,7 @@ const mockArtworks = [
     description: "世界著名的十字路口",
     imageUrl: "/src/assets/design/img/city-07.jpg", // Replace with actual image path
     likes: 1100,
-    isPremium: true,
+    isPremiupremium: true,
     themeId: "city",
     cityId: "tokyo"
   },
@@ -138,7 +148,7 @@ const mockArtworks = [
     title: "阿姆斯特丹运河",
     imageUrl: "/images/city-09.jpg",
     likes: 89,
-    isPremium: true,
+    premium: true,
     themeId: "city",
     cityId: "amsterdam"
   }
