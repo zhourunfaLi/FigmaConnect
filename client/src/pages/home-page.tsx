@@ -118,7 +118,7 @@ export default function HomePage() {
 
   const filteredArtworks = useMemo(() => {
     let artworks = [...mockArtworks];
-    
+
     // 先根据类别筛选
     switch (activeCategory) {
       case "special":
@@ -143,19 +143,6 @@ export default function HomePage() {
       // 默认按ID排序
       return a.id - b.id;
     });
-      case "hottest":
-        return artworks.sort((a, b) => (b.likes || 0) - (a.likes || 0));
-      case "earliest":
-        return artworks.sort((a, b) => a.id - b.id);
-      case "special":
-        return mockArtworks.filter(art => art.themeId);
-      case "member":
-        return mockArtworks.filter(art => art.isPremium);
-      case "city":
-        return mockArtworks.filter(art => art.cityId);
-      default:
-        return mockArtworks;
-    }
   }, [activeCategory]);
 
   return (
