@@ -154,8 +154,9 @@ const mockArtworks = [
   {
     id: 16,
     title: "阿姆斯特丹运河",
+    description: "荷兰的水上城市",
     imageUrl: "/images/city-09.jpg",
-    likes: 89,
+    likes: 700,
     isPremium: true,
     themeId: "city",
     cityId: "amsterdam"
