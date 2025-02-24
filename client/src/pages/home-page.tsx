@@ -4,12 +4,44 @@ import WorksList from "@/components/works-list";
 import { useLocation } from 'wouter'
 import { CategoryNav } from '@/components/category-nav'
 
-// Mock data including new city artwork
+// Mock data including artworks and city photos
 const mockArtworks = [
+  // 艺术作品
   {
     id: 1,
-    title: "威尼斯圣马可广场",
-    description: "威尼斯最著名的地标",
+    title: "静谧时光",
+    description: "油画艺术展现的宁静午后",
+    imageUrl: "/src/assets/design/img/works-01.jpg",
+    likes: 1200,
+    isPremium: true,
+    themeId: "art",
+    artType: "painting"
+  },
+  {
+    id: 2,
+    title: "色彩交响",
+    description: "现代艺术的色彩表达",
+    imageUrl: "/src/assets/design/img/works-02.jpg",
+    likes: 980,
+    isPremium: false,
+    themeId: "art",
+    artType: "modern"
+  },
+  {
+    id: 3,
+    title: "光影之舞",
+    description: "光与影的艺术演绎",
+    imageUrl: "/src/assets/design/img/works-03.jpg",
+    likes: 850,
+    isPremium: true,
+    themeId: "art",
+    artType: "photography"
+  },
+  // 城市风光
+  {
+    id: 4,
+    title: "威尼斯印象",
+    description: "水城威尼斯的魅力时刻",
     imageUrl: "/src/assets/design/img/city-01.jpg",
     likes: 1000,
     isPremium: false,
@@ -74,6 +106,47 @@ const mockArtworks = [
     imageUrl: "/src/assets/design/img/city-07.jpg", // Replace with actual image path
     likes: 1100,
     isPremium: true,
+    themeId: "art",
+    artType: "sculpture"
+  },
+  {
+    id: 5,
+    title: "水墨东方",
+    description: "传统东方艺术的现代诠释",
+    imageUrl: "/src/assets/design/img/works-04.jpg",
+    likes: 920,
+    isPremium: true,
+    themeId: "art",
+    artType: "traditional"
+  },
+  {
+    id: 6,
+    title: "抽象空间",
+    description: "抽象艺术的空间构造",
+    imageUrl: "/src/assets/design/img/works-05.jpg",
+    likes: 760,
+    isPremium: false,
+    themeId: "art",
+    artType: "abstract"
+  },
+  // 更多城市风光
+  {
+    id: 7,
+    title: "巴黎印象",
+    description: "铁塔下的浪漫时光",
+    imageUrl: "/src/assets/design/img/city-02.jpg",
+    likes: 1100,
+    isPremium: true,
+    themeId: "city",
+    cityId: "paris"
+  },
+  {
+    id: 8,
+    title: "东京夜景",
+    description: "繁华都市的璀璨夜色",
+    imageUrl: "/src/assets/design/img/city-03.jpg",
+    likes: 950,
+    isPremium: false,
     themeId: "city",
     cityId: "tokyo"
   }
