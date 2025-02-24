@@ -9,71 +9,89 @@ const mockArtworks = [
   // 艺术作品
   {
     id: 1,
-    title: "抽象艺术系列一号",
-    description: "现代抽象艺术",
-    imageUrl: "/images/works-01.png",
+    title: "抽象艺术作品",
+    description: "现代艺术的探索",
+    imageUrl: "/images/works-01.png", 
     likes: 1000,
-    isPremium: false,
-    themeId: "artwork"
+    isPremium: true,
+    themeId: "works"
   },
   {
-    id: 2,
-    title: "几何构图系列",
-    description: "现代几何艺术",
+    id: 2, 
+    title: "彩色构图",
+    description: "色彩的交响",
     imageUrl: "/images/works-02.png",
-    likes: 850,
-    isPremium: true,
-    themeId: "artwork"
+    likes: 800,
+    isPremium: false,
+    themeId: "works"
   },
+  // 城市照片
   {
     id: 3,
-    title: "色彩研究",
-    description: "色彩艺术探索",
-    imageUrl: "/images/works-03.png",
-    likes: 920,
-    isPremium: false,
-    themeId: "artwork"
-  },
-  {
-    id: 4,
-    title: "空间构成",
-    description: "空间艺术设计",
-    imageUrl: "/images/works-04.png",
-    likes: 880,
-    isPremium: true,
-    themeId: "artwork"
-  },
-  {
-    id: 5,
-    title: "光影交错",
-    description: "光影艺术创作",
-    imageUrl: "/images/works-05.png",
-    likes: 760,
-    isPremium: false,
-    themeId: "artwork"
-  },
-  {
-    id: 6,
-    title: "动态平衡",
-    description: "平衡艺术研究",
-    imageUrl: "/images/works-06.png",
-    likes: 890,
-    isPremium: true,
-    themeId: "artwork"
-  },
-  // 城市景观
-  {
-    id: 7,
     title: "威尼斯圣马可广场",
-    description: "威尼斯地标建筑",
+    description: "欧洲最美丽的客厅",
     imageUrl: "/images/city-01.jpg",
-    likes: 780,
+    likes: 1200,
     isPremium: true,
     themeId: "city",
     cityId: "venice"
   },
   {
+    id: 4,
+    title: "抽象艺术系列一号",
+    description: "现代抽象艺术",
+    imageUrl: "/images/works-03.png",
+    likes: 1000,
+    isPremium: false,
+    themeId: "artwork"
+  },
+  {
+    id: 5,
+    title: "几何构图系列",
+    description: "现代几何艺术",
+    imageUrl: "/images/works-04.png",
+    likes: 850,
+    isPremium: true,
+    themeId: "artwork"
+  },
+  {
+    id: 6,
+    title: "色彩研究",
+    description: "色彩艺术探索",
+    imageUrl: "/images/works-05.png",
+    likes: 920,
+    isPremium: false,
+    themeId: "artwork"
+  },
+  {
+    id: 7,
+    title: "空间构成",
+    description: "空间艺术设计",
+    imageUrl: "/images/works-06.png",
+    likes: 880,
+    isPremium: true,
+    themeId: "artwork"
+  },
+  {
     id: 8,
+    title: "光影交错",
+    description: "光影艺术创作",
+    imageUrl: "/images/works-07.png",
+    likes: 760,
+    isPremium: false,
+    themeId: "artwork"
+  },
+  {
+    id: 9,
+    title: "动态平衡",
+    description: "平衡艺术研究",
+    imageUrl: "/images/works-08.png",
+    likes: 890,
+    isPremium: true,
+    themeId: "artwork"
+  },
+  {
+    id: 10,
     title: "梵蒂冈圣彼得大教堂",
     description: "天主教的中心",
     imageUrl: "/images/city-02.jpg",
@@ -83,7 +101,7 @@ const mockArtworks = [
     cityId: "vatican"
   },
   {
-    id: 9,
+    id: 11,
     title: "巴黎铁塔",
     description: "浪漫之都的象征",
     imageUrl: "/images/city-03.jpg",
@@ -93,7 +111,7 @@ const mockArtworks = [
     cityId: "paris"
   },
   {
-    id: 10,
+    id: 12,
     title: "罗马斗兽场",
     description: "古罗马文明的见证",
     imageUrl: "/images/city-04.jpg",
@@ -103,7 +121,7 @@ const mockArtworks = [
     cityId: "rome"
   },
   {
-    id: 11,
+    id: 13,
     title: "劳特布鲁嫩峡谷",
     description: "瑞士阿尔卑斯山的明珠",
     imageUrl: "/images/city-05.jpg",
@@ -114,7 +132,7 @@ const mockArtworks = [
   },
   // Add more city images here...  (Assume more images exist in /src/assets/design/img/)
   {
-    id: 12,
+    id: 14,
     title: "纽约时代广场",
     description: "繁华都市的中心",
     imageUrl: "/images/city-06.jpg", 
@@ -124,7 +142,7 @@ const mockArtworks = [
     cityId: "newyork"
   },
   {
-    id: 13,
+    id: 15,
     title: "东京涩谷十字路口",
     description: "世界著名的十字路口",
     imageUrl: "/images/city-07.jpg", 
@@ -134,7 +152,7 @@ const mockArtworks = [
     cityId: "tokyo"
   },
   {
-    id: 14,
+    id: 16,
     title: "阿姆斯特丹运河",
     imageUrl: "/images/city-09.jpg",
     likes: 89,
