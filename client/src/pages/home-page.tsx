@@ -73,9 +73,18 @@ const mockArtworks = [
     description: "世界著名的十字路口",
     imageUrl: "/src/assets/design/img/city-07.jpg", // Replace with actual image path
     likes: 1100,
-    isPremium: true,
+    isPremiupremium: true,
     themeId: "city",
     cityId: "tokyo"
+  },
+  {
+    id: 30,
+    title: "阿姆斯特丹运河",
+    imageUrl: "/images/city-09.jpg",
+    likes: 89,
+    premium: true,
+    themeId: "city",
+    cityId: "amsterdam"
   }
 ];
 
