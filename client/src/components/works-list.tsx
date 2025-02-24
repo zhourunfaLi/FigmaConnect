@@ -113,7 +113,7 @@ function ArtworkItem({
         {isVisible && (
           <>
             <img
-              src={artwork.imageUrl}
+              src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
