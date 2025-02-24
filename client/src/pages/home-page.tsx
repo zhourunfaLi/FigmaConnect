@@ -1,154 +1,85 @@
-import { useState, useMemo } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import WorksList from "@/components/works-list";
-import { useLocation } from 'wouter'
-import { CategoryNav } from '@/components/category-nav'
+import { useMemo, useState } from "react";
+import { useLocation } from "wouter";
+import { CategoryList } from "@/components/category-list";
+import { WorksList } from "@/components/works-list";
 
-// Mock data including artworks and city photos
 const mockArtworks = [
-  // 艺术作品
   {
     id: 1,
     title: "静谧时光",
     description: "油画艺术展现的宁静午后",
-    imageUrl: "/public/images/works-01.png",
+    imageUrl: "/images/works-01.png",
     likes: 1200,
     isPremium: true,
-    themeId: "art",
-    artType: "painting"
+    themeId: "art"
   },
   {
     id: 2,
-    title: "色彩交响",
-    description: "现代艺术的色彩表达",
-    imageUrl: "/public/assets/design/img/works-02.png",
-    likes: 980,
+    title: "城市记忆",
+    description: "巴黎城市景观油画",
+    imageUrl: "/images/works-02.png",
+    likes: 800,
     isPremium: false,
-    themeId: "art",
-    artType: "modern"
+    themeId: "city",
+    cityId: "paris"
   },
   {
     id: 3,
-    title: "光影之舞",
-    description: "光与影的艺术演绎",
-    imageUrl: "/public/assets/design/img/works-03.png",
-    likes: 850,
+    title: "自然之美",
+    description: "瑞士阿尔卑斯山风光",
+    imageUrl: "/images/works-03.png",
+    likes: 1500,
     isPremium: true,
-    themeId: "art",
-    artType: "photography"
+    themeId: "art"
   },
-  // 城市风光
   {
     id: 4,
     title: "威尼斯印象",
     description: "水城威尼斯的魅力时刻",
-    imageUrl: "/public/images/city-01.jpg",
+    imageUrl: "/images/city-01.jpg",
     likes: 1000,
     isPremium: false,
     themeId: "city",
     cityId: "venice"
   },
   {
-    id: 2,
-    title: "梵蒂冈圣彼得大教堂",
-    description: "天主教的中心",
-    imageUrl: "/public/assets/design/img/city-02.jpg",
-    likes: 800,
-    isPremium: true,
-    themeId: "city",
-    cityId: "vatican"
-  },
-  {
-    id: 3,
-    title: "巴黎铁塔",
-    description: "浪漫之都的象征",
-    imageUrl: "/public/assets/design/img/city-03.jpg",
-    likes: 1200,
-    isPremium: true,
-    themeId: "city",
-    cityId: "paris"
-  },
-  {
-    id: 4,
-    title: "罗马斗兽场",
-    description: "古罗马文明的见证",
-    imageUrl: "/public/assets/design/img/city-04.jpg",
-    likes: 950,
+    id: 5,
+    title: "罗马假日",
+    description: "永恒之城的艺术气息",
+    imageUrl: "/images/city-02.jpg",
+    likes: 900,
     isPremium: false,
     themeId: "city",
     cityId: "rome"
   },
   {
-    id: 5,
-    title: "劳特布鲁嫩峡谷",
-    description: "瑞士阿尔卑斯山的明珠",
-    imageUrl: "/public/assets/design/img/city-05.jpg",
-    likes: 750,
+    id: 6,
+    title: "现代艺术",
+    description: "抽象派艺术作品",
+    imageUrl: "/images/works-04.png",
+    likes: 700,
     isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 7,
+    title: "劳特布莱嫩",
+    description: "瑞士小镇的宁静时光",
+    imageUrl: "/images/city-05.jpg",
+    likes: 850,
+    isPremium: false,
     themeId: "city",
     cityId: "lauterbrunnen"
   },
-  // Add more city images here...  (Assume more images exist in /src/assets/design/img/)
-  {
-    id: 6,
-    title: "纽约时代广场",
-    description: "繁华都市的中心",
-    imageUrl: "/public/assets/design/img/city-06.jpg", // Replace with actual image path
-    likes: 1500,
-    isPremium: false,
-    themeId: "city",
-    cityId: "newyork"
-  },
-  {
-    id: 7,
-    title: "东京涩谷十字路口",
-    description: "世界著名的十字路口",
-    imageUrl: "/public/assets/design/img/city-07.jpg", // Replace with actual image path
-    likes: 1100,
-    isPremium: true,
-    themeId: "art",
-    artType: "sculpture"
-  },
-  {
-    id: 5,
-    title: "水墨东方",
-    description: "传统东方艺术的现代诠释",
-    imageUrl: "/public/assets/design/img/works-04.png",
-    likes: 920,
-    isPremium: true,
-    themeId: "art",
-    artType: "traditional"
-  },
-  {
-    id: 6,
-    title: "抽象空间",
-    description: "抽象艺术的空间构造",
-    imageUrl: "/public/assets/design/img/works-05.png",
-    likes: 760,
-    isPremium: false,
-    themeId: "art",
-    artType: "abstract"
-  },
-  // 更多城市风光
-  {
-    id: 7,
-    title: "巴黎印象",
-    description: "铁塔下的浪漫时光",
-    imageUrl: "/public/assets/design/img/city-02.jpg",
-    likes: 1100,
-    isPremium: true,
-    themeId: "city",
-    cityId: "paris"
-  },
   {
     id: 8,
-    title: "东京夜景",
-    description: "繁华都市的璀璨夜色",
-    imageUrl: "/public/assets/design/img/city-03.jpg",
-    likes: 950,
+    title: "阿姆斯特丹印象",
+    description: "荷兰水城的独特魅力",
+    imageUrl: "/images/city-03.jpg",
+    likes: 920,
     isPremium: false,
     themeId: "city",
-    cityId: "tokyo"
+    cityId: "amsterdam"
   }
 ];
 
@@ -163,15 +94,15 @@ type Category = {
 };
 
 const CATEGORIES: Category[] = [
-  { id: "latest", name: "最新", color: "#333333", layout: "waterfall" },
-  { id: "hottest", name: "最热", color: "#333333", layout: "waterfall" },
-  { id: "special", name: "专题", color: "#333333", layout: "grid" },
-  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" },
-  { id: "city", name: "城市", color: "#333333", layout: "grid" }
+  { id: "latest", name: "最新", color: "#333333", icon: "sparkles", layout: "waterfall" },
+  { id: "hottest", name: "最热", color: "#333333", icon: "flame", layout: "waterfall" },
+  { id: "special", name: "专题", color: "#333333", icon: "star", layout: "grid" },
+  { id: "member", name: "会员", color: "#EB9800", icon: "crown", layout: "waterfall" },
+  { id: "city", name: "城市", color: "#333333", icon: "buildings", layout: "grid" }
 ];
 
 export default function HomePage() {
-  const [location] = useLocation()
+  const [location] = useLocation();
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
   const filteredArtworks = useMemo(() => {
@@ -179,46 +110,28 @@ export default function HomePage() {
       case "latest":
         return [...mockArtworks].sort((a, b) => b.id - a.id);
       case "hottest":
-        return [...mockArtworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
-      case "earliest":
-        return [...mockArtworks].sort((a, b) => a.id - b.id);
+        return [...mockArtworks].sort((a, b) => b.likes - a.likes);
       case "special":
-        return mockArtworks.filter(art => art.themeId);
+        return mockArtworks.filter(artwork => artwork.themeId === "art");
       case "member":
-        return mockArtworks.filter(art => art.isPremium);
+        return mockArtworks.filter(artwork => artwork.isPremium);
       case "city":
-        return mockArtworks.filter(art => art.cityId);
+        return mockArtworks.filter(artwork => artwork.themeId === "city");
       default:
         return mockArtworks;
     }
   }, [activeCategory]);
 
-  return (
-    <div className="min-h-screen bg-[#EEEAE2]">
-      {/* Category Navigation */}
-      <div className="sticky top-0 bg-[#EEEAE2] z-10 flex justify-center">
-        <ScrollArea className="w-full max-w-screen-md">
-          <div className="flex items-center justify-center gap-3 px-4 py-2">
-            {CATEGORIES.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                style={{ color: category.color }}
-                className={`text-sm sm:text-base font-normal transition-colors px-4 py-1.5 whitespace-nowrap rounded-full ${
-                  activeCategory === category.id ? 'bg-blue-500 text-white' : ''
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </ScrollArea>
-      </div>
+  const activeLayout = CATEGORIES.find(cat => cat.id === activeCategory)?.layout || "waterfall";
 
-      {/* Artwork Grid */}
-      <div className="pt-4">
-        <WorksList artworks={filteredArtworks} />
-      </div>
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <CategoryList
+        categories={CATEGORIES}
+        activeCategory={activeCategory}
+        onCategoryChange={setActiveCategory}
+      />
+      <WorksList artworks={filteredArtworks} layout={activeLayout} />
     </div>
   );
 }
