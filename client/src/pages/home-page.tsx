@@ -94,7 +94,7 @@ const mockArtworks = [
     id: 10,
     title: "梵蒂冈圣彼得大教堂",
     description: "天主教的中心",
-    imageUrl: "/src/assets/design/img/city-02.jpg",
+    imageUrl: "/images/city-02.jpg",
     likes: 800,
     isPremium: true,
     themeId: "city",
