@@ -6,11 +6,11 @@ import { CategoryNav } from '@/components/category-nav'
 
 // Mock data including new city artwork
 const mockArtworks = [
-  // 艺术作品组1
+  // 艺术作品组
   {
     id: 1,
-    title: "星空下的舞者",
-    description: "现代艺术展现舞蹈之美",
+    title: "抽象光影",
+    description: "现代艺术的光影交织",
     imageUrl: "/src/assets/design/img/art-01.jpg",
     likes: 1200,
     isPremium: true,
@@ -18,8 +18,8 @@ const mockArtworks = [
   },
   {
     id: 2,
-    title: "色彩的交响",
-    description: "抽象艺术的视觉盛宴",
+    title: "自然韵律",
+    description: "大自然的艺术演绎",
     imageUrl: "/src/assets/design/img/art-02.jpg",
     likes: 800,
     isPremium: false,
@@ -27,16 +27,43 @@ const mockArtworks = [
   },
   {
     id: 3,
-    title: "自然之声",
-    description: "水彩画展现大自然之美",
+    title: "色彩交响",
+    description: "抽象艺术的视觉盛宴",
     imageUrl: "/src/assets/design/img/art-03.jpg",
     likes: 600,
     isPremium: true,
     themeId: "art"
   },
-  // 城市作品1
   {
     id: 4,
+    title: "时空之门",
+    description: "现代艺术装置作品",
+    imageUrl: "/src/assets/design/img/art-04.jpg",
+    likes: 950,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 5,
+    title: "海洋之心",
+    description: "海洋主题抽象画作",
+    imageUrl: "/src/assets/design/img/art-05.jpg",
+    likes: 850,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 6,
+    title: "光影旋律",
+    description: "光与影的艺术对话",
+    imageUrl: "/src/assets/design/img/art-06.jpg",
+    likes: 750,
+    isPremium: true,
+    themeId: "art"
+  },
+  // 城市作品
+  {
+    id: 7,
     title: "威尼斯圣马可广场",
     description: "威尼斯最著名的地标",
     imageUrl: "/src/assets/design/img/city-01.jpg",
@@ -45,35 +72,6 @@ const mockArtworks = [
     themeId: "city",
     cityId: "venice"
   },
-  // 艺术作品组2
-  {
-    id: 5,
-    title: "光影交织",
-    description: "光与影的艺术对话",
-    imageUrl: "/src/assets/design/img/art-04.jpg",
-    likes: 950,
-    isPremium: true,
-    themeId: "art"
-  },
-  {
-    id: 6,
-    title: "时空之门",
-    description: "现代艺术装置作品",
-    imageUrl: "/src/assets/design/img/art-05.jpg",
-    likes: 850,
-    isPremium: false,
-    themeId: "art"
-  },
-  {
-    id: 7,
-    title: "海洋之心",
-    description: "海洋主题抽象画作",
-    imageUrl: "/src/assets/design/img/art-06.jpg",
-    likes: 750,
-    isPremium: true,
-    themeId: "art"
-  },
-  // 城市作品2
   {
     id: 8,
     title: "巴黎铁塔",
