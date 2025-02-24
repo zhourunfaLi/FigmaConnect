@@ -84,6 +84,8 @@ const mockArtworks = [
     themeId: "city",
     cityId: "paris"
   },
+  {
+    id: 9,
     title: "纽约时代广场",
     description: "繁华都市的中心",
     imageUrl: "/src/assets/design/img/city-06.jpg",
