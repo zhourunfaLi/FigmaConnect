@@ -4,7 +4,7 @@ import WorksList from "@/components/works-list";
 import { useLocation } from 'wouter'
 import { CategoryNav } from '@/components/category-nav'
 
-// Mock data
+// Mock data including new city artwork
 const mockArtworks = [
   {
     id: 1,
@@ -55,6 +55,27 @@ const mockArtworks = [
     isPremium: true,
     themeId: "city",
     cityId: "lauterbrunnen"
+  },
+  // Add more city images here...  (Assume more images exist in /src/assets/design/img/)
+  {
+    id: 6,
+    title: "纽约时代广场",
+    description: "繁华都市的中心",
+    imageUrl: "/src/assets/design/img/city-06.jpg", // Replace with actual image path
+    likes: 1500,
+    isPremium: false,
+    themeId: "city",
+    cityId: "newyork"
+  },
+  {
+    id: 7,
+    title: "东京涩谷十字路口",
+    description: "世界著名的十字路口",
+    imageUrl: "/src/assets/design/img/city-07.jpg", // Replace with actual image path
+    likes: 1100,
+    isPremium: true,
+    themeId: "city",
+    cityId: "tokyo"
   }
 ];
 
