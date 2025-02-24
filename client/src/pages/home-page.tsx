@@ -10,7 +10,7 @@ const mockArtworks = [
     id: 1,
     title: "威尼斯圣马可广场",
     description: "威尼斯最著名的地标",
-    imageUrl: "/src/assets/design/img/city-01.jpg",
+    imageUrl: "/images/city-01.jpg",
     likes: 1000,
     isPremium: false,
     themeId: "city",
