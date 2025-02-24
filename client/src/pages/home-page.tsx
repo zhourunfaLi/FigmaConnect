@@ -143,10 +143,10 @@ const mockArtworks = [
   },
   {
     id: 15,
-    title: "东京涩谷十字路口",
-    description: "世界著名的十字路口",
-    imageUrl: "/images/city-07.jpg", 
-    likes: 1100,
+    title: "东京塔",
+    description: "日本现代化的象征",
+    imageUrl: "/images/city-08.jpg",
+    likes: 850,
     isPremium: true,
     themeId: "city",
     cityId: "tokyo"
