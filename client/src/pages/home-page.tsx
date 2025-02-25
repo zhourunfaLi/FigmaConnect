@@ -90,7 +90,14 @@ export default function HomePage() {
 
       {/* Artwork Grid */}
       <div className="pt-4">
-        <WorksList artworks={filteredArtworks} />
+        {(activeCategory === "special" || activeCategory === "city") ? (
+          <GridList 
+            artworks={filteredArtworks}
+            title={activeCategory === "special" ? "专题作品" : "城市风光"} 
+          />
+        ) : (
+          <WorksList artworks={filteredArtworks} />
+        )}
       </div>
     </div>
   );
