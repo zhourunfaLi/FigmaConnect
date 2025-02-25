@@ -19,7 +19,9 @@ export default function GridList({ artworks, className, title }: GridListProps) 
           <div key={artwork.id} className="space-y-2">
             <div className="aspect-square overflow-hidden rounded-xl">
               <img
-                src={artwork.imageUrl}
+                src={artwork.themeId === "art" 
+                  ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
+                  : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={artwork.title}
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
