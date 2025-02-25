@@ -114,7 +114,7 @@ function ArtworkItem({
           <>
             <img
               src={artwork.themeId === "art" 
-                ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
+                ? new URL(`../assets/design/img/art-${String(Math.floor(artwork.id / 4) % 10 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
                 : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
               className={cn(
