@@ -282,44 +282,14 @@ export default function HomePage() {
       cityId: "paris"
     },
     {
-      id: 22,
-      title: "罗马斗兽场",
-      description: "古罗马文明的见证",
-      imageUrl: "/src/assets/design/img/city-02.jpg",
+      id: 30,
+      title: "布达佩斯",
+      description: "多瑙河上的明珠",
+      imageUrl: "/src/assets/design/img/city-10.jpg",
       likes: 980,
       isPremium: false,
       themeId: "city",
-      cityId: "rome"
-    },
-    {
-      id: 23,
-      title: "悉尼歌剧院",
-      description: "现代建筑艺术的杰作",
-      imageUrl: "/src/assets/design/img/city-03.jpg",
-      likes: 1200,
-      isPremium: true,
-      themeId: "city",
-      cityId: "sydney"
-    },
-    {
-      id: 24,
-      title: "泰姬陵",
-      description: "永恒的爱情象征",
-      imageUrl: "/src/assets/design/img/city-04.jpg",
-      likes: 1500,
-      isPremium: false,
-      themeId: "city",
-      cityId: "agra"
-    },
-    {
-      id: 25,
-      title: "布拉格广场",
-      description: "中世纪欧洲的魅力",
-      imageUrl: "/src/assets/design/img/city-05.jpg",
-      likes: 890,
-      isPremium: true,
-      themeId: "city",
-      cityId: "prague"
+      cityId: "budapest"
     },
     {
       id: 26,
