@@ -201,17 +201,21 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   // Transform artwork data for display
-  const displayArtworks = artworks.map((baseArtwork, index) => {
+  const artCount = 30; // 总作品数量
+  const cityInterval = 4; // 每隔多少个作品出现一个城市作品
+  
+  const displayArtworks = Array.from({ length: artCount }, (_, index) => {
     const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
-    // Every 4th item (index % 4 === 3) should be a city artwork
-    const shouldBeCityArtwork = index % 4 === 3;
-    const artwork = shouldBeCityArtwork
-      ? {...baseArtwork, themeId: "city"}
-      : {...baseArtwork, themeId: "art"};
+    // 每4个作品中的最后一个是城市作品
+    const shouldBeCityArtwork = index % cityInterval === (cityInterval - 1);
     
     return {
-      ...artwork,
       id: index + 1,
+      title: shouldBeCityArtwork ? `城市视角 ${Math.floor(index/cityInterval) + 1}` : `艺术作品 ${index + 1}`,
+      description: shouldBeCityArtwork ? "城市景观摄影" : "现代艺术创作",
+      themeId: shouldBeCityArtwork ? "city" : "art",
+      likes: Math.floor(Math.random() * 1000),
+      isPremium: Math.random() > 0.7,
       aspectRatio: ratios[index % ratios.length],
       isWide: false
     };
