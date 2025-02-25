@@ -5,77 +5,25 @@ import { useLocation } from 'wouter'
 import { CategoryNav } from '@/components/category-nav'
 
 // Mock data including new city artwork
-const mockArtworks = [
-  // 城市作品
-  {
-    id: 1,
-    title: "威尼斯圣马可广场",
-    description: "威尼斯最著名的地标",
-    imageUrl: "/src/assets/design/img/city-01.jpg",
-    likes: 1000,
-    isPremium: false,
-    themeId: "city",
-    cityId: "venice"
-  },
-  // 艺术作品
-  {
-    id: 2,
-    title: "星空下的舞者",
-    description: "现代艺术展现舞蹈之美",
-    imageUrl: "/src/assets/design/img/art-01.jpg",
-    likes: 1200,
-    isPremium: true,
-    themeId: "art"
-  },
-  {
-    id: 3,
-    title: "巴黎铁塔",
-    description: "浪漫之都的象征",
-    imageUrl: "/src/assets/design/img/city-03.jpg",
-    likes: 1200,
-    isPremium: true,
-    themeId: "city",
-    cityId: "paris"
-  },
-  {
-    id: 4,
-    title: "色彩的交响",
-    description: "抽象艺术的视觉盛宴",
-    imageUrl: "/src/assets/design/img/art-02.jpg",
-    likes: 800,
-    isPremium: false,
-    themeId: "art"
-  },
-  {
-    id: 5,
-    title: "罗马斗兽场",
-    description: "古罗马文明的见证",
-    imageUrl: "/src/assets/design/img/city-04.jpg",
-    likes: 950,
-    isPremium: false,
-    themeId: "city",
-    cityId: "rome"
-  },
-  {
-    id: 6,
-    title: "自然之声",
-    description: "水彩画展现大自然之美",
-    imageUrl: "/src/assets/design/img/art-03.jpg",
-    likes: 600,
-    isPremium: true,
-    themeId: "art"
-  },
-  {
-    id: 7,
-    title: "纽约时代广场",
-    description: "繁华都市的中心",
-    imageUrl: "/src/assets/design/img/city-06.jpg",
-    likes: 1500,
-    isPremium: false,
-    themeId: "city",
-    cityId: "newyork"
-  }
-];
+const mockArtworks = Array.from({ length: 30 }, (_, index) => {
+  // 每5个作品中只有1个是城市作品
+  const isCity = index % 5 === 0;
+  const cityIndex = Math.floor(index / 5); // 确保城市图片按顺序使用
+  const artIndex = index - Math.floor(index / 5); // 艺术作品索引
+
+  return {
+    id: index + 1,
+    title: isCity ? `城市风光 ${cityIndex + 1}` : `艺术作品 ${artIndex + 1}`,
+    description: isCity ? "城市建筑与人文景观" : "现代艺术创作",
+    imageUrl: isCity 
+      ? `/src/assets/design/img/city-${String((cityIndex % 7) + 1).padStart(2, '0')}.jpg`
+      : `/src/assets/design/img/art-${String((artIndex % 30) + 1).padStart(2, '0')}.jpg`,
+    likes: Math.floor(Math.random() * 2000),
+    isPremium: Math.random() > 0.7,
+    themeId: isCity ? "city" : "art",
+    ...(isCity && { cityId: ["venice", "paris", "rome", "newyork", "tokyo"][cityIndex % 5] })
+  };
+});
 
 type LayoutType = 'waterfall' | 'grid';
 
