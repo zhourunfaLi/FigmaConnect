@@ -114,8 +114,8 @@ function ArtworkItem({
           <>
             <img
               src={artwork.themeId === "art" 
-                ? new URL(`../assets/design/img/art-${String(artwork.id).padStart(2, '0')}.jpg`, import.meta.url).href
-                : new URL(`../assets/design/img/city-${String(artwork.id).padStart(2, '0')}.jpg`, import.meta.url).href}
+                ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
+                : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
@@ -218,22 +218,24 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
   
   const displayArtworks = [
-    ...artIds.map(id => ({
+    ...artIds.map((id, index) => ({
       ...artworks[0],
-      id: `art-${id}`,
+      id: `art-${id}-${index}`,
+      imageId: id,
       title: `艺术作品 ${id}`,
       description: "现代艺术创作",
       themeId: "art", 
-      aspectRatio: aspectRatios[Math.floor(Math.random() * aspectRatios.length)],
+      aspectRatio: aspectRatios[id % aspectRatios.length],
       isWide: false
     })),
-    ...cityIds.map(id => ({
+    ...cityIds.map((id, index) => ({
       ...artworks[0],
-      id: `city-${id}`,
+      id: `city-${id}-${index}`,
+      imageId: id,
       title: `城市风光 ${id}`,
       description: "城市建筑与人文景观",
       themeId: "city",
-      aspectRatio: aspectRatios[Math.floor(Math.random() * aspectRatios.length)],
+      aspectRatio: aspectRatios[id % aspectRatios.length],
       isWide: false
     }))
   ].sort(() => Math.random() - 0.5);
