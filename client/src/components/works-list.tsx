@@ -114,8 +114,8 @@ function ArtworkItem({
           <>
             <img
               src={artwork.themeId === "art" 
-                ? `/src/assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`
-                : `/src/assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`}
+                ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
+                : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
