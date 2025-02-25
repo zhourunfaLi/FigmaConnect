@@ -57,7 +57,24 @@ export default function HomePage() {
       case "earliest":
         return [...mockArtworks].sort((a, b) => a.id - b.id);
       case "special":
-        return mockArtworks.filter(art => art.themeId);
+        const themes = [
+          {
+            id: "louvre",
+            title: "卢浮宫系列传世作品",
+            artworks: mockArtworks.slice(0, 6).map(art => ({...art, themeId: "louvre"}))
+          },
+          {
+            id: "davinci",
+            title: "达芬奇真迹系列",
+            artworks: mockArtworks.slice(6, 14).map(art => ({...art, themeId: "davinci"}))
+          },
+          {
+            id: "chinese",
+            title: "中国十大传世名画",
+            artworks: mockArtworks.slice(14, 24).map(art => ({...art, themeId: "chinese"}))
+          }
+        ];
+        return themes;
       case "member":
         return mockArtworks.filter(art => art.isPremium);
       case "city":
