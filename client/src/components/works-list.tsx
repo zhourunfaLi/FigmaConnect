@@ -203,9 +203,9 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
     const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
-    // Every 5th item (index % 5 === 4) should be a city artwork
+    // Every 4th item (index % 4 === 3) should be a city artwork
     const baseArtwork = artworks[index % artworks.length];
-    const shouldBeCityArtwork = index % 5 === 4;
+    const shouldBeCityArtwork = index % 4 === 3;
     const artwork = shouldBeCityArtwork
       ? {...baseArtwork, themeId: "city"}
       : {...baseArtwork, themeId: "art"};
