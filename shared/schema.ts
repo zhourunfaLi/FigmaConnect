@@ -16,7 +16,10 @@ export const artworks = pgTable("artworks", {
   imageUrl: text("image_url").notNull(),
   videoUrl: text("video_url"),
   isPremium: boolean("is_premium").default(false).notNull(),
-  hideTitle: boolean("hide_title").default(false).notNull(), // 新增字段控制标题显示
+  hideTitle: boolean("hide_title").default(false).notNull(),
+  displayOrder: integer("display_order"),  // 控制显示顺序
+  columnPosition: integer("column_position"), // 控制在第几列显示(1-4)
+  aspectRatio: text("aspect_ratio"), // 控制显示宽高比
 });
 
 export const comments = pgTable("comments", {
