@@ -292,7 +292,7 @@ export default function HomePage() {
       cityId: "budapest"
     },
     {
-      id: 26,
+      id: 31,
       title: "长城",
       description: "人类文明的壮举",
       imageUrl: "/src/assets/design/img/city-06.jpg",
@@ -302,12 +302,15 @@ export default function HomePage() {
       cityId: "beijing"
     },
     {
-      id: 27,
+      id: 32,
       title: "圣托里尼",
       description: "爱琴海的明珠",
       imageUrl: "/src/assets/design/img/city-07.jpg",
       likes: 1600,
       isPremium: true,
+      themeId: "city",
+      cityId: "santorini"
+    }um: true,
       themeId: "city",
       cityId: "santorini"
     },
