@@ -210,8 +210,12 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       };
     });
 
+  //Filter out duplicate artwork IDs
+  const uniqueArtworks = [...new Map(displayArtworks.map(item => [item.id, item])).values()];
+
+
   // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.map((artwork, index) => (
+  const contentWithAds = uniqueArtworks.map((artwork, index) => (
     <ArtworkItem 
       key={artwork.id}
       artwork={artwork}
