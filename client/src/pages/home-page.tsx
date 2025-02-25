@@ -189,10 +189,105 @@ const mockArtworks = [
   },
   // 城市作品组
   {
-    id: 21,on: "现代都市的艺术解读",
-    imageUrl: "/src/assets/design/img/art-08.jpg",
-    likes: 880,
+    id: 21,
+    title: "巴黎圣母院",
+    description: "哥特式建筑的典范",
+    imageUrl: "/src/assets/design/img/city-01.jpg",
+    likes: 1100,
+    isPremium: true,
+    themeId: "city",
+    cityId: "paris"
+  },
+  {
+    id: 22,
+    title: "罗马斗兽场",
+    description: "古罗马文明的见证",
+    imageUrl: "/src/assets/design/img/city-02.jpg",
+    likes: 980,
     isPremium: false,
+    themeId: "city",
+    cityId: "rome"
+  },
+  {
+    id: 23,
+    title: "悉尼歌剧院",
+    description: "现代建筑艺术的杰作",
+    imageUrl: "/src/assets/design/img/city-03.jpg",
+    likes: 1200,
+    isPremium: true,
+    themeId: "city",
+    cityId: "sydney"
+  },
+  {
+    id: 24,
+    title: "泰姬陵",
+    description: "永恒的爱情象征",
+    imageUrl: "/src/assets/design/img/city-04.jpg",
+    likes: 1500,
+    isPremium: false,
+    themeId: "city",
+    cityId: "agra"
+  },
+  {
+    id: 25,
+    title: "布拉格广场",
+    description: "中世纪欧洲的魅力",
+    imageUrl: "/src/assets/design/img/city-05.jpg",
+    likes: 890,
+    isPremium: true,
+    themeId: "city",
+    cityId: "prague"
+  },
+  {
+    id: 26,
+    title: "长城",
+    description: "人类文明的壮举",
+    imageUrl: "/src/assets/design/img/city-06.jpg",
+    likes: 2000,
+    isPremium: false,
+    themeId: "city",
+    cityId: "beijing"
+  },
+  {
+    id: 27,
+    title: "圣托里尼",
+    description: "爱琴海的明珠",
+    imageUrl: "/src/assets/design/img/city-07.jpg",
+    likes: 1600,
+    isPremium: true,
+    themeId: "city",
+    cityId: "santorini"
+  },
+  {
+    id: 28,
+    title: "上海外滩",
+    description: "东方明珠的风采",
+    imageUrl: "/src/assets/design/img/city-08.jpg",
+    likes: 1350,
+    isPremium: false,
+    themeId: "city",
+    cityId: "shanghai"
+  },
+  {
+    id: 29,
+    title: "莫斯科红场",
+    description: "俄罗斯的心脏",
+    imageUrl: "/src/assets/design/img/city-09.jpg",
+    likes: 1050,
+    isPremium: true,
+    themeId: "city",
+    cityId: "moscow"
+  },
+  {
+    id: 30,
+    title: "迪拜塔",
+    description: "沙漠中的奇迹",
+    imageUrl: "/src/assets/design/img/city-10.jpg",
+    likes: 1450,
+    isPremium: false,
+    themeId: "city",
+    cityId: "dubai"
+  }
     themeId: "art"
   },
   {
