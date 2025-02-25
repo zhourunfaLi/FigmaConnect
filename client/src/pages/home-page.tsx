@@ -78,7 +78,23 @@ export default function HomePage() {
       case "member":
         return mockArtworks.filter(art => art.isPremium);
       case "city":
-        return mockArtworks.filter(art => art.cityId);
+        return [
+          { id: 1, title: "威尼斯", cityId: "venice" },
+          { id: 2, title: "巴黎", cityId: "paris" },
+          { id: 3, title: "罗马", cityId: "rome" },
+          { id: 4, title: "佛罗伦萨", cityId: "florence" },
+          { id: 5, title: "维也纳", cityId: "vienna" },
+          { id: 6, title: "布拉格", cityId: "prague" },
+          { id: 7, title: "阿姆斯特丹", cityId: "amsterdam" },
+          { id: 8, title: "伦敦", cityId: "london" },
+          { id: 9, title: "巴塞罗那", cityId: "barcelona" },
+          { id: 10, title: "柏林", cityId: "berlin" },
+          { id: 11, title: "雅典", cityId: "athens" },
+          { id: 12, title: "米兰", cityId: "milan" },
+          { id: 13, title: "马德里", cityId: "madrid" },
+          { id: 14, title: "苏黎世", cityId: "zurich" },
+          { id: 15, title: "慕尼黑", cityId: "munich" }
+        ];
       default:
         return mockArtworks;
     }
