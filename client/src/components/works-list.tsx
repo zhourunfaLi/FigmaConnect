@@ -200,21 +200,14 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  // Transform artwork data for display
-  const displayArtworks = artworks.map((artwork, index) => {
-    const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
-    return {
-      ...artwork,
-      aspectRatio: ratios[index % ratios.length],
-      isWide: false
-    };
-  });
-
-  // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.map((artwork, index) => (
+  const contentWithAds = artworks.map((artwork, index) => (
     <ArtworkItem 
       key={artwork.id}
-      artwork={artwork}
+      artwork={{
+        ...artwork,
+        aspectRatio: 1, // 使用固定的1:1比例
+        isWide: false
+      }}
       isWide={false}
       wideHeight={wideHeight}
       index={index}
