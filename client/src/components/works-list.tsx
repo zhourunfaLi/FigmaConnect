@@ -214,23 +214,26 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const artIds = getUniqueRandoms(19, 19);
   const cityIds = getUniqueRandoms(20, 5);
 
+  // 定义一组不同的宽高比
+  const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
+  
   const displayArtworks = [
     ...artIds.map(id => ({
       ...artworks[0],
-      id,
+      id: `art-${id}`,
       title: `艺术作品 ${id}`,
       description: "现代艺术创作",
-      themeId: "art",
-      aspectRatio: 1,
+      themeId: "art", 
+      aspectRatio: aspectRatios[Math.floor(Math.random() * aspectRatios.length)],
       isWide: false
     })),
     ...cityIds.map(id => ({
       ...artworks[0],
-      id,
+      id: `city-${id}`,
       title: `城市风光 ${id}`,
       description: "城市建筑与人文景观",
       themeId: "city",
-      aspectRatio: 1,
+      aspectRatio: aspectRatios[Math.floor(Math.random() * aspectRatios.length)],
       isWide: false
     }))
   ].sort(() => Math.random() - 0.5);
