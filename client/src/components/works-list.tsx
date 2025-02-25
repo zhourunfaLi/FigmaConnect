@@ -114,7 +114,7 @@ function ArtworkItem({
           <>
             <img
               src={artwork.themeId === "art" 
-                ? new URL(`../assets/design/img/art-${String(Math.floor(artwork.id / 4) % 10 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
+                ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
                 : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
               className={cn(
@@ -200,14 +200,23 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  const contentWithAds = artworks.map((artwork, index) => (
+  // Transform artwork data for display
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
+    // 使用更多样化的宽高比来创造错落效果
+    const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
+    return {
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: ratios[index % ratios.length],
+      isWide: false
+    };
+  });
+
+  // Combine artworks with advertisements
+  const contentWithAds = displayArtworks.map((artwork, index) => (
     <ArtworkItem 
       key={artwork.id}
-      artwork={{
-        ...artwork,
-        aspectRatio: 1, // 使用固定的1:1比例
-        isWide: false
-      }}
+      artwork={artwork}
       isWide={false}
       wideHeight={wideHeight}
       index={index}
