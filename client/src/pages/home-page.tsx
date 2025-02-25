@@ -97,7 +97,6 @@ const mockArtworks = [
     isPremium: false,
     themeId: "art"
   },
-  // 城市作品组
   {
     id: 11,
     title: "威尼斯圣马可广场",
@@ -197,127 +196,6 @@ const mockArtworks = [
     isPremium: false,
     themeId: "city",
     cityId: "dubai"
-  },
-  // 更多城市作品
-  {
-    id: 21,
-    title: "阿姆斯特丹运河",
-    description: "水城的魅力",
-    imageUrl: "/src/assets/design/img/city-11.jpg",
-    likes: 980,
-    isPremium: true,
-    themeId: "city",
-    cityId: "amsterdam"
-  },
-  {
-    id: 22,
-    title: "京都金阁寺",
-    description: "日本传统之美",
-    imageUrl: "/src/assets/design/img/city-12.jpg",
-    likes: 890,
-    isPremium: false,
-    themeId: "city",
-    cityId: "kyoto"
-  },
-  {
-    id: 23,
-    title: "里约热内卢基督像",
-    description: "巴西的标志",
-    imageUrl: "/src/assets/design/img/city-13.jpg",
-    likes: 1200,
-    isPremium: true,
-    themeId: "city",
-    cityId: "rio"
-  },
-  {
-    id: 24,
-    title: "布拉格天文钟",
-    description: "中世纪的杰作",
-    imageUrl: "/src/assets/design/img/city-14.jpg",
-    likes: 950,
-    isPremium: false,
-    themeId: "city",
-    cityId: "prague"
-  },
-  {
-    id: 25,
-    title: "维也纳音乐厅",
-    description: "音乐之都的殿堂",
-    imageUrl: "/src/assets/design/img/city-15.jpg",
-    likes: 870,
-    isPremium: true,
-    themeId: "city",
-    cityId: "vienna"
-  },
-  {
-    id: 26,
-    title: "巴塞罗那圣家堂",
-    description: "高迪的不朽之作",
-    imageUrl: "/src/assets/design/img/city-16.jpg",
-    likes: 1100,
-    isPremium: false,
-    themeId: "city",
-    cityId: "barcelona"
-  },
-  {
-    id: 27,
-    title: "圣彼得堡冬宫",
-    description: "俄罗斯艺术的瑰宝",
-    imageUrl: "/src/assets/design/img/city-17.jpg",
-    likes: 920,
-    isPremium: true,
-    themeId: "city",
-    cityId: "stpetersburg"
-  },
-  {
-    id: 28,
-    title: "香港维多利亚港",
-    description: "东方之珠的夜景",
-    imageUrl: "/src/assets/design/img/city-18.jpg",
-    likes: 1300,
-    isPremium: false,
-    themeId: "city",
-    cityId: "hongkong"
-  },
-  {
-    id: 29,
-    title: "柏林墙",
-    description: "历史的见证",
-    imageUrl: "/src/assets/design/img/city-19.jpg",
-    likes: 850,
-    isPremium: true,
-    themeId: "city",
-    cityId: "berlin"
-  },
-  {
-    id: 30,
-    title: "威尼斯贡多拉",
-    description: "水城的浪漫交响",
-    imageUrl: "/src/assets/design/img/city-20.jpg",
-    likes: 1000,
-    isPremium: false,
-    themeId: "city",
-    cityId: "venice"
-  }
-  {
-    id: 8,
-    title: "巴黎铁塔",
-    description: "浪漫之都的象征",
-    imageUrl: "/src/assets/design/img/city-02.jpg",
-    likes: 1200,
-    isPremium: true,
-    themeId: "city",
-    cityId: "paris"
-  },
-  {
-    id: 9,
-    title: "纽约时代广场",
-    description: "繁华都市的中心",
-    imageUrl: "/src/assets/design/img/city-06.jpg",
-    likes: 1500,
-    isPremium: false,
-    themeId: "city",
-    cityId: "newyork"
   }
 ];
 
