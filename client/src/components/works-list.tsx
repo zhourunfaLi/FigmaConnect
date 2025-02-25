@@ -200,22 +200,40 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  // Transform artwork data for display with random art/city images
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
-    const isCity = Math.random() > 0.8; // 20% chance to show city image
-    const randomId = Math.floor(Math.random() * (isCity ? 15 : 30)) + 1;
-    
-    return {
-      ...artworks[index % artworks.length],
-      id: randomId,
-      title: isCity ? `城市风光 ${randomId}` : `艺术作品 ${randomId}`,
-      description: isCity ? "城市建筑与人文景观" : "现代艺术创作",
-      themeId: isCity ? "city" : "art",
-      aspectRatio: ratios[Math.floor(Math.random() * ratios.length)],
+  // Get unique random numbers for art and city images
+  const getUniqueRandoms = (max: number, count: number) => {
+    const numbers = Array.from({ length: max }, (_, i) => i + 1);
+    for (let i = numbers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+    return numbers.slice(0, count);
+  };
+
+  // Get 24 unique artworks (19 art + 5 city)
+  const artIds = getUniqueRandoms(19, 19);
+  const cityIds = getUniqueRandoms(20, 5);
+  
+  const displayArtworks = [
+    ...artIds.map(id => ({
+      ...artworks[0],
+      id,
+      title: `艺术作品 ${id}`,
+      description: "现代艺术创作",
+      themeId: "art",
+      aspectRatio: 1,
       isWide: false
-    };
-  });
+    })),
+    ...cityIds.map(id => ({
+      ...artworks[0],
+      id,
+      title: `城市风光 ${id}`,
+      description: "城市建筑与人文景观",
+      themeId: "city",
+      aspectRatio: 1,
+      isWide: false
+    }))
+  ].sort(() => Math.random() - 0.5);
 
   // Combine artworks with advertisements
   const contentWithAds = displayArtworks.map((artwork, index) => (
