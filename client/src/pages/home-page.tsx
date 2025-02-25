@@ -193,9 +193,89 @@ export default function HomePage() {
     // 城市作品 21-30
     {
       id: 21,
-      title: "巴黎圣母院",
-      description: "哥特式建筑的典范",
+      title: "威尼斯圣马可广场",
+      description: "威尼斯最著名的地标",
       imageUrl: "/src/assets/design/img/city-01.jpg",
+      likes: 1000,
+      isPremium: false,
+      themeId: "city",
+      cityId: "venice"
+    },
+    {
+      id: 22,
+      title: "巴黎铁塔",
+      description: "浪漫之都的象征",
+      imageUrl: "/src/assets/design/img/city-02.jpg",
+      likes: 1500,
+      isPremium: false,
+      themeId: "city",
+      cityId: "paris"
+    },
+    {
+      id: 23,
+      title: "东京天际线",
+      description: "现代都市的缩影",
+      imageUrl: "/src/assets/design/img/city-03.jpg",
+      likes: 1300,
+      isPremium: true,
+      themeId: "city",
+      cityId: "tokyo"
+    },
+    {
+      id: 24,
+      title: "伦敦眼",
+      description: "泰晤士河畔的明珠",
+      imageUrl: "/src/assets/design/img/city-04.jpg",
+      likes: 1100,
+      isPremium: false,
+      themeId: "city",
+      cityId: "london"
+    },
+    {
+      id: 25,
+      title: "纽约中央公园",
+      description: "城市中的绿洲",
+      imageUrl: "/src/assets/design/img/city-05.jpg",
+      likes: 1400,
+      isPremium: true,
+      themeId: "city",
+      cityId: "newyork"
+    },
+    {
+      id: 26,
+      title: "罗马斗兽场",
+      description: "永恒之城的见证",
+      imageUrl: "/src/assets/design/img/city-06.jpg",
+      likes: 1250,
+      isPremium: false,
+      themeId: "city",
+      cityId: "rome"
+    },
+    {
+      id: 27,
+      title: "悉尼歌剧院",
+      description: "南半球的艺术殿堂",
+      imageUrl: "/src/assets/design/img/city-07.jpg",
+      likes: 1150,
+      isPremium: true,
+      themeId: "city",
+      cityId: "sydney"
+    },
+    {
+      id: 28,
+      title: "上海外滩",
+      description: "东方明珠的风采",
+      imageUrl: "/src/assets/design/img/city-08.jpg",
+      likes: 1350,
+      isPremium: false,
+      themeId: "city",
+      cityId: "shanghai"
+    },
+    {
+      id: 29,
+      title: "莫斯科红场",
+      description: "俄罗斯的心脏",
+      imageUrl: "/src/assets/design/img/city-09.jpg",
       likes: 1100,
       isPremium: true,
       themeId: "city",
