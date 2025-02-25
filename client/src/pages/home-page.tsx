@@ -61,9 +61,45 @@ const mockArtworks = [
     isPremium: true,
     themeId: "art"
   },
-  // 城市作品
   {
     id: 7,
+    title: "生命脉动",
+    description: "生命力量的艺术表达",
+    imageUrl: "/src/assets/design/img/art-07.jpg",
+    likes: 920,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 8,
+    title: "都市幻想",
+    description: "现代都市的艺术解读",
+    imageUrl: "/src/assets/design/img/art-08.jpg",
+    likes: 880,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 9,
+    title: "自然之声",
+    description: "大自然的声音艺术",
+    imageUrl: "/src/assets/design/img/art-09.jpg",
+    likes: 760,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 10,
+    title: "时光碎片",
+    description: "时间流逝的艺术印记",
+    imageUrl: "/src/assets/design/img/art-10.jpg",
+    likes: 890,
+    isPremium: false,
+    themeId: "art"
+  },
+  // 城市作品组
+  {
+    id: 11,
     title: "威尼斯圣马可广场",
     description: "威尼斯最著名的地标",
     imageUrl: "/src/assets/design/img/city-01.jpg",
@@ -72,6 +108,197 @@ const mockArtworks = [
     themeId: "city",
     cityId: "venice"
   },
+  {
+    id: 12,
+    title: "巴黎铁塔",
+    description: "浪漫之都的象征",
+    imageUrl: "/src/assets/design/img/city-02.jpg",
+    likes: 1500,
+    isPremium: false,
+    themeId: "city",
+    cityId: "paris"
+  },
+  {
+    id: 13,
+    title: "东京天际线",
+    description: "现代都市的缩影",
+    imageUrl: "/src/assets/design/img/city-03.jpg",
+    likes: 1300,
+    isPremium: true,
+    themeId: "city",
+    cityId: "tokyo"
+  },
+  {
+    id: 14,
+    title: "伦敦眼",
+    description: "泰晤士河畔的明珠",
+    imageUrl: "/src/assets/design/img/city-04.jpg",
+    likes: 1100,
+    isPremium: false,
+    themeId: "city",
+    cityId: "london"
+  },
+  {
+    id: 15,
+    title: "纽约中央公园",
+    description: "城市中的绿洲",
+    imageUrl: "/src/assets/design/img/city-05.jpg",
+    likes: 1400,
+    isPremium: true,
+    themeId: "city",
+    cityId: "newyork"
+  },
+  {
+    id: 16,
+    title: "罗马斗兽场",
+    description: "永恒之城的见证",
+    imageUrl: "/src/assets/design/img/city-06.jpg",
+    likes: 1250,
+    isPremium: false,
+    themeId: "city",
+    cityId: "rome"
+  },
+  {
+    id: 17,
+    title: "悉尼歌剧院",
+    description: "南半球的艺术殿堂",
+    imageUrl: "/src/assets/design/img/city-07.jpg",
+    likes: 1150,
+    isPremium: true,
+    themeId: "city",
+    cityId: "sydney"
+  },
+  {
+    id: 18,
+    title: "上海外滩",
+    description: "东方明珠的风采",
+    imageUrl: "/src/assets/design/img/city-08.jpg",
+    likes: 1350,
+    isPremium: false,
+    themeId: "city",
+    cityId: "shanghai"
+  },
+  {
+    id: 19,
+    title: "莫斯科红场",
+    description: "俄罗斯的心脏",
+    imageUrl: "/src/assets/design/img/city-09.jpg",
+    likes: 1050,
+    isPremium: true,
+    themeId: "city",
+    cityId: "moscow"
+  },
+  {
+    id: 20,
+    title: "迪拜塔",
+    description: "沙漠中的奇迹",
+    imageUrl: "/src/assets/design/img/city-10.jpg",
+    likes: 1450,
+    isPremium: false,
+    themeId: "city",
+    cityId: "dubai"
+  },
+  // 更多城市作品
+  {
+    id: 21,
+    title: "阿姆斯特丹运河",
+    description: "水城的魅力",
+    imageUrl: "/src/assets/design/img/city-11.jpg",
+    likes: 980,
+    isPremium: true,
+    themeId: "city",
+    cityId: "amsterdam"
+  },
+  {
+    id: 22,
+    title: "京都金阁寺",
+    description: "日本传统之美",
+    imageUrl: "/src/assets/design/img/city-12.jpg",
+    likes: 890,
+    isPremium: false,
+    themeId: "city",
+    cityId: "kyoto"
+  },
+  {
+    id: 23,
+    title: "里约热内卢基督像",
+    description: "巴西的标志",
+    imageUrl: "/src/assets/design/img/city-13.jpg",
+    likes: 1200,
+    isPremium: true,
+    themeId: "city",
+    cityId: "rio"
+  },
+  {
+    id: 24,
+    title: "布拉格天文钟",
+    description: "中世纪的杰作",
+    imageUrl: "/src/assets/design/img/city-14.jpg",
+    likes: 950,
+    isPremium: false,
+    themeId: "city",
+    cityId: "prague"
+  },
+  {
+    id: 25,
+    title: "维也纳音乐厅",
+    description: "音乐之都的殿堂",
+    imageUrl: "/src/assets/design/img/city-15.jpg",
+    likes: 870,
+    isPremium: true,
+    themeId: "city",
+    cityId: "vienna"
+  },
+  {
+    id: 26,
+    title: "巴塞罗那圣家堂",
+    description: "高迪的不朽之作",
+    imageUrl: "/src/assets/design/img/city-16.jpg",
+    likes: 1100,
+    isPremium: false,
+    themeId: "city",
+    cityId: "barcelona"
+  },
+  {
+    id: 27,
+    title: "圣彼得堡冬宫",
+    description: "俄罗斯艺术的瑰宝",
+    imageUrl: "/src/assets/design/img/city-17.jpg",
+    likes: 920,
+    isPremium: true,
+    themeId: "city",
+    cityId: "stpetersburg"
+  },
+  {
+    id: 28,
+    title: "香港维多利亚港",
+    description: "东方之珠的夜景",
+    imageUrl: "/src/assets/design/img/city-18.jpg",
+    likes: 1300,
+    isPremium: false,
+    themeId: "city",
+    cityId: "hongkong"
+  },
+  {
+    id: 29,
+    title: "柏林墙",
+    description: "历史的见证",
+    imageUrl: "/src/assets/design/img/city-19.jpg",
+    likes: 850,
+    isPremium: true,
+    themeId: "city",
+    cityId: "berlin"
+  },
+  {
+    id: 30,
+    title: "威尼斯贡多拉",
+    description: "水城的浪漫交响",
+    imageUrl: "/src/assets/design/img/city-20.jpg",
+    likes: 1000,
+    isPremium: false,
+    themeId: "city",
+    cityId: "venice"
+  }
   {
     id: 8,
     title: "巴黎铁塔",
