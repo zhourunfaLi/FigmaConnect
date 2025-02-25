@@ -3,6 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import WorksList from "@/components/works-list";
 import { useLocation } from 'wouter'
 import { CategoryNav } from '@/components/category-nav'
+import GridList from '@/components/grid-list'
 
 // Mock data including new city artwork
 const mockArtworks = Array.from({ length: 30 }, (_, index) => {
