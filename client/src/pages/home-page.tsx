@@ -73,7 +73,123 @@ const mockArtworks = [
   {
     id: 8,
     title: "都市幻想",
-    description: "现代都市的艺术解读",
+    description: "城市艺术的想象",
+    imageUrl: "/src/assets/design/img/art-08.jpg",
+    likes: 880,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 9,
+    title: "山水意境",
+    description: "东方艺术的精髓",
+    imageUrl: "/src/assets/design/img/art-09.jpg",
+    likes: 990,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 10,
+    title: "现代几何",
+    description: "几何艺术的探索",
+    imageUrl: "/src/assets/design/img/art-10.jpg",
+    likes: 760,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 11,
+    title: "音乐律动",
+    description: "音乐的视觉呈现",
+    imageUrl: "/src/assets/design/img/art-11.jpg",
+    likes: 840,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 12,
+    title: "科技未来",
+    description: "未来主义艺术",
+    imageUrl: "/src/assets/design/img/art-12.jpg",
+    likes: 930,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 13,
+    title: "星空梦境",
+    description: "宇宙的艺术诠释",
+    imageUrl: "/src/assets/design/img/art-13.jpg",
+    likes: 870,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 14,
+    title: "水墨禅意",
+    description: "传统与现代的融合",
+    imageUrl: "/src/assets/design/img/art-14.jpg",
+    likes: 910,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 15,
+    title: "城市记忆",
+    description: "都市生活的艺术印记",
+    imageUrl: "/src/assets/design/img/art-15.jpg",
+    likes: 830,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 16,
+    title: "自然之声",
+    description: "大自然的艺术共鸣",
+    imageUrl: "/src/assets/design/img/art-16.jpg",
+    likes: 890,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 17,
+    title: "光影舞动",
+    description: "光与影的艺术对话",
+    imageUrl: "/src/assets/design/img/art-17.jpg",
+    likes: 940,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 18,
+    title: "抽象思维",
+    description: "思维的视觉化呈现",
+    imageUrl: "/src/assets/design/img/art-18.jpg",
+    likes: 820,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 19,
+    title: "未来之门",
+    description: "科技与艺术的碰撞",
+    imageUrl: "/src/assets/design/img/art-19.jpg",
+    likes: 960,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 20,
+    title: "时空交错",
+    description: "时间与空间的艺术演绎",
+    imageUrl: "/src/assets/design/img/art-20.jpg",
+    likes: 900,
+    isPremium: false,
+    themeId: "art"
+  },
+  // 城市作品组
+  {
+    id: 21,on: "现代都市的艺术解读",
     imageUrl: "/src/assets/design/img/art-08.jpg",
     likes: 880,
     isPremium: false,
