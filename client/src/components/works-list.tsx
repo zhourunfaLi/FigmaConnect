@@ -96,8 +96,8 @@ function ArtworkItem({
       <div 
         className="w-full relative overflow-hidden rounded-xl"
         style={{ 
-          height: isWide ? `${wideHeight}px` : undefined,
-          aspectRatio: isWide ? undefined : artwork.aspectRatio,
+          height: 'auto',
+          aspectRatio: artwork.aspectRatio,
         }}
       >
         {/* Loading skeleton */}
@@ -113,7 +113,9 @@ function ArtworkItem({
         {isVisible && (
           <>
             <img
-              src={`./src/assets/design/works-${String(artwork.id % 8 + 1).padStart(2, '0')}.png`}
+              src={artwork.themeId === "art" 
+                ? new URL(`../assets/design/img/art-${String(Math.floor(artwork.id / 4) % 10 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
+                : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
@@ -199,41 +201,26 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   // Transform artwork data for display
-  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // In 2*3*n+1 pattern, every 7th item (index 6, 13, 20, etc.) is wide
-    const isWide = (index + 1) % GRID_CONFIG.GROUP_SIZE === 0;
+  const displayArtworks = artworks.map((artwork, index) => {
+    const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
     return {
-      ...artworks[index % artworks.length],
-      id: index + 1,
-      aspectRatio: isWide ? 2.4 : ARTWORK_ASPECT_RATIOS[index % ARTWORK_ASPECT_RATIOS.length],
-      isWide
+      ...artwork,
+      aspectRatio: ratios[index % ratios.length],
+      isWide: false
     };
   });
 
   // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.reduce((acc: React.ReactNode[], artwork, index) => {
-    // Add artwork
-    acc.push(
-      <ArtworkItem 
-        key={artwork.id}
-        artwork={artwork}
-        isWide={artwork.isWide}
-        wideHeight={wideHeight}
-        index={index}
-      />
-    );
+  const contentWithAds = displayArtworks.map((artwork, index) => (
+    <ArtworkItem 
+      key={artwork.id}
+      artwork={artwork}
+      isWide={false}
+      wideHeight={wideHeight}
+      index={index}
+    />
+  ));
 
-    // Add advertisement after every 6 artworks
-    if ((index + 1) % GRID_CONFIG.GROUP_SIZE === 6) {
-      acc.push(
-        <div key={`ad-${index}`} className="break-inside-avoid mb-4">
-          <AdCard />
-        </div>
-      );
-    }
-
-    return acc;
-  }, []);
 
   return (
     <div 

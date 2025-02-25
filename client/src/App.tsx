@@ -10,12 +10,14 @@ import AuthPage from "@/pages/auth-page";
 import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
 import NotFound from "@/pages/not-found";
+import { CityPage } from "@/components/city-page";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/city" component={CityPage} />
       <ProtectedRoute path="/artwork/:id" component={ArtworkPage} />
       <ProtectedRoute path="/add" component={AddArtworkPage} />
       <Route component={NotFound} />

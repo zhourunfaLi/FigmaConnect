@@ -56,8 +56,27 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const PORT = 3002;  // 使用.replit中配置的本地端口
+  const PORT = 3002;
   server.listen(PORT, "0.0.0.0", () => {
     log(`服务器启动成功，运行在端口 ${PORT} (对外端口5000)`);
+  }).on('error', (err) => {
+    log(`服务器错误: ${err.message}`);
+    if(err.code === 'EADDRINUSE') {
+      log('端口被占用，正在尝试重新启动...');
+      setTimeout(() => {
+        server.close();
+        server.listen(PORT, "0.0.0.0");
+      }, 1000);
+    }
+  }).on('close', () => {
+    log('服务器关闭，正在尝试重新启动...');
+    setTimeout(() => {
+      server.listen(PORT, "0.0.0.0");
+    }, 1000);
+  });
+
+  process.on('uncaughtException', (err) => {
+    log(`未捕获的异常: ${err.message}`);
+    log('正在尝试保持服务器运行...');
   });
 })();
