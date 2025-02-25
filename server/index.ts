@@ -68,5 +68,15 @@ app.use((req, res, next) => {
         server.listen(PORT, "0.0.0.0");
       }, 1000);
     }
+  }).on('close', () => {
+    log('服务器关闭，正在尝试重新启动...');
+    setTimeout(() => {
+      server.listen(PORT, "0.0.0.0");
+    }, 1000);
+  });
+
+  process.on('uncaughtException', (err) => {
+    log(`未捕获的异常: ${err.message}`);
+    log('正在尝试保持服务器运行...');
   });
 })();
