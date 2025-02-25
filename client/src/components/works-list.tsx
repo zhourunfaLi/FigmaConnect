@@ -202,10 +202,16 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // Transform artwork data for display
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // 使用更多样化的宽高比来创造错落效果
     const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
+    // Every 5th item (index % 5 === 4) should be a city artwork
+    const baseArtwork = artworks[index % artworks.length];
+    const shouldBeCityArtwork = index % 5 === 4;
+    const artwork = shouldBeCityArtwork
+      ? {...baseArtwork, themeId: "city"}
+      : {...baseArtwork, themeId: "art"};
+    
     return {
-      ...artworks[index % artworks.length],
+      ...artwork,
       id: index + 1,
       aspectRatio: ratios[index % ratios.length],
       isWide: false
