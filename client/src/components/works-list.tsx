@@ -114,8 +114,8 @@ function ArtworkItem({
           <>
             <img
               src={artwork.themeId === "art" 
-                ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
-                : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
+                ? new URL(`../assets/design/img/art-${String(artwork.id).padStart(2, '0')}.jpg`, import.meta.url).href
+                : new URL(`../assets/design/img/city-${String(artwork.id).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
@@ -213,7 +213,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   // Get 24 unique artworks (19 art + 5 city)
   const artIds = getUniqueRandoms(19, 19);
   const cityIds = getUniqueRandoms(20, 5);
-  
+
   const displayArtworks = [
     ...artIds.map(id => ({
       ...artworks[0],
