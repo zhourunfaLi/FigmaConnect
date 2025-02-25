@@ -114,8 +114,8 @@ function ArtworkItem({
           <>
             <img
               src={artwork.themeId === "art" 
-                ? `/src/assets/design/img/art-${String(artwork.id).padStart(2, '0')}.jpg`
-                : `/src/assets/design/img/city-${String(artwork.id).padStart(2, '0')}.jpg`}
+                ? `/src/assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`
+                : `/src/assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
@@ -129,7 +129,7 @@ function ArtworkItem({
             {/* Always visible labels */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                #{artwork.id}
+                #{index + 1}
               </div>
               {artwork.isPremium && (
                 <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
@@ -201,14 +201,16 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   }, []);
 
   // Transform artwork data for display
-  const displayArtworks = artworks.map((artwork, index) => {
-      const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
-      return {
-        ...artwork,
-        aspectRatio: ratios[index % ratios.length],
-        isWide: false
-      };
-    });
+  const displayArtworks = Array.from({ length: 30 }, (_, index) => {
+    // 使用更多样化的宽高比来创造错落效果
+    const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
+    return {
+      ...artworks[index % artworks.length],
+      id: index + 1,
+      aspectRatio: ratios[index % ratios.length],
+      isWide: false
+    };
+  });
 
   // Combine artworks with advertisements
   const contentWithAds = displayArtworks.map((artwork, index) => (

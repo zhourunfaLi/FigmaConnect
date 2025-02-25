@@ -1,409 +1,147 @@
-
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import WorksList from "@/components/works-list";
 import { useState, useMemo } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import WorksList from "@/components/works-list";
+import { useLocation } from 'wouter'
+import { CategoryNav } from '@/components/category-nav'
+
+// Mock data including new city artwork
+const mockArtworks = [
+  // 城市作品
+  {
+    id: 1,
+    title: "威尼斯圣马可广场",
+    description: "威尼斯最著名的地标",
+    imageUrl: "/src/assets/design/img/city-01.jpg",
+    likes: 1000,
+    isPremium: false,
+    themeId: "city",
+    cityId: "venice"
+  },
+  // 艺术作品
+  {
+    id: 2,
+    title: "星空下的舞者",
+    description: "现代艺术展现舞蹈之美",
+    imageUrl: "/src/assets/design/img/art-01.jpg",
+    likes: 1200,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 3,
+    title: "巴黎铁塔",
+    description: "浪漫之都的象征",
+    imageUrl: "/src/assets/design/img/city-03.jpg",
+    likes: 1200,
+    isPremium: true,
+    themeId: "city",
+    cityId: "paris"
+  },
+  {
+    id: 4,
+    title: "色彩的交响",
+    description: "抽象艺术的视觉盛宴",
+    imageUrl: "/src/assets/design/img/art-02.jpg",
+    likes: 800,
+    isPremium: false,
+    themeId: "art"
+  },
+  {
+    id: 5,
+    title: "罗马斗兽场",
+    description: "古罗马文明的见证",
+    imageUrl: "/src/assets/design/img/city-04.jpg",
+    likes: 950,
+    isPremium: false,
+    themeId: "city",
+    cityId: "rome"
+  },
+  {
+    id: 6,
+    title: "自然之声",
+    description: "水彩画展现大自然之美",
+    imageUrl: "/src/assets/design/img/art-03.jpg",
+    likes: 600,
+    isPremium: true,
+    themeId: "art"
+  },
+  {
+    id: 7,
+    title: "纽约时代广场",
+    description: "繁华都市的中心",
+    imageUrl: "/src/assets/design/img/city-06.jpg",
+    likes: 1500,
+    isPremium: false,
+    themeId: "city",
+    cityId: "newyork"
+  }
+];
+
+type LayoutType = 'waterfall' | 'grid';
+
+type Category = {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+  layout: LayoutType;
+};
+
+const CATEGORIES: Category[] = [
+  { id: "latest", name: "最新", color: "#333333", layout: "waterfall" },
+  { id: "hottest", name: "最热", color: "#333333", layout: "waterfall" },
+  { id: "special", name: "专题", color: "#333333", layout: "grid" },
+  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" },
+  { id: "city", name: "城市", color: "#333333", layout: "grid" }
+];
 
 export default function HomePage() {
-  const [activeCategory, setActiveCategory] = useState("all");
-
-  const artworks = [
-    // 艺术作品 1-20
-    {
-      id: 1,
-      title: "星空梦境",
-      description: "梵高风格的星空诠释",
-      imageUrl: "/src/assets/design/img/art-01.jpg",
-      likes: 1200,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 2,
-      title: "山水意境",
-      description: "中国传统山水画的现代演绎",
-      imageUrl: "/src/assets/design/img/art-02.jpg",
-      likes: 980,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 3,
-      title: "抽象几何",
-      description: "现代主义抽象艺术",
-      imageUrl: "/src/assets/design/img/art-03.jpg",
-      likes: 850,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 4,
-      title: "色彩交响",
-      description: "强烈的色彩碰撞",
-      imageUrl: "/src/assets/design/img/art-04.jpg",
-      likes: 720,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 5,
-      title: "光影魔术",
-      description: "光与影的艺术对话",
-      imageUrl: "/src/assets/design/img/art-05.jpg",
-      likes: 990,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 6,
-      title: "自然之声",
-      description: "大自然的声音艺术",
-      imageUrl: "/src/assets/design/img/art-06.jpg",
-      likes: 760,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 7,
-      title: "城市印象",
-      description: "现代都市的艺术解读",
-      imageUrl: "/src/assets/design/img/art-07.jpg",
-      likes: 880,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 8,
-      title: "情感流动",
-      description: "抽象表现主义作品",
-      imageUrl: "/src/assets/design/img/art-08.jpg",
-      likes: 800,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 9,
-      title: "时空穿越",
-      description: "超现实主义创作",
-      imageUrl: "/src/assets/design/img/art-09.jpg",
-      likes: 920,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 10,
-      title: "自然之舞",
-      description: "生命与自然的韵律",
-      imageUrl: "/src/assets/design/img/art-10.jpg",
-      likes: 850,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 11,
-      title: "现代艺术1",
-      description: "创新艺术表达",
-      imageUrl: "/src/assets/design/img/art-11.jpg",
-      likes: 780,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 12,
-      title: "现代艺术2",
-      description: "艺术新视角",
-      imageUrl: "/src/assets/design/img/art-12.jpg",
-      likes: 820,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 13,
-      title: "现代艺术3",
-      description: "当代艺术探索",
-      imageUrl: "/src/assets/design/img/art-13.jpg",
-      likes: 900,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 14,
-      title: "现代艺术4",
-      description: "艺术新思维",
-      imageUrl: "/src/assets/design/img/art-14.jpg",
-      likes: 750,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 15,
-      title: "现代艺术5",
-      description: "创意艺术展现",
-      imageUrl: "/src/assets/design/img/art-15.jpg",
-      likes: 870,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 16,
-      title: "现代艺术6",
-      description: "艺术新境界",
-      imageUrl: "/src/assets/design/img/art-16.jpg",
-      likes: 830,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 17,
-      title: "现代艺术7",
-      description: "艺术新维度",
-      imageUrl: "/src/assets/design/img/art-17.jpg",
-      likes: 910,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 18,
-      title: "现代艺术8",
-      description: "艺术新格局",
-      imageUrl: "/src/assets/design/img/art-18.jpg",
-      likes: 840,
-      isPremium: false,
-      themeId: "art"
-    },
-    {
-      id: 19,
-      title: "现代艺术9",
-      description: "艺术新视界",
-      imageUrl: "/src/assets/design/img/art-19.jpg",
-      likes: 890,
-      isPremium: true,
-      themeId: "art"
-    },
-    {
-      id: 20,
-      title: "现代艺术10",
-      description: "艺术新境遇",
-      imageUrl: "/src/assets/design/img/art-20.jpg",
-      likes: 860,
-      isPremium: false,
-      themeId: "art"
-    },
-    // 城市作品 21-30
-    {
-      id: 21,
-      title: "巴黎圣母院",
-      description: "哥特式建筑的典范",
-      imageUrl: "/src/assets/design/img/city-01.jpg",
-      likes: 1100,
-      isPremium: true,
-      themeId: "city",
-      cityId: "paris"
-    },
-    {
-      id: 22,
-      title: "罗马斗兽场",
-      description: "古罗马文明的见证",
-      imageUrl: "/src/assets/design/img/city-02.jpg",
-      likes: 980,
-      isPremium: false,
-      themeId: "city",
-      cityId: "rome"
-    },
-    {
-      id: 23,
-      title: "悉尼歌剧院",
-      description: "现代建筑艺术的杰作",
-      imageUrl: "/src/assets/design/img/city-03.jpg",
-      likes: 1200,
-      isPremium: true,
-      themeId: "city",
-      cityId: "sydney"
-    },
-    {
-      id: 24,
-      title: "泰姬陵",
-      description: "永恒的爱情象征",
-      imageUrl: "/src/assets/design/img/city-04.jpg",
-      likes: 1500,
-      isPremium: false,
-      themeId: "city",
-      cityId: "agra"
-    },
-    {
-      id: 25,
-      title: "布拉格广场",
-      description: "中世纪欧洲的魅力",
-      imageUrl: "/src/assets/design/img/city-05.jpg",
-      likes: 890,
-      isPremium: true,
-      themeId: "city",
-      cityId: "prague"
-    },
-    {
-      id: 26,
-      title: "长城",
-      description: "人类文明的壮举",
-      imageUrl: "/src/assets/design/img/city-06.jpg",
-      likes: 2000,
-      isPremium: false,
-      themeId: "city",
-      cityId: "beijing"
-    },
-    {
-      id: 27,
-      title: "圣托里尼",
-      description: "爱琴海的明珠",
-      imageUrl: "/src/assets/design/img/city-07.jpg",
-      likes: 1600,
-      isPremium: true,
-      themeId: "city",
-      cityId: "santorini"
-    },
-    {
-      id: 28,
-      title: "上海外滩",
-      description: "东方明珠的风采",
-      imageUrl: "/src/assets/design/img/city-08.jpg",
-      likes: 1350,
-      isPremium: false,
-      themeId: "city",
-      cityId: "shanghai"
-    },
-    {
-      id: 29,
-      title: "莫斯科红场",
-      description: "俄罗斯的心脏",
-      imageUrl: "/src/assets/design/img/city-09.jpg",
-      likes: 1050,
-      isPremium: true,
-      themeId: "city",
-      cityId: "moscow"
-    },
-    {
-      id: 30,
-      title: "迪拜塔",
-      description: "沙漠中的奇迹",
-      imageUrl: "/src/assets/design/img/city-10.jpg",
-      likes: 1450,
-      isPremium: false,
-      themeId: "city",
-      cityId: "dubai"
-    }
-  ];
+  const [location] = useLocation()
+  const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
   const filteredArtworks = useMemo(() => {
-    let filtered = [...artworks];
-    
-    // 根据类别筛选
     switch (activeCategory) {
+      case "latest":
+        return [...mockArtworks].sort((a, b) => b.id - a.id);
+      case "hottest":
+        return [...mockArtworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+      case "earliest":
+        return [...mockArtworks].sort((a, b) => a.id - b.id);
       case "special":
-        filtered = filtered.filter(art => art.themeId);
-        break;
+        return mockArtworks.filter(art => art.themeId);
       case "member":
-        filtered = filtered.filter(art => art.isPremium);
-        break;
+        return mockArtworks.filter(art => art.isPremium);
       case "city":
-        filtered = filtered.filter(art => art.themeId === "city");
-        break;
-      case "art":
-        filtered = filtered.filter(art => art.themeId === "art");
-        break;
+        return mockArtworks.filter(art => art.cityId);
+      default:
+        return mockArtworks;
     }
-
-    // 然后排序
-    return filtered.sort((a, b) => {
-      if (activeCategory === "latest") return b.id - a.id;
-      if (activeCategory === "hottest") return (b.likes || 0) - (a.likes || 0);
-      return a.id - b.id;
-    });
   }, [activeCategory]);
 
   return (
     <div className="min-h-screen bg-[#EEEAE2]">
       {/* Category Navigation */}
       <div className="sticky top-0 bg-[#EEEAE2] z-10 flex justify-center">
-        <ScrollArea className="w-full max-w-screen-xl">
-          <div className="flex justify-center py-4">
-            <Tabs
-              defaultValue="all"
-              value={activeCategory}
-              onValueChange={setActiveCategory}
-              className="w-full max-w-xl mx-4"
-            >
-              <TabsList className="w-full">
-                <TabsTrigger
-                  value="all"
-                  className={cn(
-                    "flex-1",
-                    activeCategory === "all" && "bg-black text-white"
-                  )}
-                >
-                  全部
-                </TabsTrigger>
-                <TabsTrigger
-                  value="special"
-                  className={cn(
-                    "flex-1",
-                    activeCategory === "special" && "bg-black text-white"
-                  )}
-                >
-                  特辑
-                </TabsTrigger>
-                <TabsTrigger
-                  value="member"
-                  className={cn(
-                    "flex-1",
-                    activeCategory === "member" && "bg-black text-white"
-                  )}
-                >
-                  会员
-                </TabsTrigger>
-                <TabsTrigger
-                  value="city"
-                  className={cn(
-                    "flex-1",
-                    activeCategory === "city" && "bg-black text-white"
-                  )}
-                >
-                  城市
-                </TabsTrigger>
-                <TabsTrigger
-                  value="art"
-                  className={cn(
-                    "flex-1",
-                    activeCategory === "art" && "bg-black text-white"
-                  )}
-                >
-                  艺术
-                </TabsTrigger>
-                <TabsTrigger
-                  value="latest"
-                  className={cn(
-                    "flex-1",
-                    activeCategory === "latest" && "bg-black text-white"
-                  )}
-                >
-                  最新
-                </TabsTrigger>
-                <TabsTrigger
-                  value="hottest"
-                  className={cn(
-                    "flex-1",
-                    activeCategory === "hottest" && "bg-black text-white"
-                  )}
-                >
-                  最热
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+        <ScrollArea className="w-full max-w-screen-md">
+          <div className="flex items-center justify-center gap-3 px-4 py-2">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                style={{ color: category.color }}
+                className={`text-sm sm:text-base font-normal transition-colors px-4 py-1.5 whitespace-nowrap rounded-full ${
+                  activeCategory === category.id ? 'bg-blue-500 text-white' : ''
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
           </div>
         </ScrollArea>
       </div>
 
-      {/* Works List */}
-      <div className="max-w-screen-2xl mx-auto">
+      {/* Artwork Grid */}
+      <div className="pt-4">
         <WorksList artworks={filteredArtworks} />
       </div>
     </div>
