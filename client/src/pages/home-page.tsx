@@ -1,9 +1,7 @@
-import { useMemo } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { CategoryNav } from '@/components/category-nav'
-import WorksList from '@/components/works-list'
 
-// Mock data including new city artwork
+import { useMemo } from "react";
+import WorksList from "@/components/works-list";
+
 const mockArtworks = Array.from({ length: 30 }, (_, index) => ({
   id: index + 1,
   title: index % 4 === 0 ? `城市风光 ${index + 1}` : `艺术作品 ${index + 1}`,
@@ -19,9 +17,8 @@ const mockArtworks = Array.from({ length: 30 }, (_, index) => ({
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <CategoryNav />
+    <div className="min-h-screen bg-[#EEEAE2]">
       <WorksList artworks={mockArtworks} />
     </div>
-  )
+  );
 }
