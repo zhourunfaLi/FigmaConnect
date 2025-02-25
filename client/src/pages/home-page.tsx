@@ -20,9 +20,6 @@ const mockArtworks = Array.from({ length: 30 }, (_, index) => {
     ...(isCity && { cityId: ["venice", "paris", "rome", "newyork", "tokyo"][index % 5] })
   };
 });
-    title: "纽约时代广场",
-    description: "繁华都市的中心",
-    imageUrl: "/src/assets/design/img/city-06.jpg",
     likes: 1500,
     isPremium: false,
     themeId: "city",
