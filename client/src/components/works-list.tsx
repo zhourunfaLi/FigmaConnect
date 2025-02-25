@@ -200,14 +200,19 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  // Transform artwork data for display
+  // Transform artwork data for display with random art/city images
   const displayArtworks = Array.from({ length: 30 }, (_, index) => {
-    // 使用更多样化的宽高比来创造错落效果
     const ratios = [0.8, 1, 1.2, 1.5, 0.7, 1.3];
+    const isCity = Math.random() > 0.8; // 20% chance to show city image
+    const randomId = Math.floor(Math.random() * (isCity ? 15 : 30)) + 1;
+    
     return {
       ...artworks[index % artworks.length],
-      id: index + 1,
-      aspectRatio: ratios[index % ratios.length],
+      id: randomId,
+      title: isCity ? `城市风光 ${randomId}` : `艺术作品 ${randomId}`,
+      description: isCity ? "城市建筑与人文景观" : "现代艺术创作",
+      themeId: isCity ? "city" : "art",
+      aspectRatio: ratios[Math.floor(Math.random() * ratios.length)],
       isWide: false
     };
   });
