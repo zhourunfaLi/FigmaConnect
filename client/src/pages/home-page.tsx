@@ -43,20 +43,6 @@ const CATEGORIES: Category[] = [
   { id: "city", name: "城市", color: "#333333", layout: "grid" }
 ];
 
-// Placeholder ThemeList component - needs further implementation
-const ThemeList = ({ themes }: { themes: any[] }) => (
-  <div>
-    {/*  Implementation for displaying themes and artwork lists would go here */}
-    {themes.map(theme => (
-      <div key={theme.id}>
-        <h2>{theme.title}</h2>
-        <WorksList artworks={theme.artworks || []} /> {/* Assuming themes have an artworks array */}
-      </div>
-    ))}
-  </div>
-);
-
-
 export default function HomePage() {
   const [location] = useLocation()
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
@@ -70,11 +56,7 @@ export default function HomePage() {
       case "earliest":
         return [...mockArtworks].sort((a, b) => a.id - b.id);
       case "special":
-        // Mock data for special category.  Needs replacement with actual data fetching.
-        return { themes: [
-          { id: 1, title: "卢浮宫系列传世作品", artworks: mockArtworks.slice(0, 5) },
-          { id: 2, title: "达芬奇真迹系列", artworks: mockArtworks.slice(5, 13) }
-        ]};
+        return mockArtworks.filter(art => art.themeId);
       case "member":
         return mockArtworks.filter(art => art.isPremium);
       case "city":
@@ -108,11 +90,7 @@ export default function HomePage() {
 
       {/* Artwork Grid */}
       <div className="pt-4">
-        {activeCategory === "special" && typeof filteredArtworks === "object" && "themes" in filteredArtworks ? (
-          <ThemeList themes={filteredArtworks.themes} />
-        ) : (
-          <WorksList artworks={filteredArtworks as any[]} className="mt-4" />
-        )}
+        <WorksList artworks={filteredArtworks} />
       </div>
     </div>
   );
