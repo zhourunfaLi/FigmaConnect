@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import WorksList from "@/components/works-list";
 import { useLocation } from 'wouter'
@@ -48,24 +48,14 @@ export default function HomePage() {
   const [location] = useLocation()
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
-  const [artworks, setArtworks] = useState([]);
-  
-  useEffect(() => {
-    fetch('/api/artworks')
-      .then(res => res.json())
-      .then(setArtworks);
-  }, []);
-
   const filteredArtworks = useMemo(() => {
     switch (activeCategory) {
       case "latest":
-        return [...artworks].sort((a, b) => b.id - a.id);
+        return [...mockArtworks].sort((a, b) => b.id - a.id);
       case "hottest":
-        return [...artworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        return [...mockArtworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
       case "earliest":
-        return [...artworks].sort((a, b) => a.id - b.id);
-      case "member":
-        return artworks.filter(art => art.is_premium);
+        return [...mockArtworks].sort((a, b) => a.id - b.id);
       case "special":
         const themes = [
           {
