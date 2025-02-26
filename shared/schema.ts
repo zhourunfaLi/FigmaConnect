@@ -22,12 +22,12 @@ export const artworks = pgTable("artworks", {
   description: text("description").notNull(),
   imageUrl: text("image_url").notNull(),
   videoUrl: text("video_url"),
-  categoryId: integer("category_id").references(() => categories.id),
-  isPremium: boolean("is_premium").default(false).notNull(),
-  hideTitle: boolean("hide_title").default(false).notNull(),
-  displayOrder: integer("display_order"),  // 控制显示顺序
-  columnPosition: integer("column_position"), // 控制在第几列显示(1-4)
-  aspectRatio: text("aspect_ratio"), // 控制显示宽高比
+  category_id: integer("category_id").references(() => categories.id),
+  is_premium: boolean("is_premium").default(false).notNull(),
+  hide_title: boolean("hide_title").default(false).notNull(),
+  display_order: integer("display_order"),  // 控制显示顺序
+  column_position: integer("column_position"), // 控制在第几列显示(1-4)
+  aspect_ratio: text("aspect_ratio"), // 控制显示宽高比
 });
 
 export const comments = pgTable("comments", {
