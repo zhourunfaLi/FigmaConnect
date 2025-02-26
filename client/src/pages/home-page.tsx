@@ -45,8 +45,21 @@ const CATEGORIES: Category[] = [
 ];
 
 export default function HomePage() {
-  const [location] = useLocation()
-  const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
+  const [location] = useLocation();
+  const [categories, setCategories] = useState([]);
+  const [activeCategory, setActiveCategory] = useState<number>();
+  
+  useEffect(() => {
+    // 获取分类列表
+    fetch('/api/categories')
+      .then(res => res.json())
+      .then(data => {
+        setCategories(data);
+        if (data.length > 0) {
+          setActiveCategory(data[0].id);
+        }
+      });
+  }, []);
 
   const filteredArtworks = useMemo(() => {
     switch (activeCategory) {
