@@ -47,6 +47,7 @@ localPort = 9999
 externalPort = 3003
 
 [workflows]
+runButton = "启动应用"
 
 [[workflows.workflow]]
 name = "Project"
@@ -71,3 +72,11 @@ task = "packager.installForAll"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[[workflows.workflow]]
+name = "启动应用"
+author = 39524676
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
