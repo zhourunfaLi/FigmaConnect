@@ -67,6 +67,10 @@ app.use((req, res, next) => {
         server.close();
         server.listen(PORT, "0.0.0.0");
       }, 1000);
+    } else {
+      log(`详细错误信息: ${JSON.stringify(err)}`);
+      // 在遇到其他错误时不自动重启
+      process.exit(1);
     }
   });
 })();
