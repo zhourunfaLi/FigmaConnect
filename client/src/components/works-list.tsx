@@ -131,7 +131,7 @@ function ArtworkItem({
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
                 #{index + 1}
               </div>
-              {artwork.isPremium && (
+              {artwork.is_premium && (
                 <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
                   SVIP
                 </div>
