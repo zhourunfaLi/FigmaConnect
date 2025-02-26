@@ -46,32 +46,21 @@ async function initializeData() {
     ]).onConflictDoNothing();
 
     // 添加艺术品
-    await db.insert(artworks).values([
-      {
-        title: "向日葵",
-        description: "梵高的经典作品",
-        image_url: "https://placehold.co/400x600/png",
-        video_url: null,
-        category_id: 1,
-        is_premium: false,
-        hide_title: false,
-        display_order: null,
-        column_position: null,
-        aspect_ratio: null
-      },
-      {
-        title: "星空",
-        description: "梵高的代表作",
-        image_url: "https://placehold.co/400x600/png",
-        video_url: null,
-        category_id: 1,
-        is_premium: true,
-        hide_title: false,
-        display_order: null,
-        column_position: null,
-        aspect_ratio: null
-      }
-    ]).onConflictDoNothing();
+    const artworkData = Array.from({ length: 20 }, (_, i) => ({
+      title: `艺术作品 ${i + 1}`,
+      description: `艺术作品描述 ${i + 1}`,
+      image_url: `https://placehold.co/400x600/png`,
+      video_url: null,
+      category_id: 1,
+      is_premium: i % 3 === 0, // 每三个作品中有一个是SVIP
+      hide_title: false,
+      display_order: null,
+      column_position: null,
+      aspect_ratio: null,
+      likes: Math.floor(Math.random() * 1000) // 随机点赞数
+    }));
+    
+    await db.insert(artworks).values(artworkData).onConflictDoNothing();
 
     console.log('数据初始化成功');
   } catch (error) {
