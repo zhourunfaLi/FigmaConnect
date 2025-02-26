@@ -124,6 +124,10 @@ function ArtworkItem({
               )}
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
+              onError={(e) => {
+                e.currentTarget.src = new URL('../assets/design/img/placeholder.jpg', import.meta.url).href;
+                setImageLoaded(true);
+              }}
             />
 
             {/* Always visible labels */}
