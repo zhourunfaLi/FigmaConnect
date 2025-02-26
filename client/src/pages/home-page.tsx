@@ -27,4 +27,8 @@ export default function HomePage() {
       />
     </div>
   );
+}nSelect={setSelectedCategory}
+      />
+    </div>
+  );
 }
