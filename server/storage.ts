@@ -51,17 +51,25 @@ async function initializeData() {
         title: "向日葵",
         description: "梵高的经典作品",
         image_url: "https://placehold.co/400x600/png",
+        video_url: null,
+        category_id: 1,
         is_premium: false,
         hide_title: false,
-        category_id: 1
+        display_order: null,
+        column_position: null,
+        aspect_ratio: null
       },
       {
         title: "星空",
         description: "梵高的代表作",
         image_url: "https://placehold.co/400x600/png",
+        video_url: null,
+        category_id: 1,
         is_premium: true,
         hide_title: false,
-        category_id: 1
+        display_order: null,
+        column_position: null,
+        aspect_ratio: null
       }
     ]).onConflictDoNothing();
 
