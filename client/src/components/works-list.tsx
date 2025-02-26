@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
 
-// Constants for layout configuration
+// Constants for layout configuration (Retaining original config)
 const GRID_CONFIG = {
   MOBILE_COLUMNS: 2,
   TABLET_COLUMNS: 3,
@@ -15,7 +15,7 @@ const GRID_CONFIG = {
   DESKTOP_SCALE: 2,
 } as const;
 
-// Common aspect ratios for artwork display
+// Common aspect ratios for artwork display (Retaining original config)
 const ARTWORK_ASPECT_RATIOS = [3/4, 4/5, 2/3, 5/4, 1] as const;
 
 type WorksListProps = {
@@ -23,28 +23,7 @@ type WorksListProps = {
   className?: string;
 };
 
-// Advertisement component for the artwork grid
-function AdCard() {
-  return (
-    <div className="w-full">
-      <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
-        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-          广告
-        </div>
-        <div className="w-full h-full flex items-center justify-center text-black/30">
-          Google Ads
-        </div>
-      </div>
-      <div className="flex justify-between items-center px-2 mt-2">
-        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-          推广内容
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Artwork component with lazy loading and loading state
+// Simplified ArtworkItem (Adapting from edited snippet)
 function ArtworkItem({ 
   artwork, 
   isWide, 
@@ -100,7 +79,6 @@ function ArtworkItem({
           aspectRatio: artwork.aspectRatio,
         }}
       >
-        {/* Loading skeleton */}
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
             className={cn(
@@ -126,7 +104,6 @@ function ArtworkItem({
               onLoad={() => setImageLoaded(true)}
             />
 
-            {/* Always visible labels */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
                 #{index + 1}
@@ -138,10 +115,8 @@ function ArtworkItem({
               )}
             </div>
 
-            {/* Hover overlay with actions */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
               <div className="flex justify-end items-start">
-                {/* Action buttons */}
                 <div className="flex gap-2">
                   <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
                     <Heart className="w-4 h-4 text-white" />
@@ -152,7 +127,6 @@ function ArtworkItem({
                 </div>
               </div>
 
-              {/* Bottom content */}
               <div className="space-y-2">
                 <h3 className="text-white font-medium line-clamp-2">
                   {artwork.title}
@@ -166,7 +140,6 @@ function ArtworkItem({
         )}
       </div>
 
-      {/* Title and options (visible when not hovering) */}
       <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
@@ -182,7 +155,7 @@ function ArtworkItem({
 export default function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
-  // Update wide artwork height based on screen size
+  //Retaining original responsive height calculation
   useEffect(() => {
     const updateWideHeight = () => {
       const width = window.innerWidth;
@@ -200,7 +173,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  // Get unique random numbers for art and city images
+  //Retaining original artwork data generation
   const getUniqueRandoms = (max: number, count: number) => {
     const numbers = Array.from({ length: max }, (_, i) => i + 1);
     for (let i = numbers.length - 1; i > 0; i--) {
@@ -210,13 +183,11 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return numbers.slice(0, count);
   };
 
-  // Get 24 unique artworks (19 art + 5 city)
   const artIds = getUniqueRandoms(19, 19);
   const cityIds = getUniqueRandoms(20, 5);
 
-  // 定义一组不同的宽高比
   const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
-  
+
   const displayArtworks = [
     ...artIds.map((id, index) => ({
       ...artworks[0],
@@ -240,7 +211,6 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     }))
   ].sort(() => Math.random() - 0.5);
 
-  // Combine artworks with advertisements
   const contentWithAds = displayArtworks.map((artwork, index) => (
     <ArtworkItem 
       key={artwork.id}
