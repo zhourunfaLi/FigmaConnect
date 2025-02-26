@@ -85,8 +85,6 @@ export default function HomePage() {
           }
         ];
         return themes;
-      case "member":
-        return mockArtworks.filter(art => art.isPremium);
       case "city":
         return [
           { id: 1, title: "威尼斯", cityId: "venice" },
