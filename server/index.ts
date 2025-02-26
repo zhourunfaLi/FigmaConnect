@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { validateSchema } from "./validateSchema"; // Added import for schema validation
 
 const app = express();
 app.use(express.json());
@@ -57,8 +58,9 @@ app.use((req, res, next) => {
   }
 
   const PORT = 3002;
-  const startServer = () => {
+  const startServer = async () => {
     try {
+      await validateSchema(); // Added schema validation before server start
       server.close(); // 确保先关闭之前的连接
       server.listen(PORT, "0.0.0.0", () => {
         log(`服务器启动成功，运行在端口 ${PORT} (对外端口5000)`);
@@ -91,3 +93,13 @@ app.use((req, res, next) => {
 
   startServer();
 })();
+
+
+// Placeholder for schema validation function.  Replace with actual implementation.
+async function validateSchema() {
+  console.log("Performing schema validation...");
+  // Add your schema validation logic here.  This is a placeholder.
+  // For example, you might compare database schema with a definition file.
+  // Throw an error if the schema is invalid.
+  return Promise.resolve();
+}
