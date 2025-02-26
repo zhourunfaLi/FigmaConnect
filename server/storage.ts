@@ -16,6 +16,7 @@ async function initializeTables() {
       display_order INTEGER
     );
 
+    DROP TABLE IF EXISTS artworks CASCADE;
     CREATE TABLE IF NOT EXISTS artworks (
       id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
