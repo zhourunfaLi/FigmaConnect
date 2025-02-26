@@ -123,7 +123,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getArtworks(): Promise<Artwork[]> {
-    return await db.select().from(artworks);
+    const results = await db.select().from(artworks);
+    return results.map(artwork => ({
+      ...artwork,
+      isPremium: artwork.is_premium
+    }));
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
