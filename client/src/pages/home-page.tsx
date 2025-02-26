@@ -44,6 +44,8 @@ const CATEGORIES: Category[] = [
   { id: "city", name: "城市", color: "#333333", layout: "grid" }
 ];
 
+import React, { useEffect } from 'react';
+
 export default function HomePage() {
   const [location] = useLocation();
   const [categories, setCategories] = useState([]);
