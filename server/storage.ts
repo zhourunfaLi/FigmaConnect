@@ -49,18 +49,18 @@ async function initializeData() {
       {
         title: "向日葵",
         description: "梵高的经典作品",
-        image_url: "/images/sunflowers.jpg",
-        is_premium: false,
-        hide_title: false,
-        category_id: 1
+        imageUrl: "/images/sunflowers.jpg",
+        isPremium: false,
+        hideTitle: false,
+        categoryId: 1
       },
       {
         title: "星空",
         description: "梵高的代表作",
-        image_url: "/images/starry-night.jpg",
-        is_premium: true,
-        hide_title: false,
-        category_id: 1
+        imageUrl: "/images/starry-night.jpg",
+        isPremium: true,
+        hideTitle: false,
+        categoryId: 1
       }
     ]).onConflictDoNothing();
 
