@@ -57,20 +57,37 @@ app.use((req, res, next) => {
   }
 
   const PORT = 3002;
-  server.listen(PORT, "0.0.0.0", () => {
-    log(`服务器启动成功，运行在端口 ${PORT} (对外端口5000)`);
-  }).on('error', (err) => {
+  const startServer = () => {
+    try {
+      server.close(); // 确保先关闭之前的连接
+      server.listen(PORT, "0.0.0.0", () => {
+        log(`服务器启动成功，运行在端口 ${PORT} (对外端口5000)`);
+      });
+    } catch(e) {
+      log(`启动服务器出错: ${e.message}`);
+    }
+  }
+
+  // 处理服务器错误
+  server.on('error', (err) => {
     log(`服务器错误: ${err.message}`);
     if(err.code === 'EADDRINUSE') {
-      log('端口被占用，正在尝试重新启动...');
-      setTimeout(() => {
-        server.close();
-        server.listen(PORT, "0.0.0.0");
-      }, 1000);
+      log('端口被占用，等待释放...');
+      setTimeout(startServer, 3000); // 增加等待时间到3秒
     } else {
-      log(`详细错误信息: ${JSON.stringify(err)}`);
-      // 在遇到其他错误时不自动重启
+      log(`严重错误: ${JSON.stringify(err)}`);
       process.exit(1);
     }
   });
+
+  // 处理进程退出
+  process.on('SIGTERM', () => {
+    log('收到退出信号，正在关闭服务器...');
+    server.close(() => {
+      log('服务器已安全关闭');
+      process.exit(0);
+    });
+  });
+
+  startServer();
 })();
