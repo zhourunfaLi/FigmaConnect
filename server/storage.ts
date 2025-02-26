@@ -13,21 +13,21 @@ async function initializeTables() {
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL,
       description TEXT,
-      display_order INTEGER
+      displayOrder INTEGER
     );
 
     CREATE TABLE IF NOT EXISTS artworks (
       id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
       description TEXT NOT NULL,
-      image_url TEXT NOT NULL,
-      video_url TEXT,
-      category_id INTEGER REFERENCES categories(id),
-      is_premium BOOLEAN DEFAULT false NOT NULL,
-      hide_title BOOLEAN DEFAULT false NOT NULL,
-      display_order INTEGER,
-      column_position INTEGER,
-      aspect_ratio TEXT
+      imageUrl TEXT NOT NULL,
+      videoUrl TEXT,
+      categoryId INTEGER REFERENCES categories(id),
+      isPremium BOOLEAN DEFAULT false NOT NULL,
+      hideTitle BOOLEAN DEFAULT false NOT NULL,
+      displayOrder INTEGER,
+      columnPosition INTEGER,
+      aspectRatio TEXT
     );
   `);
 }
