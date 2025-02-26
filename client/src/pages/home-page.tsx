@@ -44,7 +44,6 @@ const CATEGORIES: Category[] = [
   { id: "city", name: "城市", color: "#333333", layout: "grid" }
 ];
 
-import React, { useEffect, useState, useMemo } from 'react';
 import { useLocation } from 'wouter';
 
 export default function HomePage() {
