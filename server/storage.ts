@@ -126,7 +126,6 @@ export class DatabaseStorage implements IStorage {
     const results = await db.select().from(artworks).orderBy(sql`id DESC`);
     return results.map(artwork => ({
       ...artwork,
-      isPremium: artwork.is_premium,
       likes: Math.floor(Math.random() * 2000) // 临时添加随机点赞数用于演示
     }));
   }
