@@ -48,14 +48,24 @@ export default function HomePage() {
   const [location] = useLocation()
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
+  const [artworks, setArtworks] = useState([]);
+  
+  useEffect(() => {
+    fetch('/api/artworks')
+      .then(res => res.json())
+      .then(setArtworks);
+  }, []);
+
   const filteredArtworks = useMemo(() => {
     switch (activeCategory) {
       case "latest":
-        return [...mockArtworks].sort((a, b) => b.id - a.id);
+        return [...artworks].sort((a, b) => b.id - a.id);
       case "hottest":
-        return [...mockArtworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        return [...artworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
       case "earliest":
-        return [...mockArtworks].sort((a, b) => a.id - b.id);
+        return [...artworks].sort((a, b) => a.id - b.id);
+      case "member":
+        return artworks.filter(art => art.is_premium);
       case "special":
         const themes = [
           {
