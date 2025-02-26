@@ -1,4 +1,4 @@
-import { artworks, comments, users, categories, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
+import { artworks, comments, users, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import session from "express-session";
@@ -29,49 +29,6 @@ export class DatabaseStorage implements IStorage {
       pool,
       createTableIfMissing: true,
     });
-    this.initializeData();
-  }
-
-  private async initializeData() {
-    // 检查categories表是否为空
-    const existingCategories = await db.select().from(categories);
-    if (existingCategories.length === 0) {
-      // 添加初始分类
-      await db.insert(categories).values([
-        { name: "油画", description: "古典与现代油画作品", displayOrder: 1 },
-        { name: "水彩", description: "水彩艺术作品", displayOrder: 2 },
-        { name: "素描", description: "铅笔与炭笔素描", displayOrder: 3 },
-        { name: "数字艺术", description: "数字创作艺术", displayOrder: 4 }
-      ]);
-    }
-
-    // 检查artworks表是否为空
-    const existingArtworks = await db.select().from(artworks);
-    if (existingArtworks.length === 0) {
-      // 添加示例作品
-      await db.insert(artworks).values([
-        {
-          title: "向日葵",
-          description: "梵高的经典作品",
-          imageUrl: "https://placehold.co/400x600",
-          videoUrl: null,
-          categoryId: 1,
-          isPremium: false,
-          hideTitle: false,
-          displayOrder: 1
-        },
-        {
-          title: "星空",
-          description: "梵高的代表作",
-          imageUrl: "https://placehold.co/400x800",
-          videoUrl: null,
-          categoryId: 1,
-          isPremium: false,
-          hideTitle: false,
-          displayOrder: 2
-        }
-      ]);
-    }
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -90,33 +47,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getArtworks(): Promise<Artwork[]> {
-    const existingArtworks = await db.select().from(artworks);
-    if (existingArtworks.length === 0) {
-      // 如果数据库为空,插入示例数据
-      const sampleArtworks = [
-        {
-          title: "向日葵",
-          description: "梵高的经典作品",
-          imageUrl: "https://placehold.co/400x600",
-          videoUrl: null,
-          isPremium: false,
-          hideTitle: false,
-          categoryId: 1
-        },
-        {
-          title: "星空",
-          description: "梵高的代表作",
-          imageUrl: "https://placehold.co/400x800", 
-          videoUrl: null,
-          isPremium: false,
-          hideTitle: false,
-          categoryId: 1
-        }
-      ];
-      await db.insert(artworks).values(sampleArtworks);
-      return await db.select().from(artworks);
-    }
-    return existingArtworks;
+    return await db.select().from(artworks);
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
