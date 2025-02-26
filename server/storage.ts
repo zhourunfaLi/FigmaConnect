@@ -13,7 +13,7 @@ async function initializeTables() {
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL,
       description TEXT,
-      displayOrder INTEGER
+      display_order INTEGER
     );
 
     CREATE TABLE IF NOT EXISTS artworks (
