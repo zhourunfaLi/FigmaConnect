@@ -34,6 +34,45 @@ async function initializeTables() {
 
 const PostgresSessionStore = connectPg(session);
 
+// 初始化数据
+async function initializeData() {
+  try {
+    // 添加分类
+    await db.insert(categories).values([
+      { name: "油画", description: "油画作品", displayOrder: 1 },
+      { name: "水彩", description: "水彩作品", displayOrder: 2 },
+      { name: "素描", description: "素描作品", displayOrder: 3 }
+    ]).onConflictDoNothing();
+
+    // 添加艺术品
+    await db.insert(artworks).values([
+      {
+        title: "向日葵",
+        description: "梵高的经典作品",
+        imageUrl: "/images/sunflowers.jpg",
+        isPremium: false,
+        hideTitle: false,
+        categoryId: 1
+      },
+      {
+        title: "星空",
+        description: "梵高的代表作",
+        imageUrl: "/images/starry-night.jpg",
+        isPremium: true,
+        hideTitle: false,
+        categoryId: 1
+      }
+    ]).onConflictDoNothing();
+
+    console.log('数据初始化成功');
+  } catch (error) {
+    console.error('数据初始化失败:', error);
+  }
+}
+
+// 在应用启动时初始化数据
+initializeData();
+
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
