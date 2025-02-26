@@ -1,4 +1,4 @@
-import { artworks, comments, users, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
+import { artworks, comments, users, categories, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import session from "express-session";
