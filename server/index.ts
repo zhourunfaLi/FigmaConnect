@@ -61,6 +61,7 @@ app.use((req, res, next) => {
   const startServer = async () => {
     try {
       await validateSchema(); // Added schema validation before server start
+      server.setMaxListeners(20); // 增加最大监听器数量
       server.close(); // 确保先关闭之前的连接
       server.listen(PORT, "0.0.0.0", () => {
         log(`服务器启动成功，运行在端口 ${PORT}`);

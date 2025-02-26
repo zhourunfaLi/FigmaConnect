@@ -16,6 +16,7 @@ async function initializeTables() {
       display_order INTEGER
     );
 
+    DROP TABLE IF EXISTS artworks CASCADE;
     CREATE TABLE IF NOT EXISTS artworks (
       id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
@@ -49,18 +50,26 @@ async function initializeData() {
       {
         title: "向日葵",
         description: "梵高的经典作品",
-        image_url: "/images/sunflowers.jpg",
+        image_url: "https://placehold.co/400x600/png",
+        video_url: null,
+        category_id: 1,
         is_premium: false,
         hide_title: false,
-        category_id: 1
+        display_order: null,
+        column_position: null,
+        aspect_ratio: null
       },
       {
         title: "星空",
         description: "梵高的代表作",
-        image_url: "/images/starry-night.jpg",
+        image_url: "https://placehold.co/400x600/png",
+        video_url: null,
+        category_id: 1,
         is_premium: true,
         hide_title: false,
-        category_id: 1
+        display_order: null,
+        column_position: null,
+        aspect_ratio: null
       }
     ]).onConflictDoNothing();
 
@@ -114,7 +123,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getArtworks(): Promise<Artwork[]> {
-    return await db.select().from(artworks);
+    const results = await db.select().from(artworks);
+    return results.map(artwork => ({
+      ...artwork,
+      isPremium: artwork.is_premium
+    }));
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
@@ -145,8 +158,8 @@ export class DatabaseStorage implements IStorage {
   async getArtworksByCategory(categoryId: number) {
     return await db.select()
       .from(artworks)
-      .where(eq(artworks.categoryId, categoryId))
-      .orderBy(artworks.displayOrder);
+      .where(eq(artworks.category_id, categoryId))
+      .orderBy(artworks.display_order);
   }
 
   async getComments(artworkId: number): Promise<Comment[]> {
