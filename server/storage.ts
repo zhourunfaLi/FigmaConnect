@@ -145,8 +145,8 @@ export class DatabaseStorage implements IStorage {
   async getArtworksByCategory(categoryId: number) {
     return await db.select()
       .from(artworks)
-      .where(eq(artworks.categoryId, categoryId))
-      .orderBy(artworks.displayOrder);
+      .where(eq(artworks.category_id, categoryId))
+      .orderBy(artworks.display_order);
   }
 
   async getComments(artworkId: number): Promise<Comment[]> {
