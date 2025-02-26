@@ -1,9 +1,36 @@
-import { artworks, comments, users, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
+import { artworks, comments, users, categories, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
+import { sql } from "drizzle-orm";
+
+// 初始化数据库表
+async function initializeTables() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS categories (
+      id SERIAL PRIMARY KEY,
+      name TEXT NOT NULL,
+      description TEXT,
+      display_order INTEGER
+    );
+
+    CREATE TABLE IF NOT EXISTS artworks (
+      id SERIAL PRIMARY KEY,
+      title TEXT NOT NULL,
+      description TEXT NOT NULL,
+      image_url TEXT NOT NULL,
+      video_url TEXT,
+      category_id INTEGER REFERENCES categories(id),
+      is_premium BOOLEAN DEFAULT false NOT NULL,
+      hide_title BOOLEAN DEFAULT false NOT NULL,
+      display_order INTEGER,
+      column_position INTEGER,
+      aspect_ratio TEXT
+    );
+  `);
+}
 
 const PostgresSessionStore = connectPg(session);
 
@@ -29,6 +56,7 @@ export class DatabaseStorage implements IStorage {
       pool,
       createTableIfMissing: true,
     });
+    initializeTables(); // Initialize tables on startup
   }
 
   async getUser(id: number): Promise<User | undefined> {
