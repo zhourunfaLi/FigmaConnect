@@ -9,12 +9,20 @@ export const users = pgTable("users", {
   isPremium: boolean("is_premium").default(false).notNull(),
 });
 
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  displayOrder: integer("display_order"),
+});
+
 export const artworks = pgTable("artworks", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   imageUrl: text("image_url").notNull(),
   videoUrl: text("video_url"),
+  categoryId: integer("category_id").references(() => categories.id),
   isPremium: boolean("is_premium").default(false).notNull(),
   hideTitle: boolean("hide_title").default(false).notNull(),
   displayOrder: integer("display_order"),  // 控制显示顺序

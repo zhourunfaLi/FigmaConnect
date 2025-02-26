@@ -6,8 +6,25 @@ import { setupAuth } from "./auth";
 export function registerRoutes(app: Express): Server {
   setupAuth(app);
 
-  app.get("/api/artworks", async (_req, res) => {
-    const artworks = await storage.getArtworks();
+  app.get("/api/categories", async (_req, res) => {
+    const categories = await storage.getCategories();
+    res.json(categories);
+  });
+
+  app.post("/api/categories", async (req, res) => {
+    if (!req.user) {
+      res.status(401).send("Must be logged in to add category");
+      return;
+    }
+    const category = await storage.createCategory(req.body);
+    res.json(category);
+  });
+
+  app.get("/api/artworks", async (req, res) => {
+    const categoryId = req.query.categoryId ? parseInt(req.query.categoryId as string) : undefined;
+    const artworks = categoryId 
+      ? await storage.getArtworksByCategory(categoryId)
+      : await storage.getArtworks();
     res.json(artworks);
   });
 

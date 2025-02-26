@@ -64,6 +64,24 @@ export class DatabaseStorage implements IStorage {
     return newArtwork;
   }
 
+  async getCategories() {
+    return await db.select().from(categories).orderBy(categories.displayOrder);
+  }
+
+  async createCategory(category: Omit<typeof categories.$inferInsert, "id">) {
+    const [newCategory] = await db.insert(categories)
+      .values(category)
+      .returning();
+    return newCategory;
+  }
+
+  async getArtworksByCategory(categoryId: number) {
+    return await db.select()
+      .from(artworks)
+      .where(eq(artworks.categoryId, categoryId))
+      .orderBy(artworks.displayOrder);
+  }
+
   async getComments(artworkId: number): Promise<Comment[]> {
     return await db.select()
       .from(comments)
