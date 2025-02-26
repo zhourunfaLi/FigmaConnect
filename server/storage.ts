@@ -123,10 +123,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getArtworks(): Promise<Artwork[]> {
-    const results = await db.select().from(artworks);
+    const results = await db.select().from(artworks).orderBy(sql`id DESC`);
     return results.map(artwork => ({
       ...artwork,
-      isPremium: artwork.is_premium
+      isPremium: artwork.is_premium,
+      likes: Math.floor(Math.random() * 2000) // 临时添加随机点赞数用于演示
     }));
   }
 

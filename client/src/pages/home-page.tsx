@@ -51,9 +51,9 @@ export default function HomePage() {
   const filteredArtworks = useMemo(() => {
     switch (activeCategory) {
       case "latest":
-        return [...mockArtworks].sort((a, b) => b.id - a.id);
+        return artworks.sort((a, b) => b.id - a.id);
       case "hottest":
-        return [...mockArtworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        return artworks.sort((a, b) => (b.likes || 0) - (a.likes || 0));
       case "earliest":
         return [...mockArtworks].sort((a, b) => a.id - b.id);
       case "special":
