@@ -47,7 +47,33 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getArtworks(): Promise<Artwork[]> {
-    return await db.select().from(artworks);
+    const existingArtworks = await db.select().from(artworks);
+    if (existingArtworks.length === 0) {
+      // 如果数据库为空,插入示例数据
+      const sampleArtworks = [
+        {
+          title: "向日葵",
+          description: "梵高的经典作品",
+          imageUrl: "https://placehold.co/400x600",
+          videoUrl: null,
+          isPremium: false,
+          hideTitle: false,
+          categoryId: 1
+        },
+        {
+          title: "星空",
+          description: "梵高的代表作",
+          imageUrl: "https://placehold.co/400x800", 
+          videoUrl: null,
+          isPremium: false,
+          hideTitle: false,
+          categoryId: 1
+        }
+      ];
+      await db.insert(artworks).values(sampleArtworks);
+      return await db.select().from(artworks);
+    }
+    return existingArtworks;
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
