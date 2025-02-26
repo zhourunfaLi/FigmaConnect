@@ -49,7 +49,7 @@ export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
   const [artworks, setArtworks] = useState([]);
-  
+
   useEffect(() => {
     fetch('/api/artworks')
       .then(res => res.json())
