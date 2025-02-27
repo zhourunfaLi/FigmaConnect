@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { Link } from 'react-router-dom'; // Changed import for navigation
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -59,7 +58,6 @@ function ArtworkItem({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  //const navigate = useNavigate(); // Removed useNavigate hook
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -83,10 +81,10 @@ function ArtworkItem({
   }, [artwork.id]);
 
   return (
-    <Link 
+    <div 
       id={`artwork-${artwork.id}`}
       className={cn(
-        "break-inside-avoid mb-4 group cursor-pointer block", // Added cursor-pointer for better UX and block
+        "break-inside-avoid mb-4 group",
         isWide && "-ml-[4px]"
       )}
       style={{
@@ -94,7 +92,6 @@ function ArtworkItem({
         breakBefore: isWide ? "column" : "auto",
         position: 'relative'
       }}
-      to={`/artwork/${artwork.id}`} // Changed to Link
     >
       <div 
         className="w-full relative overflow-hidden rounded-xl"
@@ -178,7 +175,7 @@ function ArtworkItem({
           <MoreHorizontal className="w-4 h-4 text-[#111111]" />
         </button>
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -219,7 +216,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // 定义一组不同的宽高比
   const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
-
+  
   const displayArtworks = [
     ...artIds.map((id, index) => ({
       ...artworks[0],
