@@ -26,7 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     data: user,
     error,
     isLoading,
-  } = useQuery<SelectUser | undefined, Error>({
+  } = useQuery({
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
@@ -98,35 +98,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
-  const { data: user, isLoading, error, refetch } = useQuery({
-    queryKey: ['user'],
-    queryFn: () => {
-      console.log('正在获取用户信息...');
-      return fetchApi('/user')
-        .catch(err => {
-          console.log('用户未登录', err);
-          return null;
-        });
-    }
-  });
-  return { user, isLoading, error, refetch };
-}
-
-// Placeholder implementation for fetchApi.  Needs to be replaced with actual API call logic.
-async function fetchApi(endpoint: string): Promise<any> {
-  const response = await fetch(endpoint);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
   }
-  return await response.json();
-}
-
-export async function fetchUserInfo() {
-  console.log("正在获取用户信息...");
-  try {
-    return await fetchApi("/user");
-  } catch (error) {
-    console.error("获取用户信息失败:", error);
-    throw error;
-  }
+  return context;
 }
