@@ -30,8 +30,8 @@ export default function App() {
               </Switch>
             </main>
           </AppLayout>
+          <Toaster />
         </Router>
-        <Toaster />
       </AuthProvider>
     </QueryClientProvider>
   );
