@@ -3,8 +3,14 @@ export async function apiRequest<T = any>(
   method: string = 'GET', 
   data?: any
 ): Promise<T> {
+  // 确保url是有效的字符串路径
+  if (!url || typeof url !== 'string') {
+    throw new Error(`Invalid API URL: ${url}`);
+  }
+
   const options: RequestInit = {
-    method,
+    method, // 确保method是有效HTTP方法
+    credentials: 'include', // 默认包含凭证
     headers: {
       'Content-Type': 'application/json',
     },

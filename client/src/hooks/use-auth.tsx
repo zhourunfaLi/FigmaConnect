@@ -29,9 +29,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        console.log("正在获取用户信息...");
         const userData = await apiRequest("/api/user", "GET");
+        console.log("获取到用户信息:", userData);
         setUser(userData);
       } catch (error) {
+        console.log("用户未登录", error);
         // 用户未登录，这是正常情况
         console.log("用户未登录", error);
       } finally {
