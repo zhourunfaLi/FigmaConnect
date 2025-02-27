@@ -7,7 +7,7 @@ export default function ArtworkGrid({ artworks }: { artworks: Artwork[] }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {artworks.map((artwork) => (
-        <Link key={artwork.id} to={`/works/${artwork.id}`}>
+        <Link key={artwork.id} href={`/artwork/${artwork.id}`}>
           <Card className="cursor-pointer hover:shadow-lg transition-shadow">
             <CardContent className="p-0">
               <div className="relative">

@@ -3,7 +3,17 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { Link, useLocation, useNavigate } from "wouter"; //Corrected import and added useNavigate
+
+// Constants for layout configuration
+const GRID_CONFIG = {
+  MOBILE_COLUMNS: 2,
+  TABLET_COLUMNS: 3,
+  DESKTOP_COLUMNS: 4,
+  GROUP_SIZE: 7, // 2*3 + 1 pattern
+  BASE_HEIGHT: 128,
+  TABLET_SCALE: 1.5,
+  DESKTOP_SCALE: 2,
+} as const;
 
 // Common aspect ratios for artwork display
 const ARTWORK_ASPECT_RATIOS = [3/4, 4/5, 2/3, 5/4, 1] as const;
@@ -16,83 +26,38 @@ type WorksListProps = {
 // Advertisement component for the artwork grid
 function AdCard() {
   return (
-    <div className="w-full break-inside-avoid mb-9">
-      <div className="relative aspect-[3/4] w-full bg-white rounded-lg overflow-hidden border border-black/5">
-        {/* Ad Image */}
-        <img 
-          src="https://placehold.co/400x600/EEEAE2/111111?text=广告" 
-          alt="广告内容"
-          className="w-full h-full object-cover"
-        />
-
-        {/* Ad Label */}
+    <div className="w-full">
+      <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
         </div>
-
-        {/* Hover Effect - Similar to artwork cards */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-          <div className="space-y-2 mt-auto">
-            <h3 className="text-white font-medium line-clamp-2">
-              推广内容标题
-            </h3>
-            <p className="text-white/80 text-sm line-clamp-2">
-              了解更多详情
-            </p>
-          </div>
+        <div className="w-full h-full flex items-center justify-center text-black/30">
+          Google Ads
         </div>
       </div>
-
-      {/* Title Bar - Similar to artwork cards */}
-      <div className="flex justify-between items-center mt-[2px]">
+      <div className="flex justify-between items-center px-2 mt-2">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           推广内容
         </div>
-        <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-          <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-        </button>
       </div>
     </div>
   );
 }
 
-function calculateHorizontalIndex(index: number, totalColumns: number): number {
-  // 直接返回 index + 1 实现水平方向优先的编号
-  return index + 1;
-}
-
+// Artwork component with lazy loading and loading state
 function ArtworkItem({ 
   artwork, 
-  index,
-  isWide 
+  isWide, 
+  wideHeight, 
+  index 
 }: { 
-  artwork: Artwork & { aspectRatio: number }; 
+  artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
+  isWide: boolean; 
+  wideHeight: number;
   index: number;
-  isWide?: boolean;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [, navigate] = useLocation();
-
-
-  const getColumnCount = () => {
-    if (typeof window === 'undefined') return 2;
-    const width = window.innerWidth;
-    if (width >= 1024) return 4;
-    if (width >= 768) return 3;
-    return 2;
-  };
-
-  const [columnCount, setColumnCount] = useState(getColumnCount());
-
-  useEffect(() => {
-    const updateColumnCount = () => {
-      setColumnCount(getColumnCount());
-    };
-
-    window.addEventListener('resize', updateColumnCount);
-    return () => window.removeEventListener('resize', updateColumnCount);
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -102,7 +67,9 @@ function ArtworkItem({
           observer.disconnect();
         }
       },
-      { rootMargin: '50px' }
+      {
+        rootMargin: '50px'
+      }
     );
 
     const element = document.getElementById(`artwork-${artwork.id}`);
@@ -113,27 +80,31 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
-  const horizontalIndex = calculateHorizontalIndex(index, columnCount);
-
   return (
-    <Link 
-      to={`/details/${artwork.id}`}
+    <div 
+      id={`artwork-${artwork.id}`}
       className={cn(
-        "group block w-full break-inside-avoid mb-9",
-        isWide && "column-span-all"
+        "break-inside-avoid mb-4 group",
+        isWide && "-ml-[4px]"
       )}
+      style={{
+        columnSpan: isWide ? "all" : "none",
+        breakBefore: isWide ? "column" : "auto",
+        position: 'relative'
+      }}
     >
       <div 
-        id={`artwork-${artwork.id}`}
-        className="relative overflow-hidden rounded-lg"
+        className="w-full relative overflow-hidden rounded-xl"
         style={{ 
-          aspectRatio: isWide ? 2.4 : artwork.aspectRatio
+          height: 'auto',
+          aspectRatio: artwork.aspectRatio,
         }}
       >
+        {/* Loading skeleton */}
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
             className={cn(
-              "absolute inset-0 rounded-lg",
+              "absolute inset-0 rounded-xl",
               !imageLoaded && "animate-pulse"
             )}
           />
@@ -142,7 +113,9 @@ function ArtworkItem({
         {isVisible && (
           <>
             <img
-              src={`/src/assets/design/works-${String((index % 8) + 1).padStart(2, '0')}.png`}
+              src={artwork.themeId === "art" 
+                ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
+                : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
               className={cn(
                 "w-full h-full object-cover transition-all duration-300",
@@ -153,21 +126,22 @@ function ArtworkItem({
               onLoad={() => setImageLoaded(true)}
             />
 
-            {/* Labels */}
+            {/* Always visible labels */}
             <div className="absolute top-2 left-2 flex gap-2">
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                #{horizontalIndex}
+                #{index + 1}
               </div>
-              {artwork.isPremium && (
+              {(artwork.is_premium || artwork.isPremium) && (
                 <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
                   SVIP
                 </div>
               )}
             </div>
 
-            {/* Hover overlay */}
+            {/* Hover overlay with actions */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
               <div className="flex justify-end items-start">
+                {/* Action buttons */}
                 <div className="flex gap-2">
                   <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
                     <Heart className="w-4 h-4 text-white" />
@@ -178,6 +152,7 @@ function ArtworkItem({
                 </div>
               </div>
 
+              {/* Bottom content */}
               <div className="space-y-2">
                 <h3 className="text-white font-medium line-clamp-2">
                   {artwork.title}
@@ -191,8 +166,8 @@ function ArtworkItem({
         )}
       </div>
 
-      {/* Title and options */}
-      <div className="flex justify-between items-center mt-[2px] group-hover:opacity-0 transition-opacity duration-300">
+      {/* Title and options (visible when not hovering) */}
+      <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
         </div>
@@ -200,57 +175,91 @@ function ArtworkItem({
           <MoreHorizontal className="w-4 h-4 text-[#111111]" />
         </button>
       </div>
-    </Link>
+    </div>
   );
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  // Transform artwork data for display and insert ads
-  const contentItems = Array.from({ length: 30 }, (_, index) => {
-    // Insert an ad after every 6 artworks
-    if ((index + 1) % 6 === 0) {
-      return {
-        type: 'ad',
-        id: `ad-${Math.floor(index / 6)}`
-      };
-    }
+  const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
-    // Calculate the actual artwork index (excluding ad positions)
-    const artworkIndex = index - Math.floor(index / 6);
-    const isWide = ((artworkIndex + 1) % 7 === 0);
-
-    return {
-      type: 'artwork',
-      data: {
-        ...artworks[artworkIndex % artworks.length],
-        id: artworkIndex + 1,
-        aspectRatio: ARTWORK_ASPECT_RATIOS[artworkIndex % ARTWORK_ASPECT_RATIOS.length],
-        isWide
+  // Update wide artwork height based on screen size
+  useEffect(() => {
+    const updateWideHeight = () => {
+      const width = window.innerWidth;
+      if (width < 768) { // Mobile: 2 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT);
+      } else if (width < 1024) { // Tablet: 3 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
+      } else { // Desktop: 4 columns
+        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
       }
     };
-  });
+
+    updateWideHeight();
+    window.addEventListener('resize', updateWideHeight);
+    return () => window.removeEventListener('resize', updateWideHeight);
+  }, []);
+
+  // Get unique random numbers for art and city images
+  const getUniqueRandoms = (max: number, count: number) => {
+    const numbers = Array.from({ length: max }, (_, i) => i + 1);
+    for (let i = numbers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+    return numbers.slice(0, count);
+  };
+
+  // Get 24 unique artworks (19 art + 5 city)
+  const artIds = getUniqueRandoms(19, 19);
+  const cityIds = getUniqueRandoms(20, 5);
+
+  // 定义一组不同的宽高比
+  const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
+  
+  const displayArtworks = [
+    ...artIds.map((id, index) => ({
+      ...artworks[0],
+      id: `art-${id}-${index}`,
+      imageId: id,
+      title: `艺术作品 ${id}`,
+      description: "现代艺术创作",
+      themeId: "art", 
+      aspectRatio: aspectRatios[id % aspectRatios.length],
+      isWide: false
+    })),
+    ...cityIds.map((id, index) => ({
+      ...artworks[0],
+      id: `city-${id}-${index}`,
+      imageId: id,
+      title: `城市风光 ${id}`,
+      description: "城市建筑与人文景观",
+      themeId: "city",
+      aspectRatio: aspectRatios[id % aspectRatios.length],
+      isWide: false
+    }))
+  ].sort(() => Math.random() - 0.5);
+
+  // Combine artworks with advertisements
+  const contentWithAds = displayArtworks.map((artwork, index) => (
+    <ArtworkItem 
+      key={artwork.id}
+      artwork={artwork}
+      isWide={false}
+      wideHeight={wideHeight}
+      index={index}
+    />
+  ));
+
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto">
-      <div 
-        className={cn(
-          "columns-2 md:columns-3 lg:columns-4 gap-[10px] px-2",
-          className
-        )}
-      >
-        {contentItems.map((item, index) => (
-          item.type === 'ad' ? (
-            <AdCard key={item.id} />
-          ) : (
-            <ArtworkItem 
-              key={item.data.id}
-              artwork={item.data}
-              index={index - Math.floor(index / 6)} // Adjust index for horizontal numbering
-              isWide={item.data.isWide}
-            />
-          )
-        ))}
-      </div>
+    <div 
+      className={cn(
+        "columns-2 md:columns-3 lg:columns-4 gap-4 px-[8px] pb-20",
+        className
+      )}
+    >
+      {contentWithAds}
     </div>
   );
 }

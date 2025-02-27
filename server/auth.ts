@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Express } from "express";
+import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
@@ -28,7 +29,20 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
+  const sessionSettings: session.SessionOptions = {
+    secret: process.env.REPL_ID!,
+    resave: false,
+    saveUninitialized: false,
+    store: storage.sessionStore,
+  };
+
+  if (app.get("env") === "production") {
+    app.set("trust proxy", 1);
+  }
+
+  app.use(session(sessionSettings));
   app.use(passport.initialize());
+  app.use(passport.session());
 
   passport.use(
     new LocalStrategy(async (username, password, done) => {
@@ -50,7 +64,21 @@ export function setupAuth(app: Express) {
     }),
   );
 
-  app.post("/api/register", async (req, res) => {
+  passport.serializeUser((user, done) => done(null, user.id));
+
+  passport.deserializeUser(async (id: number, done) => {
+    try {
+      const user = await storage.getUser(id);
+      if (!user) {
+        return done(null, false);
+      }
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
+
+  app.post("/api/register", async (req, res, next) => {
     try {
       const existingUser = await storage.getUserByUsername(req.body.username);
       if (existingUser) {
@@ -63,9 +91,12 @@ export function setupAuth(app: Express) {
         password: hashedPassword,
       });
 
-      res.status(201).json(user);
+      req.login(user, (err) => {
+        if (err) return next(err);
+        res.status(201).json(user);
+      });
     } catch (err) {
-      res.status(500).json({ message: "注册失败" });
+      next(err);
     }
   });
 
@@ -75,21 +106,22 @@ export function setupAuth(app: Express) {
       if (!user) {
         return res.status(401).json({ message: info?.message || "登录失败" });
       }
-      res.json(user);
+      req.login(user, (err) => {
+        if (err) return next(err);
+        res.json(user);
+      });
     })(req, res, next);
   });
 
-  app.get("/api/user", (req, res) => {
-    // 由前端通过 Authorization header 传递用户 ID
-    const userId = req.headers.authorization;
-    if (!userId) return res.sendStatus(401);
+  app.post("/api/logout", (req, res, next) => {
+    req.logout((err) => {
+      if (err) return next(err);
+      res.sendStatus(200);
+    });
+  });
 
-    storage.getUser(parseInt(userId))
-      .then(user => {
-        if (!user) return res.sendStatus(401);
-        // Modification to always return non-premium user
-        res.json({...user, isPremium: false}); // Temporarily disable premium status
-      })
-      .catch(() => res.sendStatus(500));
+  app.get("/api/user", (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    res.json(req.user);
   });
 }
