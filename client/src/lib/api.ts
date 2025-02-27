@@ -7,23 +7,31 @@ export const getApiUrl = () => {
 export const API_URL = getApiUrl();
 
 // 通用fetch函数，用于所有API请求
-export async function fetchApi(endpoint: string, options: RequestInit = {}) {
-  const url = `${API_URL}${endpoint}`;
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers
-    },
-    credentials: 'include' // 包含cookies以支持认证
-  });
-  
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(error || response.statusText);
+export async function fetchApi(path: string, options: RequestInit = {}) {
+  // 确保路径以/api开头
+  const apiPath = path.startsWith('/api') ? path : `/api${path}`;
+  const baseUrl = import.meta.env.DEV ? `http://${window.location.hostname}:3004` : '';
+  const url = `${baseUrl}${apiPath}`;
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      credentials: 'include', // 包含cookies
+    });
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.statusText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('API请求错误:', error);
+    throw error;
   }
-  
-  return response.json();
 }
 
 // 获取用户信息

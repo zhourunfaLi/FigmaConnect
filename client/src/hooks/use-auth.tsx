@@ -98,11 +98,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
+  const { data: user, isLoading, error, refetch } = useQuery(['user'], () => {
+    console.log('正在获取用户信息...');
+    return fetchApi('/user')
+      .catch(err => {
+        console.log('用户未登录', err);
+        return null;
+      });
+  });
+  return { user, isLoading, error, refetch };
 }
 
 // Placeholder implementation for fetchApi.  Needs to be replaced with actual API call logic.

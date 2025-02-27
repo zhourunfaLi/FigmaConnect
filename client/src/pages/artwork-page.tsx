@@ -36,6 +36,7 @@ export default function ArtworkPage() {
     queryFn: () => fetchApi(`/artworks/${id}`),
     enabled: id > 0,
     retry: false,
+    staleTime: 60000, // 缓存一分钟
   });
 
   useEffect(() => {
