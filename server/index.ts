@@ -116,12 +116,29 @@ app.use((req, res, next) => {
       server.listen(currentPort, "0.0.0.0", () => {
         retryCount = 0; // 重置重试计数
         log(`服务器启动成功，运行在端口 ${currentPort}，访问地址: http://0.0.0.0:${currentPort}`);
-        log(`使用以下访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co:${currentPort}/`);
+        
+        // 构建Replit特定的URL
+        const replitSlug = process.env.REPL_SLUG || 'unknown';
+        const replitOwner = process.env.REPL_OWNER || 'unknown';
+        log(`使用以下访问地址: https://${replitSlug}.${replitOwner}.repl.co`);
+        
+        // 添加未捕获异常处理
+        process.on('uncaughtException', (err) => {
+          log(`未捕获的异常: ${err.message}`);
+          log(err.stack || '无堆栈信息');
+          // 不立即退出，让服务器继续运行
+        });
+        
+        process.on('unhandledRejection', (reason, promise) => {
+          log(`未处理的Promise拒绝: ${reason}`);
+          // 不立即退出，让服务器继续运行
+        });
       });
     } catch(e) {
       log(`启动服务器出错: ${e.message}`);
-      log('尝试在3秒后重启服务器...');
-      setTimeout(startServer, 3000);
+      log(e.stack || '无堆栈信息');
+      log('尝试在5秒后重启服务器...');
+      setTimeout(startServer, 5000);
     }
   }
 
