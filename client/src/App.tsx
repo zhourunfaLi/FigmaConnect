@@ -19,7 +19,7 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <Route path="/artwork/:id" component={ArtworkPage} />
       <Route path="/add-artwork" component={AddArtworkPage} />
-      <Route path="/details" component={WorkDetails} />
+      <Route path="/details/:id" component={WorkDetails} /> {/*Corrected route path*/}
       <Route component={NotFound} />
     </Switch>
   );
