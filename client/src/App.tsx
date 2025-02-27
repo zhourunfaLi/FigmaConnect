@@ -1,4 +1,3 @@
-
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Switch, Route, Router } from "wouter";
@@ -30,11 +29,11 @@ function RouterComponent() {
 // 移动到内部组件，确保在AuthProvider内部使用
 const AppLayout = ({ children }) => {
   const { user, logoutMutation } = useAuth();
-  
+
   const handleLogout = () => {
     logoutMutation.mutate();
   };
-  
+
   return (
     <>
       <nav className="bg-background border-b border-border p-4">

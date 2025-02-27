@@ -117,10 +117,15 @@ app.use((req, res, next) => {
         retryCount = 0; // 重置重试计数
         log(`服务器启动成功，运行在端口 ${currentPort}，访问地址: http://0.0.0.0:${currentPort}`);
         
-        // 构建Replit特定的URL
+        // 确保服务器正确绑定到REPLIT环境
         const replitSlug = process.env.REPL_SLUG || 'unknown';
         const replitOwner = process.env.REPL_OWNER || 'unknown';
         log(`使用以下访问地址: https://${replitSlug}.${replitOwner}.repl.co`);
+        
+        // 确保服务器响应健康检查
+        app.get('/healthz', (req, res) => {
+          res.status(200).send('OK');
+        });
         
         // 添加未捕获异常处理
         process.on('uncaughtException', (err) => {
