@@ -104,3 +104,22 @@ export function useAuth() {
   }
   return context;
 }
+
+// Placeholder implementation for fetchApi.  Needs to be replaced with actual API call logic.
+async function fetchApi(endpoint: string): Promise<any> {
+  const response = await fetch(endpoint);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return await response.json();
+}
+
+export async function fetchUserInfo() {
+  console.log("正在获取用户信息...");
+  try {
+    return await fetchApi("/user");
+  } catch (error) {
+    console.error("获取用户信息失败:", error);
+    throw error;
+  }
+}

@@ -82,7 +82,7 @@ function ArtworkItem({
   }, [artwork.id]);
 
   const handleClick = () => {
-    window.location.href = `/artwork/${artwork.id}`; // Corrected navigation
+    window.location.href = `/artwork/${artwork.id}`;igation
   };
 
   return (

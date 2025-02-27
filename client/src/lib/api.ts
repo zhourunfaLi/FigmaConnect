@@ -1,20 +1,30 @@
 // 检测服务器可能使用的多个端口
 export const getApiUrl = () => {
-  const host = window.location.host;
-  // 如果URL中已经包含端口号，则使用那个端口
-  if (host.includes(':')) {
-    return "/api";
-  }
-
-  // 否则，根据当前protocol和host构建API_URL
-  const protocol = window.location.protocol;
-  const hostname = window.location.hostname;
-
-  // 默认尝试不带端口的路径
+  // 默认使用相对路径，这样会自动使用当前域名和端口
   return "/api";
 };
 
 export const API_URL = getApiUrl();
+
+// 通用fetch函数，用于所有API请求
+export async function fetchApi(endpoint: string, options: RequestInit = {}) {
+  const url = `${API_URL}${endpoint}`;
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers
+    },
+    credentials: 'include' // 包含cookies以支持认证
+  });
+  
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(error || response.statusText);
+  }
+  
+  return response.json();
+}
 
 // 获取用户信息
 export async function fetchUserInfo() {
