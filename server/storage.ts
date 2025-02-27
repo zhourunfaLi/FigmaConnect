@@ -40,9 +40,9 @@ async function initializeData() {
   try {
     // 添加分类
     await db.insert(categories).values([
-      { name: "油画", description: "油画作品", displayOrder: 1 },
-      { name: "水彩", description: "水彩作品", displayOrder: 2 },
-      { name: "素描", description: "素描作品", displayOrder: 3 }
+      { name: "油画", description: "油画作品", display_order: 1 },
+      { name: "水彩", description: "水彩作品", display_order: 2 },
+      { name: "素描", description: "素描作品", display_order: 3 }
     ]).onConflictDoNothing();
 
     // 添加艺术品
@@ -50,7 +50,7 @@ async function initializeData() {
       {
         title: "向日葵",
         description: "梵高的经典作品",
-        imageUrl: "https://placehold.co/400x600",
+        image_url: "https://placehold.co/400x600",
         is_premium: false,
         hide_title: false,
         category_id: 1
@@ -58,7 +58,7 @@ async function initializeData() {
       {
         title: "星空",
         description: "梵高的代表作",
-        imageUrl: "https://placehold.co/400x600",
+        image_url: "https://placehold.co/400x600",
         is_premium: true,
         hide_title: false,
         category_id: 1

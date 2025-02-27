@@ -6,22 +6,22 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
-  isPremium: boolean("is_premium").default(false).notNull(),
+  is_premium: boolean("is_premium").default(false).notNull(),
 });
 
 export const categories = pgTable("categories", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description"),
-  displayOrder: integer("display_order"),
+  display_order: integer("display_order"),
 });
 
 export const artworks = pgTable("artworks", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  imageUrl: text("image_url").notNull(),
-  videoUrl: text("video_url"),
+  image_url: text("image_url").notNull(),
+  video_url: text("video_url"),
   category_id: integer("category_id").references(() => categories.id),
   is_premium: boolean("is_premium").default(false).notNull(),
   hide_title: boolean("hide_title").default(false).notNull(),
@@ -33,9 +33,9 @@ export const artworks = pgTable("artworks", {
 export const comments = pgTable("comments", {
   id: serial("id").primaryKey(),
   content: text("content").notNull(),
-  userId: integer("user_id").references(() => users.id).notNull(),
-  artworkId: integer("artwork_id").references(() => artworks.id).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  user_id: integer("user_id").references(() => users.id).notNull(),
+  artwork_id: integer("artwork_id").references(() => artworks.id).notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
