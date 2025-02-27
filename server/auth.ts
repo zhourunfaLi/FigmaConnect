@@ -27,13 +27,13 @@ async function comparePasswords(supplied: string, stored: string) {
     console.error("Stored password is not in the correct format: hash.salt");
     return false;
   }
-  
+
   const [hashed, salt] = stored.split(".");
   if (!hashed || !salt) {
     console.error("Invalid password format in database");
     return false;
   }
-  
+
   const hashedBuf = Buffer.from(hashed, "hex");
   const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
   return timingSafeEqual(hashedBuf, suppliedBuf);
@@ -66,9 +66,9 @@ export function setupAuth(app: Express) {
         }
 
         console.log(`User found, verifying password for: ${username}`);
-        // Add safety check for password format
+        // 验证密码格式
         if (!user.password || typeof user.password !== 'string') {
-          console.error(`Invalid password format for user: ${username}`);
+          console.error(`数据库中密码格式无效: ${username}`);
           return done(null, false, { message: "账户配置错误" });
         }
 

@@ -62,7 +62,7 @@ app.use((req, res, next) => {
   const MAX_RETRY = 5;
   let currentPort = BASE_PORT;
   let retryCount = 0;
-  
+
   // 检查端口是否被占用
   const isPortInUse = (port) => {
     return new Promise((resolve) => {
@@ -78,11 +78,11 @@ app.use((req, res, next) => {
       });
     });
   };
-  
+
   // 查找下一个可用端口
   const findAvailablePort = async () => {
     let port = currentPort;
-    
+
     // 尝试从当前端口到最大端口
     while (port <= MAX_PORT) {
       log(`尝试端口 ${port}...`);
@@ -92,25 +92,25 @@ app.use((req, res, next) => {
       }
       port++;
     }
-    
+
     // 如果所有端口都被占用，重置到初始端口并等待
     log(`所有端口 ${BASE_PORT}-${MAX_PORT} 都被占用，等待释放...`);
     await new Promise(resolve => setTimeout(resolve, 3000));
     return BASE_PORT;
   };
-  
+
   const startServer = async () => {
     try {
       await validateSchema(); // 执行模式验证
-      
+
       // 查找可用端口
       currentPort = await findAvailablePort();
-      
+
       // 确保关闭现有服务器
       if (server.listening) {
         server.close();
       }
-      
+
       // 启动服务器
       server.listen(currentPort, "0.0.0.0", () => {
         retryCount = 0; // 重置重试计数
