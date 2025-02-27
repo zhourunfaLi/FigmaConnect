@@ -58,29 +58,74 @@ app.use((req, res, next) => {
   }
 
   const PORT = 3002;
+  let isServerClosed = false;
+  
+  // 处理服务器关闭
+  const closeServer = () => {
+    if (!isServerClosed) {
+      log('正在关闭服务器...');
+      server.close(() => {
+        log('服务器已关闭');
+        isServerClosed = true;
+      });
+    }
+  };
+  
+  // 处理进程退出信号
+  ['SIGINT', 'SIGTERM', 'SIGHUP'].forEach(signal => {
+    process.on(signal, () => {
+      log(`收到${signal}信号，正在关闭服务器...`);
+      closeServer();
+      process.exit(0);
+    });
+  });
+  
   const startServer = async () => {
     try {
-      await validateSchema(); // Added schema validation before server start
-      server.close(); // 确保先关闭之前的连接
-      server.listen(PORT, "0.0.0.0", () => {
+      await validateSchema(); // 验证数据库schema
+      
+      // 确保服务器处于关闭状态
+      closeServer();
+      
+      // 使用新的HTTP服务器实例
+      const newServer = createServer(app);
+      
+      // 设置服务器错误处理
+      newServer.on('error', (err) => {
+        log(`服务器错误: ${err.message}`);
+        if(err.code === 'EADDRINUSE') {
+          log('端口被占用，尝试强制释放...');
+          
+          // 使用shell命令尝试释放端口
+          try {
+            require('child_process').execSync('kill -9 $(lsof -t -i:3002) || true');
+            log('尝试释放端口完成，3秒后重试...');
+          } catch (e) {
+            log(`尝试释放端口失败: ${e.message}`);
+          }
+          
+          setTimeout(startServer, 3000);
+        } else {
+          log(`严重错误: ${err.message}`);
+          process.exit(1);
+        }
+      });
+      
+      // 启动服务器
+      newServer.listen(PORT, "0.0.0.0", () => {
+        isServerClosed = false;
         log(`服务器启动成功，运行在端口 ${PORT}`);
       });
+      
+      // 替换全局server引用
+      server = newServer;
+      
+      return newServer;
     } catch(e) {
       log(`启动服务器出错: ${e.message}`);
+      return null;
     }
-  }
-
-  // 处理服务器错误
-  server.on('error', (err) => {
-    log(`服务器错误: ${err.message}`);
-    if(err.code === 'EADDRINUSE') {
-      log('端口被占用，等待释放...');
-      setTimeout(startServer, 3000); // 增加等待时间到3秒
-    } else {
-      log(`严重错误: ${JSON.stringify(err)}`);
-      process.exit(1);
-    }
-  });
+  };
 
   // 处理进程退出
   process.on('SIGTERM', () => {
