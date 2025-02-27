@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { useLocation } from "wouter"; // Added import for useNavigate
+import { Link } from "wouter"; // Corrected import
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -50,14 +50,12 @@ function ArtworkItem({
   artwork, 
   isWide, 
   wideHeight, 
-  index,
-  onArtworkClick 
+  index 
 }: { 
   artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
   isWide: boolean; 
   wideHeight: number;
   index: number;
-  onArtworkClick?: (id: string) => void;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -84,9 +82,7 @@ function ArtworkItem({
   }, [artwork.id]);
 
   const handleClick = () => {
-    if (onArtworkClick) {
-      onArtworkClick(artwork.id);
-    }
+    window.location.href = `/artwork/${artwork.id}`; // Corrected navigation
   };
 
   return (
@@ -101,7 +97,6 @@ function ArtworkItem({
         breakBefore: isWide ? "column" : "auto",
         position: 'relative'
       }}
-      onClick={handleClick} // Added onClick handler
     >
       <div 
         className="w-full relative overflow-hidden rounded-xl"
@@ -134,6 +129,7 @@ function ArtworkItem({
               )}
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
+              onClick={handleClick} // Added onClick handler
             />
 
             {/* Always visible labels */}
@@ -141,7 +137,7 @@ function ArtworkItem({
               <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
                 #{index + 1}
               </div>
-              {artwork.is_premium && ( // Changed to is_premium
+              {artwork.isPremium && (
                 <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
                   SVIP
                 </div>
@@ -190,12 +186,7 @@ function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  const [, navigate] = useLocation();
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
-
-  const handleArtworkClick = (id: string) => {
-    navigate(`/artwork/${id}`);
-  };
 
   // Update wide artwork height based on screen size
   useEffect(() => {
@@ -263,7 +254,6 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       isWide={false}
       wideHeight={wideHeight}
       index={index}
-      onArtworkClick={handleArtworkClick} // Pass the callback function
     />
   ));
 

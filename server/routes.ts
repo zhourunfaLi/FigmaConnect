@@ -25,7 +25,6 @@ export function registerRoutes(app: Express): Server {
     const artworks = categoryId 
       ? await storage.getArtworksByCategory(categoryId)
       : await storage.getArtworks();
-    // 确保返回的字段名与数据库schema一致
     res.json(artworks);
   });
 
@@ -39,9 +38,9 @@ export function registerRoutes(app: Express): Server {
       const artwork = await storage.createArtwork({
         title: req.body.title,
         description: req.body.description,
-        image_url: req.body.image_url,
-        video_url: req.body.video_url,
-        is_premium: req.body.is_premium,
+        imageUrl: req.body.imageUrl,
+        videoUrl: req.body.videoUrl,
+        isPremium: req.body.isPremium,
       });
       res.status(200).json(artwork);
     } catch (error) {
@@ -70,7 +69,7 @@ export function registerRoutes(app: Express): Server {
         return;
       }
 
-      if (artwork.is_premium && !req.user?.is_premium) {
+      if (artwork.isPremium && !req.user?.isPremium) {
         console.log(`[Debug] Premium content access denied for user:`, req.user);
         res.status(403).send("Premium content requires membership");
         return;

@@ -6,22 +6,22 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
-  is_premium: boolean("is_premium").default(false).notNull(),
+  isPremium: boolean("is_premium").default(false).notNull(),
 });
 
 export const categories = pgTable("categories", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description"),
-  display_order: integer("display_order"),
+  displayOrder: integer("display_order"),
 });
 
 export const artworks = pgTable("artworks", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  image_url: text("image_url").notNull(),
-  video_url: text("video_url"),
+  imageUrl: text("image_url").notNull(),
+  videoUrl: text("video_url"),
   category_id: integer("category_id").references(() => categories.id),
   is_premium: boolean("is_premium").default(false).notNull(),
   hide_title: boolean("hide_title").default(false).notNull(),
@@ -33,9 +33,9 @@ export const artworks = pgTable("artworks", {
 export const comments = pgTable("comments", {
   id: serial("id").primaryKey(),
   content: text("content").notNull(),
-  user_id: integer("user_id").references(() => users.id).notNull(),
-  artwork_id: integer("artwork_id").references(() => artworks.id).notNull(),
-  created_at: timestamp("created_at").defaultNow().notNull(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  artworkId: integer("artwork_id").references(() => artworks.id).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -60,10 +60,7 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: false,
     hide_title: true,
-    category_id: 1,
-    display_order: 1,
-    column_position: 1,
-    aspect_ratio: "3:2"
+    category_id: 1
   },
   {
     id: 2,
@@ -73,10 +70,7 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: true,
     hide_title: true,
-    category_id: 1,
-    display_order: 2,
-    column_position: 2,
-    aspect_ratio: "1:1"
+    category_id: 1
   },
   {
     id: 3,
@@ -86,10 +80,7 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: false,
     hide_title: false,
-    category_id: 1,
-    display_order: 3,
-    column_position: 3,
-    aspect_ratio: "4:3"
+    category_id: 1
   },
   {
     id: 4,
@@ -99,10 +90,7 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: true,
     hide_title: false,
-    category_id: 1,
-    display_order: 4,
-    column_position: 1,
-    aspect_ratio: "1:2"
+    category_id: 1
   },
   {
     id: 5,
@@ -112,10 +100,7 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: false,
     hide_title: false,
-    category_id: 1,
-    display_order: 5,
-    column_position: 2,
-    aspect_ratio: "4:5"
+    category_id: 1
   },
   {
     id: 6,
@@ -125,9 +110,6 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: true,
     hide_title: false,
-    category_id: 1,
-    display_order: 6,
-    column_position: 3,
-    aspect_ratio: "4:7"
+    category_id: 1
   }
 ];

@@ -40,9 +40,9 @@ async function initializeData() {
   try {
     // 添加分类
     await db.insert(categories).values([
-      { name: "油画", description: "油画作品", display_order: 1 },
-      { name: "水彩", description: "水彩作品", display_order: 2 },
-      { name: "素描", description: "素描作品", display_order: 3 }
+      { name: "油画", description: "油画作品", displayOrder: 1 },
+      { name: "水彩", description: "水彩作品", displayOrder: 2 },
+      { name: "素描", description: "素描作品", displayOrder: 3 }
     ]).onConflictDoNothing();
 
     // 添加艺术品
@@ -50,16 +50,16 @@ async function initializeData() {
       {
         title: "向日葵",
         description: "梵高的经典作品",
-        image_url: "https://placehold.co/400x600",
-        is_premium: false,
+        imageUrl: "https://placehold.co/400x600",
+        isPremium: false,
         hide_title: false,
         category_id: 1
       },
       {
         title: "星空",
         description: "梵高的代表作",
-        image_url: "https://placehold.co/400x600",
-        is_premium: true,
+        imageUrl: "https://placehold.co/400x600",
+        isPremium: true,
         hide_title: false,
         category_id: 1
       }
@@ -133,7 +133,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getCategories() {
-    return await db.select().from(categories).orderBy(categories.display_order);
+    return await db.select().from(categories).orderBy(categories.displayOrder);
   }
 
   async createCategory(category: Omit<typeof categories.$inferInsert, "id">) {
@@ -153,15 +153,15 @@ export class DatabaseStorage implements IStorage {
   async getComments(artworkId: number): Promise<Comment[]> {
     return await db.select()
       .from(comments)
-      .where(eq(comments.artwork_id, artworkId))
-      .orderBy(comments.created_at);
+      .where(eq(comments.artworkId, artworkId))
+      .orderBy(comments.createdAt);
   }
 
-  async createComment(comment: Omit<Comment, "id" | "created_at">): Promise<Comment> {
+  async createComment(comment: Omit<Comment, "id" | "createdAt">): Promise<Comment> {
     const [newComment] = await db.insert(comments)
       .values({
         ...comment,
-        created_at: new Date(),
+        createdAt: new Date(),
       })
       .returning();
     return newComment;
