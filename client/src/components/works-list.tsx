@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // Added import for useNavigate
+import { useLocation } from "wouter"; // Added import for useNavigate
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -190,7 +190,7 @@ function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
   const handleArtworkClick = (id: string) => {
