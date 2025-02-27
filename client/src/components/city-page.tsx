@@ -90,3 +90,105 @@ export function CityPage() {
     </div>
   );
 }
+import React, { useState } from 'react';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+
+type City = {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+};
+
+const CITIES: City[] = [
+  {
+    id: 'paris',
+    name: '巴黎',
+    description: '艺术与浪漫之都，拥有世界闻名的卢浮宫和埃菲尔铁塔。',
+    imageUrl: '/src/assets/design/img/city-01.jpg'
+  },
+  {
+    id: 'venice',
+    name: '威尼斯',
+    description: '水城威尼斯，以其运河、贡多拉和独特的建筑而闻名。',
+    imageUrl: '/src/assets/design/img/city-02.jpg'
+  },
+  {
+    id: 'tokyo',
+    name: '东京',
+    description: '传统与现代融合的城市，拥有丰富的文化遗产和前卫艺术。',
+    imageUrl: '/src/assets/design/img/city-03.jpg'
+  },
+  {
+    id: 'newyork',
+    name: '纽约',
+    description: '现代艺术的重要中心，拥有现代艺术博物馆和大都会艺术博物馆。',
+    imageUrl: '/src/assets/design/img/city-04.jpg'
+  },
+  {
+    id: 'beijing',
+    name: '北京',
+    description: '中国文化中心，拥有丰富的历史遗迹和现代艺术设施。',
+    imageUrl: '/src/assets/design/img/city-05.jpg'
+  }
+];
+
+export function CityPage() {
+  const [selectedCity, setSelectedCity] = useState<City>(CITIES[0]);
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">城市艺术探索</h1>
+      
+      <div className="mb-6 w-full max-w-xs">
+        <Select 
+          value={selectedCity.id}
+          onValueChange={(value) => {
+            const city = CITIES.find(c => c.id === value);
+            if (city) setSelectedCity(city);
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="选择城市" />
+          </SelectTrigger>
+          <SelectContent>
+            {CITIES.map((city) => (
+              <SelectItem key={city.id} value={city.id}>
+                {city.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      
+      <div className="grid md:grid-cols-2 gap-8">
+        <div>
+          <img 
+            src={selectedCity.imageUrl} 
+            alt={selectedCity.name} 
+            className="w-full h-auto rounded-lg shadow-md"
+          />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold mb-4">{selectedCity.name}</h2>
+          <p className="text-gray-700 mb-4">{selectedCity.description}</p>
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold mb-3">特色艺术</h3>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>历史建筑与纪念碑</li>
+              <li>街头艺术与壁画</li>
+              <li>博物馆与艺术展览</li>
+              <li>当地艺术家作品</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

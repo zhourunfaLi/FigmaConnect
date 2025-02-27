@@ -1,9 +1,28 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import WorksList from "@/components/works-list";
-import { useLocation } from 'wouter'
-import { CategoryNav } from '@/components/category-nav'
-import GridList from '@/components/grid-list'
+import { useLocation } from 'wouter';
+import { CategoryNav } from '@/components/category-nav';
+import GridList from '@/components/grid-list';
+import { Link } from 'wouter';
+
+type LayoutType = "waterfall" | "grid";
+
+type Category = {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+  layout: LayoutType;
+};
+
+const CATEGORIES: Category[] = [
+  { id: "latest", name: "最新", color: "#333333", layout: "waterfall", icon: "🆕" },
+  { id: "hottest", name: "最热", color: "#333333", layout: "waterfall", icon: "🔥" },
+  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall", icon: "👑" },
+  { id: "special", name: "专题", color: "#333333", layout: "grid", icon: "🌟" },
+  { id: "city", name: "城市", color: "#333333", layout: "grid", icon: "🏙️" }
+];
 
 // Mock data including new city artwork
 const mockArtworks = Array.from({ length: 30 }, (_, index) => {
@@ -22,137 +41,44 @@ const mockArtworks = Array.from({ length: 30 }, (_, index) => {
     likes: Math.floor(Math.random() * 2000),
     isPremium: Math.random() > 0.7,
     themeId: isCity ? "city" : "art",
-    ...(isCity && { cityId: ["venice", "paris", "rome", "newyork", "tokyo"][cityIndex % 5] })
+    cityId: isCity ? ["venice", "paris", "tokyo", "newyork", "london", "beijing", "sydney"][cityIndex % 7] : null
   };
 });
 
-type LayoutType = 'waterfall' | 'grid';
-
-type Category = {
-  id: string;
-  name: string;
-  color: string;
-  icon: string;
-  layout: LayoutType;
-};
-
-const CATEGORIES: Category[] = [
-  { id: "latest", name: "最新", color: "#333333", layout: "waterfall" },
-  { id: "hottest", name: "最热", color: "#333333", layout: "waterfall" },
-  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" }, // Swapped position
-  { id: "special", name: "专题", color: "#333333", layout: "grid" },  // Swapped position
-  { id: "city", name: "城市", color: "#333333", layout: "grid" }
-];
-
 export default function HomePage() {
-  const [location] = useLocation()
-  const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
+  const [selectedCategory, setSelectedCategory] = useState<Category>(CATEGORIES[0]);
+  const [location, navigate] = useLocation();
 
+  // Filter artworks based on selected category
   const filteredArtworks = useMemo(() => {
-    switch (activeCategory) {
-      case "latest":
-        return [...mockArtworks].sort((a, b) => b.id - a.id);
-      case "hottest":
-        return [...mockArtworks].sort((a, b) => (b.likes || 0) - (a.likes || 0));
-      case "earliest":
-        return [...mockArtworks].sort((a, b) => a.id - b.id);
-      case "special":
-        const themes = [
-          {
-            id: "louvre",
-            title: "卢浮宫系列传世作品",
-            artworks: mockArtworks.slice(0, 6).map(art => ({...art, themeId: "louvre"}))
-          },
-          {
-            id: "davinci",
-            title: "达芬奇真迹系列",
-            artworks: mockArtworks.slice(6, 14).map(art => ({...art, themeId: "davinci"}))
-          },
-          {
-            id: "chinese",
-            title: "中国十大传世名画",
-            artworks: mockArtworks.slice(14, 24).map(art => ({...art, themeId: "chinese"}))
-          }
-        ];
-        return themes;
-      case "member":
-        return mockArtworks.filter(art => art.isPremium);
-      case "city":
-        return [
-          { id: 1, title: "威尼斯", cityId: "venice" },
-          { id: 2, title: "巴黎", cityId: "paris" },
-          { id: 3, title: "罗马", cityId: "rome" },
-          { id: 4, title: "佛罗伦萨", cityId: "florence" },
-          { id: 5, title: "维也纳", cityId: "vienna" },
-          { id: 6, title: "布拉格", cityId: "prague" },
-          { id: 7, title: "阿姆斯特丹", cityId: "amsterdam" },
-          { id: 8, title: "伦敦", cityId: "london" },
-          { id: 9, title: "巴塞罗那", cityId: "barcelona" },
-          { id: 10, title: "柏林", cityId: "berlin" },
-          { id: 11, title: "雅典", cityId: "athens" },
-          { id: 12, title: "米兰", cityId: "milan" },
-          { id: 13, title: "马德里", cityId: "madrid" },
-          { id: 14, title: "苏黎世", cityId: "zurich" },
-          { id: 15, title: "慕尼黑", cityId: "munich" }
-        ];
-      default:
-        return mockArtworks;
+    if (selectedCategory.id === "city") {
+      return mockArtworks.filter(artwork => artwork.themeId === "city");
+    } else if (selectedCategory.id === "member") {
+      return mockArtworks.filter(artwork => artwork.isPremium);
+    } else if (selectedCategory.id === "latest") {
+      return [...mockArtworks].sort((a, b) => b.id - a.id);
+    } else if (selectedCategory.id === "hottest") {
+      return [...mockArtworks].sort((a, b) => b.likes - a.likes);
     }
-  }, [activeCategory]);
+    return mockArtworks;
+  }, [selectedCategory]);
 
-  return (
-    <div className="min-h-screen bg-[#EEEAE2]">
-      {/* Category Navigation */}
-      <div className="sticky top-0 bg-[#EEEAE2] z-10 flex justify-center">
-        <ScrollArea className="w-full max-w-screen-md">
-          <div className="flex items-center justify-center gap-1.5 px-4 py-2">
-            {CATEGORIES.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                style={{ color: category.color }}
-                className={`text-sm sm:text-base font-normal transition-colors px-4 py-1.5 whitespace-nowrap rounded-full ${
-                  activeCategory === category.id ? 'bg-blue-500 text-white' : ''
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </ScrollArea>
-      </div>
-
-      {/* Artwork Grid */}
-      <div className="pt-4">
-        {(activeCategory === "special" || activeCategory === "city") ? (
-          <GridList 
-            artworks={filteredArtworks}
-            title={activeCategory === "special" ? "专题作品" : "城市风光"} 
-          />
-        ) : (
-          <WorksList artworks={filteredArtworks} />
-        )}
-      </div>
-    </div>
-  );
-}
-import React from 'react';
-import { Link } from 'wouter';
-
-export default function HomePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">艺术博物馆</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="border rounded-lg p-4 shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">欢迎使用</h2>
-          <p className="text-gray-600 mb-4">登录后可以查看和添加艺术品。</p>
-          <Link href="/auth">
-            <a className="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-              登录/注册
-            </a>
-          </Link>
-        </div>
+
+      <CategoryNav 
+        categories={CATEGORIES} 
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
+
+      <div className="mt-8">
+        {selectedCategory.layout === "waterfall" ? (
+          <WorksList works={filteredArtworks} />
+        ) : (
+          <GridList items={filteredArtworks} />
+        )}
       </div>
     </div>
   );

@@ -300,3 +300,94 @@ export default function ArtworkPage() {
     </div>
   );
 }
+import React from 'react';
+import { useRoute } from 'wouter';
+import { Button } from '@/components/ui/button';
+import { Heart } from 'lucide-react';
+
+// 模拟艺术品数据
+const mockArtwork = {
+  id: '1',
+  title: '印象日出',
+  artist: '克劳德·莫奈',
+  year: '1872',
+  description: '《印象·日出》是法国画家克劳德·莫奈于1872年创作的一幅油画，画作描绘了法国港口勒阿弗尔的日出景象。这幅画是印象派名称的来源，也是印象派绘画的代表作品之一。',
+  medium: '油画',
+  dimensions: '48 cm × 63 cm',
+  imageUrl: '/src/assets/design/img/art-01.jpg',
+  likes: 1254,
+  isPremium: true,
+  location: '马赛博物馆，法国巴黎'
+};
+
+export function ArtworkPage() {
+  const [match, params] = useRoute('/artwork/:id');
+  const [liked, setLiked] = React.useState(false);
+  const [likeCount, setLikeCount] = React.useState(mockArtwork.likes);
+
+  const handleLike = () => {
+    if (liked) {
+      setLikeCount(prev => prev - 1);
+    } else {
+      setLikeCount(prev => prev + 1);
+    }
+    setLiked(!liked);
+  };
+
+  if (!match) return <div>加载中...</div>;
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid md:grid-cols-2 gap-8">
+        <div>
+          <img 
+            src={mockArtwork.imageUrl} 
+            alt={mockArtwork.title} 
+            className="w-full h-auto rounded-lg shadow-lg"
+          />
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold mb-2">{mockArtwork.title}</h1>
+          <p className="text-xl text-gray-600 mb-4">{mockArtwork.artist}, {mockArtwork.year}</p>
+          
+          {mockArtwork.isPremium && (
+            <div className="bg-amber-100 border border-amber-300 text-amber-800 px-3 py-1 rounded inline-block mb-4">
+              会员专享
+            </div>
+          )}
+          
+          <div className="flex items-center gap-4 mb-6">
+            <Button 
+              variant={liked ? "default" : "outline"} 
+              onClick={handleLike}
+              className="flex items-center gap-2"
+            >
+              <Heart className={`h-5 w-5 ${liked ? 'fill-current' : ''}`} />
+              <span>{likeCount}</span>
+            </Button>
+          </div>
+          
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2">描述</h2>
+            <p className="text-gray-700">{mockArtwork.description}</p>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <h3 className="font-semibold text-gray-600">材质</h3>
+              <p>{mockArtwork.medium}</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-600">尺寸</h3>
+              <p>{mockArtwork.dimensions}</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-600">收藏地</h3>
+              <p>{mockArtwork.location}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

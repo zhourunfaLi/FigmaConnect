@@ -39,3 +39,35 @@ export function ProtectedRoute({
 
   return <Component />;
 }
+import React from 'react';
+import { Route, useLocation } from 'wouter';
+import { useAuth } from '../hooks/use-auth';
+
+export interface ProtectedRouteProps {
+  component: React.ComponentType<any>;
+  path: string;
+}
+
+export function ProtectedRoute({ component: Component, path, ...rest }: ProtectedRouteProps) {
+  const { user } = useAuth();
+  const [, navigate] = useLocation();
+
+  return (
+    <Route
+      path={path}
+      {...rest}
+      component={(props: any) => {
+        if (!user) {
+          // 如果用户未登录，重定向到登录页面
+          React.useEffect(() => {
+            navigate("/auth");
+          }, []);
+          return null;
+        }
+        
+        // 如果用户已登录，渲染受保护的组件
+        return <Component {...props} />;
+      }}
+    />
+  );
+}
