@@ -43,7 +43,7 @@ export default function AuthPage() {
                 <AuthForm 
                   mode="login" 
                   onSubmit={(data) => loginMutation.mutate(data)} 
-                  isLoading={loginMutation.isPending}
+                  isLoading={loginMutation.isLoading}
                 />
               </TabsContent>
 
@@ -51,7 +51,7 @@ export default function AuthPage() {
                 <AuthForm 
                   mode="register" 
                   onSubmit={(data) => registerMutation.mutate(data)}
-                  isLoading={registerMutation.isPending}
+                  isLoading={registerMutation.isLoading}
                 />
               </TabsContent>
             </Tabs>
