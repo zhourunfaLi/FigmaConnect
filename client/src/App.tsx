@@ -1,5 +1,5 @@
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
@@ -14,7 +14,7 @@ import NotFound from "@/pages/not-found";
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
 
-function Router() {
+function AppRouter() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
@@ -30,10 +30,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Router />
-        <Toaster />
-      </AuthProvider>
+      <Router>
+        <AuthProvider>
+          <AppRouter />
+          <Toaster />
+        </AuthProvider>
+      </Router>
     </QueryClientProvider>
   );
 }
