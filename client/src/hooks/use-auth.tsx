@@ -29,9 +29,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await apiRequest<SelectUser>("/api/user", {
+        const userData = await apiRequest<SelectUser>("/api/profile", { // Corrected API endpoint
           method: "GET",
-          credentials: 'include' // Added for handling credentials
+          credentials: 'include' 
         });
         setUser(userData);
       } catch (error) {
