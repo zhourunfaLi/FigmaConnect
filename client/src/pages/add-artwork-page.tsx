@@ -104,7 +104,7 @@ export default function AddArtworkPage() {
             </div>
             <Button 
               type="submit"
-              disabled={addArtworkMutation.isPending}
+              disabled={addArtworkMutation.isLoading}
               className="w-full"
             >
               Add Artwork
