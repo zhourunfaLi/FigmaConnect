@@ -1,24 +1,29 @@
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { useNavigate } from 'react-router-dom'; // Added import for navigation
-import { BrowserRouter, Route, Routes } from 'react-router-dom'; // Added import for BrowserRouter
+import { useNavigate } from 'react-router-dom'; 
 
 // Constants for layout configuration
 const GRID_CONFIG = {
-  MOBILE_COLUMNS: 2,
-  TABLET_COLUMNS: 3,
-  DESKTOP_COLUMNS: 4,
-  GROUP_SIZE: 7, // 2*3 + 1 pattern
-  BASE_HEIGHT: 128,
-  TABLET_SCALE: 1.5,
-  DESKTOP_SCALE: 2,
-} as const;
+  BASE_HEIGHT: 300, // Base height for standard cards
+  TABLET_SCALE: 1.2, // Multiplier for tablet view
+  DESKTOP_SCALE: 1.4, // Multiplier for desktop view
+  AD_FREQUENCY: 8, // Show an ad after every 8 artworks
+};
 
-// Common aspect ratios for artwork display
-const ARTWORK_ASPECT_RATIOS = [3/4, 4/5, 2/3, 5/4, 1] as const;
+// Type definitions
+type Artwork = {
+  id: number;
+  title: string;
+  description?: string;
+  imageUrl?: string;
+  imageId?: number;
+  themeId?: string;
+  likes?: number;
+  is_premium?: boolean;
+};
 
 type WorksListProps = {
   artworks: Artwork[];
@@ -46,128 +51,66 @@ function AdCard() {
   );
 }
 
-// Artwork component with lazy loading and loading state
-function ArtworkItem({ 
-  artwork, 
-  isWide, 
-  wideHeight, 
-  index 
-}: { 
-  artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
-  isWide: boolean; 
-  wideHeight: number;
-  index: number;
-}) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const navigate = useNavigate(); // Added useNavigate hook
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: '50px'
-      }
-    );
-
-    const element = document.getElementById(`artwork-${artwork.id}`);
-    if (element) {
-      observer.observe(element);
+// Artwork component with lazy loading and hover interactions
+function ArtworkItem({ artwork, index }: { artwork: Artwork; index: number }) {
+  // 使用条件导航 - 避免在非Router环境下使用
+  const navigateIfAvailable = () => {
+    try {
+      const navigate = useNavigate();
+      return () => navigate(`/artwork/${artwork.id}`);
+    } catch (e) {
+      return () => console.log("Navigation not available");
     }
+  };
 
-    return () => observer.disconnect();
-  }, [artwork.id]);
+  const handleCardClick = navigateIfAvailable();
+
+  // Generate a placeholder color based on the artwork ID for loading state
+  const placeholderColor = `hsl(${(artwork.id * 40) % 360}, 70%, 80%)`;
 
   return (
-    <div 
-      id={`artwork-${artwork.id}`}
-      className={cn(
-        "break-inside-avoid mb-4 group cursor-pointer", // Added cursor-pointer for better UX
-        isWide && "-ml-[4px]"
-      )}
-      style={{
-        columnSpan: isWide ? "all" : "none",
-        breakBefore: isWide ? "column" : "auto",
-        position: 'relative'
-      }}
-      onClick={() => navigate(`/artwork/${artwork.id}`)} // Added navigation on click
-    >
-      <div 
-        className="w-full relative overflow-hidden rounded-xl"
-        style={{ 
-          height: 'auto',
-          aspectRatio: artwork.aspectRatio,
-        }}
-      >
-        {/* Loading skeleton */}
-        {(!isVisible || !imageLoaded) && (
-          <Skeleton 
-            className={cn(
-              "absolute inset-0 rounded-xl",
-              !imageLoaded && "animate-pulse"
-            )}
+    <div className="w-full group cursor-pointer" onClick={handleCardClick}>
+      {/* Artwork image with hover effects */}
+      <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
+        {/* Premium badge */}
+        {artwork.is_premium && (
+          <div className="absolute top-2 left-2 px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md z-10">
+            会员
+          </div>
+        )}
+
+        {/* Artwork image */}
+        <div className="w-full h-full bg-black/5">
+          {/* Image with lazy loading */}
+          <img
+            src={artwork.imageUrl || `/src/assets/design/img/art-${String((artwork.imageId || index % 30) + 1).padStart(2, '0')}.jpg`}
+            alt={artwork.title}
+            className="w-full h-full object-cover opacity-0 transition-opacity duration-300"
+            onLoad={(e) => {
+              (e.target as HTMLImageElement).classList.remove('opacity-0');
+              (e.target as HTMLImageElement).classList.add('opacity-100');
+            }}
+            style={{ backgroundColor: placeholderColor }}
           />
-        )}
+        </div>
 
-        {isVisible && (
-          <>
-            <img
-              src={artwork.themeId === "art" 
-                ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
-                : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
-              alt={artwork.title}
-              className={cn(
-                "w-full h-full object-cover transition-all duration-300",
-                imageLoaded ? "opacity-100" : "opacity-0",
-                "group-hover:scale-105"
-              )}
-              loading="lazy"
-              onLoad={() => setImageLoaded(true)}
-            />
+        {/* Hover overlay with options */}
+        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3">
+          {/* Top row: empty */}
+          <div></div>
 
-            {/* Always visible labels */}
-            <div className="absolute top-2 left-2 flex gap-2">
-              <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                #{index + 1}
-              </div>
-              {(artwork.is_premium || artwork.isPremium) && (
-                <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-                  SVIP
-                </div>
-              )}
+          {/* Bottom row: action buttons */}
+          <div className="flex justify-between">
+            <div className="flex space-x-2">
+              <button className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition-colors">
+                <Heart className="w-4 h-4 text-[#111111]" />
+              </button>
+              <button className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition-colors">
+                <Share2 className="w-4 h-4 text-[#111111]" />
+              </button>
             </div>
-
-            {/* Hover overlay with actions */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-              <div className="flex justify-end items-start">
-                {/* Action buttons */}
-                <div className="flex gap-2">
-                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                    <Heart className="w-4 h-4 text-white" />
-                  </button>
-                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                    <Share2 className="w-4 h-4 text-white" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Bottom content */}
-              <div className="space-y-2">
-                <h3 className="text-white font-medium line-clamp-2">
-                  {artwork.title}
-                </h3>
-                <p className="text-white/80 text-sm line-clamp-2">
-                  {artwork.description}
-                </p>
-              </div>
-            </div>
-          </>
-        )}
+          </div>
+        </div>
       </div>
 
       {/* Title and options (visible when not hovering) */}
@@ -183,7 +126,7 @@ function ArtworkItem({
   );
 }
 
-export default function WorksList({ artworks, className }: WorksListProps) {
+function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
   // Update wide artwork height based on screen size
@@ -204,62 +147,24 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
-  // Get unique random numbers for art and city images
-  const getUniqueRandoms = (max: number, count: number) => {
-    const numbers = Array.from({ length: max }, (_, i) => i + 1);
-    for (let i = numbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+  // Insert ads into the content
+  const contentWithAds = artworks.flatMap((artwork, index) => {
+    const elements = [
+      <ArtworkItem key={`artwork-${artwork.id}`} artwork={artwork} index={index} />
+    ];
+
+    // Add an ad after every N artworks (except the last one)
+    if ((index + 1) % GRID_CONFIG.AD_FREQUENCY === 0 && index < artworks.length - 1) {
+      elements.push(<AdCard key={`ad-${index}`} />);
     }
-    return numbers.slice(0, count);
-  };
 
-  // Get 24 unique artworks (19 art + 5 city)
-  const artIds = getUniqueRandoms(19, 19);
-  const cityIds = getUniqueRandoms(20, 5);
-
-  // 定义一组不同的宽高比
-  const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
-
-  const displayArtworks = [
-    ...artIds.map((id, index) => ({
-      ...artworks[0],
-      id: `art-${id}-${index}`,
-      imageId: id,
-      title: `艺术作品 ${id}`,
-      description: "现代艺术创作",
-      themeId: "art", 
-      aspectRatio: aspectRatios[id % aspectRatios.length],
-      isWide: false
-    })),
-    ...cityIds.map((id, index) => ({
-      ...artworks[0],
-      id: `city-${id}-${index}`,
-      imageId: id,
-      title: `城市风光 ${id}`,
-      description: "城市建筑与人文景观",
-      themeId: "city",
-      aspectRatio: aspectRatios[id % aspectRatios.length],
-      isWide: false
-    }))
-  ].sort(() => Math.random() - 0.5);
-
-  // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.map((artwork, index) => (
-    <ArtworkItem 
-      key={artwork.id}
-      artwork={artwork}
-      isWide={false}
-      wideHeight={wideHeight}
-      index={index}
-    />
-  ));
-
+    return elements;
+  });
 
   return (
-    <div 
+    <div
       className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-4 px-[8px] pb-20",
+        "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4",
         className
       )}
     >
@@ -268,8 +173,10 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   );
 }
 
+export default WorksList;
+
 function App() {
-  const artworks = [{id:1, title: "test", description: "test", themeId: "art", is_premium: false, imageId: 1}]; // Example artwork data.  Replace with your actual data fetching.
+  const artworks = [{id:1, title: "test", description: "test", themeId: "art", is_premium: false, imageId: 1, imageUrl: "/src/assets/design/img/art-01.jpg"}]; // Example artwork data.  Replace with your actual data fetching.
 
   return (
     <BrowserRouter>

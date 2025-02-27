@@ -62,10 +62,10 @@ app.use((req, res, next) => {
     try {
       await validateSchema(); // Added schema validation before server start
       server.setMaxListeners(20); // 增加最大监听器数量
-      server.close(() => {
-        server.listen(PORT, "0.0.0.0", () => {
-          log(`服务器启动成功，运行在端口 ${PORT}`);
-        });
+      
+      // 简化启动逻辑，避免server.close导致的问题
+      server.listen(PORT, "0.0.0.0", () => {
+        log(`服务器启动成功，运行在端口 ${PORT}`);
       });
     } catch(e) {
       log(`启动服务器出错: ${e.message}`);
