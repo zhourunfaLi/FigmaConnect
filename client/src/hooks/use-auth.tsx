@@ -98,13 +98,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
-  const { data: user, isLoading, error, refetch } = useQuery(['user'], () => {
-    console.log('正在获取用户信息...');
-    return fetchApi('/user')
-      .catch(err => {
-        console.log('用户未登录', err);
-        return null;
-      });
+  const { data: user, isLoading, error, refetch } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => {
+      console.log('正在获取用户信息...');
+      return fetchApi('/user')
+        .catch(err => {
+          console.log('用户未登录', err);
+          return null;
+        });
+    }
   });
   return { user, isLoading, error, refetch };
 }

@@ -82,7 +82,8 @@ function ArtworkItem({
   }, [artwork.id]);
 
   const handleClick = () => {
-    window.location.href = `/artwork/${artwork.id}`;igation
+    // 使用window.location直接导航而不是useNavigate
+    window.location.href = `/artwork/${artwork.id.toString().replace('art-', '').replace('city-', '')}`;
   };
 
   return (

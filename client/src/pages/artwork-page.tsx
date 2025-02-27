@@ -1,4 +1,3 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "wouter";
 import { type Artwork } from "@shared/schema";
@@ -31,7 +30,7 @@ export default function ArtworkPage() {
   const [liked, setLiked] = useState(false);
   const { user } = useAuth();
 
-  const { data: artwork, isError, error, isLoading } = useQuery<Artwork>({
+  const { data: artwork, isError, error, isLoading } = useQuery({
     queryKey: [`artwork-${id}`],
     queryFn: () => fetchApi(`/artworks/${id}`),
     enabled: id > 0,
@@ -44,12 +43,12 @@ export default function ArtworkPage() {
     setImageLoaded(false);
     setZoom(1);
     setLiked(false);
-    
+
     // 页面标题
     if (artwork) {
       document.title = `${artwork.title} | 画廊`;
     }
-    
+
     return () => {
       document.title = '画廊';
     };
@@ -130,7 +129,7 @@ export default function ArtworkPage() {
           </Button>
         </Link>
       </div>
-      
+
       <Card className="overflow-hidden bg-white/80 backdrop-blur-sm border-black/5">
         <CardContent className="p-6">
           <div className="flex flex-col lg:flex-row gap-8">
@@ -142,7 +141,7 @@ export default function ArtworkPage() {
                     <Loader2 className="h-8 w-8 animate-spin text-primary/50" />
                   </div>
                 )}
-                
+
                 <div className="relative overflow-hidden" 
                      style={{ 
                        transform: `scale(${zoom})`, 
@@ -161,7 +160,7 @@ export default function ArtworkPage() {
                     />
                   </AspectRatio>
                 </div>
-                
+
                 {/* 作品工具栏 */}
                 <div className="absolute bottom-4 right-4 flex gap-2">
                   <Button 
@@ -172,7 +171,7 @@ export default function ArtworkPage() {
                   >
                     <Heart className={cn("h-5 w-5", liked ? "fill-red-500 text-red-500" : "text-slate-700")} />
                   </Button>
-                  
+
                   <Button 
                     size="icon" 
                     variant="secondary" 
@@ -181,7 +180,7 @@ export default function ArtworkPage() {
                   >
                     <Share2 className="h-5 w-5 text-slate-700" />
                   </Button>
-                  
+
                   <Button 
                     size="icon" 
                     variant="secondary" 
@@ -192,7 +191,7 @@ export default function ArtworkPage() {
                   </Button>
                 </div>
               </div>
-              
+
               {/* 缩放控制 */}
               <div className="flex items-center gap-4 mt-4 px-2">
                 <ZoomOut className="w-4 h-4 text-gray-500" />
@@ -210,18 +209,18 @@ export default function ArtworkPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* 作品信息部分 */}
             <div className="lg:w-1/3">
               <h1 className="text-2xl md:text-3xl font-bold mb-2">{artwork.title}</h1>
-              
+
               <div className="mb-6">
                 <div className="h-1 w-16 bg-primary my-4"></div>
                 <p className="text-lg text-muted-foreground">
                   {artwork.description}
                 </p>
               </div>
-              
+
               <div className="space-y-4">
                 {artwork.category_id && (
                   <div className="border rounded-lg p-4">
@@ -233,14 +232,14 @@ export default function ArtworkPage() {
                     </Link>
                   </div>
                 )}
-                
+
                 {artwork.is_premium && (
                   <div className="border rounded-lg p-4">
                     <h3 className="text-sm font-medium mb-2">特别内容</h3>
                     <span className="inline-block bg-amber-500/10 text-amber-500 px-3 py-1 rounded-md text-sm">
                       高级作品
                     </span>
-                    
+
                     {!user?.isPremium && (
                       <div className="mt-2 p-3 bg-amber-500/5 rounded-md">
                         <p className="text-sm text-gray-600">
@@ -253,7 +252,7 @@ export default function ArtworkPage() {
                     )}
                   </div>
                 )}
-                
+
                 <div className="border rounded-lg p-4">
                   <h3 className="text-sm font-medium mb-2">详细信息</h3>
                   <ul className="space-y-2 text-sm text-gray-600">
