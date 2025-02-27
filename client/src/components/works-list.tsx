@@ -117,7 +117,7 @@ function ArtworkItem({
 
   return (
     <Link 
-      to={`/works/${artwork.id}`}
+      to={`/details/${artwork.id}`}
       className={cn(
         "group block w-full break-inside-avoid mb-9",
         isWide && "column-span-all"
