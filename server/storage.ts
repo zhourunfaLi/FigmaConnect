@@ -50,16 +50,16 @@ async function initializeData() {
       {
         title: "向日葵",
         description: "梵高的经典作品",
-        image_url: "https://placehold.co/400x600",
-        isPremium: false,
+        imageUrl: "https://placehold.co/400x600",
+        is_premium: false,
         hide_title: false,
         category_id: 1
       },
       {
         title: "星空",
         description: "梵高的代表作",
-        image_url: "https://placehold.co/400x600",
-        isPremium: true,
+        imageUrl: "https://placehold.co/400x600",
+        is_premium: true,
         hide_title: false,
         category_id: 1
       }
