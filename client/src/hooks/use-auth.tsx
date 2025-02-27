@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { insertUserSchema, User as SelectUser, InsertUser } from "@shared/schema";
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
@@ -32,11 +31,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const userData = await apiRequest<SelectUser>("/api/user", {
           method: "GET",
+          credentials: 'include' // Added for handling credentials
         });
         setUser(userData);
       } catch (error) {
         // 用户未登录，这是正常情况
-        console.log("用户未登录");
+        console.log("用户未登录", error);
       } finally {
         setIsLoading(false);
       }
