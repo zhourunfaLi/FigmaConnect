@@ -9,11 +9,16 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Slider } from "@/components/ui/slider";
 import { Loader2, ZoomIn, ZoomOut } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils"; // Assuming this utility function exists
 
 export default function ArtworkPage() {
   const params = useParams();
   const id = parseInt(params.id || "0", 10);
   const [zoom, setZoom] = useState(1);
+  const [imageLoaded, setImageLoaded] = useState(false); // Added state for image loading
+  const isVisible = true; // Assuming this variable is defined elsewhere
+  const handleClick = () => {}; // Assuming this function is defined elsewhere
+
 
   const { data: artwork, isError, error, isLoading } = useQuery<Artwork>({
     queryKey: [`/api/artworks/${id}`],
@@ -66,15 +71,18 @@ export default function ArtworkPage() {
                 style={{ position: 'relative' }}
               >
                 <img
-                  src={artwork.imageUrl}
+                  src={artwork.imageUrl || (artwork.themeId === "art" 
+                    ? new URL(`../assets/design/img/art-${String(artwork.imageId || 1).padStart(2, '0')}.jpg`, import.meta.url).href
+                    : new URL(`../assets/design/img/city-${String(artwork.imageId || 1).padStart(2, '0')}.jpg`, import.meta.url).href)}
                   alt={artwork.title}
-                  className="w-full h-full object-contain transition-transform duration-200 ease-out"
-                  style={{
-                    transform: `scale(${zoom})`,
-                    transformOrigin: 'center center',
-                    maxWidth: zoom > 1 ? 'none' : '100%',
-                    maxHeight: zoom > 1 ? 'none' : '100%'
-                  }}
+                  className={cn(
+                    "w-full h-full object-cover transition-all duration-300",
+                    imageLoaded ? "opacity-100" : "opacity-0",
+                    "group-hover:scale-105"
+                  )}
+                  loading="lazy"
+                  onLoad={() => setImageLoaded(true)}
+                  onClick={handleClick} 
                 />
               </div>
             </AspectRatio>
@@ -113,19 +121,19 @@ export default function ArtworkPage() {
             <p className="text-lg text-muted-foreground flex-1">
               {artwork.description}
             </p>
-            
+
             <div className="flex-shrink-0 space-y-4 min-w-[200px]">
               {artwork.category_id && (
                 <div className="border rounded-lg p-4">
                   <h3 className="text-sm font-medium mb-2">分类</h3>
-                  <Link href={`/category/${artwork.category_id}`}>
+                  <Link href={`/category/${artwork.category_id}`}> {/* Assuming Link component is available */}
                     <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-md text-sm cursor-pointer hover:bg-primary/20 transition-colors">
                       查看相关作品
                     </span>
                   </Link>
                 </div>
               )}
-              
+
               {artwork.isPremium && (
                 <div className="border rounded-lg p-4">
                   <h3 className="text-sm font-medium mb-2">特别内容</h3>

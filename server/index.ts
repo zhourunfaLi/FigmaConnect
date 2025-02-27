@@ -64,21 +64,23 @@ app.use((req, res, next) => {
   // 检查端口是否被占用
   const isPortInUse = () => {
     return new Promise((resolve) => {
-      const net = require('net');
-      const tester = net.createServer()
-        .once('error', () => resolve(true))
-        .once('listening', () => {
-          tester.close();
-          resolve(false);
-        })
-        .listen(PORT, '0.0.0.0');
+      import('net').then(netModule => {
+        const net = netModule.default;
+        const tester = net.createServer()
+          .once('error', () => resolve(true))
+          .once('listening', () => {
+            tester.close();
+            resolve(false);
+          })
+          .listen(PORT, '0.0.0.0');
+      });
     });
   };
   
   // 尝试关闭占用端口的进程
   const killProcessOnPort = async () => {
     try {
-      const { exec } = require('child_process');
+      const { exec } = await import('child_process');
       return new Promise((resolve, reject) => {
         exec(`lsof -i :${PORT} -t | xargs kill -9`, (error) => {
           if (error && error.code !== 1) {
