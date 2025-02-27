@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
 import { useNavigate } from 'react-router-dom'; // Added import for navigation
+import { BrowserRouter, Route, Routes } from 'react-router-dom'; // Added import for BrowserRouter
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -266,3 +267,19 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     </div>
   );
 }
+
+function App() {
+  const artworks = [{id:1, title: "test", description: "test", themeId: "art", is_premium: false, imageId: 1}]; // Example artwork data.  Replace with your actual data fetching.
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<WorksList artworks={artworks} />} />
+        {/* Add other routes as needed */}
+        <Route path="/artwork/:id" element={<div>Artwork Detail</div>} /> {/* Example artwork detail route */}
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
