@@ -108,16 +108,20 @@ app.use((req, res, next) => {
 
       // 确保关闭现有服务器
       if (server.listening) {
-        server.close();
+        log('关闭旧的服务器实例...');
+        await new Promise(resolve => server.close(resolve));
       }
 
       // 启动服务器
       server.listen(currentPort, "0.0.0.0", () => {
         retryCount = 0; // 重置重试计数
         log(`服务器启动成功，运行在端口 ${currentPort}，访问地址: http://0.0.0.0:${currentPort}`);
+        log(`使用以下访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co:${currentPort}/`);
       });
     } catch(e) {
       log(`启动服务器出错: ${e.message}`);
+      log('尝试在3秒后重启服务器...');
+      setTimeout(startServer, 3000);
     }
   }
 
