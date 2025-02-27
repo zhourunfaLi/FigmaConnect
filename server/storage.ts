@@ -46,22 +46,24 @@ async function initializeData() {
     ]).onConflictDoNothing();
 
     // 添加艺术品
-    const artworkData = Array.from({ length: 20 }, (_, i) => ({
-      title: `艺术作品 ${i + 1}`,
-      description: `艺术作品描述 ${i + 1}`,
-      image_url: `https://placehold.co/400x600/png`,
-      video_url: null,
-      category_id: 1,
-      is_premium: [2, 5, 8, 11, 14, 17].includes(i), // 固定一些作品为SVIP
-      hide_title: false,
-      display_order: null,
-      column_position: null,
-      aspect_ratio: null,
-      likes: Math.floor(Math.random() * 1000) // 随机点赞数
-    }));
-
-    await db.insert(artworks).values(artworkData).onConflictDoNothing();
-
+    await db.insert(artworks).values([
+      {
+        title: "向日葵",
+        description: "梵高的经典作品",
+        image_url: "https://placehold.co/400x600",
+        isPremium: false,
+        hide_title: false,
+        category_id: 1
+      },
+      {
+        title: "星空",
+        description: "梵高的代表作",
+        image_url: "https://placehold.co/400x600",
+        isPremium: true,
+        hide_title: false,
+        category_id: 1
+      }
+    ]).onConflictDoNothing();
 
     console.log('数据初始化成功');
   } catch (error) {
@@ -113,12 +115,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getArtworks(): Promise<Artwork[]> {
-    const results = await db.select().from(artworks).orderBy(sql`id DESC`);
-    return results.map(artwork => ({
-      ...artwork,
-      isPremium: artwork.is_premium, // 保持与数据库中的is_premium一致
-      likes: Math.floor(Math.random() * 2000) // 临时添加随机点赞数用于演示
-    }));
+    return await db.select().from(artworks);
   }
 
   async getArtwork(id: number): Promise<Artwork | undefined> {

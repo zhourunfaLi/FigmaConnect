@@ -1,4 +1,3 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
 import { type Artwork } from "@shared/schema";
@@ -8,9 +7,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Loader2, ZoomIn, ZoomOut, Heart, Share2 } from "lucide-react";
+import { Loader2, ZoomIn, ZoomOut } from "lucide-react";
 import { useState } from "react";
 
 export default function ArtworkPage() {
@@ -60,21 +57,16 @@ export default function ArtworkPage() {
     <div className="container mx-auto px-4 py-8">
       <Card>
         <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-3xl font-bold">{artwork.title}</h1>
-            {artwork.is_premium && (
-              <Badge variant="secondary">SVIP</Badge>
-            )}
-          </div>
+          <h1 className="text-3xl font-bold mb-4">{artwork.title}</h1>
 
-          <div className="relative mb-6 bg-gray-50 rounded-lg">
+          <div className="relative mb-6">
             <AspectRatio ratio={4/3}>
               <div 
                 className="w-full h-full overflow-auto bg-gray-100 rounded-lg"
                 style={{ position: 'relative' }}
               >
                 <img
-                  src={artwork.image_url}
+                  src={artwork.imageUrl}
                   alt={artwork.title}
                   className="w-full h-full object-contain transition-transform duration-200 ease-out"
                   style={{
@@ -87,42 +79,28 @@ export default function ArtworkPage() {
               </div>
             </AspectRatio>
 
-            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-lg p-2">
-              <div className="flex items-center gap-4 flex-1">
-                <ZoomOut className="w-4 h-4 text-gray-500" />
-                <Slider
-                  value={[zoom]}
-                  onValueChange={([value]) => setZoom(value)}
-                  min={1}
-                  max={4}
-                  step={0.1}
-                  className="w-48"
-                />
-                <ZoomIn className="w-4 h-4 text-gray-500" />
-              </div>
-              <div className="flex gap-2">
-                <Button variant="ghost" size="sm">
-                  <Heart className="w-4 h-4 mr-2" />
-                  收藏
-                </Button>
-                <Button variant="ghost" size="sm">
-                  <Share2 className="w-4 h-4 mr-2" />
-                  分享
-                </Button>
-              </div>
+            <div className="flex items-center gap-4 mt-4">
+              <ZoomOut className="w-4 h-4 text-gray-500" />
+              <Slider
+                value={[zoom]}
+                onValueChange={([value]) => setZoom(value)}
+                min={1}
+                max={4}
+                step={0.1}
+                className="w-48"
+              />
+              <ZoomIn className="w-4 h-4 text-gray-500" />
             </div>
           </div>
 
-          <div className="prose max-w-none mb-8">
-            <p className="text-lg text-muted-foreground">
-              {artwork.description}
-            </p>
-          </div>
+          <p className="text-lg text-muted-foreground mb-8">
+            {artwork.description}
+          </p>
 
-          {artwork.video_url && (
+          {artwork.videoUrl && (
             <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">视频介绍</h2>
-              <VideoPlayer url={artwork.video_url} />
+              <h2 className="text-2xl font-bold mb-4">Video Presentation</h2>
+              <VideoPlayer url={artwork.videoUrl} />
             </div>
           )}
 
