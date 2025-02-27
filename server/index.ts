@@ -57,12 +57,14 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const PORT = 3002;
+  const BASE_PORT = 3002;
+  const MAX_PORT = 3010; // 尝试的最大端口号
   const MAX_RETRY = 5;
+  let currentPort = BASE_PORT;
   let retryCount = 0;
   
   // 检查端口是否被占用
-  const isPortInUse = () => {
+  const isPortInUse = (port) => {
     return new Promise((resolve) => {
       import('net').then(netModule => {
         const net = netModule.default;
@@ -72,37 +74,37 @@ app.use((req, res, next) => {
             tester.close();
             resolve(false);
           })
-          .listen(PORT, '0.0.0.0');
+          .listen(port, '0.0.0.0');
       });
     });
   };
   
-  // 尝试关闭占用端口的进程 - 使用内置的net模块而不是lsof命令
-  const killProcessOnPort = async () => {
-    try {
-      // 这里我们不再尝试杀死其他进程，只是等待一段时间
-      log(`等待端口 ${PORT} 释放...`);
-      // 等待一段时间，希望端口能自行释放
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      return true;
-    } catch (e) {
-      log(`等待端口释放出错: ${e.message}`);
-      return false;
+  // 查找下一个可用端口
+  const findAvailablePort = async () => {
+    let port = currentPort;
+    
+    // 尝试从当前端口到最大端口
+    while (port <= MAX_PORT) {
+      log(`尝试端口 ${port}...`);
+      const inUse = await isPortInUse(port);
+      if (!inUse) {
+        return port;
+      }
+      port++;
     }
+    
+    // 如果所有端口都被占用，重置到初始端口并等待
+    log(`所有端口 ${BASE_PORT}-${MAX_PORT} 都被占用，等待释放...`);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    return BASE_PORT;
   };
   
   const startServer = async () => {
     try {
       await validateSchema(); // 执行模式验证
       
-      // 检查端口是否被占用
-      const portInUse = await isPortInUse();
-      if (portInUse) {
-        log(`端口 ${PORT} 仍然被占用，尝试强制释放...`);
-        await killProcessOnPort();
-        // 释放后等待一点时间
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
+      // 查找可用端口
+      currentPort = await findAvailablePort();
       
       // 确保关闭现有服务器
       if (server.listening) {
@@ -110,9 +112,9 @@ app.use((req, res, next) => {
       }
       
       // 启动服务器
-      server.listen(PORT, "0.0.0.0", () => {
+      server.listen(currentPort, "0.0.0.0", () => {
         retryCount = 0; // 重置重试计数
-        log(`服务器启动成功，运行在端口 ${PORT}`);
+        log(`服务器启动成功，运行在端口 ${currentPort}`);
       });
     } catch(e) {
       log(`启动服务器出错: ${e.message}`);
@@ -125,9 +127,11 @@ app.use((req, res, next) => {
     if(err.code === 'EADDRINUSE') {
       if (retryCount < MAX_RETRY) {
         retryCount++;
-        log(`端口被占用，等待释放... (尝试 ${retryCount}/${MAX_RETRY})`);
-        await killProcessOnPort();
-        setTimeout(startServer, 2000 * retryCount); // 逐渐增加等待时间
+        log(`端口 ${currentPort} 被占用，尝试使用其他端口... (尝试 ${retryCount}/${MAX_RETRY})`);
+        // 增加端口号，尝试下一个
+        currentPort++;
+        if (currentPort > MAX_PORT) currentPort = BASE_PORT;
+        setTimeout(startServer, 1000); 
       } else {
         log(`尝试 ${MAX_RETRY} 次后仍无法启动服务器，请手动重启项目`);
         process.exit(1);
