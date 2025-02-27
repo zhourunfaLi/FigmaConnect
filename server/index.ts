@@ -57,7 +57,7 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const PORT = 3002;
+  const PORT = 5000;
   const startServer = async () => {
     try {
       await validateSchema(); // Added schema validation before server start
