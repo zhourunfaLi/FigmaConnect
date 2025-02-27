@@ -114,7 +114,7 @@ app.use((req, res, next) => {
       // 启动服务器
       server.listen(currentPort, "0.0.0.0", () => {
         retryCount = 0; // 重置重试计数
-        log(`服务器启动成功，运行在端口 ${currentPort}`);
+        log(`服务器启动成功，运行在端口 ${currentPort}，访问地址: http://0.0.0.0:${currentPort}`);
       });
     } catch(e) {
       log(`启动服务器出错: ${e.message}`);
