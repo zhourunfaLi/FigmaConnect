@@ -38,12 +38,13 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  let server;
   try {
     // 确保在启动服务前验证数据库架构
     await validateSchema();
     log("数据库初始化成功");
     
-    const server = registerRoutes(app);
+    server = registerRoutes(app);
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
