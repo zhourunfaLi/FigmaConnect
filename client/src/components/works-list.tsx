@@ -194,7 +194,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
 
   const handleArtworkClick = (id: string) => {
-    navigate(`/works/${id}`);
+    navigate(`/artwork/${id}`);
   };
 
   // Update wide artwork height based on screen size
