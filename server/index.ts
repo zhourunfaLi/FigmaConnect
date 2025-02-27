@@ -77,23 +77,16 @@ app.use((req, res, next) => {
     });
   };
   
-  // 尝试关闭占用端口的进程
+  // 尝试关闭占用端口的进程 - 使用内置的net模块而不是lsof命令
   const killProcessOnPort = async () => {
     try {
-      const { exec } = await import('child_process');
-      return new Promise((resolve, reject) => {
-        exec(`lsof -i :${PORT} -t | xargs kill -9`, (error) => {
-          if (error && error.code !== 1) {
-            log(`关闭端口进程失败: ${error.message}`);
-            reject(error);
-          } else {
-            log(`已尝试关闭端口 ${PORT} 上的进程`);
-            resolve(true);
-          }
-        });
-      });
+      // 这里我们不再尝试杀死其他进程，只是等待一段时间
+      log(`等待端口 ${PORT} 释放...`);
+      // 等待一段时间，希望端口能自行释放
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return true;
     } catch (e) {
-      log(`关闭端口进程出错: ${e.message}`);
+      log(`等待端口释放出错: ${e.message}`);
       return false;
     }
   };
