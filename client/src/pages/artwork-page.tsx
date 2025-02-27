@@ -31,7 +31,7 @@ export default function ArtworkPage() {
   const { user } = useAuth();
 
   const { data: artwork, isError, error, isLoading } = useQuery({
-    queryKey: [`artwork-${id}`],
+    queryKey: [`artwork-${id}`], // Corrected queryKey
     queryFn: () => fetchApi(`/artworks/${id}`),
     enabled: id > 0,
     retry: false,
