@@ -1,5 +1,5 @@
+
 import { ReactNode } from "react";
-import * as React from "react";
 import {
   useQuery,
   useMutation,
@@ -9,7 +9,8 @@ import { insertUserSchema, User as SelectUser, InsertUser } from "@shared/schema
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-const { createContext, useContext, useState, useEffect } = React;
+import * as React from "react";
+const { createContext, useContext } = React;
 
 type AuthContextType = {
   user: SelectUser | null;
