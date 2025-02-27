@@ -28,6 +28,22 @@ async function comparePasswords(supplied: string, stored: string) {
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
+export function isAuthenticated(req: any, res: any, next: any) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.status(401).json({ error: "需要登录" });
+  }
+}
+
+export function isAdmin(req: any, res: any, next: any) {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    res.status(403).json({ error: "需要管理员权限" });
+  }
+}
+
 export function setupAuth(app: Express) {
   const sessionSettings: session.SessionOptions = {
     secret: process.env.REPL_ID!,
