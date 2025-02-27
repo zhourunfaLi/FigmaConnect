@@ -58,11 +58,65 @@ app.use((req, res, next) => {
   }
 
   const PORT = 3002;
+  const MAX_RETRY = 5;
+  let retryCount = 0;
+  
+  // 检查端口是否被占用
+  const isPortInUse = () => {
+    return new Promise((resolve) => {
+      const net = require('net');
+      const tester = net.createServer()
+        .once('error', () => resolve(true))
+        .once('listening', () => {
+          tester.close();
+          resolve(false);
+        })
+        .listen(PORT, '0.0.0.0');
+    });
+  };
+  
+  // 尝试关闭占用端口的进程
+  const killProcessOnPort = async () => {
+    try {
+      const { exec } = require('child_process');
+      return new Promise((resolve, reject) => {
+        exec(`lsof -i :${PORT} -t | xargs kill -9`, (error) => {
+          if (error && error.code !== 1) {
+            log(`关闭端口进程失败: ${error.message}`);
+            reject(error);
+          } else {
+            log(`已尝试关闭端口 ${PORT} 上的进程`);
+            resolve(true);
+          }
+        });
+      });
+    } catch (e) {
+      log(`关闭端口进程出错: ${e.message}`);
+      return false;
+    }
+  };
+  
   const startServer = async () => {
     try {
-      await validateSchema(); // Added schema validation before server start
-      server.close(); // 确保先关闭之前的连接
+      await validateSchema(); // 执行模式验证
+      
+      // 检查端口是否被占用
+      const portInUse = await isPortInUse();
+      if (portInUse) {
+        log(`端口 ${PORT} 仍然被占用，尝试强制释放...`);
+        await killProcessOnPort();
+        // 释放后等待一点时间
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      
+      // 确保关闭现有服务器
+      if (server.listening) {
+        server.close();
+      }
+      
+      // 启动服务器
       server.listen(PORT, "0.0.0.0", () => {
+        retryCount = 0; // 重置重试计数
         log(`服务器启动成功，运行在端口 ${PORT}`);
       });
     } catch(e) {
@@ -71,11 +125,18 @@ app.use((req, res, next) => {
   }
 
   // 处理服务器错误
-  server.on('error', (err) => {
+  server.on('error', async (err) => {
     log(`服务器错误: ${err.message}`);
     if(err.code === 'EADDRINUSE') {
-      log('端口被占用，等待释放...');
-      setTimeout(startServer, 3000); // 增加等待时间到3秒
+      if (retryCount < MAX_RETRY) {
+        retryCount++;
+        log(`端口被占用，等待释放... (尝试 ${retryCount}/${MAX_RETRY})`);
+        await killProcessOnPort();
+        setTimeout(startServer, 2000 * retryCount); // 逐渐增加等待时间
+      } else {
+        log(`尝试 ${MAX_RETRY} 次后仍无法启动服务器，请手动重启项目`);
+        process.exit(1);
+      }
     } else {
       log(`严重错误: ${JSON.stringify(err)}`);
       process.exit(1);
