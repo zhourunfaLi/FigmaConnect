@@ -112,6 +112,11 @@ app.use((req, res, next) => {
         await new Promise(resolve => server.close(resolve));
       }
 
+      // 确保服务器响应健康检查
+      app.get('/healthz', (req, res) => {
+        res.status(200).send('OK');
+      });
+
       // 启动服务器
       server.listen(currentPort, "0.0.0.0", () => {
         retryCount = 0; // 重置重试计数
@@ -121,11 +126,6 @@ app.use((req, res, next) => {
         const replitSlug = process.env.REPL_SLUG || 'unknown';
         const replitOwner = process.env.REPL_OWNER || 'unknown';
         log(`使用以下访问地址: https://${replitSlug}.${replitOwner}.repl.co`);
-        
-        // 确保服务器响应健康检查
-        app.get('/healthz', (req, res) => {
-          res.status(200).send('OK');
-        });
         
         // 添加未捕获异常处理
         process.on('uncaughtException', (err) => {
