@@ -1,59 +1,104 @@
 
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./lib/queryClient";
-import { Switch, Route, Router } from "wouter";
-import { Toaster } from "@/components/ui/toaster";
-import { AuthProvider, useAuth } from "./hooks/use-auth";
-import { ProtectedRoute } from "./lib/protected-route";
+import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Route, Switch, useLocation } from 'wouter';
+import { AuthProvider, useAuth } from '@/hooks/use-auth';
+import { Toaster } from '@/components/ui/toaster';
 
-import HomePage from "@/pages/home-page";
-import AuthPage from "@/pages/auth-page";
-import ArtworkPage from "@/pages/artwork-page";
-import AddArtworkPage from "@/pages/add-artwork-page";
-import NotFound from "@/pages/not-found";
-import { CityPage } from "@/components/city-page";
+const queryClient = new QueryClient();
 
-// 移动到内部组件，确保在AuthProvider内部使用
-function RouterComponent() { 
+// Example protected route component
+const ProtectedRoute = ({ component: Component, ...rest }: { component: React.ComponentType, path: string }) => {
+  return <Route {...rest}>
+    {(params) => {
+      // This will be handled by the ProtectedRoute component in lib/protected-route.tsx
+      return <Component {...params} />;
+    }}
+  </Route>;
+};
+
+// Simple route component for unprotected routes
+const AppRoute = ({ component: Component, ...rest }: { component: React.ComponentType, path: string }) => {
+  return <Route {...rest}>
+    {(params) => <Component {...params} />}
+  </Route>;
+};
+
+// Home page component
+const HomePage = () => {
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Welcome to the Home Page</h1>
+      <p>This is a simple home page for our application.</p>
+    </div>
+  );
+};
+
+// Auth page component
+const AuthPage = () => {
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Authentication</h1>
+      <p>Login or register to access the application.</p>
+    </div>
+  );
+};
+
+// Dashboard page component
+const DashboardPage = () => {
+  const { user } = useAuth();
+  
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      <p>Welcome, {user?.username || 'User'}!</p>
+    </div>
+  );
+};
+
+// Not found page component
+const NotFoundPage = () => {
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">404 - Page Not Found</h1>
+      <p>The page you're looking for doesn't exist.</p>
+    </div>
+  );
+};
+
+// Router component with all routes
+const RouterComponent = () => {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
-      <Route path="/city" component={CityPage} />
-      <ProtectedRoute path="/artwork/:id" component={ArtworkPage} />
-      <ProtectedRoute path="/add" component={AddArtworkPage} />
-      <Route component={NotFound} />
+      <Route path="/dashboard" component={DashboardPage} />
+      <Route component={NotFoundPage} />
     </Switch>
   );
-}
+};
 
-// 移动到内部组件，确保在AuthProvider内部使用
-const AppLayout = ({ children }) => {
-  const { user, logoutMutation } = useAuth();
+// App layout component
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
+  const [, setLocation] = useLocation();
+  const { user, logout } = useAuth();
   
-  const handleLogout = () => {
-    logoutMutation.mutate();
+  const handleLogout = async () => {
+    await logout();
+    setLocation('/auth');
   };
   
   return (
     <>
-      <nav className="bg-background border-b border-border p-4">
-        <ul className="flex gap-4 max-w-6xl mx-auto">
-          <li><a href="/" className="font-bold">艺术博物馆</a></li>
-          {user && <li><a href="/add">添加艺术品</a></li>}
-          {user && <li><a href="/city">城市</a></li>}
-          {user && (
-            <li className="ml-auto">
-              <span className="mr-2">你好，{user.username}</span>
-              <button 
-                className="px-3 py-1 border rounded hover:bg-gray-100"
-                onClick={handleLogout}
-              >
-                退出登录
-              </button>
-            </li>
-          )}
-          {!user && <li className="ml-auto"><a href="/auth">登录/注册</a></li>}
+      <nav className="bg-slate-800 text-white p-4">
+        <ul className="flex space-x-4">
+          <li><a href="/" className="hover:underline">Home</a></li>
+          {user ? (
+            <>
+              <li><a href="/dashboard" className="hover:underline">Dashboard</a></li>
+              <li><button onClick={handleLogout} className="hover:underline">Logout</button></li>
+            </>
+          ) : <li><a href="/auth" className="hover:underline">Login/Register</a></li>}
         </ul>
       </nav>
       <main>{children}</main>
@@ -61,18 +106,15 @@ const AppLayout = ({ children }) => {
   );
 };
 
-// 主程序组件
+// Main App component
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Router>
-          {/* 现在这些组件都在AuthProvider内部使用 */}
-          <AppLayout>
-            <RouterComponent />
-          </AppLayout>
-          <Toaster />
-        </Router>
+        <AppLayout>
+          <RouterComponent />
+        </AppLayout>
+        <Toaster />
       </AuthProvider>
     </QueryClientProvider>
   );

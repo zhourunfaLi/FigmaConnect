@@ -104,3 +104,133 @@ export function useAuth() {
   }
   return context;
 }
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+// Define the User type
+interface User {
+  id: string;
+  username: string;
+  // Add other user properties as needed
+}
+
+// Define the auth context shape
+interface AuthContextType {
+  user: User | null;
+  isLoading: boolean;
+  login: (username: string, password: string) => Promise<void>;
+  register: (username: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+// Create the context with a default value
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Custom hook to use the auth context
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
+
+// Auth provider component
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check if user is already logged in on mount
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        }
+      } catch (error) {
+        console.error('Failed to load user:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    
+    loadUser();
+  }, []);
+
+  // Login function
+  async function login(username: string, password: string) {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Login failed');
+      }
+      
+      const userData = await response.json();
+      setUser(userData);
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // Register function
+  async function register(username: string, password: string) {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Registration failed');
+      }
+      
+      const userData = await response.json();
+      setUser(userData);
+    } catch (error) {
+      console.error('Register error:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // Logout function
+  async function logout() {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+      setUser(null);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  }
+
+  const value = {
+    user,
+    isLoading,
+    login,
+    register,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
