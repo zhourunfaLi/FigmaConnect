@@ -1,12 +1,17 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Switch, Route, Router } from "wouter";
-import { Home } from "./pages/home";
-import { AuthPage } from "./pages/auth-page";
-import { ArtworkPage } from "./pages/artwork-page";
-import { AppLayout } from "./components/app-layout";
-import { AuthProvider } from "./hooks/use-auth";
 import { Toaster } from "./components/ui/toaster";
+import { AuthProvider } from "./hooks/use-auth";
+import { ProtectedRoute } from "./lib/protected-route";
+
+import HomePage from "./pages/home-page";
+import AuthPage from "./pages/auth-page";
+import ArtworkPage from "./pages/artwork-page";
+import AddArtworkPage from "./pages/add-artwork-page";
+import NotFound from "./pages/not-found";
+import { CityPage } from "./components/city-page";
+import { AppLayout } from "./components/app-layout";
 
 export default function App() {
   return (
@@ -16,14 +21,12 @@ export default function App() {
           <AppLayout>
             <main>
               <Switch>
-                <Route path="/" component={Home} />
+                <Route path="/" component={HomePage} />
                 <Route path="/auth" component={AuthPage} />
-                <Route path="/artwork/:id" component={ArtworkPage} />
-                {/* Added routes to maintain functionality from original code */}
-                <Route path="/city" component={() => <div>City Page</div>} /> {/* Placeholder */}
-                <Route path="/add" component={() => <div>Add Artwork Page</div>} /> {/* Placeholder */}
-                <Route component={() => <div>Not Found</div>} /> {/* Placeholder */}
-
+                <Route path="/city" component={CityPage} />
+                <ProtectedRoute path="/artwork/:id" component={ArtworkPage} />
+                <ProtectedRoute path="/add" component={AddArtworkPage} />
+                <Route component={NotFound} />
               </Switch>
             </main>
           </AppLayout>
