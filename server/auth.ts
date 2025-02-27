@@ -89,6 +89,7 @@ export function setupAuth(app: Express) {
       const user = await storage.createUser({
         ...req.body,
         password: hashedPassword,
+        is_premium: false, // 确保新用户默认非高级用户
       });
 
       req.login(user, (err) => {

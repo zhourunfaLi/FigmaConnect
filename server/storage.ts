@@ -133,7 +133,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getCategories() {
-    return await db.select().from(categories).orderBy(categories.displayOrder);
+    return await db.select().from(categories).orderBy(categories.display_order);
   }
 
   async createCategory(category: Omit<typeof categories.$inferInsert, "id">) {
@@ -153,15 +153,15 @@ export class DatabaseStorage implements IStorage {
   async getComments(artworkId: number): Promise<Comment[]> {
     return await db.select()
       .from(comments)
-      .where(eq(comments.artworkId, artworkId))
-      .orderBy(comments.createdAt);
+      .where(eq(comments.artwork_id, artworkId))
+      .orderBy(comments.created_at);
   }
 
-  async createComment(comment: Omit<Comment, "id" | "createdAt">): Promise<Comment> {
+  async createComment(comment: Omit<Comment, "id" | "created_at">): Promise<Comment> {
     const [newComment] = await db.insert(comments)
       .values({
         ...comment,
-        createdAt: new Date(),
+        created_at: new Date(),
       })
       .returning();
     return newComment;

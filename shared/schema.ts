@@ -60,7 +60,10 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: false,
     hide_title: true,
-    category_id: 1
+    category_id: 1,
+    display_order: 1,
+    column_position: 1,
+    aspect_ratio: "3:2"
   },
   {
     id: 2,
@@ -70,7 +73,10 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: true,
     hide_title: true,
-    category_id: 1
+    category_id: 1,
+    display_order: 2,
+    column_position: 2,
+    aspect_ratio: "1:1"
   },
   {
     id: 3,
@@ -80,7 +86,10 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: false,
     hide_title: false,
-    category_id: 1
+    category_id: 1,
+    display_order: 3,
+    column_position: 3,
+    aspect_ratio: "4:3"
   },
   {
     id: 4,
@@ -90,7 +99,10 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: true,
     hide_title: false,
-    category_id: 1
+    category_id: 1,
+    display_order: 4,
+    column_position: 1,
+    aspect_ratio: "1:2"
   },
   {
     id: 5,
@@ -100,7 +112,10 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: false,
     hide_title: false,
-    category_id: 1
+    category_id: 1,
+    display_order: 5,
+    column_position: 2,
+    aspect_ratio: "4:5"
   },
   {
     id: 6,
@@ -110,6 +125,9 @@ export const mockArtworks: Artwork[] = [
     video_url: null,
     is_premium: true,
     hide_title: false,
-    category_id: 1
+    category_id: 1,
+    display_order: 6,
+    column_position: 3,
+    aspect_ratio: "4:7"
   }
 ];

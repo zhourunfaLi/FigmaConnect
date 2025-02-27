@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // Added import for useNavigate
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -49,12 +50,14 @@ function ArtworkItem({
   artwork, 
   isWide, 
   wideHeight, 
-  index 
+  index,
+  onArtworkClick 
 }: { 
   artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
   isWide: boolean; 
   wideHeight: number;
   index: number;
+  onArtworkClick?: (id: string) => void;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -80,6 +83,12 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
+  const handleClick = () => {
+    if (onArtworkClick) {
+      onArtworkClick(artwork.id);
+    }
+  };
+
   return (
     <div 
       id={`artwork-${artwork.id}`}
@@ -92,6 +101,7 @@ function ArtworkItem({
         breakBefore: isWide ? "column" : "auto",
         position: 'relative'
       }}
+      onClick={handleClick} // Added onClick handler
     >
       <div 
         className="w-full relative overflow-hidden rounded-xl"
@@ -180,7 +190,12 @@ function ArtworkItem({
 }
 
 export default function WorksList({ artworks, className }: WorksListProps) {
+  const navigate = useNavigate();
   const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
+
+  const handleArtworkClick = (id: string) => {
+    navigate(`/works/${id}`);
+  };
 
   // Update wide artwork height based on screen size
   useEffect(() => {
@@ -216,7 +231,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // 定义一组不同的宽高比
   const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
-  
+
   const displayArtworks = [
     ...artIds.map((id, index) => ({
       ...artworks[0],
@@ -248,6 +263,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       isWide={false}
       wideHeight={wideHeight}
       index={index}
+      onArtworkClick={handleArtworkClick} // Pass the callback function
     />
   ));
 

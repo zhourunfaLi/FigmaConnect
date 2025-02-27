@@ -38,9 +38,9 @@ export function registerRoutes(app: Express): Server {
       const artwork = await storage.createArtwork({
         title: req.body.title,
         description: req.body.description,
-        imageUrl: req.body.imageUrl,
-        videoUrl: req.body.videoUrl,
-        isPremium: req.body.isPremium,
+        image_url: req.body.image_url,
+        video_url: req.body.video_url,
+        is_premium: req.body.is_premium,
       });
       res.status(200).json(artwork);
     } catch (error) {
@@ -69,7 +69,7 @@ export function registerRoutes(app: Express): Server {
         return;
       }
 
-      if (artwork.isPremium && !req.user?.isPremium) {
+      if (artwork.is_premium && !req.user?.is_premium) {
         console.log(`[Debug] Premium content access denied for user:`, req.user);
         res.status(403).send("Premium content requires membership");
         return;
