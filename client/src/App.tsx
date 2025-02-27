@@ -1,8 +1,9 @@
+
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Switch, Route, Router } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
-import { AuthProvider } from "./hooks/use-auth";
+import { AuthProvider, useAuth } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
 import HomePage from "@/pages/home-page";
@@ -11,29 +12,8 @@ import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
 import NotFound from "@/pages/not-found";
 import { CityPage } from "@/components/city-page";
-import { useAuth } from "@/hooks/use-auth"; // Added import for useAuth
 
-
-// Added AppLayout component
-const AppLayout = ({ children }) => {
-  const { user, logout } = useAuth();
-  return (
-    <>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          {user && <li><a href="/add">Add Artwork</a></li>}
-          {user && <li><a href="/city">City</a></li>}
-          {user && <li><button onClick={logout}>Logout</button></li>}
-          {!user && <li><a href="/auth">Login/Register</a></li>}
-        </ul>
-      </nav>
-      <main>{children}</main>
-    </>
-  );
-};
-
-
+// 移动到内部组件，确保在AuthProvider内部使用
 function RouterComponent() { 
   return (
     <Switch>
@@ -47,14 +27,48 @@ function RouterComponent() {
   );
 }
 
-function App() {
-  const { user } = useAuth(); // Added to access user authentication status
+// 移动到内部组件，确保在AuthProvider内部使用
+const AppLayout = ({ children }) => {
+  const { user, logoutMutation } = useAuth();
+  
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
+  
+  return (
+    <>
+      <nav className="bg-background border-b border-border p-4">
+        <ul className="flex gap-4 max-w-6xl mx-auto">
+          <li><a href="/" className="font-bold">艺术博物馆</a></li>
+          {user && <li><a href="/add">添加艺术品</a></li>}
+          {user && <li><a href="/city">城市</a></li>}
+          {user && (
+            <li className="ml-auto">
+              <span className="mr-2">你好，{user.username}</span>
+              <button 
+                className="px-3 py-1 border rounded hover:bg-gray-100"
+                onClick={handleLogout}
+              >
+                退出登录
+              </button>
+            </li>
+          )}
+          {!user && <li className="ml-auto"><a href="/auth">登录/注册</a></li>}
+        </ul>
+      </nav>
+      <main>{children}</main>
+    </>
+  );
+};
 
+// 主程序组件
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Router>
-          <AppLayout> {/* Wrapped RouterComponent with AppLayout */}
+          {/* 现在这些组件都在AuthProvider内部使用 */}
+          <AppLayout>
             <RouterComponent />
           </AppLayout>
           <Toaster />
