@@ -3,7 +3,7 @@ import { useParams } from "wouter";
 import { Artwork } from "@/shared/schema";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { fetchApi } from "@/lib/fetch";
+import { fetchApi } from "@/lib/fetch"; // Assuming this path is correct relative to artwork-page.tsx
 import { TypographyH2 } from "@/components/ui/typography";
 import { CommentSection } from "@/components/comment-section";
 import { Separator } from "@/components/ui/separator";
