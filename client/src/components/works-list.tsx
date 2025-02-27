@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { useNavigate } from 'react-router-dom'; // Added import for navigation
+import { Link } from 'react-router-dom'; // Changed import for navigation
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -59,7 +59,7 @@ function ArtworkItem({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const navigate = useNavigate(); // Added useNavigate hook
+  //const navigate = useNavigate(); // Removed useNavigate hook
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -83,10 +83,10 @@ function ArtworkItem({
   }, [artwork.id]);
 
   return (
-    <div 
+    <Link 
       id={`artwork-${artwork.id}`}
       className={cn(
-        "break-inside-avoid mb-4 group cursor-pointer", // Added cursor-pointer for better UX
+        "break-inside-avoid mb-4 group cursor-pointer block", // Added cursor-pointer for better UX and block
         isWide && "-ml-[4px]"
       )}
       style={{
@@ -94,7 +94,7 @@ function ArtworkItem({
         breakBefore: isWide ? "column" : "auto",
         position: 'relative'
       }}
-      onClick={() => navigate(`/artwork/${artwork.id}`)} // Added navigation on click
+      to={`/artwork/${artwork.id}`} // Changed to Link
     >
       <div 
         className="w-full relative overflow-hidden rounded-xl"
@@ -178,7 +178,7 @@ function ArtworkItem({
           <MoreHorizontal className="w-4 h-4 text-[#111111]" />
         </button>
       </div>
-    </div>
+    </Link>
   );
 }
 
