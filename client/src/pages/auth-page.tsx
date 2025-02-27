@@ -47,6 +47,24 @@ export default function AuthPage() {
                 />
               </TabsContent>
 
+
+                <div className="mt-4">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      fetch("/api/logout", {
+                        method: "POST",
+                        credentials: "include",
+                      }).then(() => {
+                        window.location.reload();
+                      });
+                    }}
+                    className="w-full"
+                  >
+                    退出当前用户
+                  </Button>
+                </div>
+
               <TabsContent value="register">
                 <AuthForm 
                   mode="register" 
