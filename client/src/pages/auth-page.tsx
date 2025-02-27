@@ -43,7 +43,7 @@ export default function AuthPage() {
                 <AuthForm 
                   mode="login" 
                   onSubmit={(data) => loginMutation.mutate(data)} 
-                  isLoading={loginMutation.isLoading}
+                  isLoading={loginMutation?.isLoading || false}
                 />
               </TabsContent>
 
@@ -51,7 +51,7 @@ export default function AuthPage() {
                 <AuthForm 
                   mode="register" 
                   onSubmit={(data) => registerMutation.mutate(data)}
-                  isLoading={registerMutation.isLoading}
+                  isLoading={registerMutation?.isLoading || false}
                 />
               </TabsContent>
             </Tabs>
@@ -79,7 +79,7 @@ function AuthForm({
 }: { 
   mode: "login" | "register";
   onSubmit: (data: InsertUser) => void;
-  isLoading: boolean;
+  isLoading?: boolean;
 }) {
   const form = useForm<InsertUser>({
     resolver: zodResolver(insertUserSchema),
