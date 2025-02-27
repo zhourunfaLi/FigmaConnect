@@ -11,8 +11,30 @@ import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
 import NotFound from "@/pages/not-found";
 import { CityPage } from "@/components/city-page";
+import { useAuth } from "@/hooks/use-auth"; // Added import for useAuth
 
-function RouterComponent() { //Renamed to avoid naming conflict with the import
+
+// Added AppLayout component
+const AppLayout = ({ children }) => {
+  const { user, logout } = useAuth();
+  return (
+    <>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          {user && <li><a href="/add">Add Artwork</a></li>}
+          {user && <li><a href="/city">City</a></li>}
+          {user && <li><button onClick={logout}>Logout</button></li>}
+          {!user && <li><a href="/auth">Login/Register</a></li>}
+        </ul>
+      </nav>
+      <main>{children}</main>
+    </>
+  );
+};
+
+
+function RouterComponent() { 
   return (
     <Switch>
       <Route path="/" component={HomePage} />
@@ -26,11 +48,15 @@ function RouterComponent() { //Renamed to avoid naming conflict with the import
 }
 
 function App() {
+  const { user } = useAuth(); // Added to access user authentication status
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Router>
-          <RouterComponent /> {/* Use the renamed component */}
+          <AppLayout> {/* Wrapped RouterComponent with AppLayout */}
+            <RouterComponent />
+          </AppLayout>
           <Toaster />
         </Router>
       </AuthProvider>
