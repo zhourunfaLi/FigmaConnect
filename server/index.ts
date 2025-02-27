@@ -38,15 +38,20 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = registerRoutes(app);
+  try {
+    // 确保在启动服务前验证数据库架构
+    await validateSchema();
+    log("数据库初始化成功");
+    
+    const server = registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
 
-    res.status(status).json({ message });
-    throw err;
-  });
+      res.status(status).json({ message });
+      console.error(err);
+    });
 
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
@@ -55,6 +60,11 @@ app.use((req, res, next) => {
     await setupVite(app, server);
   } else {
     serveStatic(app);
+  }
+  
+  } catch (error) {
+    console.error("服务器启动失败:", error);
+    process.exit(1);
   }
 
   const BASE_PORT = 3002;
