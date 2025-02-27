@@ -25,6 +25,7 @@ export function registerRoutes(app: Express): Server {
     const artworks = categoryId 
       ? await storage.getArtworksByCategory(categoryId)
       : await storage.getArtworks();
+    // 确保返回的字段名与数据库schema一致
     res.json(artworks);
   });
 
