@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { Link } from "wouter"; // Corrected import
+import { Link, useLocation } from "wouter"; // Corrected import
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -59,6 +59,7 @@ function ArtworkItem({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -82,7 +83,7 @@ function ArtworkItem({
   }, [artwork.id]);
 
   const handleClick = () => {
-    // 使用wouter的Link进行导航
+    setLocation(`/artwork/${artwork.id.toString().replace('art-', '').replace('city-', '')}`);
   };
 
   return (
