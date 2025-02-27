@@ -6,25 +6,8 @@ import { setupAuth } from "./auth";
 export function registerRoutes(app: Express): Server {
   setupAuth(app);
 
-  app.get("/api/categories", async (_req, res) => {
-    const categories = await storage.getCategories();
-    res.json(categories);
-  });
-
-  app.post("/api/categories", async (req, res) => {
-    if (!req.user) {
-      res.status(401).send("Must be logged in to add category");
-      return;
-    }
-    const category = await storage.createCategory(req.body);
-    res.json(category);
-  });
-
-  app.get("/api/artworks", async (req, res) => {
-    const categoryId = req.query.categoryId ? parseInt(req.query.categoryId as string) : undefined;
-    const artworks = categoryId 
-      ? await storage.getArtworksByCategory(categoryId)
-      : await storage.getArtworks();
+  app.get("/api/artworks", async (_req, res) => {
+    const artworks = await storage.getArtworks();
     res.json(artworks);
   });
 
@@ -69,11 +52,12 @@ export function registerRoutes(app: Express): Server {
         return;
       }
 
-      if (artwork.isPremium && !req.user?.isPremium) {
-        console.log(`[Debug] Premium content access denied for user:`, req.user);
-        res.status(403).send("Premium content requires membership");
-        return;
-      }
+      // Premium check temporarily disabled
+      // if (artwork.isPremium && !req.user?.isPremium) {
+      //   console.log(`[Debug] Premium content access denied for user:`, req.user);
+      //   res.status(403).send("Premium content requires membership");
+      //   return;
+      // }
 
       res.json(artwork);
     } catch (error) {

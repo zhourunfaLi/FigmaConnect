@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useContext } from "react";
+
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import {
   useQuery,
   useMutation,
@@ -20,15 +21,23 @@ type AuthContextType = {
 type LoginData = Pick<InsertUser, "username" | "password">;
 
 export const AuthContext = createContext<AuthContextType | null>(null);
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
+
+  // 从 localStorage 读取用户ID
+  const userId = localStorage.getItem("userId");
+
   const {
     data: user,
     error,
     isLoading,
   } = useQuery<SelectUser | undefined, Error>({
     queryKey: ["/api/user"],
-    queryFn: getQueryFn({ on401: "returnNull" }),
+    queryFn: getQueryFn({ 
+      headers: userId ? { Authorization: userId } : undefined,
+      on401: "returnNull" 
+    }),
   });
 
   const loginMutation = useMutation({
@@ -37,11 +46,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return await res.json();
     },
     onSuccess: (user: SelectUser) => {
+      localStorage.setItem("userId", user.id.toString());
       queryClient.setQueryData(["/api/user"], user);
     },
     onError: (error: Error) => {
       toast({
-        title: "Login failed",
+        title: "登录失败",
         description: error.message,
         variant: "destructive",
       });
@@ -54,11 +64,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return await res.json();
     },
     onSuccess: (user: SelectUser) => {
+      localStorage.setItem("userId", user.id.toString());
       queryClient.setQueryData(["/api/user"], user);
     },
     onError: (error: Error) => {
       toast({
-        title: "Registration failed",
+        title: "注册失败",
         description: error.message,
         variant: "destructive",
       });
@@ -67,17 +78,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("POST", "/api/logout");
-    },
-    onSuccess: () => {
+      localStorage.removeItem("userId");
       queryClient.setQueryData(["/api/user"], null);
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Logout failed",
-        description: error.message,
-        variant: "destructive",
-      });
     },
   });
 

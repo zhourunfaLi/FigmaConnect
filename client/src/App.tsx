@@ -9,17 +9,17 @@ import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
 import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
+import WorkDetails from "@/pages/WorkDetails";
 import NotFound from "@/pages/not-found";
-import { CityPage } from "@/components/city-page";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
-      <Route path="/city" component={CityPage} />
-      <ProtectedRoute path="/artwork/:id" component={ArtworkPage} />
-      <ProtectedRoute path="/add" component={AddArtworkPage} />
+      <Route path="/artwork/:id" component={ArtworkPage} />
+      <Route path="/add-artwork" component={AddArtworkPage} />
+      <Route path="/details/:id" component={WorkDetails} /> {/*Corrected route path*/}
       <Route component={NotFound} />
     </Switch>
   );

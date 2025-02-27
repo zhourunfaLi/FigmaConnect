@@ -1,7 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { validateSchema } from "./validateSchema"; // Added import for schema validation
 
 const app = express();
 app.use(express.json());
@@ -57,50 +56,10 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const PORT = 3002;
-  const startServer = async () => {
-    try {
-      await validateSchema(); // Added schema validation before server start
-      server.setMaxListeners(20); // 增加最大监听器数量
-      server.close(); // 确保先关闭之前的连接
-      server.listen(PORT, "0.0.0.0", () => {
-        log(`服务器启动成功，运行在端口 ${PORT}`);
-      });
-    } catch(e) {
-      log(`启动服务器出错: ${e.message}`);
-    }
-  }
-
-  // 处理服务器错误
-  server.on('error', (err) => {
-    log(`服务器错误: ${err.message}`);
-    if(err.code === 'EADDRINUSE') {
-      log('端口被占用，等待释放...');
-      setTimeout(startServer, 3000); // 增加等待时间到3秒
-    } else {
-      log(`严重错误: ${JSON.stringify(err)}`);
-      process.exit(1);
-    }
+  // ALWAYS serve the app on port 5000
+  // this serves both the API and the client
+  const PORT = 5000;
+  server.listen(PORT, "0.0.0.0", () => {
+    log(`serving on port ${PORT}`);
   });
-
-  // 处理进程退出
-  process.on('SIGTERM', () => {
-    log('收到退出信号，正在关闭服务器...');
-    server.close(() => {
-      log('服务器已安全关闭');
-      process.exit(0);
-    });
-  });
-
-  startServer();
 })();
-
-
-// Placeholder for schema validation function.  Replace with actual implementation.
-async function validateSchema() {
-  console.log("Performing schema validation...");
-  // Add your schema validation logic here.  This is a placeholder.
-  // For example, you might compare database schema with a definition file.
-  // Throw an error if the schema is invalid.
-  return Promise.resolve();
-}
