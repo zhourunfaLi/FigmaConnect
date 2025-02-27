@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
+import { Link } from "wouter"; // Corrected import
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -80,6 +81,10 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
+  const handleClick = () => {
+    window.location.href = `/artwork/${artwork.id}`; // Corrected navigation
+  };
+
   return (
     <div 
       id={`artwork-${artwork.id}`}
@@ -124,6 +129,7 @@ function ArtworkItem({
               )}
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
+              onClick={handleClick} // Added onClick handler
             />
 
             {/* Always visible labels */}
@@ -216,7 +222,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // 定义一组不同的宽高比
   const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
-  
+
   const displayArtworks = [
     ...artIds.map((id, index) => ({
       ...artworks[0],
