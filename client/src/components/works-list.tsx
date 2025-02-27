@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
+import { useNavigate } from 'react-router-dom'; // Added import for navigation
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -58,6 +59,7 @@ function ArtworkItem({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate(); // Added useNavigate hook
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -84,7 +86,7 @@ function ArtworkItem({
     <div 
       id={`artwork-${artwork.id}`}
       className={cn(
-        "break-inside-avoid mb-4 group",
+        "break-inside-avoid mb-4 group cursor-pointer", // Added cursor-pointer for better UX
         isWide && "-ml-[4px]"
       )}
       style={{
@@ -92,6 +94,7 @@ function ArtworkItem({
         breakBefore: isWide ? "column" : "auto",
         position: 'relative'
       }}
+      onClick={() => navigate(`/artwork/${artwork.id}`)} // Added navigation on click
     >
       <div 
         className="w-full relative overflow-hidden rounded-xl"
@@ -216,7 +219,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // 定义一组不同的宽高比
   const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
-  
+
   const displayArtworks = [
     ...artIds.map((id, index) => ({
       ...artworks[0],
