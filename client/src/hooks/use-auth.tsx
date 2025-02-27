@@ -29,10 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await apiRequest<SelectUser>("/api/profile", { // Corrected API endpoint
-          method: "GET",
-          credentials: 'include' 
-        });
+        const userData = await apiRequest("/api/user", "GET");
         setUser(userData);
       } catch (error) {
         // 用户未登录，这是正常情况

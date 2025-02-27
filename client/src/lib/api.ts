@@ -1,8 +1,8 @@
-export async function apiRequest(
-  path: string, 
+export async function apiRequest<T = any>(
+  url: string, 
   method: string = 'GET', 
   data?: any
-): Promise<any> {
+): Promise<T> {
   const options: RequestInit = {
     method,
     headers: {
@@ -15,14 +15,15 @@ export async function apiRequest(
     options.body = JSON.stringify(data);
   }
 
-  // 确保路径以/开头
-  const apiPath = path.startsWith('/') ? path : `/${path}`;
-  const response = await fetch(apiPath, options);
+  const response = await fetch(url, options);
 
   if (!response.ok) {
-    const errorData = await response.json();
-    const errorMessage = errorData.message || `HTTP error! status: ${response.status}`;
-    throw new Error(errorMessage);
+    try {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    } catch {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
   }
 
   return response.json();
