@@ -1,6 +1,6 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
@@ -12,7 +12,7 @@ import AddArtworkPage from "@/pages/add-artwork-page";
 import NotFound from "@/pages/not-found";
 import { CityPage } from "@/components/city-page";
 
-function Router() {
+function RouterComponent() { //Renamed to avoid naming conflict with the import
   return (
     <Switch>
       <Route path="/" component={HomePage} />
@@ -29,8 +29,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Router />
-        <Toaster />
+        <Router>
+          <RouterComponent /> {/* Use the renamed component */}
+          <Toaster />
+        </Router>
       </AuthProvider>
     </QueryClientProvider>
   );

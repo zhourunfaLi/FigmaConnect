@@ -82,8 +82,7 @@ function ArtworkItem({
   }, [artwork.id]);
 
   const handleClick = () => {
-    // 使用window.location直接导航而不是useNavigate
-    window.location.href = `/artwork/${artwork.id.toString().replace('art-', '').replace('city-', '')}`;
+    // 使用wouter的Link进行导航
   };
 
   return (
@@ -118,20 +117,21 @@ function ArtworkItem({
 
         {isVisible && (
           <>
-            <img
-              src={artwork.themeId === "art" 
-                ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
-                : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
-              alt={artwork.title}
-              className={cn(
-                "w-full h-full object-cover transition-all duration-300",
-                imageLoaded ? "opacity-100" : "opacity-0",
-                "group-hover:scale-105"
-              )}
-              loading="lazy"
-              onLoad={() => setImageLoaded(true)}
-              onClick={handleClick} // Added onClick handler
-            />
+            <Link href={`/artwork/${artwork.id.toString().replace('art-', '').replace('city-', '')}`}>
+              <img
+                src={artwork.themeId === "art" 
+                  ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
+                  : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
+                alt={artwork.title}
+                className={cn(
+                  "w-full h-full object-cover transition-all duration-300",
+                  imageLoaded ? "opacity-100" : "opacity-0",
+                  "group-hover:scale-105"
+                )}
+                loading="lazy"
+                onLoad={() => setImageLoaded(true)}
+              />
+            </Link>
 
             {/* Always visible labels */}
             <div className="absolute top-2 left-2 flex gap-2">
