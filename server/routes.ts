@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
+import passport from 'passport'; // Assuming passport is used for authentication
 
 export function registerRoutes(app: Express): Server {
   setupAuth(app);
@@ -100,6 +101,19 @@ export function registerRoutes(app: Express): Server {
     });
 
     res.status(201).json(comment);
+  });
+
+  app.post("/api/login", passport.authenticate("local"), (req, res) => {
+    res.json(req.user);
+  });
+
+  app.post("/api/logout", (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        return res.status(500).json({ error: "退出登录失败" });
+      }
+      res.status(200).json({ success: true });
+    });
   });
 
   const httpServer = createServer(app);

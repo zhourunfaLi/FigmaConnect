@@ -20,10 +20,10 @@ export default function GridList({ artworks, className, title }: GridListProps) 
   const isCityData = artworks.some(art => art.cityId);
 
   const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
-    const [, setLocation] = useLocation(); 
+    const [, navigate] = useLocation(); 
 
     const handleClick = () => {
-      setLocation(`/artwork/${artwork.id}`);
+      navigate(`/artwork/${artwork.id}`);
     };
 
     return (

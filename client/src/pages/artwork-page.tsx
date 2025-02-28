@@ -45,9 +45,16 @@ export default function ArtworkPage() {
   const [showResults, setShowResults] = useState(false);
 
   const { data: artwork, isError, error, isLoading } = useQuery<Artwork>({
-    queryKey: [`/api/artworks/${id}`],
+    queryKey: [`artwork-${id}`],
+    queryFn: async () => {
+      const response = await fetch(`/api/artworks/${id}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch artwork: ${response.statusText}`);
+      }
+      return response.json();
+    },
     enabled: id > 0,
-    retry: false,
+    retry: 1,
   });
 
   const handleDownload = () => {
