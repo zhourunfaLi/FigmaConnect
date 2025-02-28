@@ -38,60 +38,103 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = registerRoutes(app);
+  let server;
+  let retryCount = 0;
+  const MAX_RETRIES = 3;
+  
+  try {
+    server = registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    res.status(status).json({ message });
-    throw err;
-  });
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
-
-  const PORT = 3002;
-  const startServer = async () => {
-    try {
-      await validateSchema(); // Added schema validation before server start
-      server.close(); // 确保先关闭之前的连接
-      server.listen(PORT, "0.0.0.0", () => {
-        log(`服务器启动成功，运行在端口 ${PORT}`);
-      });
-    } catch(e) {
-      log(`启动服务器出错: ${e.message}`);
-    }
-  }
-
-  // 处理服务器错误
-  server.on('error', (err) => {
-    log(`服务器错误: ${err.message}`);
-    if(err.code === 'EADDRINUSE') {
-      log('端口被占用，等待释放...');
-      setTimeout(startServer, 3000); // 增加等待时间到3秒
-    } else {
-      log(`严重错误: ${JSON.stringify(err)}`);
-      process.exit(1);
-    }
-  });
-
-  // 处理进程退出
-  process.on('SIGTERM', () => {
-    log('收到退出信号，正在关闭服务器...');
-    server.close(() => {
-      log('服务器已安全关闭');
-      process.exit(0);
+    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+  
+      res.status(status).json({ message });
+      console.error(err);
     });
-  });
-
-  startServer();
+  
+    // importantly only setup vite in development and after
+    // setting up all the other routes so the catch-all route
+    // doesn't interfere with the other routes
+    if (app.get("env") === "development") {
+      await setupVite(app, server);
+    } else {
+      serveStatic(app);
+    }
+  
+    const PORT = 3002;
+    
+    const startServer = async () => {
+      if (retryCount >= MAX_RETRIES) {
+        log(`已达到最大重试次数 (${MAX_RETRIES})，使用新端口...`);
+        const NEW_PORT = PORT + 1 + retryCount - MAX_RETRIES;
+        try {
+          await validateSchema();
+          server.listen(NEW_PORT, "0.0.0.0", () => {
+            log(`服务器启动成功，运行在端口 ${NEW_PORT}`);
+            log(`访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
+            retryCount = 0; // 重置重试计数
+          });
+        } catch(e) {
+          log(`启动服务器出错: ${e.message}`);
+          process.exit(1);
+        }
+        return;
+      }
+      
+      try {
+        await validateSchema();
+        server.listen(PORT, "0.0.0.0", () => {
+          log(`服务器启动成功，运行在端口 ${PORT}`);
+          log(`访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
+          retryCount = 0; // 重置重试计数
+        });
+      } catch(e) {
+        log(`启动服务器出错: ${e.message}`);
+      }
+    };
+  
+    // 处理服务器错误
+    server.on('error', (err) => {
+      log(`服务器错误: ${err.message}`);
+      if(err.code === 'EADDRINUSE') {
+        retryCount++;
+        log(`端口被占用，重试 ${retryCount}/${MAX_RETRIES}...`);
+        setTimeout(startServer, 3000);
+      } else {
+        log(`严重错误: ${JSON.stringify(err)}`);
+        process.exit(1);
+      }
+    });
+  
+    // 处理进程退出
+    process.on('SIGTERM', () => {
+      log('收到退出信号，正在关闭服务器...');
+      server.close(() => {
+        log('服务器已安全关闭');
+        process.exit(0);
+      });
+    });
+  
+    process.on('uncaughtException', (err) => {
+      log(`未捕获的异常: ${err.message}`);
+      log(err.stack || '无堆栈信息');
+      
+      if (server) {
+        server.close(() => {
+          log('由于未捕获的异常，服务器已关闭');
+          process.exit(1);
+        });
+      } else {
+        process.exit(1);
+      }
+    });
+    
+    startServer();
+  } catch (err) {
+    log(`服务器初始化错误: ${err.message}`);
+    process.exit(1);
+  }
 })();
 
 
