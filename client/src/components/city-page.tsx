@@ -27,7 +27,9 @@ export function CityPage() {
     { id: 20, name: '里斯本', img: '/src/assets/design/img/city-20.jpg' }
   ];
 
-  const handleCityClick = (cityId: number) => {
+  const handleCityClick = (e: React.MouseEvent, cityId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
     setLocation(`/artwork/${cityId}`);
   };
 
@@ -37,7 +39,7 @@ export function CityPage() {
         <div 
           key={`city-${index}`} 
           className="group flex flex-col gap-[1px] cursor-pointer" 
-          onClick={() => handleCityClick(city.id)}
+          onClick={(e) => handleCityClick(e, city.id)}
         >
           <div className="relative overflow-hidden rounded-[5px]">
             <img
