@@ -1,4 +1,3 @@
-
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
@@ -20,9 +19,9 @@ import CityPage from "@/components/city-page";
 
 function UserMenu() {
   const { user, logoutMutation } = useAuth();
-  
+
   if (!user) return null;
-  
+
   return (
     <div className="fixed top-4 right-4 z-50">
       <DropdownMenu>

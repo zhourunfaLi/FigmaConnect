@@ -1,34 +1,45 @@
 
-import React from "react";
 import { useLocation } from "wouter";
+import React from "react";
 
 // 模拟城市数据
 const CITIES = [
-  { id: 1, name: '巴黎', img: '/src/assets/design/img/city-01.jpg' },
-  { id: 2, name: '伦敦', img: '/src/assets/design/img/city-02.jpg' },
-  { id: 3, name: '纽约', img: '/src/assets/design/img/city-03.jpg' },
-  { id: 4, name: '东京', img: '/src/assets/design/img/city-04.jpg' },
-  { id: 5, name: '罗马', img: '/src/assets/design/img/city-05.jpg' },
-  { id: 6, name: '巴塞罗那', img: '/src/assets/design/img/city-06.jpg' },
-  { id: 7, name: '阿姆斯特丹', img: '/src/assets/design/img/city-07.jpg' },
-  { id: 8, name: '威尼斯', img: '/src/assets/design/img/city-08.jpg' },
-  { id: 9, name: '维也纳', img: '/src/assets/design/img/city-09.jpg' },
-  { id: 10, name: '柏林', img: '/src/assets/design/img/city-10.jpg' },
-  { id: 11, name: '悉尼', img: '/src/assets/design/img/city-11.jpg' },
-  { id: 12, name: '布拉格', img: '/src/assets/design/img/city-12.jpg' },
-  { id: 13, name: '新加坡', img: '/src/assets/design/img/city-13.jpg' },
-  { id: 14, name: '首尔', img: '/src/assets/design/img/city-14.jpg' },
-  { id: 15, name: '迪拜', img: '/src/assets/design/img/city-15.jpg' },
-  { id: 16, name: '京都', img: '/src/assets/design/img/city-16.jpg' },
-  { id: 17, name: '布宜诺斯艾利斯', img: '/src/assets/design/img/city-17.jpg' },
-  { id: 18, name: '圣托里尼', img: '/src/assets/design/img/city-18.jpg' },
-  { id: 19, name: '开普敦', img: '/src/assets/design/img/city-19.jpg' },
-  { id: 20, name: '里斯本', img: '/src/assets/design/img/city-20.jpg' }
+  {
+    id: 1,
+    name: "巴黎",
+    img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    id: 2,
+    name: "纽约",
+    img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    id: 3,
+    name: "东京",
+    img: "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    id: 4,
+    name: "罗马",
+    img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1996&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    id: 5,
+    name: "伦敦",
+    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    id: 6,
+    name: "悉尼",
+    img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
 ];
 
-function CityPage() {
+export function CityPage() {
   const [, navigate] = useLocation();
   
+  // 点击事件处理函数
   const handleCityClick = (cityId: number) => {
     console.log("点击城市:", cityId);
     navigate(`/artwork/${cityId}`);
