@@ -245,7 +245,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
     updateWideHeight();
     window.addEventListener('resize', updateWideHeight);
-    return () => window.removeEventListener('resize', updateWideHeight);
+    return () => window.removeEventListener('resize', updateWideHeight);removeEventListener('resize', updateWideHeight);
   }, []);
 
   // Get unique random numbers for art and city images
