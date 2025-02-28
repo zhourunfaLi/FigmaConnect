@@ -1,5 +1,5 @@
+import { useLocation } from "wouter";
 import { Heart, Share2 } from "lucide-react";
-import { useLocation } from 'wouter';
 
 export function CityPage() {
   const [, setLocation] = useLocation();
@@ -23,83 +23,61 @@ export function CityPage() {
     { id: 17, name: '雅典', img: '/src/assets/design/img/city-17.jpg' },
     { id: 18, name: '斯德哥尔摩', img: '/src/assets/design/img/city-18.jpg' },
     { id: 19, name: '慕尼黑', img: '/src/assets/design/img/city-19.jpg' },
-    { name: '里斯本', img: '/src/assets/design/img/city-20.jpg' }
+    { id: 20, name: '里斯本', img: '/src/assets/design/img/city-20.jpg' }
   ];
 
-  const contentWithAds = cities.reduce((acc: React.ReactNode[], city, index) => {
-    acc.push(
-      <div 
-        key={`city-${index}`} 
-        className="group flex flex-col gap-[1px] cursor-pointer" 
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setLocation(`/artwork/${city.id}`);
-        }}
-      >
-        <div className="relative overflow-hidden rounded-[5px]">
-          <img
-            src={city.img}
-            alt={city.name}
-            className="w-[374px] h-[166px] object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-            <div className="flex justify-end gap-2">
-              <button 
-                className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Heart className="w-5 h-5 text-white" />
-              </button>
-              <button 
-                className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Share2 className="w-5 h-5 text-white" />
-              </button>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-white font-medium">{city.name}</h3>
-              <p className="text-white text-sm opacity-90">探索{city.name}的艺术与文化</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
-          <div className="text-[#111111] text-[14px] font-normal leading-[22px] font-['MS Gothic']">
-            {city.name}
-          </div>
-        </div>
-      </div>
-    );
-
-    if ((index === 2) || (index > 2 && (index - 2) % 3 === 0)) {
-      acc.push(
-        <div key={`ad-${index}`} className="w-full max-w-[390px] mx-auto">
-          <div className="relative aspect-[374/166] w-full bg-white rounded-[5px] overflow-hidden border border-black/5">
-            <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-              广告
-            </div>
-            <div className="w-full h-full flex items-center justify-center text-black/30">
-              广告位招租 {Math.floor((index - 2) / 3) + 1}
-            </div>
-          </div>
-          <div className="flex justify-between items-center px-2 mt-2">
-            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-              推广内容 {Math.floor((index - 2) / 3) + 1}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return acc;
-  }, []);
+  const handleCityClick = (cityId: number) => {
+    setLocation(`/artwork/${cityId}`);
+  };
 
   return (
-    <div className="min-h-screen w-full bg-[#EEEAE2]">
-      <div className="max-w-[390px] mx-auto py-[20px] px-2 flex flex-col gap-[21px]">
-        {contentWithAds}
-      </div>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 py-6">
+      {cities.map((city, index) => (
+        <div 
+          key={`city-${index}`} 
+          className="group flex flex-col gap-[1px] cursor-pointer" 
+          onClick={() => handleCityClick(city.id)}
+        >
+          <div className="relative overflow-hidden rounded-[5px]">
+            <img
+              src={city.img}
+              alt={city.name}
+              className="w-full h-full object-cover aspect-[3/4] group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute top-2 left-2 flex gap-2">
+              <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+                #{index + 1}
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+              <div className="flex justify-end gap-2">
+                <button 
+                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Heart className="w-5 h-5 text-white" />
+                </button>
+                <button 
+                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Share2 className="w-5 h-5 text-white" />
+                </button>
+              </div>
+              <div>
+                <h3 className="text-white font-medium truncate">{city.name}</h3>
+                <p className="text-white/80 text-sm truncate">著名旅游城市</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+              {city.name}
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
