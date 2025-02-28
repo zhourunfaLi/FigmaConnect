@@ -45,54 +45,6 @@ function AdCard() {
 }
 
 // Artwork component with lazy loading and animation
-export default function WorksList({ artworks, className }: WorksListProps) {
-  const [, navigate] = useLocation();
-
-  // 点击作品卡片，跳转到作品详情页
-  const handleArtworkClick = (id: number) => {
-    navigate(`/artwork/${id}`);
-  };
-
-  return (
-    <div className={cn("grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4", className)}>
-      {artworks.map((artwork, index) => (
-        <div key={artwork.id} className="w-full">
-          <div
-            className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5 cursor-pointer"
-            onClick={() => handleArtworkClick(artwork.id)}
-          >
-            <img
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-            {artwork.isPremium && (
-              <div className="absolute top-2 left-2 px-2 py-1 bg-yellow-500/90 text-white text-xs font-medium rounded-md">
-                高级
-              </div>
-            )}
-          </div>
-          <div className="flex justify-between items-center px-2 mt-2">
-            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-              {artwork.title}
-            </div>
-            <div className="flex items-center gap-2">
-              <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-                <Heart className="w-4 h-4 text-[#111111]" />
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
-      
-      {/* 插入广告内容 */}
-      {artworks.length > 7 && (
-        <AdCard />
-      )}
-    </div>
-  );
-}oading state
 function ArtworkItem({ 
   artwork, 
   isWide, 
@@ -245,7 +197,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
     updateWideHeight();
     window.addEventListener('resize', updateWideHeight);
-    return () => window.removeEventListener('resize', updateWideHeight);removeEventListener('resize', updateWideHeight);
+    return () => window.removeEventListener('resize', updateWideHeight);
   }, []);
 
   // Get unique random numbers for art and city images
@@ -264,7 +216,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // 定义一组不同的宽高比
   const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
-  
+
   const displayArtworks = [
     ...artIds.map((id, index) => ({
       ...artworks[0],
