@@ -1,3 +1,4 @@
+
 import { useLocation } from "wouter";
 import { Heart, Share2 } from "lucide-react";
 
@@ -72,12 +73,12 @@ export function CityPage() {
           </div>
 
           <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
-            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-              {city.name}
-            </div>
+            <div className="text-sm text-[#111111] font-medium">{city.name}</div>
           </div>
         </div>
       ))}
     </div>
   );
 }
+
+export default CityPage;
