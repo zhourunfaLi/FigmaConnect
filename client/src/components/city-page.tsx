@@ -1,48 +1,51 @@
 
 import { useLocation } from "wouter";
-import React from "react";
 
-// 模拟城市数据
+// 城市数据
 const CITIES = [
   {
     id: 1,
     name: "巴黎",
-    img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "艺术与浪漫的代表"
   },
   {
     id: 2,
     name: "纽约",
-    img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "现代艺术的中心"
   },
   {
     id: 3,
-    name: "东京",
-    img: "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    name: "佛罗伦萨",
+    image: "https://images.unsplash.com/photo-1604580864964-0462f5d5b1a8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "文艺复兴的故乡"
   },
   {
     id: 4,
-    name: "罗马",
-    img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1996&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    name: "京都",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "传统与现代的完美融合"
   },
   {
     id: 5,
-    name: "伦敦",
-    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    name: "威尼斯",
+    image: "https://images.unsplash.com/photo-1514890547357-a9ee288728e0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "水上艺术之城"
   },
   {
     id: 6,
-    name: "悉尼",
-    img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    name: "阿姆斯特丹",
+    image: "https://images.unsplash.com/photo-1605101100278-5d1deb2b6498?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "运河与现代艺术"
   }
 ];
 
-// 默认导出城市页组件
-export default function CityPage() {
+function CityPage() {
   const [, navigate] = useLocation();
   
-  // 点击事件处理函数
   const handleCityClick = (cityId: number) => {
-    console.log("点击城市:", cityId);
+    console.log("城市点击:", cityId);
     navigate(`/artwork/${cityId}`);
   };
   
@@ -50,7 +53,7 @@ export default function CityPage() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">探索世界城市艺术</h1>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {CITIES.map((city) => (
           <div 
             key={city.id}
@@ -59,15 +62,15 @@ export default function CityPage() {
           >
             <div className="relative rounded-lg overflow-hidden">
               <img 
-                src={city.img} 
+                src={city.image} 
                 alt={city.name}
-                className="w-full aspect-[3/4] object-cover transition-transform duration-500 hover:scale-110"
+                className="w-full h-48 object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                <p className="text-white">点击查看作品</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
+                <h3 className="text-white text-xl font-bold">{city.name}</h3>
+                <p className="text-white/80 text-sm">{city.description}</p>
               </div>
             </div>
-            <h3 className="mt-2 font-medium">{city.name}</h3>
           </div>
         ))}
       </div>
@@ -75,5 +78,4 @@ export default function CityPage() {
   );
 }
 
-// 同时提供命名导出，以兼容不同的导入方式
-export { CityPage };
+export default CityPage;
