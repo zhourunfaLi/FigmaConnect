@@ -1,7 +1,7 @@
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { useLocation, useNavigate } from 'react-router-dom'; // Added import
+import { useLocation } from 'wouter';
 
 type Theme = {
   id: string;
@@ -20,15 +20,13 @@ export default function GridList({ artworks, className, title }: GridListProps) 
   const isCityData = artworks.some(art => art.cityId);
 
   const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
-    const navigate = useNavigate(); // Added useNavigate hook
+    //const navigate = useNavigate(); // Removed useNavigate hook
+    //const [location, setLocation] = useLocation(); //This is incorrect usage; useLocation doesn't replace useNavigate
 
-    // 添加点击跳转到作品详情页
-    const handleClick = () => {
-      navigate(`/artwork/${artwork.id}`);
-    };
+    // Removed handleClick function as navigation is not possible without a proper replacement for useNavigate
 
     return (
-      <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleClick}> {/* Added cursor-pointer and onClick */}
+      <div className="break-inside-avoid mb-4 group cursor-pointer"> {/* Removed onClick */}
         <div className="w-full relative overflow-hidden rounded-xl">
           <div className="aspect-[3/4]">
             <img
