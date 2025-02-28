@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useLocation } from "wouter";
 
@@ -25,11 +26,13 @@ const CITIES = [
   { id: 20, name: '里斯本', img: '/src/assets/design/img/city-20.jpg' }
 ];
 
-export function CityPage() {
+function CityPage() {
   const [, setLocation] = useLocation();
 
   // 处理点击事件，导航到作品详情页
-  const navigateToArtwork = (cityId: number) => {
+  const handleCityClick = (e: React.MouseEvent, cityId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
     setLocation(`/artwork/${cityId}`);
   };
 
@@ -38,40 +41,31 @@ export function CityPage() {
       {CITIES.map((city, index) => (
         <div 
           key={`city-${index}`} 
-          className="break-inside-avoid mb-4 group cursor-pointer"
-          onClick={() => navigateToArtwork(city.id)}
+          className="group flex flex-col gap-[1px] cursor-pointer" 
+          onClick={(e) => handleCityClick(e, city.id)}
         >
-          <div className="w-full relative overflow-hidden rounded-xl">
-            <div className="aspect-[3/4]">
-              <img
-                src={city.img}
-                alt={city.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-              <div className="space-y-2">
-                <h3 className="text-white font-medium line-clamp-2">
-                  {city.name}
-                </h3>
-                <p className="text-white/80 text-sm line-clamp-2">
+          <div className="relative overflow-hidden rounded-[5px]">
+            <img
+              src={city.img}
+              alt={city.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div className="p-3 w-full">
+                <p className="text-white/80 text-sm">
                   城市风光与建筑
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-between items-center px-2 mt-2">
-            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-              {city.name}
-            </div>
+          <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+            <div className="text-sm text-[#111111] font-medium">{city.name}</div>
           </div>
         </div>
       ))}
     </div>
   );
 }
-
-export default CityPage;
 
 export default CityPage;
