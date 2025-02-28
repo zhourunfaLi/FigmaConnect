@@ -20,13 +20,14 @@ export default function GridList({ artworks, className, title }: GridListProps) 
   const isCityData = artworks.some(art => art.cityId);
 
   const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
-    //const navigate = useNavigate(); // Removed useNavigate hook
-    //const [location, setLocation] = useLocation(); //This is incorrect usage; useLocation doesn't replace useNavigate
+    const [, setLocation] = useLocation(); 
 
-    // Removed handleClick function as navigation is not possible without a proper replacement for useNavigate
+    const handleClick = () => {
+      setLocation(`/artwork/${artwork.id}`);
+    };
 
     return (
-      <div className="break-inside-avoid mb-4 group cursor-pointer"> {/* Removed onClick */}
+      <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleClick}> 
         <div className="w-full relative overflow-hidden rounded-xl">
           <div className="aspect-[3/4]">
             <img
