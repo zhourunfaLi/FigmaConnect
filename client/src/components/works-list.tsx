@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { useNavigate } from 'react-router-dom'; // Added import
+import { useLocation } from "wouter"; // Changed import
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -57,7 +57,7 @@ function ArtworkItem({
   wideHeight: number;
   index: number;
 }) {
-  const navigate = useNavigate(); // Added useNavigate hook
+  const [, setLocation] = useLocation(); // Changed to useLocation
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -83,14 +83,14 @@ function ArtworkItem({
   }, [artwork.id]);
 
   const handleArtworkClick = () => {
-    navigate(`/artwork/${artwork.id}`);
+    setLocation(`/artwork/${artwork.id}`); // Changed navigation
   };
 
   return (
     <div 
       id={`artwork-${artwork.id}`}
       className={cn(
-        "break-inside-avoid mb-4 group cursor-pointer", // Added cursor-pointer
+        "break-inside-avoid mb-4 group cursor-pointer", 
         isWide && "-ml-[4px]"
       )}
       style={{
@@ -98,7 +98,7 @@ function ArtworkItem({
         breakBefore: isWide ? "column" : "auto",
         position: 'relative'
       }}
-      onClick={handleArtworkClick} // Added onClick handler
+      onClick={handleArtworkClick} 
     >
       <div 
         className="w-full relative overflow-hidden rounded-xl"
