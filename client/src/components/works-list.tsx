@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { Link, useLocation } from "wouter"; // Corrected import
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -45,7 +44,7 @@ function AdCard() {
   );
 }
 
-// Artwork component with lazy loading and loading state
+// Artwork component with lazy loading and animation
 function ArtworkItem({ 
   artwork, 
   isWide, 
@@ -59,7 +58,6 @@ function ArtworkItem({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [, setLocation] = useLocation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -81,10 +79,6 @@ function ArtworkItem({
 
     return () => observer.disconnect();
   }, [artwork.id]);
-
-  const handleClick = () => {
-    setLocation(`/artwork/${artwork.id.toString().replace('art-', '').replace('city-', '')}`);
-  };
 
   return (
     <div 
@@ -118,21 +112,19 @@ function ArtworkItem({
 
         {isVisible && (
           <>
-            <Link href={`/artwork/${artwork.id.toString().replace('art-', '').replace('city-', '')}`}>
-              <img
-                src={artwork.themeId === "art" 
-                  ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
-                  : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
-                alt={artwork.title}
-                className={cn(
-                  "w-full h-full object-cover transition-all duration-300",
-                  imageLoaded ? "opacity-100" : "opacity-0",
-                  "group-hover:scale-105"
-                )}
-                loading="lazy"
-                onLoad={() => setImageLoaded(true)}
-              />
-            </Link>
+            <img
+              src={artwork.themeId === "art" 
+                ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
+                : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
+              alt={artwork.title}
+              className={cn(
+                "w-full h-full object-cover transition-all duration-300",
+                imageLoaded ? "opacity-100" : "opacity-0",
+                "group-hover:scale-105"
+              )}
+              loading="lazy"
+              onLoad={() => setImageLoaded(true)}
+            />
 
             {/* Always visible labels */}
             <div className="absolute top-2 left-2 flex gap-2">

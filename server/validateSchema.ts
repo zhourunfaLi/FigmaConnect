@@ -1,19 +1,31 @@
-import { log } from "./vite";
-import { db } from "./db";
+
+import { db } from './db';
+import { sql } from 'drizzle-orm';
+import { artworks, categories, users, comments } from '../shared/schema';
+
+const schemaDefinitions = {
+  artworks,
+  categories, 
+  users,
+  comments
+};
 
 export async function validateSchema() {
-  log("Performing schema validation...");
-
-  // This is a placeholder for more complex schema validation
-  // You can add more comprehensive validation logic here as needed
-
-  try {
-    // Simple check - try to query the database to ensure connection works
-    const result = await db.execute('SELECT 1');
-    log("Schema validation successful");
-    return true;
-  } catch (error) {
-    log(`Schema validation error: ${error.message}`);
-    throw error;
+  for (const [tableName, schema] of Object.entries(schemaDefinitions)) {
+    const result = await db.execute(sql`
+      SELECT column_name, data_type 
+      FROM information_schema.columns 
+      WHERE table_name = ${tableName};
+    `);
+    
+    const dbColumns = result.rows.map(row => row.column_name);
+    const schemaColumns = Object.keys(schema);
+    
+    const mismatches = schemaColumns.filter(col => !dbColumns.includes(col));
+    if(mismatches.length > 0) {
+      throw new Error(`Table ${tableName} is missing columns: ${mismatches.join(', ')}`);
+    }
+    
+    console.log(`✓ Table ${tableName} schema validated`);
   }
 }

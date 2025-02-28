@@ -104,7 +104,7 @@ export default function AddArtworkPage() {
             </div>
             <Button 
               type="submit"
-              disabled={addArtworkMutation.isLoading}
+              disabled={addArtworkMutation.isPending}
               className="w-full"
             >
               Add Artwork
@@ -112,16 +112,6 @@ export default function AddArtworkPage() {
           </form>
         </CardContent>
       </Card>
-    </div>
-  );
-}
-import React from 'react';
-
-export default function AddArtworkPage() {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">添加新艺术品</h1>
-      <p>请实现添加艺术品的表单</p>
     </div>
   );
 }

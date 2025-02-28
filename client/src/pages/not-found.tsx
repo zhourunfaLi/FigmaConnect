@@ -19,20 +19,3 @@ export default function NotFound() {
     </div>
   );
 }
-import React from 'react';
-import { Link } from 'wouter';
-
-export default function NotFound() {
-  return (
-    <div className="container mx-auto px-4 py-16 text-center">
-      <h1 className="text-6xl font-bold mb-6">404</h1>
-      <h2 className="text-2xl font-semibold mb-4">页面未找到</h2>
-      <p className="text-gray-600 mb-8">您访问的页面不存在或已被移除。</p>
-      <Link href="/">
-        <a className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90">
-          返回首页
-        </a>
-      </Link>
-    </div>
-  );
-}

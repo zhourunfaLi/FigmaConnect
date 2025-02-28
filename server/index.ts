@@ -39,156 +39,102 @@ app.use((req, res, next) => {
 
 (async () => {
   let server;
+  let retryCount = 0;
+  const MAX_RETRIES = 3;
+  
   try {
-    // 确保在启动服务前验证数据库架构
-    await validateSchema();
-    log("数据库初始化成功");
-    
     server = registerRoutes(app);
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
-
+  
       res.status(status).json({ message });
       console.error(err);
     });
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
   
-  } catch (error) {
-    console.error("服务器启动失败:", error);
-    process.exit(1);
-  }
-
-  const BASE_PORT = 3002;
-  const MAX_PORT = 3010; // 尝试的最大端口号
-  const MAX_RETRY = 5;
-  let currentPort = BASE_PORT;
-  let retryCount = 0;
-
-  // 检查端口是否被占用
-  const isPortInUse = (port) => {
-    return new Promise((resolve) => {
-      import('net').then(netModule => {
-        const net = netModule.default;
-        const tester = net.createServer()
-          .once('error', () => resolve(true))
-          .once('listening', () => {
-            tester.close();
-            resolve(false);
-          })
-          .listen(port, '0.0.0.0');
-      });
-    });
-  };
-
-  // 查找下一个可用端口
-  const findAvailablePort = async () => {
-    let port = currentPort;
-
-    // 尝试从当前端口到最大端口
-    while (port <= MAX_PORT) {
-      log(`尝试端口 ${port}...`);
-      const inUse = await isPortInUse(port);
-      if (!inUse) {
-        return port;
-      }
-      port++;
+    // importantly only setup vite in development and after
+    // setting up all the other routes so the catch-all route
+    // doesn't interfere with the other routes
+    if (app.get("env") === "development") {
+      await setupVite(app, server);
+    } else {
+      serveStatic(app);
     }
-
-    // 如果所有端口都被占用，重置到初始端口并等待
-    log(`所有端口 ${BASE_PORT}-${MAX_PORT} 都被占用，等待释放...`);
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    return BASE_PORT;
-  };
-
-  const startServer = async () => {
-    try {
-      await validateSchema(); // 执行模式验证
-
-      // 查找可用端口
-      currentPort = await findAvailablePort();
-
-      // 确保关闭现有服务器
-      if (server.listening) {
-        log('关闭旧的服务器实例...');
-        await new Promise(resolve => server.close(resolve));
+  
+    const PORT = 3002;
+    
+    const startServer = async () => {
+      if (retryCount >= MAX_RETRIES) {
+        log(`已达到最大重试次数 (${MAX_RETRIES})，使用新端口...`);
+        const NEW_PORT = PORT + 1 + retryCount - MAX_RETRIES;
+        try {
+          await validateSchema();
+          server.listen(NEW_PORT, "0.0.0.0", () => {
+            log(`服务器启动成功，运行在端口 ${NEW_PORT}`);
+            log(`访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
+            retryCount = 0; // 重置重试计数
+          });
+        } catch(e) {
+          log(`启动服务器出错: ${e.message}`);
+          process.exit(1);
+        }
+        return;
       }
-
-      // 确保服务器响应健康检查
-      app.get('/healthz', (req, res) => {
-        res.status(200).send('OK');
-      });
-
-      // 启动服务器
-      server.listen(currentPort, "0.0.0.0", () => {
-        retryCount = 0; // 重置重试计数
-        log(`服务器启动成功，运行在端口 ${currentPort}，访问地址: http://0.0.0.0:${currentPort}`);
-        
-        // 确保服务器正确绑定到REPLIT环境
-        const replitSlug = process.env.REPL_SLUG || 'unknown';
-        const replitOwner = process.env.REPL_OWNER || 'unknown';
-        log(`使用以下访问地址: https://${replitSlug}.${replitOwner}.repl.co`);
-        
-        // 添加未捕获异常处理
-        process.on('uncaughtException', (err) => {
-          log(`未捕获的异常: ${err.message}`);
-          log(err.stack || '无堆栈信息');
-          // 不立即退出，让服务器继续运行
+      
+      try {
+        await validateSchema();
+        server.listen(PORT, "0.0.0.0", () => {
+          log(`服务器启动成功，运行在端口 ${PORT}`);
+          log(`访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
+          retryCount = 0; // 重置重试计数
         });
-        
-        process.on('unhandledRejection', (reason, promise) => {
-          log(`未处理的Promise拒绝: ${reason}`);
-          // 不立即退出，让服务器继续运行
-        });
-      });
-    } catch(e) {
-      log(`启动服务器出错: ${e.message}`);
-      log(e.stack || '无堆栈信息');
-      log('尝试在5秒后重启服务器...');
-      setTimeout(startServer, 5000);
-    }
-  }
-
-  // 处理服务器错误
-  server.on('error', async (err) => {
-    log(`服务器错误: ${err.message}`);
-    if(err.code === 'EADDRINUSE') {
-      if (retryCount < MAX_RETRY) {
+      } catch(e) {
+        log(`启动服务器出错: ${e.message}`);
+      }
+    };
+  
+    // 处理服务器错误
+    server.on('error', (err) => {
+      log(`服务器错误: ${err.message}`);
+      if(err.code === 'EADDRINUSE') {
         retryCount++;
-        log(`端口 ${currentPort} 被占用，尝试使用其他端口... (尝试 ${retryCount}/${MAX_RETRY})`);
-        // 增加端口号，尝试下一个
-        currentPort++;
-        if (currentPort > MAX_PORT) currentPort = BASE_PORT;
-        setTimeout(startServer, 1000); 
+        log(`端口被占用，重试 ${retryCount}/${MAX_RETRIES}...`);
+        setTimeout(startServer, 3000);
       } else {
-        log(`尝试 ${MAX_RETRY} 次后仍无法启动服务器，请手动重启项目`);
+        log(`严重错误: ${JSON.stringify(err)}`);
         process.exit(1);
       }
-    } else {
-      log(`严重错误: ${JSON.stringify(err)}`);
-      process.exit(1);
-    }
-  });
-
-  // 处理进程退出
-  process.on('SIGTERM', () => {
-    log('收到退出信号，正在关闭服务器...');
-    server.close(() => {
-      log('服务器已安全关闭');
-      process.exit(0);
     });
-  });
-
-  startServer();
+  
+    // 处理进程退出
+    process.on('SIGTERM', () => {
+      log('收到退出信号，正在关闭服务器...');
+      server.close(() => {
+        log('服务器已安全关闭');
+        process.exit(0);
+      });
+    });
+  
+    process.on('uncaughtException', (err) => {
+      log(`未捕获的异常: ${err.message}`);
+      log(err.stack || '无堆栈信息');
+      
+      if (server) {
+        server.close(() => {
+          log('由于未捕获的异常，服务器已关闭');
+          process.exit(1);
+        });
+      } else {
+        process.exit(1);
+      }
+    });
+    
+    startServer();
+  } catch (err) {
+    log(`服务器初始化错误: ${err.message}`);
+    process.exit(1);
+  }
 })();
 
 

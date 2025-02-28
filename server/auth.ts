@@ -22,18 +22,7 @@ async function hashPassword(password: string) {
 }
 
 async function comparePasswords(supplied: string, stored: string) {
-  // Check if stored password has the correct format
-  if (!stored || !stored.includes(".")) {
-    console.error("Stored password is not in the correct format: hash.salt");
-    return false;
-  }
-
   const [hashed, salt] = stored.split(".");
-  if (!hashed || !salt) {
-    console.error("Invalid password format in database");
-    return false;
-  }
-
   const hashedBuf = Buffer.from(hashed, "hex");
   const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
   return timingSafeEqual(hashedBuf, suppliedBuf);
@@ -58,30 +47,18 @@ export function setupAuth(app: Express) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       try {
-        console.log(`Attempting login for username: ${username}`);
         const user = await storage.getUserByUsername(username);
         if (!user) {
-          console.log(`User not found: ${username}`);
           return done(null, false, { message: "用户名不存在" });
-        }
-
-        console.log(`User found, verifying password for: ${username}`);
-        // 验证密码格式
-        if (!user.password || typeof user.password !== 'string') {
-          console.error(`数据库中密码格式无效: ${username}`);
-          return done(null, false, { message: "账户配置错误" });
         }
 
         const isValid = await comparePasswords(password, user.password);
         if (!isValid) {
-          console.log(`Invalid password for user: ${username}`);
           return done(null, false, { message: "密码错误" });
         }
 
-        console.log(`Login successful for user: ${username}`);
         return done(null, user);
       } catch (err) {
-        console.error(`Login error for ${username}:`, err);
         return done(err);
       }
     }),

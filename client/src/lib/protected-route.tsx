@@ -1,23 +1,33 @@
-import React from 'react';
-import { Route, useLocation } from 'wouter';
-import { useAuth } from '../hooks/use-auth';
+import { useAuth } from "@/hooks/use-auth";
+import { Loader2 } from "lucide-react";
+import { Redirect, Route } from "wouter";
 
-interface ProtectedRouteProps {
-  component: React.ComponentType;
+export function ProtectedRoute({
+  path,
+  component: Component,
+}: {
   path: string;
-}
+  component: () => React.JSX.Element;
+}) {
+  const { user, isLoading } = useAuth();
 
-export function ProtectedRoute({ component: Component, path }: ProtectedRouteProps) {
-  const { user } = useAuth();
-  const [, navigate] = useLocation();
-
-  if (!user) {
-    // 如果用户未登录，重定向到登录页面
-    React.useEffect(() => {
-      navigate('/auth');
-    }, []);
-    return null;
+  if (isLoading) {
+    return (
+      <Route path={path}>
+        <div className="flex items-center justify-center min-h-screen">
+          <Loader2 className="h-8 w-8 animate-spin text-border" />
+        </div>
+      </Route>
+    );
   }
 
-  return <Route path={path} component={Component} />;
+  if (!user) {
+    return (
+      <Route path={path}>
+        <Redirect to="/auth" />
+      </Route>
+    );
+  }
+
+  return <Component />
 }

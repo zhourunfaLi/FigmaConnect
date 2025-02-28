@@ -1,115 +1,129 @@
-
-import React, { useState } from 'react';
-import { useLocation } from 'wouter';
-import { useAuth } from '../hooks/use-auth';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Input } from '../components/ui/input';
-import { Button } from '../components/ui/button';
-import { useToast } from '../components/ui/use-toast';
+import { useAuth } from "@/hooks/use-auth";
+import { useLocation } from "wouter";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { insertUserSchema, type InsertUser } from "@shared/schema";
 
 export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const { loginMutation, signupMutation } = useAuth();
-  const [, navigate] = useLocation();
-  const { toast } = useToast();
+  const { user, loginMutation, registerMutation } = useAuth();
+  const [, setLocation] = useLocation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      if (isLogin) {
-        await loginMutation.mutateAsync({ email, password });
-        toast({
-          title: '登录成功',
-          description: '欢迎回来！',
-        });
-      } else {
-        await signupMutation.mutateAsync({ email, password, username });
-        toast({
-          title: '注册成功',
-          description: '账户已创建',
-        });
-      }
-      navigate('/');
-    } catch (error: any) {
-      toast({
-        title: isLogin ? '登录失败' : '注册失败',
-        description: error.message,
-        variant: 'destructive',
-      });
-    }
-  };
+  if (user) {
+    setLocation("/");
+    return null;
+  }
 
   return (
-    <div className="container mx-auto max-w-md py-10">
-      <Card>
-        <CardHeader>
-          <CardTitle>{isLogin ? '登录' : '注册'}</CardTitle>
-          <CardDescription>
-            {isLogin ? '登录您的账户以继续' : '创建一个新账户'}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {!isLogin && (
-              <div className="space-y-2">
-                <label htmlFor="username" className="block text-sm font-medium">
-                  用户名
-                </label>
-                <Input
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required={!isLogin}
-                />
+    <div className="min-h-screen flex">
+      <div className="flex-1 flex items-center justify-center">
+        <Card className="w-full max-w-md mx-4">
+          <CardHeader>
+            <CardTitle className="text-2xl">欢迎来到艺术博物馆</CardTitle>
+            <CardDescription>
+              请先点击"注册"标签页创建一个新账号，或使用以下测试账号登录：
+              <div className="mt-2 p-2 bg-muted rounded-md">
+                <div>用户名：test</div>
+                <div>密码：test123</div>
               </div>
-            )}
-            
-            <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-medium">
-                邮箱
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-medium">
-                密码
-              </label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            
-            <Button type="submit" className="w-full">
-              {isLogin ? '登录' : '注册'}
-            </Button>
-          </form>
-          
-          <div className="mt-4 text-center">
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-blue-500 hover:underline"
-            >
-              {isLogin ? '没有账户？注册' : '已有账户？登录'}
-            </button>
-          </div>
-        </CardContent>
-      </Card>
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="login">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="login">登录</TabsTrigger>
+                <TabsTrigger value="register">注册</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="login">
+                <AuthForm 
+                  mode="login" 
+                  onSubmit={(data) => loginMutation.mutate(data)} 
+                  isLoading={loginMutation.isPending}
+                />
+              </TabsContent>
+
+              <TabsContent value="register">
+                <AuthForm 
+                  mode="register" 
+                  onSubmit={(data) => registerMutation.mutate(data)}
+                  isLoading={registerMutation.isPending}
+                />
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="hidden lg:flex flex-1 bg-muted items-center justify-center p-12">
+        <div className="max-w-lg">
+          <h2 className="text-3xl font-bold mb-4">探索世界级艺术品</h2>
+          <p className="text-lg text-muted-foreground">
+            加入我们的社区，探索高清艺术作品，观看独家视频，
+            与其他艺术爱好者交流。
+          </p>
+        </div>
+      </div>
     </div>
+  );
+}
+
+function AuthForm({ 
+  mode, 
+  onSubmit, 
+  isLoading 
+}: { 
+  mode: "login" | "register";
+  onSubmit: (data: InsertUser) => void;
+  isLoading: boolean;
+}) {
+  const form = useForm<InsertUser>({
+    resolver: zodResolver(insertUserSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>用户名</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>密码</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "加载中..." : mode === "login" ? "登录" : "注册"}
+        </Button>
+      </form>
+    </Form>
   );
 }

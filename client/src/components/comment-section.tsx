@@ -61,7 +61,7 @@ export default function CommentSection({ artworkId }: { artworkId: number }) {
           />
           <Button 
             onClick={() => commentMutation.mutate(comment)}
-            disabled={!comment.trim() || commentMutation.isLoading}
+            disabled={!comment.trim() || commentMutation.isPending}
           >
             Post Comment
           </Button>
