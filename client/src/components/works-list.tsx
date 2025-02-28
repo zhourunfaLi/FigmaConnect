@@ -82,8 +82,10 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
-  const handleArtworkClick = () => {
-    setLocation(`/artwork/${artwork.id}`); // Changed navigation
+  const handleArtworkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setLocation(`/artwork/${artwork.id}`);igation
   };
 
   return (

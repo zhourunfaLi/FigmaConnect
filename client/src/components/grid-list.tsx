@@ -23,7 +23,9 @@ export default function GridList({ artworks, className, title }: GridListProps) 
   const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
     const [, navigate] = useLocation();
 
-    const handleArtworkClick = () => {
+    const handleArtworkClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
       navigate(`/artwork/${artwork.id}`);
     };
 
