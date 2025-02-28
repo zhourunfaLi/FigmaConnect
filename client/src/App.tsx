@@ -1,18 +1,15 @@
+
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
-import { AuthProvider, useAuth } from "./hooks/use-auth";
+import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
 import { User, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";

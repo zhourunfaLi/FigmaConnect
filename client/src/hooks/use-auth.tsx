@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+
+import React, { createContext, useContext } from "react";
 import {
   useQuery,
   useMutation,
@@ -13,7 +14,7 @@ type AuthContextType = {
   isLoading: boolean;
   error: Error | null;
   loginMutation: UseMutationResult<SelectUser, Error, LoginData>;
-  logoutMutation: UseMutationResult<void, Error, void>;
+  logoutMutation: UseMutationResult<boolean, Error, void>;
   registerMutation: UseMutationResult<SelectUser, Error, InsertUser>;
 };
 
@@ -22,14 +23,14 @@ type LoginData = Pick<InsertUser, "username" | "password">;
 export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast();
-  const [user, setUser] = React.useState<SelectUser | null>(null); // Added state for user
+  const [user, setUser] = React.useState<SelectUser | null>(null);
   const {
     error,
     isLoading,
   } = useQuery<SelectUser | undefined, Error>({
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
-    onSuccess: (data) => setUser(data), // Update user state on successful query
+    onSuccess: (data) => setUser(data || null),
   });
 
 
@@ -44,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     },
     onError: (error: Error) => {
       toast({
-        title: "Login failed",
+        title: "登录失败",
         description: error.message,
         variant: "destructive",
       });
@@ -62,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     },
     onError: (error: Error) => {
       toast({
-        title: "Registration failed",
+        title: "注册失败",
         description: error.message,
         variant: "destructive",
       });
@@ -80,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     },
     onError: (error: Error) => {
       toast({
-        title: "Logout failed",
+        title: "退出登录失败",
         description: error.message,
         variant: "destructive",
       });
@@ -90,7 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
-        user: user,
+        user,
         isLoading,
         error,
         loginMutation,
