@@ -1,8 +1,8 @@
 import { Heart, Share2 } from "lucide-react";
-import { useNavigate } from 'wouter'; // Changed import here
+import { useLocation } from 'wouter'; // Changed import here
 
 export function CityPage() {
-  const navigate = useNavigate();
+  const [location, setLocation] = useLocation();
   const cities = [
     { name: '威尼斯', img: '/src/assets/design/img/city-01.jpg' },
     { name: '梵蒂冈', img: '/src/assets/design/img/city-02.jpg' },
@@ -30,7 +30,7 @@ export function CityPage() {
   const contentWithAds = cities.reduce((acc: React.ReactNode[], city, index) => {
     // 先添加城市卡片
     acc.push(
-      <div key={`city-${index}`} className="group flex flex-col gap-[1px] cursor-pointer" onClick={() => navigate(`/city/${city.name}`)}>
+      <div key={`city-${index}`} className="group flex flex-col gap-[1px] cursor-pointer" onClick={() => setLocation(`/city/${city.name}`)}> {/* Changed navigate to setLocation */}
         <div className="relative overflow-hidden rounded-[5px]">
           <img 
             src={city.img}
