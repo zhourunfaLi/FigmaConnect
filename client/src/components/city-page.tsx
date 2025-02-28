@@ -36,7 +36,8 @@ const CITIES = [
   }
 ];
 
-export function CityPage() {
+// 默认导出城市页组件
+export default function CityPage() {
   const [, navigate] = useLocation();
   
   // 点击事件处理函数
@@ -74,4 +75,5 @@ export function CityPage() {
   );
 }
 
-export default CityPage;
+// 同时提供命名导出，以兼容不同的导入方式
+export { CityPage };
