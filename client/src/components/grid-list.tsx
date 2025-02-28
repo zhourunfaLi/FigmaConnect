@@ -1,3 +1,4 @@
+import React from "react";
 import { type Artwork } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
