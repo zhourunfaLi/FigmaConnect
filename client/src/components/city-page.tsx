@@ -25,7 +25,7 @@ const CITIES = [
   { id: 20, name: '里斯本', img: '/src/assets/design/img/city-20.jpg' }
 ];
 
-function CityPage() {
+export function CityPage() {
   const [, setLocation] = useLocation();
 
   // 处理点击事件，导航到作品详情页
@@ -71,5 +71,7 @@ function CityPage() {
     </div>
   );
 }
+
+export default CityPage;
 
 export default CityPage;
