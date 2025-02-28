@@ -21,14 +21,14 @@ export default function GridList({ artworks, className, title }: GridListProps) 
   const isCityData = artworks.some(art => art.cityId);
 
   const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
-    const [, navigate] = useLocation(); 
+    const [, navigate] = useLocation();
 
-    const handleClick = () => {
+    const handleArtworkClick = () => {
       navigate(`/artwork/${artwork.id}`);
     };
 
     return (
-      <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleClick}> 
+      <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleArtworkClick}> 
         <div className="w-full relative overflow-hidden rounded-xl">
           <div className="aspect-[3/4]">
             <img
