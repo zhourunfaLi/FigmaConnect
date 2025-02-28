@@ -85,7 +85,7 @@ function ArtworkItem({
   const handleArtworkClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setLocation(`/artwork/${artwork.id}`);igation
+    setLocation(`/artwork/${artwork.id}`);
   };
 
   return (
