@@ -28,13 +28,12 @@ const CITIES = [
 
 function CityPage() {
   const [, navigate] = useLocation();
-
-  // 直接使用函数定义而不是匿名箭头函数
-  function handleClick(cityId) {
+  
+  const handleCityClick = (cityId: number) => {
     console.log("点击城市:", cityId);
     navigate(`/artwork/${cityId}`);
-  }
-
+  };
+  
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">探索世界城市艺术</h1>
@@ -43,8 +42,8 @@ function CityPage() {
         {CITIES.map((city) => (
           <div 
             key={city.id}
-            className="city-card cursor-pointer transition-all duration-300 hover:shadow-lg"
-            onClick={() => handleClick(city.id)}
+            className="cursor-pointer transition-all duration-300 hover:shadow-lg"
+            onClick={() => handleCityClick(city.id)}
           >
             <div className="relative rounded-lg overflow-hidden">
               <img 
