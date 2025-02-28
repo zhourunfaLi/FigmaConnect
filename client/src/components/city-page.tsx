@@ -27,43 +27,39 @@ const CITIES = [
 ];
 
 function CityPage() {
-  const [, setLocation] = useLocation();
+  const [, navigate] = useLocation();
 
-  // 处理点击事件，导航到作品详情页
-  const handleCityClick = (e: React.MouseEvent, cityId: number) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setLocation(`/artwork/${cityId}`);
-  };
+  // 直接使用函数定义而不是匿名箭头函数
+  function handleClick(cityId) {
+    console.log("点击城市:", cityId);
+    navigate(`/artwork/${cityId}`);
+  }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
-      {CITIES.map((city, index) => (
-        <div 
-          key={`city-${index}`} 
-          className="group flex flex-col gap-[1px] cursor-pointer" 
-          onClick={(e) => handleCityClick(e, city.id)}
-        >
-          <div className="relative overflow-hidden rounded-[5px]">
-            <img
-              src={city.img}
-              alt={city.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-              <div className="p-3 w-full">
-                <p className="text-white/80 text-sm">
-                  城市风光与建筑
-                </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-6">探索世界城市艺术</h1>
+      
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {CITIES.map((city) => (
+          <div 
+            key={city.id}
+            className="city-card cursor-pointer transition-all duration-300 hover:shadow-lg"
+            onClick={() => handleClick(city.id)}
+          >
+            <div className="relative rounded-lg overflow-hidden">
+              <img 
+                src={city.img} 
+                alt={city.name}
+                className="w-full aspect-[3/4] object-cover transition-transform duration-500 hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                <p className="text-white">点击查看作品</p>
               </div>
             </div>
+            <h3 className="mt-2 font-medium">{city.name}</h3>
           </div>
-
-          <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
-            <div className="text-sm text-[#111111] font-medium">{city.name}</div>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
