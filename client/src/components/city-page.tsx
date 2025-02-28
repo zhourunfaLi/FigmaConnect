@@ -1,8 +1,8 @@
 import { Heart, Share2 } from "lucide-react";
-import { useLocation } from 'wouter'; // Changed import here
+import { useLocation } from 'wouter';
 
 export function CityPage() {
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const cities = [
     { name: '威尼斯', img: '/src/assets/design/img/city-01.jpg' },
     { name: '梵蒂冈', img: '/src/assets/design/img/city-02.jpg' },
@@ -26,13 +26,11 @@ export function CityPage() {
     { name: '里斯本', img: '/src/assets/design/img/city-20.jpg' }
   ];
 
-  // 创建一个包含城市和广告的新数组
   const contentWithAds = cities.reduce((acc: React.ReactNode[], city, index) => {
-    // 先添加城市卡片
     acc.push(
-      <div key={`city-${index}`} className="group flex flex-col gap-[1px] cursor-pointer" onClick={() => setLocation(`/city/${city.name}`)}> {/* Changed navigate to setLocation */}
+      <div key={`city-${index}`} className="group flex flex-col gap-[1px] cursor-pointer" onClick={() => setLocation(`/city/${city.name}`)}>
         <div className="relative overflow-hidden rounded-[5px]">
-          <img 
+          <img
             src={city.img}
             alt={city.name}
             className="w-[374px] h-[166px] object-cover transition-transform duration-300 group-hover:scale-105"
@@ -60,7 +58,6 @@ export function CityPage() {
       </div>
     );
 
-    // 在第三个位置后和之后每隔3个位置插入广告
     if ((index === 2) || (index > 2 && (index - 2) % 3 === 0)) {
       acc.push(
         <div key={`ad-${index}`} className="w-full max-w-[390px] mx-auto">
