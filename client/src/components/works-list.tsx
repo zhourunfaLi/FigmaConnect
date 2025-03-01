@@ -22,6 +22,7 @@ const ARTWORK_ASPECT_RATIOS = [3/4, 4/5, 2/3, 5/4, 1] as const;
 type WorksListProps = {
   artworks: Artwork[];
   className?: string;
+  title?: string;
 };
 
 // Advertisement component for the artwork grid
@@ -45,224 +46,69 @@ function AdCard() {
   );
 }
 
-// Artwork component with lazy loading and animation
-function ArtworkItem({ 
-  artwork, 
-  isWide, 
-  wideHeight, 
-  index 
-}: { 
-  artwork: Artwork & { isWide: boolean; aspectRatio: number }; 
-  isWide: boolean; 
-  wideHeight: number;
-  index: number;
-}) {
-  const [, setLocation] = useLocation();
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: '50px'
-      }
-    );
-
-    const element = document.getElementById(`artwork-${artwork.id}`);
-    if (element) {
-      observer.observe(element);
-    }
-
-    return () => observer.disconnect();
-  }, [artwork.id]);
-
-  const handleArtworkClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setLocation(`/artwork/${artwork.id}`);
-  };
-
+export default function WorksList({ artworks, className, title }: WorksListProps) {
   return (
-    <div 
-      id={`artwork-${artwork.id}`}
-      className={cn(
-        "break-inside-avoid mb-4 group cursor-pointer", 
-        isWide && "-ml-[4px]"
+    <div className={className}>
+      {title && (
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">{title}</h2>
+          <button className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1">
+            更多 <MoreHorizontal className="h-4 w-4" />
+          </button>
+        </div>
       )}
-      style={{
-        columnSpan: isWide ? "all" : "none",
-        breakBefore: isWide ? "column" : "auto",
-        position: 'relative'
-      }}
-      onClick={handleArtworkClick} 
-    >
-      <div 
-        className="w-full relative overflow-hidden rounded-md" 
-        style={{ 
-          height: 'auto',
-          aspectRatio: artwork.aspectRatio,
-        }}
-      >
-        {(!isVisible || !imageLoaded) && (
-          <Skeleton 
-            className={cn(
-              "absolute inset-0 rounded-md", 
-              !imageLoaded && "animate-pulse"
-            )}
-          />
-        )}
-
-        {isVisible && (
-          <>
-            <div className="w-full h-full relative rounded-md overflow-hidden"> {/*Added rounded-md and overflow-hidden here to contain hover effects*/}
-              <img
-                src={artwork.themeId === "art" 
-                  ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
-                  : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
-                alt={artwork.title}
-                className={cn(
-                  "w-full h-full object-cover transition-transform duration-300", 
-                  imageLoaded ? "opacity-100" : "opacity-0",
-                  "group-hover:scale-105"
-                )}
-                loading="lazy"
-                onLoad={() => setImageLoaded(true)}
-              />
-
-              {/* Always visible labels */}
-              <div className="absolute top-2 left-2 flex gap-2">
-                <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                  #{index + 1}
-                </div>
-                {artwork.isPremium && (
-                  <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-                    SVIP
-                  </div>
-                )}
-              </div>
-
-              {/* Hover overlay with actions */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none group-hover:pointer-events-auto rounded-md">
-                <div className="flex justify-end items-start">
-                  {/* Action buttons */}
-                  <div className="flex gap-2">
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <Heart className="w-4 h-4 text-white" />
-                    </button>
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <Share2 className="w-4 h-4 text-white" />
-                    </button>
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <MoreHorizontal className="w-4 h-4 text-white" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Bottom content */}
-                <div className="space-y-2">
-                  <h3 className="text-white font-medium line-clamp-2">
-                    {artwork.title}
-                  </h3>
-                  <p className="text-white/80 text-sm line-clamp-2">
-                    {artwork.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {artworks.map((artwork, index) => (
+          <WorkCard key={artwork.id} artwork={artwork} index={index} />
+        ))}
       </div>
     </div>
   );
 }
 
-export default function WorksList({ artworks, className }: WorksListProps) {
-  const [wideHeight, setWideHeight] = useState(GRID_CONFIG.BASE_HEIGHT);
+function WorkCard({ artwork, index }: { artwork: Artwork; index: number }) {
+  const [, navigate] = useLocation();
 
-  // Update wide artwork height based on screen size
-  useEffect(() => {
-    const updateWideHeight = () => {
-      const width = window.innerWidth;
-      if (width < 768) { // Mobile: 2 columns
-        setWideHeight(GRID_CONFIG.BASE_HEIGHT);
-      } else if (width < 1024) { // Tablet: 3 columns
-        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.TABLET_SCALE);
-      } else { // Desktop: 4 columns
-        setWideHeight(GRID_CONFIG.BASE_HEIGHT * GRID_CONFIG.DESKTOP_SCALE);
-      }
-    };
-
-    updateWideHeight();
-    window.addEventListener('resize', updateWideHeight);
-    return () => window.removeEventListener('resize', updateWideHeight);
-  }, []);
-
-  // Get unique random numbers for art and city images
-  const getUniqueRandoms = (max: number, count: number) => {
-    const numbers = Array.from({ length: max }, (_, i) => i + 1);
-    for (let i = numbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-    }
-    return numbers.slice(0, count);
+  const handleArtworkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate(`/artwork/${artwork.id}`);
   };
 
-  // Get 24 unique artworks (19 art + 5 city)
-  const artIds = getUniqueRandoms(19, 19);
-  const cityIds = getUniqueRandoms(20, 5);
-
-  // 定义一组不同的宽高比
-  const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
-
-  const displayArtworks = [
-    ...artIds.map((id, index) => ({
-      ...artworks[0],
-      id: `art-${id}-${index}`,
-      imageId: id,
-      title: `艺术作品 ${id}`,
-      description: "现代艺术创作",
-      themeId: "art", 
-      aspectRatio: aspectRatios[id % aspectRatios.length],
-      isWide: false
-    })),
-    ...cityIds.map((id, index) => ({
-      ...artworks[0],
-      id: `city-${id}-${index}`,
-      imageId: id,
-      title: `城市风光 ${id}`,
-      description: "城市建筑与人文景观",
-      themeId: "city",
-      aspectRatio: aspectRatios[id % aspectRatios.length],
-      isWide: false
-    }))
-  ].sort(() => Math.random() - 0.5);
-
-  // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.map((artwork, index) => (
-    <ArtworkItem 
-      key={artwork.id}
-      artwork={artwork}
-      isWide={false}
-      wideHeight={wideHeight}
-      index={index}
-    />
-  ));
-
-
   return (
-    <div 
-      className={cn(
-        "columns-2 md:columns-3 lg:columns-4 gap-4 px-[8px] pb-20",
-        className
-      )}
-    >
-      {contentWithAds}
+    <div className="group cursor-pointer" onClick={handleArtworkClick}>
+      <div className="w-full h-full relative">
+        <div className="aspect-[3/4] overflow-hidden rounded-md">
+          <img
+            src={artwork.themeId === "art"
+              ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
+              : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
+            alt={artwork.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+
+          {/* Hover overlay with actions */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none group-hover:pointer-events-auto rounded-md">
+            <div className="flex justify-end items-start">
+              {/* Action buttons */}
+              <div className="flex gap-2">
+                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                  <Heart className="w-4 h-4 text-white" />
+                </button>
+                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                  <Share2 className="w-4 h-4 text-white" />
+                </button>
+                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                  <MoreHorizontal className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 className="mt-2 text-gray-800 dark:text-gray-200 font-medium">
+        {artwork.title}
+      </h3>
     </div>
   );
 }

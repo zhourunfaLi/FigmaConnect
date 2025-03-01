@@ -13,28 +13,52 @@ type GridListProps = {
 export default function GridList({ artworks, className, title }: GridListProps) {
   const isThemeData = Array.isArray(artworks) && artworks.length > 0 && 'artworks' in artworks[0];
 
-  const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
-    const [, navigate] = useLocation();
+  return (
+    <div className={className}>
+      {title && (
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">{title}</h2>
+          <button className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1">
+            更多 <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+      
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
+        {artworks.map((artwork, index) => (
+          <ArtworkCard 
+            key={artwork.id} 
+            artwork={isThemeData ? (artwork as Theme).artworks[0] : (artwork as Artwork)}
+            index={index}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
-    const handleArtworkClick = (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      navigate(`/artwork/${artwork.id}`);
-    };
+const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
+  const [, navigate] = useLocation();
 
-    return (
-      <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleArtworkClick}> 
-        <div className="w-full relative">
-          <div className="aspect-[3/4] overflow-hidden rounded-md">
-            <img
-              src={artwork.themeId === "art"
-                ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
-                : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
-              alt={artwork.title}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 rounded-md"></div>
-          </div>
+  const handleArtworkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/artwork/${artwork.id}`);
+  };
+
+  return (
+    <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleArtworkClick}> 
+      <div className="w-full relative">
+        <div className="aspect-[3/4] overflow-hidden rounded-md">
+          <img
+            src={artwork.themeId === "art"
+              ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
+              : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
+            alt={artwork.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 rounded-md"></div>
+        </div>
 
           {/* 悬浮遮罩层 - 鼠标悬浮时显示 */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-3 rounded-md">
