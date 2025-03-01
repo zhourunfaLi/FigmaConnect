@@ -4,6 +4,7 @@ import WorksList from "@/components/works-list";
 import { useLocation } from 'wouter'
 import { CategoryNav } from '@/components/category-nav'
 import GridList from '@/components/grid-list'
+import ArtCityGrid from '@/components/art-city-grid'
 
 // Mock data including new city artwork
 const mockArtworks = Array.from({ length: 30 }, (_, index) => {
@@ -105,7 +106,14 @@ export default function HomePage() {
       <div className="sticky top-0 bg-[#EEEAE2] z-10 flex justify-center">
         <ScrollArea className="w-full max-w-screen-md">
           <div className="flex items-center justify-center gap-1.5 px-4 py-2">
-            {CATEGORIES.map((category) => (
+            {[
+              { id: "latest", name: "最新发布", color: "#333" },
+              { id: "hottest", name: "最热门", color: "#333" },
+              { id: "earliest", name: "最早发布", color: "#333" },
+              { id: "special", name: "精选", color: "#333" },
+              { id: "member", name: "会员专享", color: "#333" },
+              { id: "artcity", name: "艺术之城", color: "#333" },
+            ].map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
@@ -123,7 +131,9 @@ export default function HomePage() {
 
       {/* Artwork Grid */}
       <div className="pt-4">
-        {(activeCategory === "special" || activeCategory === "city") ? (
+        {activeCategory === "artcity" ? (
+          <ArtCityGrid />
+        ) : (activeCategory === "special" || activeCategory === "city") ? (
           <GridList 
             artworks={filteredArtworks}
             title={activeCategory === "special" ? "专题作品" : "城市风光"} 

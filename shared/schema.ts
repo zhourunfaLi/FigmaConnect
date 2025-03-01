@@ -51,6 +51,12 @@ export type User = typeof users.$inferSelect;
 export type Artwork = typeof artworks.$inferSelect;
 export type Comment = typeof comments.$inferSelect;
 
+export type Theme = {
+  id: string;
+  title: string;
+  artworks: Artwork[];
+};
+
 export const mockArtworks: Artwork[] = [
   {
     id: 1,
