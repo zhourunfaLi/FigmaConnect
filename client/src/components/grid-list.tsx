@@ -48,14 +48,6 @@ export default function GridList({ artworks, className, title }: GridListProps) 
         </div>
 
         {/* 标题和更多按钮 - 在图片容器外面 */}
-        <div className="flex justify-between items-center px-2 mt-3">
-          <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-            {artwork.title}
-          </div>
-          <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-            <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-          </button>
-        </div>
       </div>
     );
   };
