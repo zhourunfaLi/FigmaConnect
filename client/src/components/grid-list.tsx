@@ -31,12 +31,12 @@ export default function GridList({ artworks, className, title }: GridListProps) 
                 ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
                 : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform rounded-xl"
             />
           </div>
-          
+
           {/* 悬浮遮罩层 - 鼠标悬浮时显示 */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 rounded-xl">
             {/* 顶部操作按钮 */}
             <div className="flex justify-end items-start">
               <div className="flex gap-2">
@@ -48,7 +48,7 @@ export default function GridList({ artworks, className, title }: GridListProps) 
                 </button>
               </div>
             </div>
-            
+
             {/* 底部内容 - 悬浮时显示 */}
             <div className="space-y-2">
               <h3 className="text-white font-medium line-clamp-2">
@@ -61,7 +61,7 @@ export default function GridList({ artworks, className, title }: GridListProps) 
           </div>
 
           {/* Title and options */}
-          <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+          <div className="flex justify-between items-center px-2 mt-3 group-hover:opacity-0 transition-opacity duration-300">
             <div className="text-sm text-[#111111] font-medium leading-5 truncate">
               {artwork.title}
             </div>
