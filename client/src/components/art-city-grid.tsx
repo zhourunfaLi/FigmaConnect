@@ -92,32 +92,44 @@ export default function ArtCityGrid() {
                 alt={city.name}
                 className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
               />
-
-              {/* 互动按钮 - 与最新页面完全一致 */}
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
-                  <Heart className="h-5 w-5" />
-                </button>
-                <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
-                  <Share2 className="h-5 w-5" />
-                </button>
-                <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
-                  <MoreHorizontal className="h-5 w-5" />
-                </button>
+              
+              {/* 悬浮遮罩 - 添加与最新页一致的黑色遮罩效果 */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+                {/* 顶部操作按钮 */}
+                <div className="flex justify-end items-start">
+                  <div className="flex gap-2">
+                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                      <Heart className="w-4 h-4 text-white" />
+                    </button>
+                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                      <Share2 className="w-4 h-4 text-white" />
+                    </button>
+                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                      <MoreHorizontal className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
+                </div>
+                
+                {/* 底部内容 - 悬浮时显示 */}
+                <div className="space-y-2">
+                  <h3 className="text-white font-medium line-clamp-2">
+                    {city.name}艺术与历史
+                  </h3>
+                  <p className="text-white/80 text-sm line-clamp-2">
+                    探索{city.name}的艺术与文化遗产
+                  </p>
+                </div>
               </div>
             </div>
             
-            {/* 添加标题和简介部分 - 与最新页面一致 */}
+            {/* 静态显示的标题和"更多"按钮 */}
             <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
               <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-                {city.name}艺术与历史
+                {city.name}
               </div>
               <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
                 <MoreHorizontal className="w-4 h-4 text-[#111111]" />
               </button>
-            </div>
-            <div className="px-2 text-xs text-gray-500 truncate group-hover:opacity-0 transition-opacity duration-300">
-              探索{city.name}的艺术与文化遗产
             </div>
           </div>
         </div>
