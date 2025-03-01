@@ -81,20 +81,20 @@ export default function ArtCityGrid() {
           {/* 城市名称 - 独立显示在图片上方 */}
           <h3 className="text-lg font-medium">{city.name}</h3>
           
-          {/* 城市缩略图 - 完全与最新页一致的交互样式 */}
+          {/* 城市缩略图 - 圆角图片，无底部名称 */}
           <div 
-            className="overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer group"
+            className="cursor-pointer group"
             onClick={() => handleCityClick(city.id)}
           >
             <div className="relative">
               <img 
                 src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={city.name}
-                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
               />
               
               {/* 悬浮遮罩 - 添加与最新页一致的黑色遮罩效果 */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 rounded-xl">
                 {/* 顶部操作按钮 */}
                 <div className="flex justify-end items-start">
                   <div className="flex gap-2">
@@ -120,16 +120,6 @@ export default function ArtCityGrid() {
                   </p>
                 </div>
               </div>
-            </div>
-            
-            {/* 静态显示的标题和"更多"按钮 */}
-            <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
-              <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-                {city.name}
-              </div>
-              <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-                <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-              </button>
             </div>
           </div>
         </div>
