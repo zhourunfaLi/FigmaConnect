@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "wouter";
+import { Heart, Share2, MoreHorizontal } from "lucide-react";
 
 // 城市数据
 const CITIES = [
@@ -90,46 +91,28 @@ export default function ArtCityGrid() {
         {CITIES.map((city) => (
           <div 
             key={city.id}
-            className="group cursor-pointer"
-            onClick={() => navigate(`/category/city/${city.id}`)}
+            className="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer group"
+            onClick={() => handleCityClick(city.id)}
           >
-            <div className="font-medium mb-2 text-left">{city.name}</div>
-            <div className="overflow-hidden rounded-xl relative">
+            <div className="relative">
+              <h3 className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-3 text-left font-semibold">
+                {city.name}
+              </h3>
               <img 
                 src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={city.name}
                 className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
               />
-
-              {/* Hover overlay with actions - 与最新页一致的互动效果 */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-                <div className="flex justify-end items-start">
-                  {/* Action buttons */}
-                  <div className="flex gap-2">
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white">
-                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-                      </svg>
-                    </button>
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white">
-                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-                        <polyline points="16 6 12 2 8 6"/>
-                        <line x1="12" x2="12" y1="2" y2="15"/>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Bottom content */}
-                <div className="space-y-2">
-                  <h3 className="text-white font-medium line-clamp-2">
-                    {city.name}
-                  </h3>
-                  <p className="text-white/80 text-sm line-clamp-2">
-                    探索{city.name}的艺术之旅
-                  </p>
-                </div>
+              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button className="rounded-full bg-white/80 p-2 hover:bg-white">
+                  <Heart className="h-5 w-5" />
+                </button>
+                <button className="rounded-full bg-white/80 p-2 hover:bg-white">
+                  <Share2 className="h-5 w-5" />
+                </button>
+                <button className="rounded-full bg-white/80 p-2 hover:bg-white">
+                  <MoreHorizontal className="h-5 w-5" />
+                </button>
               </div>
             </div>
           </div>
