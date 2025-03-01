@@ -1,14 +1,8 @@
 import React from "react";
-import { type Artwork } from "@shared/schema";
+import { type Artwork, type Theme } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { useLocation } from 'wouter';
-
-type Theme = {
-  id: string;
-  title: string;
-  artworks: Artwork[];
-};
+import { MoreHorizontal } from "lucide-react";
+import { useLocation } from "wouter";
 
 type GridListProps = {
   artworks: Theme[] | Artwork[];
@@ -18,7 +12,6 @@ type GridListProps = {
 
 export default function GridList({ artworks, className, title }: GridListProps) {
   const isThemeData = Array.isArray(artworks) && artworks.length > 0 && 'artworks' in artworks[0];
-  const isCityData = artworks.some(art => art.cityId);
 
   const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
     const [, navigate] = useLocation();
@@ -42,50 +35,15 @@ export default function GridList({ artworks, className, title }: GridListProps) 
             />
           </div>
 
-          {/* Labels */}
-          <div className="absolute top-2 left-2 flex gap-2">
-            <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-              #{index + 1}
+          {/* Title and options */}
+          <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+              {artwork.title}
             </div>
-            {artwork.isPremium && (
-              <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-                SVIP
-              </div>
-            )}
+            <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+              <MoreHorizontal className="w-4 h-4 text-[#111111]" />
+            </button>
           </div>
-
-          {/* Hover overlay */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-            <div className="flex justify-end items-start">
-              <div className="flex gap-2">
-                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                  <Heart className="w-4 h-4 text-white" />
-                </button>
-                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                  <Share2 className="w-4 h-4 text-white" />
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="text-white font-medium line-clamp-2">
-                {artwork.title}
-              </h3>
-              <p className="text-white/80 text-sm line-clamp-2">
-                {artwork.description}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Title and options */}
-        <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
-          <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-            {artwork.title}
-          </div>
-          <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-            <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-          </button>
         </div>
       </div>
     );
@@ -102,47 +60,6 @@ export default function GridList({ artworks, className, title }: GridListProps) 
               {theme.artworks.map((artwork, index) => (
                 <ArtworkCard key={artwork.id} artwork={artwork} index={index} />
               ))}
-            </div>
-          </section>
-        ))}
-      </div>
-    );
-  }
-
-  // 普通网格布局
-  return (
-                </div>
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-                  <div className="flex justify-end items-start">
-                    <div className="flex gap-2">
-                      <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                        <Heart className="w-4 h-4 text-white" />
-                      </button>
-                      <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                        <Share2 className="w-4 h-4 text-white" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h3 className="text-white font-medium line-clamp-2">
-                      {artwork.title}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-
-              {/* Title and options */}
-              <div className="flex justify-between items-center px-6 mt-2 group-hover:opacity-0 transition-opacity duration-300">
-                <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-                  {artwork.title}
-                </div>
-                <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-                  <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-                </button>
-              </div>
             </div>
           </section>
         ))}
