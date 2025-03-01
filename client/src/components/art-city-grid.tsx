@@ -81,7 +81,7 @@ export default function ArtCityGrid() {
           {/* 城市名称 - 独立显示在图片上方 */}
           <h3 className="text-lg font-medium">{city.name}</h3>
           
-          {/* 城市缩略图 */}
+          {/* 城市缩略图 - 完全与最新页一致的交互样式 */}
           <div 
             className="overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer group"
             onClick={() => handleCityClick(city.id)}
@@ -93,7 +93,7 @@ export default function ArtCityGrid() {
                 className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
               />
 
-              {/* 互动按钮 - 与最新页面保持一致 */}
+              {/* 互动按钮 - 与最新页面完全一致 */}
               <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
                   <Heart className="h-5 w-5" />
@@ -105,6 +105,19 @@ export default function ArtCityGrid() {
                   <MoreHorizontal className="h-5 w-5" />
                 </button>
               </div>
+            </div>
+            
+            {/* 添加标题和简介部分 - 与最新页面一致 */}
+            <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+              <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+                {city.name}艺术与历史
+              </div>
+              <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+                <MoreHorizontal className="w-4 h-4 text-[#111111]" />
+              </button>
+            </div>
+            <div className="px-2 text-xs text-gray-500 truncate group-hover:opacity-0 transition-opacity duration-300">
+              探索{city.name}的艺术与文化遗产
             </div>
           </div>
         </div>
