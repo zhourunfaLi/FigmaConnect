@@ -25,6 +25,7 @@ type WorksListProps = {
 };
 
 import { AdCard } from "./ad-card";
+import { useAds } from '@/contexts/ad-context';
 
 // Artwork component with lazy loading and animation
 function ArtworkItem({ 

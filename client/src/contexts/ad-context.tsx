@@ -1,5 +1,4 @@
-
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 
 // 广告配置类型定义
@@ -15,114 +14,83 @@ interface AdConfig {
 
 interface AdContextType {
   adConfigs: AdConfig[];
-  isLoading: boolean;
-  error: string | null;
-  updateAdConfig: (config: Partial<AdConfig>) => Promise<void>;
   getAdConfigForPage: (pageName: string) => AdConfig | undefined;
+  updateAdConfig: (config: Partial<AdConfig>) => void;
   isAdminMode: boolean;
-  toggleAdminMode: () => void;
-  shouldShowAdAt: (pageName: string, position: number) => boolean;
 }
 
+// 创建上下文
 const AdContext = createContext<AdContextType | undefined>(undefined);
 
+// 提供者组件
 export function AdProvider({ children }: { children: ReactNode }) {
-  const [adConfigs, setAdConfigs] = useState<AdConfig[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isAdminMode, setIsAdminMode] = useState(false);
   const { user } = useAuth();
-
-  const isAdmin = user?.role === 'admin';
-
-  useEffect(() => {
-    async function fetchAdConfigs() {
-      try {
-        const response = await fetch('/api/ad-configs');
-        if (!response.ok) {
-          throw new Error('Failed to fetch ad configurations');
-        }
-        const data = await response.json();
-        setAdConfigs(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-        console.error('Error fetching ad configs:', err);
-      } finally {
-        setIsLoading(false);
-      }
+  const [adConfigs, setAdConfigs] = useState<AdConfig[]>([
+    {
+      id: 1,
+      pageName: 'home',
+      adPositions: [2, 5, 8],
+      adInterval: 4,
+      isEnabled: true
+    },
+    {
+      id: 2,
+      pageName: 'works',
+      adPositions: [3, 7, 12],
+      adInterval: 5,
+      isEnabled: true
+    },
+    {
+      id: 3,
+      pageName: 'theme',
+      adPositions: [2, 6, 10],
+      adInterval: 4,
+      isEnabled: true
+    },
+    {
+      id: 4,
+      pageName: 'artCity',
+      adPositions: [2, 5, 8],
+      adInterval: 3,
+      isEnabled: true
     }
+  ]);
 
-    fetchAdConfigs();
-  }, []);
+  // 管理员模式 - 仅当用户为管理员时才启用
+  const isAdminMode = user?.role === 'ADMIN';
 
-  const updateAdConfig = async (config: Partial<AdConfig>) => {
-    if (!isAdmin) {
-      setError('需要管理员权限');
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/ad-configs/${config.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(config),
-      });
-
-      if (!response.ok) throw new Error('Failed to update ad config');
-
-      const updatedConfig = await response.json();
-      setAdConfigs(prev => 
-        prev.map(item => item.id === updatedConfig.id ? updatedConfig : item)
-      );
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
-    }
-  };
-
+  // 根据页面名称获取广告配置
   const getAdConfigForPage = (pageName: string) => {
     return adConfigs.find(config => config.pageName === pageName);
   };
 
-  const toggleAdminMode = () => {
-    if (isAdmin) {
-      setIsAdminMode(!isAdminMode);
-    } else {
-      setError('需要管理员权限');
-    }
+  // 更新广告配置
+  const updateAdConfig = (config: Partial<AdConfig>) => {
+    setAdConfigs(prev => 
+      prev.map(item => 
+        item.id === config.id 
+          ? { ...item, ...config } 
+          : item
+      )
+    );
   };
 
-  function shouldShowAdAt(pageName: string, position: number): boolean {
-    if (isLoading || error) return false;
-
-    const config = adConfigs.find(config => config.pageName === pageName);
-    if (!config || !config.isEnabled) return false;
-
-    if (config.adPositions.includes(position)) return true;
-
-    // 对于有间隔的配置
-    if (config.adInterval && position % config.adInterval === 0) return true;
-
-    return false;
-  }
+  // 提供上下文值
+  const value = {
+    adConfigs,
+    getAdConfigForPage,
+    updateAdConfig,
+    isAdminMode
+  };
 
   return (
-    <AdContext.Provider value={{
-      adConfigs,
-      isLoading,
-      error,
-      updateAdConfig,
-      getAdConfigForPage,
-      isAdminMode,
-      toggleAdminMode,
-      shouldShowAdAt
-    }}>
+    <AdContext.Provider value={value}>
       {children}
     </AdContext.Provider>
   );
 }
 
+// 自定义钩子，用于在组件中使用广告上下文
 export function useAds() {
   const context = useContext(AdContext);
   if (context === undefined) {

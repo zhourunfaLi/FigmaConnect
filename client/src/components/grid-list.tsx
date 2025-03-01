@@ -10,6 +10,9 @@ type GridListProps = {
   title?: string;
 };
 
+import { useAds } from '@/contexts/ad-context';
+import { AdCard } from './ad-card';
+
 // Define the AdCard component here.  This is placeholder code.  Replace with your actual Ad implementation.
 const AdCard = ({ variant }: { variant: "square" | "standard" }) => {
   return (
