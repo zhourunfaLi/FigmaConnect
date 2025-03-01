@@ -86,11 +86,11 @@ export default function ArtCityGrid() {
             className="cursor-pointer group"
             onClick={() => handleCityClick(city.id)}
           >
-            <div className="relative">
+            <div className="relative overflow-hidden rounded-xl">
               <img 
                 src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={city.name}
-                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
+                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
               />
               
               {/* 悬浮遮罩 - 添加与最新页一致的黑色遮罩效果 */}
