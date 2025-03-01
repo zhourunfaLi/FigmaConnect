@@ -88,12 +88,13 @@ export default function GridList({ artworks, className, title }: GridListProps) 
                 for (let i = adInterval; i < withAds.length; i += adInterval) {
                   withAds.splice(i, 0, { id: `ad-${i}`, isAd: true } as any);
                 }
-                return withAds.map((item, index) =>
-                (item as any).isAd ? (
-                  <AdCard key={item.id} variant={index % 3 === 0 ? "square" : "standard"} />
-                ) : (
-                  <ArtworkCard key={item.id} artwork={item as Artwork} index={index} />
-                )
+                return withAds.map((item, index) => 
+                  (item as any).isAd ? (
+                    <AdCard key={item.id} variant={index % 3 === 0 ? "square" : "standard"} />
+                  ) : (
+                    <ArtworkCard key={item.id} artwork={item as Artwork} index={index} />
+                  )
+                );
               })()}
             </div>
           </section>
