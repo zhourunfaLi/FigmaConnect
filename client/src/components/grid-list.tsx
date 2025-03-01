@@ -56,7 +56,7 @@ export default function GridList({ artworks, className, title }: GridListProps) 
         {themes.map((theme) => (
           <section key={theme.id} className="space-y-6">
             <h2 className="text-2xl font-bold px-4">{theme.title}</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px]">
               {theme.artworks.map((artwork, index) => (
                 <ArtworkCard key={artwork.id} artwork={artwork} index={index} />
               ))}
@@ -73,7 +73,7 @@ export default function GridList({ artworks, className, title }: GridListProps) 
       {title && (
         <h2 className="text-2xl font-bold px-4">{title}</h2>
       )}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px]">
         {(artworks as Artwork[]).map((artwork, index) => (
           <ArtworkCard key={artwork.id} artwork={artwork} index={index} />
         ))}

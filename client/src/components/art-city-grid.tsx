@@ -86,10 +86,10 @@ export default function ArtCityGrid() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6 px-4">艺术之城</h1>
+    <div className="container mx-auto px-[8px] py-4">
+      <h1 className="text-2xl font-bold mb-6">艺术之城</h1>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
+      <div className="flex flex-col gap-6">
         {CITIES.map((city) => (
           <div 
             key={city.id}
@@ -101,7 +101,7 @@ export default function ArtCityGrid() {
               <img 
                 src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={city.name}
-                className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform"
+                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover hover:scale-105 transition-transform"
               />
             </div>
           </div>
