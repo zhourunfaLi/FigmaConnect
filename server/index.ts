@@ -62,35 +62,62 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
   
-    const PORT = 3002;
+    const BASE_PORT = 3002;
+    let currentPort = BASE_PORT;
+    let serverStarted = false;
     
     const startServer = async () => {
-      if (retryCount >= MAX_RETRIES) {
-        log(`已达到最大重试次数 (${MAX_RETRIES})，使用新端口...`);
-        const NEW_PORT = PORT + 1 + retryCount - MAX_RETRIES;
-        try {
-          await validateSchema();
-          server.listen(NEW_PORT, "0.0.0.0", () => {
-            log(`服务器启动成功，运行在端口 ${NEW_PORT}`);
-            log(`访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
-            retryCount = 0; // 重置重试计数
-          });
-        } catch(e) {
-          log(`启动服务器出错: ${e.message}`);
-          process.exit(1);
-        }
+      if (serverStarted) {
+        log(`服务器已经在运行中，不需要重新启动`);
         return;
+      }
+      
+      if (retryCount >= MAX_RETRIES) {
+        log(`已达到最大重试次数 (${MAX_RETRIES})，尝试使用端口 ${currentPort + 1}...`);
+        currentPort = BASE_PORT + 1;
       }
       
       try {
         await validateSchema();
-        server.listen(PORT, "0.0.0.0", () => {
-          log(`服务器启动成功，运行在端口 ${PORT}`);
-          log(`访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
-          retryCount = 0; // 重置重试计数
+        
+        // 创建一个Promise包装的server.listen操作
+        const startPromise = new Promise((resolve, reject) => {
+          const startTimeout = setTimeout(() => {
+            reject(new Error(`启动服务器超时（端口: ${currentPort}）`));
+          }, 5000); // 5秒超时
+          
+          const serverInstance = server.listen(currentPort, "0.0.0.0", () => {
+            clearTimeout(startTimeout);
+            log(`服务器启动成功，运行在端口 ${currentPort}`);
+            log(`访问地址: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
+            serverStarted = true;
+            retryCount = 0; // 重置重试计数
+            resolve(true);
+          });
+          
+          serverInstance.on('error', (err) => {
+            clearTimeout(startTimeout);
+            reject(err);
+          });
         });
+        
+        await startPromise;
       } catch(e) {
         log(`启动服务器出错: ${e.message}`);
+        if (e.code === 'EADDRINUSE') {
+          retryCount++;
+          currentPort++; // 递增端口号
+          log(`端口 ${currentPort - 1} 被占用，尝试端口 ${currentPort}，重试 ${retryCount}/${MAX_RETRIES}...`);
+          if (retryCount <= MAX_RETRIES * 2) {
+            setTimeout(startServer, 1000);
+          } else {
+            log(`多次尝试失败，退出进程`);
+            process.exit(1);
+          }
+        } else {
+          log(`严重错误: ${e.message}`);
+          process.exit(1);
+        }
       }
     };
   
