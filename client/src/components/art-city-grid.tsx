@@ -78,8 +78,8 @@ export default function ArtCityGrid() {
     <div className="flex flex-col gap-4 px-[8px]">
       {CITIES.map((city) => (
         <div key={city.id} className="flex flex-col gap-2">
-          {/* 城市名称 - 独立显示在图片上方 */}
-          <h3 className="text-lg font-medium">{city.name}</h3>
+          {/* 城市名称 - 独立显示在图片上方，悬浮时渐变消失 */}
+          <h3 className="text-lg font-medium group-hover:opacity-0 transition-opacity duration-300">{city.name}</h3>
           
           {/* 城市缩略图 - 圆角图片，无底部名称 */}
           <div 
@@ -113,7 +113,7 @@ export default function ArtCityGrid() {
                 {/* 底部内容 - 悬浮时显示 */}
                 <div className="space-y-2">
                   <h3 className="text-white font-medium line-clamp-2">
-                    {city.name}艺术与历史
+                    {city.name}
                   </h3>
                   <p className="text-white/80 text-sm line-clamp-2">
                     探索{city.name}的艺术与文化遗产
