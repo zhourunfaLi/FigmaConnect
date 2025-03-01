@@ -39,9 +39,8 @@ type Category = {
 const CATEGORIES: Category[] = [
   { id: "latest", name: "最新", color: "#333333", layout: "waterfall" },
   { id: "hottest", name: "最热", color: "#333333", layout: "waterfall" },
-  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" }, // Swapped position
-  { id: "special", name: "专题", color: "#333333", layout: "grid" },  // Swapped position
-  { id: "city", name: "城市", color: "#333333", layout: "grid" }
+  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" }, 
+  { id: "special", name: "专题", color: "#333333", layout: "grid" }
 ];
 
 export default function HomePage() {

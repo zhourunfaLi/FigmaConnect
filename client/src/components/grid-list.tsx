@@ -109,28 +109,8 @@ export default function GridList({ artworks, className, title }: GridListProps) 
     );
   }
 
-  // 城市布局
-  if (isCityData) {
-    return (
-      <div className={cn("space-y-8", className)}>
-        {artworks.map((artwork, index) => (
-          <section key={artwork.id} className="space-y-4">
-            <h3 className="text-lg px-4">{artwork.title}</h3>
-            <div className="group">
-              <div className="relative overflow-hidden rounded-xl mx-4">
-                <div className="aspect-[2/1]">
-                  <img
-                    src={new URL(`../assets/design/img/city-${String(artwork.id % 15 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
-                    alt={artwork.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-
-                {/* Labels */}
-                <div className="absolute top-2 left-2 flex gap-2">
-                  <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                    #{index + 1}
-                  </div>
+  // 普通网格布局
+  return (
                 </div>
 
                 {/* Hover overlay */}
