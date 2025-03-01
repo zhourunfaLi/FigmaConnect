@@ -38,10 +38,11 @@ type Category = {
 };
 
 const CATEGORIES: Category[] = [
-  { id: "latest", name: "最新", color: "#333333", layout: "waterfall" },
-  { id: "hottest", name: "最热", color: "#333333", layout: "waterfall" },
-  { id: "member", name: "会员", color: "#EB9800", layout: "waterfall" }, 
-  { id: "special", name: "专题", color: "#333333", layout: "grid" }
+  { id: "latest", name: "最新", color: "#333333", icon: "", layout: "waterfall" },
+  { id: "hottest", name: "热门", color: "#333333", icon: "", layout: "waterfall" },
+  { id: "member", name: "会员", color: "#EB9800", icon: "", layout: "waterfall" }, 
+  { id: "special", name: "专题", color: "#333333", icon: "", layout: "grid" },
+  { id: "artcity", name: "艺术之城", color: "#333333", icon: "", layout: "grid" }
 ];
 
 export default function HomePage() {
@@ -107,11 +108,10 @@ export default function HomePage() {
         <ScrollArea className="w-full max-w-screen-md">
           <div className="flex items-center justify-center gap-1.5 px-4 py-2">
             {[
-              { id: "latest", name: "最新发布", color: "#333" },
-              { id: "hottest", name: "最热门", color: "#333" },
-              { id: "earliest", name: "最早发布", color: "#333" },
-              { id: "special", name: "精选", color: "#333" },
-              { id: "member", name: "会员专享", color: "#333" },
+              { id: "latest", name: "最新", color: "#333" },
+              { id: "hottest", name: "热门", color: "#333" },
+              { id: "member", name: "会员", color: "#333" },
+              { id: "special", name: "专题", color: "#333" },
               { id: "artcity", name: "艺术之城", color: "#333" },
             ].map((category) => (
               <button
