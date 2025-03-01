@@ -43,6 +43,12 @@ export default function GridList({ artworks, className, title }: GridListProps) 
                   <Share2 className="w-4 h-4 text-white" />
                 </button>
               </div>
+              
+              {/* Title and description on hover */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <h3 className="text-white font-medium">{artwork.title}</h3>
+                <p className="text-white/80 text-xs mt-1">探索艺术的奇妙世界</p>
+              </div>
             </div>
           </div>
         </div>
