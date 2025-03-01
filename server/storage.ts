@@ -1,4 +1,5 @@
-import { artworks, comments, users, categories, adConfigs, type User, type InsertUser, type Artwork, type Comment, type AdConfig, type CreateAdConfig, type UpdateAdConfig } from "@shared/schema";
+
+import { artworks, comments, users, categories, adConfigs, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import session from "express-session";
@@ -166,9 +167,9 @@ export class DatabaseStorage implements IStorage {
       .returning();
     return newComment;
   }
-}
 
-async getAdConfigs() {
+  // 广告配置相关方法
+  async getAdConfigs() {
     return await db.select().from(adConfigs);
   }
 
