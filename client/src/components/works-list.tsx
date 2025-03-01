@@ -234,18 +234,18 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     }))
   ].sort(() => Math.random() - 0.5);
 
+  // 使用广告配置
+  import { useAds } from '@/contexts/ad-context';
+  
+  // 在组件顶部使用 useAds hook
+  const { getAdConfigForPage, isAdminMode } = useAds();
+  const adConfig = getAdConfigForPage('works');
+  
   // 插入广告
-  const adPositions = [];
-  // 生成2-3个广告位置
-  const numAds = Math.floor(Math.random() * 2) + 2;
-  for (let i = 0; i < numAds; i++) {
-    // 确保广告位置分散，避免集中
-    const position = Math.floor(Math.random() * (displayArtworks.length / numAds)) + 
-                     (i * Math.floor(displayArtworks.length / numAds));
-    if (position < displayArtworks.length) {
-      adPositions.push(position);
-    }
-  }
+  const adPositions = adConfig?.isEnabled ? [...adConfig.adPositions] : [];
+  
+  // 如果是管理员模式且启用了广告，显示广告位置指示器
+  const showAdPositionIndicators = isAdminMode && adConfig?.isEnabled;
 
   // Combine artworks with advertisements
   const contentWithAds = [];

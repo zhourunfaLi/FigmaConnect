@@ -169,3 +169,42 @@ export class DatabaseStorage implements IStorage {
 }
 
 export const storage = new DatabaseStorage();
+
+  // 广告配置相关方法
+  async getAdConfigs(): Promise<AdConfig[]> {
+    return db.query.adConfigs.findMany();
+  },
+
+  async getAdConfig(id: number): Promise<AdConfig | undefined> {
+    return db.query.adConfigs.findFirst({
+      where: eq(schema.adConfigs.id, id),
+    });
+  },
+
+  async createAdConfig(data: CreateAdConfig): Promise<AdConfig> {
+    const [adConfig] = await db
+      .insert(schema.adConfigs)
+      .values({
+        ...data,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+    return adConfig;
+  },
+
+  async updateAdConfig(id: number, data: UpdateAdConfig): Promise<AdConfig> {
+    const [updated] = await db
+      .update(schema.adConfigs)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(eq(schema.adConfigs.id, id))
+      .returning();
+    return updated;
+  },
+
+  async deleteAdConfig(id: number): Promise<void> {
+    await db.delete(schema.adConfigs).where(eq(schema.adConfigs.id, id));
+  },

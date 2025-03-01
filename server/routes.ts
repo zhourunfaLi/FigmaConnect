@@ -97,6 +97,117 @@ export function registerRoutes(app: Express): Server {
     const comment = await storage.createComment({
       content: req.body.content,
       userId: req.user.id,
+
+  // 广告配置相关API
+  app.get("/api/ad-configs", async (_req, res) => {
+    try {
+      const configs = await storage.getAdConfigs();
+      
+      // 解析JSON字符串为数组
+      const processedConfigs = configs.map(config => ({
+        ...config,
+        adPositions: JSON.parse(config.adPositions as string)
+      }));
+      
+      res.json(processedConfigs);
+    } catch (error) {
+      console.error("获取广告配置失败:", error);
+      res.status(500).send("获取广告配置失败");
+    }
+  });
+
+  app.get("/api/ad-configs/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const config = await storage.getAdConfig(id);
+      
+      if (!config) {
+        return res.status(404).send("广告配置不存在");
+      }
+      
+      // 解析JSON字符串为数组
+      const processedConfig = {
+        ...config,
+        adPositions: JSON.parse(config.adPositions as string)
+      };
+      
+      res.json(processedConfig);
+    } catch (error) {
+      console.error("获取广告配置失败:", error);
+      res.status(500).send("获取广告配置失败");
+    }
+  });
+
+  app.post("/api/ad-configs", async (req, res) => {
+    if (!req.user || req.user.role !== 'admin') {
+      return res.status(403).send("需要管理员权限");
+    }
+    
+    try {
+      const data = {
+        ...req.body,
+        adPositions: JSON.stringify(req.body.adPositions || [])
+      };
+      
+      const config = await storage.createAdConfig(data);
+      
+      // 解析JSON字符串为数组
+      const processedConfig = {
+        ...config,
+        adPositions: JSON.parse(config.adPositions as string)
+      };
+      
+      res.status(201).json(processedConfig);
+    } catch (error) {
+      console.error("创建广告配置失败:", error);
+      res.status(500).send("创建广告配置失败");
+    }
+  });
+
+  app.patch("/api/ad-configs/:id", async (req, res) => {
+    if (!req.user || req.user.role !== 'admin') {
+      return res.status(403).send("需要管理员权限");
+    }
+    
+    try {
+      const id = parseInt(req.params.id);
+      
+      // 如果请求中包含adPositions，需要将其转换为JSON字符串
+      const data = { ...req.body };
+      if (data.adPositions) {
+        data.adPositions = JSON.stringify(data.adPositions);
+      }
+      
+      const config = await storage.updateAdConfig(id, data);
+      
+      // 解析JSON字符串为数组
+      const processedConfig = {
+        ...config,
+        adPositions: JSON.parse(config.adPositions as string)
+      };
+      
+      res.json(processedConfig);
+    } catch (error) {
+      console.error("更新广告配置失败:", error);
+      res.status(500).send("更新广告配置失败");
+    }
+  });
+
+  app.delete("/api/ad-configs/:id", async (req, res) => {
+    if (!req.user || req.user.role !== 'admin') {
+      return res.status(403).send("需要管理员权限");
+    }
+    
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteAdConfig(id);
+      res.status(204).end();
+    } catch (error) {
+      console.error("删除广告配置失败:", error);
+      res.status(500).send("删除广告配置失败");
+    }
+  });
+
       artworkId: parseInt(req.params.id),
     });
 

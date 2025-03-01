@@ -15,6 +15,8 @@ import AuthPage from "@/pages/auth-page";
 import ArtworkPage from "@/pages/artwork-page";
 import AddArtworkPage from "@/pages/add-artwork-page";
 import NotFound from "@/pages/not-found";
+import { AdProvider } from "./contexts/ad-context";
+import { AdManager } from "./components/admin/ad-manager";
 
 function UserMenu() {
   const { user, logoutMutation } = useAuth();
@@ -62,8 +64,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Router />
-        <Toaster />
+        <AdProvider>
+          <AdManager />
+          <Router />
+        </AdProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

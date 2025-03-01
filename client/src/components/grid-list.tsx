@@ -81,13 +81,28 @@ export default function GridList({ artworks, className, title }: GridListProps) 
             <h2 className="text-2xl font-bold px-4">{theme.title}</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px]">
               {(() => {
-                // 插入广告的位置
+                // 使用广告配置
+                import { useAds } from '@/contexts/ad-context';
+
+                // 在组件顶部使用 useAds hook
+                const { getAdConfigForPage, isAdminMode } = useAds();
+                const adConfig = getAdConfigForPage('theme');
+
+                // 创建一个包含广告的数组
                 const withAds = [...theme.artworks];
-                // 每5-8个内容插入一个广告
-                const adInterval = Math.floor(Math.random() * 4) + 5;
-                for (let i = adInterval; i < withAds.length; i += adInterval) {
-                  withAds.splice(i, 0, { id: `ad-${i}`, isAd: true } as any);
+
+                // 如果广告已启用，则添加广告
+                if (adConfig?.isEnabled) {
+                  // 每隔 adInterval 项插入一个广告
+                  const adInterval = adConfig.adInterval || 3;
+                  for (let i = adInterval; i < withAds.length; i += adInterval) {
+                    withAds.splice(i, 0, { id: `ad-${i}`, isAd: true } as any);
+                  }
                 }
+
+                // 如果是管理员模式且启用了广告，显示广告位置指示器
+                const showAdPositionIndicators = isAdminMode && adConfig?.isEnabled;
+
                 return withAds.map((item, index) => 
                   (item as any).isAd ? (
                     <AdCard key={item.id} variant={index % 3 === 0 ? "square" : "standard"} />

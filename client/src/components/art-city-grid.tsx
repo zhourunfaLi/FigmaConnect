@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
 import { useLocation } from "wouter";
 import { AdCard } from "./ad-card";
+import { useAds } from '@/contexts/ad-context';
 
 // 城市数据
 const CITIES = [
@@ -69,8 +70,15 @@ const CITIES = [
 ];
 
 export default function ArtCityGrid() {
-  // 广告卡片的位置
-  const adPosition = Math.floor(Math.random() * 3) + 2; // 随机在第2-4个位置添加广告
+  // 在组件顶部使用 useAds hook
+  const { getAdConfigForPage, isAdminMode } = useAds();
+  const adConfig = getAdConfigForPage('artCity');
+
+  // 获取广告位置
+  const adPositions = adConfig?.isEnabled ? [...adConfig.adPositions] : [];
+
+  // 如果是管理员模式且启用了广告，显示广告位置指示器
+  const showAdPositionIndicators = isAdminMode && adConfig?.isEnabled;
 
   const [, navigate] = useLocation();
 
@@ -82,12 +90,16 @@ export default function ArtCityGrid() {
     <div className="flex flex-col gap-4 px-[8px]">
       {CITIES.map((city, index) => (
         <React.Fragment key={`city-container-${city.id}`}>
-          {/* 在特定位置显示广告 */}
-          {index === adPosition && (
-            <div key={`ad-${index}`} className="flex flex-col gap-2">
-              <h3 className="text-lg font-medium group-hover:opacity-0 transition-opacity duration-300">推荐内容</h3>
-              <AdCard variant="wide" />
-            </div>
+          {/* 在配置的位置添加广告 */}
+          {adConfig?.isEnabled && adPositions.includes(index) && (
+            <AdCard 
+              key={`ad-${index}`} 
+              variant="wide" 
+              className={cn(
+                "col-span-2 mb-4",
+                showAdPositionIndicators && "border-2 border-dashed border-blue-500"
+              )}
+            />
           )}
           {/* 显示城市卡片 */}
           <div className="flex flex-col gap-2">

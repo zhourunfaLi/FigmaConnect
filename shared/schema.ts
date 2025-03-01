@@ -47,6 +47,17 @@ export const insertArtworkSchema = createInsertSchema(artworks);
 export const insertCommentSchema = createInsertSchema(comments);
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
+
+export const adConfigs = sqliteTable("ad_configs", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  pageName: text("page_name").notNull(),
+  adPositions: text("ad_positions").notNull().$type<string>().$default(() => JSON.stringify([])),
+  adInterval: integer("ad_interval"),
+  isEnabled: integer("is_enabled", { mode: "boolean" }).notNull().default(true),
+  createdAt: text("created_at").notNull().$type<Date>(),
+  updatedAt: text("updated_at").notNull().$type<Date>(),
+});
+
 export type User = typeof users.$inferSelect;
 export type Artwork = typeof artworks.$inferSelect;
 export type Comment = typeof comments.$inferSelect;
@@ -97,6 +108,21 @@ export const mockArtworks: Artwork[] = [
     is_premium: true,
     hide_title: false,
     category_id: 1
+
+// 广告配置相关类型
+export type AdConfig = {
+  id: number;
+  pageName: string;    // 页面名称
+  adPositions: number[]; // 广告位置索引
+  adInterval?: number;   // 广告间隔（针对网格列表）
+  isEnabled: boolean;    // 是否启用广告
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type CreateAdConfig = Omit<AdConfig, "id" | "createdAt" | "updatedAt">;
+export type UpdateAdConfig = Partial<CreateAdConfig>;
+
   },
   {
     id: 5,
