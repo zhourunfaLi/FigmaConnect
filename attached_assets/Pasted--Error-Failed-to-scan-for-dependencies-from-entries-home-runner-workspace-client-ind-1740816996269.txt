@@ -1,0 +1,91 @@
+数据初始化成功
+Error:   Failed to scan for dependencies from entries:
+  /home/runner/workspace/client/index.html
+
+  ✘ [ERROR] The symbol "AdContext" has already been declared
+
+    client/src/contexts/ad-context.tsx:149:6:
+      149 │ const AdContext = createContext<AdContextType | undefined>(undefi...
+          ╵       ~~~~~~~~~
+
+  The symbol "AdContext" was originally declared here:
+
+    client/src/contexts/ad-context.tsx:16:6:
+      16 │ const AdContext = createContext<AdContextType | undefined>(undefin...
+         ╵       ~~~~~~~~~
+
+
+✘ [ERROR] Multiple exports with the same name "AdProvider"
+
+    client/src/contexts/ad-context.tsx:151:16:
+      151 │ export function AdProvider({ children }: { children: ReactNode }) {
+          ╵                 ~~~~~~~~~~
+
+  The name "AdProvider" was originally exported here:
+
+    client/src/contexts/ad-context.tsx:18:16:
+      18 │ export function AdProvider({ children }: { children: ReactNode }) {
+         ╵                 ~~~~~~~~~~
+
+
+✘ [ERROR] The symbol "AdProvider" has already been declared
+
+    client/src/contexts/ad-context.tsx:151:16:
+      151 │ export function AdProvider({ children }: { children: ReactNode }) {
+          ╵                 ~~~~~~~~~~
+
+  The symbol "AdProvider" was originally declared here:
+
+    client/src/contexts/ad-context.tsx:18:16:
+      18 │ export function AdProvider({ children }: { children: ReactNode }) {
+         ╵                 ~~~~~~~~~~
+
+  Duplicate top-level function declarations are not allowed in an ECMAScript module. This file is considered to be an ECMAScript module because of the "export" keyword here:
+
+    client/src/contexts/ad-context.tsx:197:0:
+      197 │ export function useAds() {
+          ╵ ~~~~~~
+
+
+✘ [ERROR] Multiple exports with the same name "useAds"
+
+    client/src/contexts/ad-context.tsx:197:16:
+      197 │ export function useAds() {
+          ╵                 ~~~~~~
+
+  The name "useAds" was originally exported here:
+
+    client/src/contexts/ad-context.tsx:126:16:
+      126 │ export function useAds() {
+          ╵                 ~~~~~~
+
+
+✘ [ERROR] The symbol "useAds" has already been declared
+
+    client/src/contexts/ad-context.tsx:197:16:
+      197 │ export function useAds() {
+          ╵                 ~~~~~~
+
+  The symbol "useAds" was originally declared here:
+
+    client/src/contexts/ad-context.tsx:126:16:
+      126 │ export function useAds() {
+          ╵                 ~~~~~~
+
+  Duplicate top-level function declarations are not allowed in an ECMAScript module. This file is considered to be an ECMAScript module because of the "export" keyword here:
+
+    client/src/contexts/ad-context.tsx:197:0:
+      197 │ export function useAds() {
+          ╵ ~~~~~~
+
+
+    at failureErrorWithLog (/home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+    at /home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:945:25
+    at runOnEndCallbacks (/home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:1315:45)
+    at buildResponseToResult (/home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:943:7)
+    at /home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:955:9
+    at new Promise (<anonymous>)
+    at requestCallbacks.on-end (/home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:954:54)
+    at handleRequest (/home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:647:17)
+    at handleIncomingPacket (/home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:672:7)
+    at Socket.readFromStdout (/home/runner/workspace/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
