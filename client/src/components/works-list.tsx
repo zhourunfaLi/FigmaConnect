@@ -28,7 +28,7 @@ type WorksListProps = {
 function AdCard() {
   return (
     <div className="w-full">
-      <div className="relative aspect-[3/4] w-full bg-white rounded-xl overflow-hidden border border-black/5">
+      <div className="relative aspect-[3/4] w-full bg-white rounded-md overflow-hidden border border-black/5">
         <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
           广告
         </div>
@@ -103,7 +103,7 @@ function ArtworkItem({
       onClick={handleArtworkClick} 
     >
       <div 
-        className="w-full relative overflow-hidden rounded-xl"
+        className="w-full relative overflow-hidden rounded-md"
         style={{ 
           height: 'auto',
           aspectRatio: artwork.aspectRatio,
@@ -113,7 +113,7 @@ function ArtworkItem({
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
             className={cn(
-              "absolute inset-0 rounded-xl",
+              "absolute inset-0 rounded-md",
               !imageLoaded && "animate-pulse"
             )}
           />
@@ -121,18 +121,19 @@ function ArtworkItem({
 
         {isVisible && (
           <>
-            <img
-              src={artwork.themeId === "art" 
-                ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
-                : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
-              alt={artwork.title}
-              className={cn(
-                "w-full h-full object-cover transition-all duration-300",
-                imageLoaded ? "opacity-100" : "opacity-0",
-                "group-hover:scale-105"
-              )}
-              loading="lazy"
-              onLoad={() => setImageLoaded(true)}
+            <div className="relative overflow-hidden w-full h-full">
+              <img
+                src={artwork.themeId === "art" 
+                  ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
+                  : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
+                alt={artwork.title}
+                className={cn(
+                  "w-full h-full object-cover transition-transform duration-300",
+                  imageLoaded ? "opacity-100" : "opacity-0",
+                  "group-hover:scale-105"
+                )}
+                loading="lazy"
+                onLoad={() => setImageLoaded(true)}
             />
 
             {/* Always visible labels */}
@@ -147,8 +148,9 @@ function ArtworkItem({
               )}
             </div>
 
+            </div>
             {/* Hover overlay with actions */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none group-hover:pointer-events-auto">
               <div className="flex justify-end items-start">
                 {/* Action buttons */}
                 <div className="flex gap-2">

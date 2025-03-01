@@ -24,15 +24,16 @@ export default function GridList({ artworks, className, title }: GridListProps) 
 
     return (
       <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleArtworkClick}> 
-        <div className="w-full relative overflow-hidden rounded-xl">
+        <div className="w-full relative overflow-hidden rounded-md">
           <div className="aspect-[3/4] overflow-hidden">
             <img
               src={artwork.themeId === "art"
                 ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
                 : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-cover transition-transform duration-300"
             />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300"></div>
           </div>
 
           {/* 悬浮遮罩层 - 鼠标悬浮时显示 */}
