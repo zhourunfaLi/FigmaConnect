@@ -96,9 +96,5 @@ export function useAds() {
   if (context === undefined) {
     throw new Error('useAds must be used within an AdProvider');
   }
-  return context;nst context = useContext(AdContext);
-  if (context === undefined) {
-    throw new Error('useAds must be used within an AdProvider');
-  }
   return context;
 }
