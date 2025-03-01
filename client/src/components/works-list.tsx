@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
 import { useLocation } from "wouter";
+import { useAds } from '@/contexts/ad-context';
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -25,7 +26,6 @@ type WorksListProps = {
 };
 
 import { AdCard } from "./ad-card";
-import { useAds } from '@/contexts/ad-context';
 
 // Artwork component with lazy loading and animation
 function ArtworkItem({ 
@@ -160,7 +160,7 @@ function ArtworkItem({
           </>
         )}
       </div>
-      
+
       {/* 标题和更多按钮 - 在卡片外面 */}
       <div className="flex justify-between items-center px-2 mt-3 transition-opacity duration-300 group-hover:opacity-0">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
@@ -237,14 +237,14 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // 使用广告配置
   {/* 广告相关代码在这里 */}
-  
+
   // 在组件顶部使用 useAds hook
   const { getAdConfigForPage, isAdminMode } = useAds();
   const adConfig = getAdConfigForPage('works');
-  
+
   // 插入广告
   const adPositions = adConfig?.isEnabled ? [...adConfig.adPositions] : [];
-  
+
   // 如果是管理员模式且启用了广告，显示广告位置指示器
   const showAdPositionIndicators = isAdminMode && adConfig?.isEnabled;
 
@@ -260,7 +260,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         index={index}
       />
     );
-    
+
     // 在指定位置后添加广告
     if (adPositions.includes(index)) {
       contentWithAds.push(
