@@ -34,6 +34,31 @@ export default function GridList({ artworks, className, title }: GridListProps) 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform"
             />
           </div>
+          
+          {/* 悬浮遮罩层 - 鼠标悬浮时显示 */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+            {/* 顶部操作按钮 */}
+            <div className="flex justify-end items-start">
+              <div className="flex gap-2">
+                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                  <Heart className="w-4 h-4 text-white" />
+                </button>
+                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                  <Share2 className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            </div>
+            
+            {/* 底部内容 - 悬浮时显示 */}
+            <div className="space-y-2">
+              <h3 className="text-white font-medium line-clamp-2">
+                {artwork.title}
+              </h3>
+              <p className="text-white/80 text-sm line-clamp-2">
+                {artwork.description || `探索${artwork.title}的艺术与创意世界`}
+              </p>
+            </div>
+          </div>
 
           {/* Title and options */}
           <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
