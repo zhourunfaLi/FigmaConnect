@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 
@@ -125,7 +126,7 @@ export function AdProvider({ children }: { children: ReactNode }) {
 export function useAds() {
   const context = useContext(AdContext);
   if (context === undefined) {
-    throw new Error('useAds must be used within a AdProvider');
+    throw new Error('useAds must be used within an AdProvider');
   }
   return context;
 }
