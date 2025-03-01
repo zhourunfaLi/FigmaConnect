@@ -1,6 +1,6 @@
+
 import React from "react";
 import { useLocation } from "wouter";
-import { Heart, Share2, MoreHorizontal } from "lucide-react";
 
 // 城市数据
 const CITIES = [
@@ -80,40 +80,29 @@ const CITIES = [
 
 export default function ArtCityGrid() {
   const [, navigate] = useLocation();
-
+  
   const handleCityClick = (cityId: number) => {
-    navigate(`/category/city/${cityId}`);
+    navigate(`/artwork/${cityId}`);
   };
 
   return (
     <div className="container mx-auto px-[8px] py-4">
+      <h1 className="text-2xl font-bold mb-6">艺术之城</h1>
+      
       <div className="flex flex-col gap-6">
         {CITIES.map((city) => (
           <div 
             key={city.id}
-            className="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer group"
+            className="flex flex-col items-center cursor-pointer transition-all duration-300 hover:shadow-lg"
             onClick={() => handleCityClick(city.id)}
           >
-            <div className="relative">
-              <h3 className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-3 text-left font-semibold">
-                {city.name}
-              </h3>
+            <h3 className="text-lg font-medium mb-2 text-center">{city.name}</h3>
+            <div className="relative rounded-lg overflow-hidden w-full">
               <img 
                 src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={city.name}
-                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover hover:scale-105 transition-transform"
               />
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="rounded-full bg-white/80 p-2 hover:bg-white">
-                  <Heart className="h-5 w-5" />
-                </button>
-                <button className="rounded-full bg-white/80 p-2 hover:bg-white">
-                  <Share2 className="h-5 w-5" />
-                </button>
-                <button className="rounded-full bg-white/80 p-2 hover:bg-white">
-                  <MoreHorizontal className="h-5 w-5" />
-                </button>
-              </div>
             </div>
           </div>
         ))}
