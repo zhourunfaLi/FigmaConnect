@@ -81,7 +81,7 @@ export default function ArtCityGrid() {
   return (
     <div className="flex flex-col gap-4 px-[8px]">
       {CITIES.map((city, index) => (
-        <>
+        <React.Fragment key={`city-container-${city.id}`}>
           {/* 在特定位置显示广告 */}
           {index === adPosition && (
             <div key={`ad-${index}`} className="flex flex-col gap-2">
@@ -90,7 +90,7 @@ export default function ArtCityGrid() {
             </div>
           )}
           {/* 显示城市卡片 */}
-          <div key={city.id} className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             {/* 城市名称 - 独立显示在图片上方，悬浮时渐变消失 */}
             <h3 className="text-lg font-medium group-hover:opacity-0 transition-opacity duration-300">{city.name}</h3>
 

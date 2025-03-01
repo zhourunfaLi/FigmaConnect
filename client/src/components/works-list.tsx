@@ -234,16 +234,43 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     }))
   ].sort(() => Math.random() - 0.5);
 
+  // 插入广告
+  const adPositions = [];
+  // 生成2-3个广告位置
+  const numAds = Math.floor(Math.random() * 2) + 2;
+  for (let i = 0; i < numAds; i++) {
+    // 确保广告位置分散，避免集中
+    const position = Math.floor(Math.random() * (displayArtworks.length / numAds)) + 
+                     (i * Math.floor(displayArtworks.length / numAds));
+    if (position < displayArtworks.length) {
+      adPositions.push(position);
+    }
+  }
+
   // Combine artworks with advertisements
-  const contentWithAds = displayArtworks.map((artwork, index) => (
-    <ArtworkItem 
-      key={artwork.id}
-      artwork={artwork}
-      isWide={false}
-      wideHeight={wideHeight}
-      index={index}
-    />
-  ));
+  const contentWithAds = [];
+  displayArtworks.forEach((artwork, index) => {
+    contentWithAds.push(
+      <ArtworkItem 
+        key={artwork.id}
+        artwork={artwork}
+        isWide={false}
+        wideHeight={wideHeight}
+        index={index}
+      />
+    );
+    
+    // 在指定位置后添加广告
+    if (adPositions.includes(index)) {
+      contentWithAds.push(
+        <AdCard 
+          key={`ad-${index}`} 
+          variant={index % 2 === 0 ? "standard" : "square"} 
+          className="mb-4 break-inside-avoid"
+        />
+      );
+    }
+  });
 
 
   return (
