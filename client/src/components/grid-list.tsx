@@ -80,20 +80,21 @@ export default function GridList({ artworks, className, title }: GridListProps) 
           <section key={theme.id} className="space-y-6">
             <h2 className="text-2xl font-bold px-4">{theme.title}</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px]">
-              {/* 插入广告的位置 */}
-              const withAds = [...theme.artworks];
-              // 每5-8个内容插入一个广告
-              const adInterval = Math.floor(Math.random() * 4) + 5;
-              for (let i = adInterval; i < withAds.length; i += adInterval) {
-                withAds.splice(i, 0, { id: `ad-${i}`, isAd: true } as any);
-              }
-              {withAds.map((item, index) =>
+              {(() => {
+                // 插入广告的位置
+                const withAds = [...theme.artworks];
+                // 每5-8个内容插入一个广告
+                const adInterval = Math.floor(Math.random() * 4) + 5;
+                for (let i = adInterval; i < withAds.length; i += adInterval) {
+                  withAds.splice(i, 0, { id: `ad-${i}`, isAd: true } as any);
+                }
+                return withAds.map((item, index) =>
                 (item as any).isAd ? (
                   <AdCard key={item.id} variant={index % 3 === 0 ? "square" : "standard"} />
                 ) : (
                   <ArtworkCard key={item.id} artwork={item as Artwork} index={index} />
                 )
-              )}
+              })()}
             </div>
           </section>
         ))}
