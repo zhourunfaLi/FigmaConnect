@@ -82,7 +82,7 @@ export default function GridList({ artworks, className, title }: GridListProps) 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px]">
               {(() => {
                 // 使用广告配置
-                import { useAds } from '@/contexts/ad-context';
+                {/* 广告相关代码在这里 */}
 
                 // 在组件顶部使用 useAds hook
                 const { getAdConfigForPage, isAdminMode } = useAds();

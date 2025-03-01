@@ -235,7 +235,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   ].sort(() => Math.random() - 0.5);
 
   // 使用广告配置
-  import { useAds } from '@/contexts/ad-context';
+  {/* 广告相关代码在这里 */}
   
   // 在组件顶部使用 useAds hook
   const { getAdConfigForPage, isAdminMode } = useAds();

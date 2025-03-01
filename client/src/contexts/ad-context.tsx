@@ -130,3 +130,74 @@ export function useAds() {
   }
   return context;
 }
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+
+interface AdConfig {
+  pageName: string;
+  adPositions: number[];
+  adInterval?: number;
+  isEnabled: boolean;
+}
+
+interface AdContextType {
+  adConfigs: AdConfig[];
+  isLoading: boolean;
+  error: string | null;
+  shouldShowAdAt: (pageName: string, position: number) => boolean;
+}
+
+const AdContext = createContext<AdContextType | undefined>(undefined);
+
+export function AdProvider({ children }: { children: ReactNode }) {
+  const [adConfigs, setAdConfigs] = useState<AdConfig[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchAdConfigs() {
+      try {
+        const response = await fetch('/api/ad-configs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch ad configurations');
+        }
+        const data = await response.json();
+        setAdConfigs(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
+        console.error('Error fetching ad configs:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchAdConfigs();
+  }, []);
+
+  function shouldShowAdAt(pageName: string, position: number): boolean {
+    if (isLoading || error) return false;
+
+    const config = adConfigs.find(config => config.pageName === pageName);
+    if (!config || !config.isEnabled) return false;
+
+    if (config.adPositions.includes(position)) return true;
+
+    // 对于有间隔的配置
+    if (config.adInterval && position % config.adInterval === 0) return true;
+
+    return false;
+  }
+
+  return (
+    <AdContext.Provider value={{ adConfigs, isLoading, error, shouldShowAdAt }}>
+      {children}
+    </AdContext.Provider>
+  );
+}
+
+export function useAds() {
+  const context = useContext(AdContext);
+  if (context === undefined) {
+    throw new Error('useAds must be used within an AdProvider');
+  }
+  return context;
+}
