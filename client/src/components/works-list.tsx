@@ -180,7 +180,7 @@ function ArtworkItem({
       </div>
       
       {/* 标题和更多按钮 - 在卡片外面 */}
-      <div className="flex justify-between items-center px-2 mt-3">
+      <div className="flex justify-between items-center px-2 mt-3 transition-opacity duration-300 group-hover:opacity-0">
         <div className="text-sm text-[#111111] font-medium leading-5 truncate">
           {artwork.title}
         </div>
