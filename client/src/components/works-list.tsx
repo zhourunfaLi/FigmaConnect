@@ -103,7 +103,7 @@ function ArtworkItem({
       onClick={handleArtworkClick} 
     >
       <div 
-        className="w-full relative overflow-hidden rounded-md"
+        className="w-full relative overflow-hidden rounded-2xl" // Changed to rounded-2xl for 4 rounded corners
         style={{ 
           height: 'auto',
           aspectRatio: artwork.aspectRatio,
@@ -113,7 +113,7 @@ function ArtworkItem({
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
             className={cn(
-              "absolute inset-0 rounded-md",
+              "absolute inset-0 rounded-2xl", // Changed to rounded-2xl
               !imageLoaded && "animate-pulse"
             )}
           />
@@ -128,13 +128,13 @@ function ArtworkItem({
                   : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={artwork.title}
                 className={cn(
-                  "w-full h-full object-cover transition-transform duration-300",
+                  "w-full h-full object-cover transition-transform duration-300 rounded-2xl", //Added rounded-2xl
                   imageLoaded ? "opacity-100" : "opacity-0",
                   "group-hover:scale-105"
                 )}
                 loading="lazy"
                 onLoad={() => setImageLoaded(true)}
-            />
+              />
 
             {/* Always visible labels */}
             <div className="absolute top-2 left-2 flex gap-2">
@@ -177,15 +177,8 @@ function ArtworkItem({
         )}
       </div>
 
-      {/* Title and options (visible when not hovering) */}
-      <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
-        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-          {artwork.title}
-        </div>
-        <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-          <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-        </button>
-      </div>
+      {/*Removed old title and options div. Title is now in hover overlay.*/}
+
     </div>
   );
 }

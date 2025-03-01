@@ -24,8 +24,8 @@ export default function GridList({ artworks, className, title }: GridListProps) 
 
     return (
       <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleArtworkClick}> 
-        <div className="w-full relative overflow-hidden rounded-md">
-          <div className="aspect-[3/4] overflow-hidden">
+        <div className="w-full relative">
+          <div className="aspect-[3/4] overflow-hidden rounded-md">
             <img
               src={artwork.themeId === "art"
                 ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
@@ -37,39 +37,23 @@ export default function GridList({ artworks, className, title }: GridListProps) 
           </div>
 
           {/* 悬浮遮罩层 - 鼠标悬浮时显示 */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 rounded-xl">
-            {/* 顶部操作按钮 */}
-            <div className="flex justify-end items-start">
-              <div className="flex gap-2">
-                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                  <Heart className="w-4 h-4 text-white" />
-                </button>
-                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                  <Share2 className="w-4 h-4 text-white" />
-                </button>
-              </div>
-            </div>
-
-            {/* 底部内容 - 悬浮时显示 */}
-            <div className="space-y-2">
-              <h3 className="text-white font-medium line-clamp-2">
-                {artwork.title}
-              </h3>
-              <p className="text-white/80 text-sm line-clamp-2">
-                {artwork.description || `探索${artwork.title}的艺术与创意世界`}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div className="absolute bottom-0 left-0 right-0 p-3">
+              <p className="text-white text-sm drop-shadow-md">
+                {artwork.description || `探索艺术世界`}
               </p>
             </div>
           </div>
+        </div>
 
-          {/* Title and options */}
-          <div className="flex justify-between items-center px-2 mt-3 group-hover:opacity-0 transition-opacity duration-300">
-            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-              {artwork.title}
-            </div>
-            <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
-              <MoreHorizontal className="w-4 h-4 text-[#111111]" />
-            </button>
+        {/* Title and options - moved outside the image container */}
+        <div className="flex justify-between items-center px-2 mt-3">
+          <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+            {artwork.title}
           </div>
+          <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+            <MoreHorizontal className="w-4 h-4 text-[#111111]" />
+          </button>
         </div>
       </div>
     );
