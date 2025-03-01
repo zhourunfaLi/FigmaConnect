@@ -1,7 +1,7 @@
 import React from "react";
 import { type Artwork, type Theme } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Heart, Share2 } from "lucide-react";
 import { useLocation } from "wouter";
 
 type GridListProps = {
