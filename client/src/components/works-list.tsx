@@ -120,7 +120,7 @@ function ArtworkItem({
 
         {isVisible && (
           <>
-            <div className="w-full h-full relative rounded-md overflow-hidden"> {/*Added rounded-md and overflow-hidden here to contain hover effects*/}
+            <div className="w-full h-full relative rounded-md overflow-hidden"> 
               <img
                 src={artwork.themeId === "art" 
                   ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
@@ -158,9 +158,9 @@ function ArtworkItem({
                     <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
                       <Share2 className="w-4 h-4 text-white" />
                     </button>
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                    {/* <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
                       <MoreHorizontal className="w-4 h-4 text-white" />
-                    </button>
+                    </button> */}
                   </div>
                 </div>
 
