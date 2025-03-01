@@ -1,4 +1,4 @@
-import { artworks, comments, users, categories, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
+import { artworks, comments, users, categories, adConfigs, type User, type InsertUser, type Artwork, type Comment, type AdConfig, type CreateAdConfig, type UpdateAdConfig } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import session from "express-session";
@@ -168,22 +168,20 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+async getAdConfigs() {
+    return await db.select().from(adConfigs);
+  }
 
-  // 广告配置相关方法
-  async getAdConfigs(): Promise<AdConfig[]> {
-    return db.query.adConfigs.findMany();
-  },
+  async getAdConfig(id: number) {
+    const [config] = await db.select()
+      .from(adConfigs)
+      .where(eq(adConfigs.id, id));
+    return config;
+  }
 
-  async getAdConfig(id: number): Promise<AdConfig | undefined> {
-    return db.query.adConfigs.findFirst({
-      where: eq(schema.adConfigs.id, id),
-    });
-  },
-
-  async createAdConfig(data: CreateAdConfig): Promise<AdConfig> {
+  async createAdConfig(data: any) {
     const [adConfig] = await db
-      .insert(schema.adConfigs)
+      .insert(adConfigs)
       .values({
         ...data,
         createdAt: new Date(),
@@ -191,20 +189,23 @@ export const storage = new DatabaseStorage();
       })
       .returning();
     return adConfig;
-  },
+  }
 
-  async updateAdConfig(id: number, data: UpdateAdConfig): Promise<AdConfig> {
+  async updateAdConfig(id: number, data: any) {
     const [updated] = await db
-      .update(schema.adConfigs)
+      .update(adConfigs)
       .set({
         ...data,
         updatedAt: new Date(),
       })
-      .where(eq(schema.adConfigs.id, id))
+      .where(eq(adConfigs.id, id))
       .returning();
     return updated;
-  },
+  }
 
-  async deleteAdConfig(id: number): Promise<void> {
-    await db.delete(schema.adConfigs).where(eq(schema.adConfigs.id, id));
-  },
+  async deleteAdConfig(id: number) {
+    await db.delete(adConfigs).where(eq(adConfigs.id, id));
+  }
+}
+
+export const storage = new DatabaseStorage();

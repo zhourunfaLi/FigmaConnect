@@ -61,6 +61,10 @@ export const adConfigs = sqliteTable("ad_configs", {
 export type User = typeof users.$inferSelect;
 export type Artwork = typeof artworks.$inferSelect;
 export type Comment = typeof comments.$inferSelect;
+export type AdConfig = typeof adConfigs.$inferSelect;
+
+export type CreateAdConfig = Omit<AdConfig, "id" | "createdAt" | "updatedAt">;
+export type UpdateAdConfig = Partial<CreateAdConfig>;
 
 export type Theme = {
   id: string;
