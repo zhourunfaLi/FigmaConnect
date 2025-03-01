@@ -77,34 +77,34 @@ export default function ArtCityGrid() {
   return (
     <div className="flex flex-col gap-4 px-[8px]">
       {CITIES.map((city) => (
-        <div 
-          key={city.id}
-          className="overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer group"
-          onClick={() => handleCityClick(city.id)}
-        >
-          <div className="relative">
-            <img 
-              src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
-              alt={city.name}
-              className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
-            />
+        <div key={city.id} className="flex flex-col gap-2">
+          {/* 城市名称 - 独立显示在图片上方 */}
+          <h3 className="text-lg font-medium">{city.name}</h3>
+          
+          {/* 城市缩略图 */}
+          <div 
+            className="overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer group"
+            onClick={() => handleCityClick(city.id)}
+          >
+            <div className="relative">
+              <img 
+                src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
+                alt={city.name}
+                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
+              />
 
-            {/* City name overlay with gradient background */}
-            <div className="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-black/70 to-transparent">
-              <h3 className="text-white font-semibold text-left">{city.name}</h3>
-            </div>
-
-            {/* Action buttons - matching the latest page style */}
-            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
-                <Heart className="h-5 w-5" />
-              </button>
-              <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
-                <Share2 className="h-5 w-5" />
-              </button>
-              <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
-                <MoreHorizontal className="h-5 w-5" />
-              </button>
+              {/* 互动按钮 - 与最新页面保持一致 */}
+              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
+                  <Heart className="h-5 w-5" />
+                </button>
+                <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
+                  <Share2 className="h-5 w-5" />
+                </button>
+                <button className="rounded-full bg-white/80 p-2 hover:bg-white transition-colors">
+                  <MoreHorizontal className="h-5 w-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
