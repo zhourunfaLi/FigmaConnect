@@ -1,3 +1,4 @@
+
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
@@ -97,6 +98,11 @@ export function registerRoutes(app: Express): Server {
     const comment = await storage.createComment({
       content: req.body.content,
       userId: req.user.id,
+      artworkId: parseInt(req.params.id),
+    });
+
+    res.status(201).json(comment);
+  });
 
   // 广告配置相关API
   app.get("/api/ad-configs", async (_req, res) => {
@@ -206,12 +212,6 @@ export function registerRoutes(app: Express): Server {
       console.error("删除广告配置失败:", error);
       res.status(500).send("删除广告配置失败");
     }
-  });
-
-      artworkId: parseInt(req.params.id),
-    });
-
-    res.status(201).json(comment);
   });
 
   app.post("/api/login", passport.authenticate("local"), (req, res) => {
