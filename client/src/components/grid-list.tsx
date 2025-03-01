@@ -1,7 +1,7 @@
 import React from "react";
 import { type Artwork, type Theme } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Heart, Share2 } from "lucide-react"; // Added imports for Heart and Share2
 import { useLocation } from "wouter";
 
 type GridListProps = {
@@ -33,12 +33,22 @@ export default function GridList({ artworks, className, title }: GridListProps) 
               alt={artwork.title}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 rounded-md"></div>
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 rounded-md">
+              {/* Action buttons - added here to overlay the image on hover */}
+              <div className="absolute top-2 right-2 flex gap-2 group-hover:opacity-100 opacity-0 transition-opacity duration-300"> {/* Added opacity transition */}
+                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                  <Heart className="w-4 h-4 text-white" />
+                </button>
+                <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                  <Share2 className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        
-        {/* 标题和更多按钮 - 在图片容器外面 */}
-        <div className="flex justify-between items-center px-2 mt-3">
+
+        {/* Title fades out on hover */}
+        <div className="flex justify-between items-center px-2 mt-3 group-hover:opacity-0 transition-opacity duration-300"> {/* Added opacity transition */}
           <div className="text-sm text-[#111111] font-medium leading-5 truncate">
             {artwork.title}
           </div>
@@ -46,8 +56,6 @@ export default function GridList({ artworks, className, title }: GridListProps) 
             <MoreHorizontal className="w-4 h-4 text-[#111111]" />
           </button>
         </div>
-
-        {/* 标题和更多按钮 - 在图片容器外面 */}
       </div>
     );
   };
