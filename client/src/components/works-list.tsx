@@ -24,26 +24,7 @@ type WorksListProps = {
   className?: string;
 };
 
-// Advertisement component for the artwork grid
-function AdCard() {
-  return (
-    <div className="w-full">
-      <div className="relative aspect-[3/4] w-full bg-white rounded-md overflow-hidden border border-black/5">
-        <div className="absolute top-2 left-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-          广告
-        </div>
-        <div className="w-full h-full flex items-center justify-center text-black/30">
-          Google Ads
-        </div>
-      </div>
-      <div className="flex justify-between items-center px-2 mt-2">
-        <div className="text-sm text-[#111111] font-medium leading-5 truncate">
-          推广内容
-        </div>
-      </div>
-    </div>
-  );
-}
+import { AdCard } from "./ad-card";
 
 // Artwork component with lazy loading and animation
 function ArtworkItem({ 

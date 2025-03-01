@@ -1,7 +1,8 @@
-
 import React from "react";
-import { useLocation } from "wouter";
+import { cn } from "@/lib/utils";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
+import { useLocation } from "wouter";
+import { AdCard } from "./ad-card";
 
 // 城市数据
 const CITIES = [
@@ -68,6 +69,9 @@ const CITIES = [
 ];
 
 export default function ArtCityGrid() {
+  // 广告卡片的位置
+  const adPosition = Math.floor(Math.random() * 3) + 2; // 随机在第2-4个位置添加广告
+
   const [, navigate] = useLocation();
 
   const handleCityClick = (cityId: number) => {
@@ -76,53 +80,63 @@ export default function ArtCityGrid() {
 
   return (
     <div className="flex flex-col gap-4 px-[8px]">
-      {CITIES.map((city) => (
-        <div key={city.id} className="flex flex-col gap-2">
-          {/* 城市名称 - 独立显示在图片上方，悬浮时渐变消失 */}
-          <h3 className="text-lg font-medium group-hover:opacity-0 transition-opacity duration-300">{city.name}</h3>
-          
-          {/* 城市缩略图 - 圆角图片，无底部名称 */}
-          <div 
-            className="cursor-pointer group"
-            onClick={() => handleCityClick(city.id)}
-          >
-            <div className="relative overflow-hidden rounded-xl">
-              <img 
-                src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
-                alt={city.name}
-                className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              
-              {/* 悬浮遮罩 - 添加与最新页一致的黑色遮罩效果 */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 rounded-xl">
-                {/* 顶部操作按钮 */}
-                <div className="flex justify-end items-start">
-                  <div className="flex gap-2">
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <Heart className="w-4 h-4 text-white" />
-                    </button>
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <Share2 className="w-4 h-4 text-white" />
-                    </button>
-                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                      <MoreHorizontal className="w-4 h-4 text-white" />
-                    </button>
+      {CITIES.map((city, index) => (
+        <>
+          {/* 在特定位置显示广告 */}
+          {index === adPosition && (
+            <div key={`ad-${index}`} className="flex flex-col gap-2">
+              <h3 className="text-lg font-medium group-hover:opacity-0 transition-opacity duration-300">推荐内容</h3>
+              <AdCard variant="wide" />
+            </div>
+          )}
+          {/* 显示城市卡片 */}
+          <div key={city.id} className="flex flex-col gap-2">
+            {/* 城市名称 - 独立显示在图片上方，悬浮时渐变消失 */}
+            <h3 className="text-lg font-medium group-hover:opacity-0 transition-opacity duration-300">{city.name}</h3>
+
+            {/* 城市缩略图 - 圆角图片，无底部名称 */}
+            <div 
+              className="cursor-pointer group"
+              onClick={() => handleCityClick(city.id)}
+            >
+              <div className="relative overflow-hidden rounded-xl">
+                <img 
+                  src={new URL(`../assets/design/img/city-${String(city.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
+                  alt={city.name}
+                  className="w-full aspect-[2/1] md:aspect-[3/1] object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+
+                {/* 悬浮遮罩 - 添加与最新页一致的黑色遮罩效果 */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 rounded-xl">
+                  {/* 顶部操作按钮 */}
+                  <div className="flex justify-end items-start">
+                    <div className="flex gap-2">
+                      <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                        <Heart className="w-4 h-4 text-white" />
+                      </button>
+                      <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                        <Share2 className="w-4 h-4 text-white" />
+                      </button>
+                      <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                        <MoreHorizontal className="w-4 h-4 text-white" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-                
-                {/* 底部内容 - 悬浮时显示 */}
-                <div className="space-y-2">
-                  <h3 className="text-white font-medium line-clamp-2">
-                    {city.name}
-                  </h3>
-                  <p className="text-white/80 text-sm line-clamp-2">
-                    探索{city.name}的艺术与文化遗产
-                  </p>
+
+                  {/* 底部内容 - 悬浮时显示 */}
+                  <div className="space-y-2">
+                    <h3 className="text-white font-medium line-clamp-2">
+                      {city.name}
+                    </h3>
+                    <p className="text-white/80 text-sm line-clamp-2">
+                      探索{city.name}的艺术与文化遗产
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       ))}
     </div>
   );
