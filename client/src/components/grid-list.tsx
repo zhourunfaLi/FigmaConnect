@@ -1,4 +1,3 @@
-
 import React from "react";
 import { type Artwork, type Theme } from "@shared/schema";
 import { cn } from "@/lib/utils";
@@ -24,15 +23,19 @@ export default function GridList({ artworks, className, title }: GridListProps) 
     };
 
     return (
-      <div className="group cursor-pointer" onClick={handleArtworkClick}>
-        <div className="relative overflow-hidden rounded-xl">
-          <img
-            src={new URL(`../assets/design/img/art-${String(artwork.id % 8 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
-            alt={artwork.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
+      <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleArtworkClick}> 
+        <div className="w-full relative overflow-hidden rounded-xl">
+          <div className="aspect-[3/4]">
+            <img
+              src={artwork.themeId === "art"
+                ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
+                : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
+              alt={artwork.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+            />
+          </div>
           
-          {/* 悬浮遮罩层 - 与最新页完全一致 */}
+          {/* 悬浮遮罩层 - 鼠标悬浮时显示 */}
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
             {/* 顶部操作按钮 */}
             <div className="flex justify-end items-start">
@@ -52,60 +55,54 @@ export default function GridList({ artworks, className, title }: GridListProps) 
                 {artwork.title}
               </h3>
               <p className="text-white/80 text-sm line-clamp-2">
-                {artwork.description || `探索${artwork.title}的艺术世界`}
+                {artwork.description || `探索${artwork.title}的艺术与创意世界`}
               </p>
             </div>
           </div>
-        </div>
 
-        {/* 标题和选项 - 正常状态下显示 */}
-        <div className="mt-2 flex justify-between items-center">
-          <h3 className="text-sm font-medium line-clamp-1">{artwork.title}</h3>
-          <button className="p-1.5 rounded-full hover:bg-accent transition-colors">
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
+          {/* Title and options */}
+          <div className="flex justify-between items-center px-2 mt-2 group-hover:opacity-0 transition-opacity duration-300">
+            <div className="text-sm text-[#111111] font-medium leading-5 truncate">
+              {artwork.title}
+            </div>
+            <button className="flex gap-1 p-1 hover:bg-black/5 rounded-full transition-colors">
+              <MoreHorizontal className="w-4 h-4 text-[#111111]" />
+            </button>
+          </div>
         </div>
       </div>
     );
   };
 
-  const renderContent = () => {
-    if (isThemeData) {
-      // 如果是主题数据，显示主题及其作品
-      return (
-        <div className="space-y-8">
-          {(artworks as Theme[]).map((theme, index) => (
-            <div key={theme.id} className="space-y-4">
-              <h2 className="text-lg font-medium">{theme.name}</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {theme.artworks.map((artwork, artworkIndex) => (
-                  <ArtworkCard
-                    key={artwork.id}
-                    artwork={artwork}
-                    index={artworkIndex}
-                  />
-                ))}
-              </div>
+  if (isThemeData) {
+    const themes = artworks as Theme[];
+    return (
+      <div className={cn("space-y-12", className)}>
+        {themes.map((theme) => (
+          <section key={theme.id} className="space-y-6">
+            <h2 className="text-2xl font-bold px-4">{theme.title}</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px]">
+              {theme.artworks.map((artwork, index) => (
+                <ArtworkCard key={artwork.id} artwork={artwork} index={index} />
+              ))}
             </div>
-          ))}
-        </div>
-      );
-    } else {
-      // 如果是作品数据，直接显示作品网格
-      return (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {(artworks as Artwork[]).map((artwork, index) => (
-            <ArtworkCard key={artwork.id} artwork={artwork} index={index} />
-          ))}
-        </div>
-      );
-    }
-  };
+          </section>
+        ))}
+      </div>
+    );
+  }
 
+  // 普通网格布局
   return (
-    <div className={cn("space-y-4", className)}>
-      {title && <h2 className="text-lg font-medium">{title}</h2>}
-      {renderContent()}
+    <div className={cn("space-y-8", className)}>
+      {title && (
+        <h2 className="text-2xl font-bold px-4">{title}</h2>
+      )}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-[8px]">
+        {(artworks as Artwork[]).map((artwork, index) => (
+          <ArtworkCard key={artwork.id} artwork={artwork} index={index} />
+        ))}
+      </div>
     </div>
   );
 }
