@@ -136,7 +136,7 @@ export default function ArtCityGrid() {
               </div>
             </div>
           </div>
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
