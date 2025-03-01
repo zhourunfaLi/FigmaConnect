@@ -31,18 +31,19 @@ export default function GridList({ artworks, className, title }: GridListProps) 
                 ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
                 : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
-              className="w-full h-full object-cover transition-transform duration-300"
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300"></div>
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300"></div>
           </div>
 
           {/* 悬浮遮罩层 - 鼠标悬浮时显示 */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-            <div className="absolute bottom-0 left-0 right-0 p-3">
-              <p className="text-white text-sm drop-shadow-md">
-                {artwork.description || `探索艺术世界`}
-              </p>
-            </div>
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-3">
+            <h3 className="text-white font-medium line-clamp-2 drop-shadow-md">
+              {artwork.title}
+            </h3>
+            <p className="text-white/80 text-sm line-clamp-2 drop-shadow-md">
+              {artwork.description || `探索艺术世界`}
+            </p>
           </div>
         </div>
 

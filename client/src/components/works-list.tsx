@@ -103,7 +103,7 @@ function ArtworkItem({
       onClick={handleArtworkClick} 
     >
       <div 
-        className="w-full relative overflow-hidden rounded-2xl" // Changed to rounded-2xl for 4 rounded corners
+        className="w-full relative overflow-hidden rounded-md" // 使用圆角一致性
         style={{ 
           height: 'auto',
           aspectRatio: artwork.aspectRatio,
@@ -113,7 +113,7 @@ function ArtworkItem({
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
             className={cn(
-              "absolute inset-0 rounded-2xl", // Changed to rounded-2xl
+              "absolute inset-0 rounded-md", // 使用圆角一致性
               !imageLoaded && "animate-pulse"
             )}
           />
@@ -128,7 +128,7 @@ function ArtworkItem({
                   : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={artwork.title}
                 className={cn(
-                  "w-full h-full object-cover transition-transform duration-300 rounded-2xl", //Added rounded-2xl
+                  "w-full h-full object-cover transition-transform duration-300 rounded-md", // 使用圆角一致性
                   imageLoaded ? "opacity-100" : "opacity-0",
                   "group-hover:scale-105"
                 )}
@@ -212,6 +212,20 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
     return numbers.slice(0, count);
+
+            {/* 悬停遮罩效果 */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300"></div>
+            
+            {/* 悬浮时显示的内容 */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-3">
+              <h3 className="text-white font-medium line-clamp-2 drop-shadow-md">
+                {artwork.title}
+              </h3>
+              <p className="text-white/80 text-sm line-clamp-2 drop-shadow-md">
+                {artwork.description || "探索艺术世界"}
+              </p>
+            </div>
+
   };
 
   // Get 24 unique artworks (19 art + 5 city)
