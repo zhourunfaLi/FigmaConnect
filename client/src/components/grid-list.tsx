@@ -25,13 +25,13 @@ export default function GridList({ artworks, className, title }: GridListProps) 
     return (
       <div className="break-inside-avoid mb-4 group cursor-pointer" onClick={handleArtworkClick}> 
         <div className="w-full relative overflow-hidden rounded-xl">
-          <div className="aspect-[3/4]">
+          <div className="aspect-[3/4] overflow-hidden">
             <img
               src={artwork.themeId === "art"
                 ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
                 : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
               alt={artwork.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform rounded-xl"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
           </div>
 
