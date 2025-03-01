@@ -13,15 +13,7 @@ type GridListProps = {
 import { useAds } from '@/contexts/ad-context';
 import { AdCard } from './ad-card';
 
-// Define the AdCard component here.  This is placeholder code.  Replace with your actual Ad implementation.
-const AdCard = ({ variant }: { variant: "square" | "standard" }) => {
-  return (
-    <div className={`border border-gray-300 p-4 rounded ${variant === "square" ? "h-48" : ""}`}>
-      {/* Replace with actual Google Ad code */}
-      <p>Google Ad - {variant}</p>
-    </div>
-  );
-};
+// AdCard 组件已经从 './ad-card' 导入，无需重复定义
 
 
 export default function GridList({ artworks, className, title }: GridListProps) {
