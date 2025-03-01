@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Share2, MoreHorizontal } from "lucide-react";
-import { useLocation } from "wouter"; // Changed import
+import { useLocation } from "wouter";
 
 // Constants for layout configuration
 const GRID_CONFIG = {
@@ -57,7 +57,7 @@ function ArtworkItem({
   wideHeight: number;
   index: number;
 }) {
-  const [, setLocation] = useLocation(); // Changed to useLocation
+  const [, setLocation] = useLocation();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -103,17 +103,16 @@ function ArtworkItem({
       onClick={handleArtworkClick} 
     >
       <div 
-        className="w-full relative overflow-hidden rounded-md" // 使用圆角一致性
+        className="w-full relative overflow-hidden rounded-md" 
         style={{ 
           height: 'auto',
           aspectRatio: artwork.aspectRatio,
         }}
       >
-        {/* Loading skeleton */}
         {(!isVisible || !imageLoaded) && (
           <Skeleton 
             className={cn(
-              "absolute inset-0 rounded-md", // 使用圆角一致性
+              "absolute inset-0 rounded-md", 
               !imageLoaded && "animate-pulse"
             )}
           />
@@ -121,14 +120,14 @@ function ArtworkItem({
 
         {isVisible && (
           <>
-            <div className="relative overflow-hidden w-full h-full">
+            <div className="w-full h-full relative rounded-md overflow-hidden"> {/*Added rounded-md and overflow-hidden here to contain hover effects*/}
               <img
                 src={artwork.themeId === "art" 
                   ? new URL(`../assets/design/img/art-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href
                   : new URL(`../assets/design/img/city-${String(artwork.imageId).padStart(2, '0')}.jpg`, import.meta.url).href}
                 alt={artwork.title}
                 className={cn(
-                  "w-full h-full object-cover transition-transform duration-300 rounded-md", // 使用圆角一致性
+                  "w-full h-full object-cover transition-transform duration-300", 
                   imageLoaded ? "opacity-100" : "opacity-0",
                   "group-hover:scale-105"
                 )}
@@ -136,49 +135,49 @@ function ArtworkItem({
                 onLoad={() => setImageLoaded(true)}
               />
 
-            {/* Always visible labels */}
-            <div className="absolute top-2 left-2 flex gap-2">
-              <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
-                #{index + 1}
-              </div>
-              {artwork.isPremium && (
-                <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
-                  SVIP
+              {/* Always visible labels */}
+              <div className="absolute top-2 left-2 flex gap-2">
+                <div className="px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md">
+                  #{index + 1}
                 </div>
-              )}
-            </div>
-
-            </div>
-            {/* Hover overlay with actions */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none group-hover:pointer-events-auto">
-              <div className="flex justify-end items-start">
-                {/* Action buttons */}
-                <div className="flex gap-2">
-                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                    <Heart className="w-4 h-4 text-white" />
-                  </button>
-                  <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                    <Share2 className="w-4 h-4 text-white" />
-                  </button>
-                </div>
+                {artwork.isPremium && (
+                  <div className="px-2 py-1 bg-[#EB9800] text-white text-xs font-medium rounded-md">
+                    SVIP
+                  </div>
+                )}
               </div>
 
-              {/* Bottom content */}
-              <div className="space-y-2">
-                <h3 className="text-white font-medium line-clamp-2">
-                  {artwork.title}
-                </h3>
-                <p className="text-white/80 text-sm line-clamp-2">
-                  {artwork.description}
-                </p>
+              {/* Hover overlay with actions */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none group-hover:pointer-events-auto">
+                <div className="flex justify-end items-start">
+                  {/* Action buttons */}
+                  <div className="flex gap-2">
+                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                      <Heart className="w-4 h-4 text-white" />
+                    </button>
+                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                      <Share2 className="w-4 h-4 text-white" />
+                    </button>
+                    <button className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                      <MoreHorizontal className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Bottom content */}
+                <div className="space-y-2">
+                  <h3 className="text-white font-medium line-clamp-2">
+                    {artwork.title}
+                  </h3>
+                  <p className="text-white/80 text-sm line-clamp-2">
+                    {artwork.description}
+                  </p>
+                </div>
               </div>
             </div>
           </>
         )}
       </div>
-
-      {/*Removed old title and options div. Title is now in hover overlay.*/}
-
     </div>
   );
 }
@@ -212,20 +211,6 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
     return numbers.slice(0, count);
-
-            {/* 悬停遮罩效果 */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300"></div>
-            
-            {/* 悬浮时显示的内容 */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-3">
-              <h3 className="text-white font-medium line-clamp-2 drop-shadow-md">
-                {artwork.title}
-              </h3>
-              <p className="text-white/80 text-sm line-clamp-2 drop-shadow-md">
-                {artwork.description || "探索艺术世界"}
-              </p>
-            </div>
-
   };
 
   // Get 24 unique artworks (19 art + 5 city)
