@@ -148,7 +148,7 @@ function ArtworkItem({
               </div>
 
               {/* Hover overlay with actions */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none group-hover:pointer-events-auto">
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none group-hover:pointer-events-auto rounded-md">
                 <div className="flex justify-end items-start">
                   {/* Action buttons */}
                   <div className="flex gap-2">
