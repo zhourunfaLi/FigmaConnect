@@ -1,4 +1,3 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
 import { type Artwork } from "@shared/schema";
@@ -38,23 +37,41 @@ export default function ArtworkPage() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const { toast } = useToast();
-  const [zoomLevel, setZoomLevel] = useState(100);
+  const [zoomLevel, setZoomLevel] = useState<number>(100);
   const [activeTab, setActiveTab] = useState("info");
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
+  // 提取有效的数字ID
+  const extractNumericId = (id: string | undefined): number | null => {
+    if (!id) return null;
+
+    // 处理复合格式的ID，如 "art-12-15"
+    if (id.includes('-')) {
+      const parts = id.split('-');
+      if (parts.length >= 2) {
+        const numericPart = parseInt(parts[1]);
+        if (!isNaN(numericPart)) return numericPart;
+      }
+    }
+
+    // 尝试直接将ID转为数字
+    const numericId = parseInt(id);
+    return !isNaN(numericId) ? numericId : null;
+  };
+
+  const numericId = extractNumericId(id);
+
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
-    queryKey: ["artwork", id],
+    queryKey: ["artwork", numericId],
     queryFn: async () => {
-      console.log(`尝试获取作品，ID: ${id}`);
-      
-      // 验证ID是否为有效数字
-      const numericId = Number(id);
-      if (!id || isNaN(numericId)) {
+      console.log(`尝试获取作品，原始ID: ${id}, 处理后ID: ${numericId}`);
+
+      if (!numericId) {
         console.error('作品ID无效:', id);
         throw new Error("作品ID无效");
       }
-      
+
       const res = await fetch(`/api/artworks/${numericId}`);
       if (!res.ok) {
         if (res.status === 404) {
@@ -76,7 +93,7 @@ export default function ArtworkPage() {
 
   const handleDownload = () => {
     if (!artwork) return;
-    
+
     if (artwork.isPremium && !user.isPremium) {
       toast({
         title: "仅限高级会员",
@@ -93,7 +110,7 @@ export default function ArtworkPage() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     toast({
       title: "下载开始",
       description: "原图已开始下载",
@@ -216,18 +233,18 @@ export default function ArtworkPage() {
                 <span>评论</span>
               </TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="info" className="border rounded-md p-4 mt-2">
               <h3 className="text-lg font-semibold mb-2">作品详情</h3>
               <p className="text-muted-foreground">{artwork.description}</p>
-              
+
               {/* 知识互动区 */}
               <div className="mt-6">
                 <div className="flex items-center gap-2 mb-4">
                   <HelpCircle className="h-5 w-5 text-blue-500" />
                   <h3 className="text-lg font-semibold">艺术知识互动</h3>
                 </div>
-                
+
                 {!showResults ? (
                   <div className="space-y-4">
                     {MOCK_QUIZ.map((quiz, quizIndex) => (
@@ -254,7 +271,7 @@ export default function ArtworkPage() {
                         </div>
                       </div>
                     ))}
-                    
+
                     <Button 
                       onClick={handleQuizSubmit} 
                       disabled={quizAnswers.length !== MOCK_QUIZ.length}
@@ -271,7 +288,7 @@ export default function ArtworkPage() {
                         感谢参与问答！通过这些问题，您可以更深入地了解这件艺术品
                       </p>
                     </div>
-                    
+
                     <Button variant="outline" onClick={resetQuiz} className="w-full">
                       重新作答
                     </Button>
@@ -279,7 +296,7 @@ export default function ArtworkPage() {
                 )}
               </div>
             </TabsContent>
-            
+
             <TabsContent value="video">
               {artwork.videoUrl ? (
                 <div className="border rounded-md p-4 mt-2">
@@ -293,10 +310,10 @@ export default function ArtworkPage() {
                 </div>
               )}
             </TabsContent>
-            
+
             <TabsContent value="comments">
               <div className="border rounded-md p-4 mt-2">
-                <CommentSection artworkId={parseInt(id)} />
+                <CommentSection artworkId={parseInt(String(numericId))} />
               </div>
             </TabsContent>
           </Tabs>

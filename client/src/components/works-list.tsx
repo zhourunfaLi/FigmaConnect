@@ -260,10 +260,23 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         themeId: themeId || artwork.themeId,
         imageId: artwork.imageId || imageId || 1,
         originalId: artwork.id, // 保存原始复合ID
+        id: imageId || artwork.id, // 重要：将ID设置为imageId，确保直接使用数字ID
       };
     }
+    
+    // 确保没有复合ID的作品也有imageId
+    if (!artwork.imageId && typeof artwork.id === 'number') {
+      return {
+        ...artwork,
+        imageId: artwork.id
+      };
+    }
+    
     return artwork;
   });
+  
+  // 添加调试日志
+  console.log("WorksList显示的作品数据:", processedArtworks.slice(0, 5));
   
   // 添加调试日志
   console.log("WorksList显示的作品数据(处理后):", processedArtworks);
