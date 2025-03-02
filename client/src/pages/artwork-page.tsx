@@ -216,7 +216,7 @@ export default function ArtworkPage() {
         <Alert variant="destructive">
           <AlertDescription>
             {errorMessage}
-          </AlertDescription>escription>
+          </AlertDescription>
         </Alert>
         <div className="mt-4">
           <Button onClick={() => setLocation('/')}>
