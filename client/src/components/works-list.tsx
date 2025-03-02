@@ -220,7 +220,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const displayArtworks = [
     ...artIds.map((imageId, index) => ({
       ...artworks[0],
-      id: imageId, // Directly use the numeric ID
+      id: `art-${imageId}-${index}`, // 使用唯一组合键
       imageId: imageId,
       title: `艺术作品 ${imageId}`,
       description: "现代艺术创作",
@@ -230,7 +230,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     })),
     ...cityIds.map((imageId, index) => ({
       ...artworks[0],
-      id: imageId, // Directly use the numeric ID
+      id: `city-${imageId}-${index}`, // 使用唯一组合键
       imageId: imageId,
       title: `城市风光 ${imageId}`,
       description: "城市建筑与人文景观",

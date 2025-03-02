@@ -42,8 +42,22 @@ export default function ArtworkPage() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  // 简化ID处理逻辑, this line is modified
-  const artworkId = id ? parseInt(id) : null;
+  // 解析ID处理逻辑
+  let artworkId = null;
+  if (id) {
+    // 判断是否为组合ID格式（如 "art-17-0"）
+    if (id.includes('-')) {
+      const parts = id.split('-');
+      // 对于组合ID，使用imageId作为请求ID
+      if (parts.length >= 2) {
+        const imageId = parseInt(parts[1]);
+        artworkId = !isNaN(imageId) ? imageId : null;
+      }
+    } else {
+      // 尝试直接解析纯数字ID
+      artworkId = parseInt(id);
+    }
+  }
 
   console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
 
