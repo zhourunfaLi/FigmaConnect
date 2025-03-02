@@ -218,24 +218,24 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const aspectRatios = [0.8, 1, 1.2, 1.5, 0.7, 1.3, 0.9, 1.1];
 
   const displayArtworks = [
-    ...artIds.map((id, index) => ({
+    ...artIds.map((imageId, index) => ({
       ...artworks[0],
-      id: `art-${id}-${index}`,
-      imageId: id,
-      title: `艺术作品 ${id}`,
+      id: imageId, // Directly use the numeric ID
+      imageId: imageId,
+      title: `艺术作品 ${imageId}`,
       description: "现代艺术创作",
       themeId: "art", 
-      aspectRatio: aspectRatios[id % aspectRatios.length],
+      aspectRatio: aspectRatios[imageId % aspectRatios.length],
       isWide: false
     })),
-    ...cityIds.map((id, index) => ({
+    ...cityIds.map((imageId, index) => ({
       ...artworks[0],
-      id: `city-${id}-${index}`,
-      imageId: id,
-      title: `城市风光 ${id}`,
+      id: imageId, // Directly use the numeric ID
+      imageId: imageId,
+      title: `城市风光 ${imageId}`,
       description: "城市建筑与人文景观",
       themeId: "city",
-      aspectRatio: aspectRatios[id % aspectRatios.length],
+      aspectRatio: aspectRatios[imageId % aspectRatios.length],
       isWide: false
     }))
   ].sort(() => Math.random() - 0.5);

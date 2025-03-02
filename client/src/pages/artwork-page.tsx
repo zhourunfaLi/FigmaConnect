@@ -42,9 +42,9 @@ export default function ArtworkPage() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  // 简化ID处理逻辑
+  // 简化ID处理逻辑, this line is modified
   const artworkId = id ? parseInt(id) : null;
-  
+
   console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
 
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
@@ -59,10 +59,10 @@ export default function ArtworkPage() {
         // 直接使用ID参数请求
         const apiUrl = `/api/artworks/${artworkId}`;
         console.log(`发送API请求: ${apiUrl}`);
-        
+
         // 使用纯fetch API简化请求
         const response = await fetch(apiUrl);
-        
+
         // 检查响应状态
         if (!response.ok) {
           if (response.status === 404) {
@@ -73,7 +73,7 @@ export default function ArtworkPage() {
             throw new Error(`获取作品失败: ${response.statusText}`);
           }
         }
-        
+
         // 解析响应数据
         const data = await response.json();
         console.log("获取到的作品数据:", data);

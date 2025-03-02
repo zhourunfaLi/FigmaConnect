@@ -1,0 +1,30 @@
+Warning: Encountered two children with the same key, &#x60;17&#x60;. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+    at div
+    at WorksList (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/src/components/works-list.tsx:262:37)
+    at div
+    at div
+    at HomePage (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/src/pages/home-page.tsx:48:22)
+    at Route (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=20daeffc:338:16)
+    at Switch (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=20daeffc:394:17)
+    at Router
+    at AdProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/src/contexts/ad-context.tsx:21:30)
+    at AuthProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/src/hooks/use-auth.tsx:26:32)
+    at QueryClientProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=20daeffc:2805:3)
+    at App
+at div
+at WorksList (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/src/components/works-list.tsx:262:37)
+at div
+at div
+at HomePage (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/src/pages/home-page.tsx:48:22)
+at Route (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=20daeffc:338:16)
+at Switch (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=20daeffc:394:17)
+at Router
+at AdProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/src/contexts/ad-context.tsx:21:30)
+at AuthProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/src/hooks/use-auth.tsx:26:32)
+at QueryClientProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=20daeffc:2805:3)
+at App
+at t.value (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:5000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+作品ID无效或缺失: undefined
