@@ -11,8 +11,37 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+// 配置连接池，增加最大和最小连接数，设置空闲超时
+export const pool = new Pool({ 
+  connectionString: process.env.DATABASE_URL,
+  max: 10, // 最大连接数
+  idleTimeoutMillis: 30000, // 空闲连接超时时间（30秒）
+  connectionTimeoutMillis: 5000 // 连接超时时间（5秒）
+});
+
+// 连接错误处理
+pool.on('error', (err) => {
+  console.error('数据库连接池错误:', err.message);
+  // 这里不需要关闭应用程序，让连接池自己处理重连
+});
+
 export const db = drizzle({ client: pool, schema });
+
+// 添加健康检查函数
+export async function checkDatabaseConnection() {
+  try {
+    const client = await pool.connect();
+    try {
+      await client.query('SELECT 1');
+      return true;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('数据库连接检查失败:', error.message);
+    return false;
+  }
+}
 
 // 初始化数据库表
 async function initDB() {

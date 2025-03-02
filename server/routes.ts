@@ -70,29 +70,56 @@ export function registerRoutes(app: Express): Server {
 
       if (isNaN(id)) {
         console.log(`[Debug] Invalid ID format: ${req.params.id}`);
-        res.status(400).send("Invalid artwork ID");
+        res.status(400).json({ error: "Invalid artwork ID", details: req.params.id });
         return;
       }
 
-      const artwork = await storage.getArtwork(id);
+      // 添加重试逻辑
+      let retries = 3;
+      let artwork = null;
+      
+      while (retries > 0) {
+        try {
+          artwork = await storage.getArtwork(id);
+          break; // 如果成功获取数据，退出循环
+        } catch (err) {
+          // 如果是数据库连接错误，尝试重试
+          if (err.message.includes('terminating connection') || 
+              err.message.includes('Connection terminated')) {
+            console.log(`[Debug] Database connection error, retrying (${retries} attempts left)`);
+            retries--;
+            if (retries > 0) {
+              await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒后重试
+              continue;
+            }
+          }
+          // 对于其他错误或重试用尽，直接抛出
+          throw err;
+        }
+      }
+      
       console.log(`[Debug] Database query result:`, artwork);
 
       if (!artwork) {
         console.log(`[Debug] No artwork found for ID: ${id}`);
-        res.status(404).send("Artwork not found");
+        res.status(404).json({ error: "Artwork not found", artworkId: id });
         return;
       }
 
       if (artwork.isPremium && !req.user?.isPremium) {
         console.log(`[Debug] Premium content access denied for user:`, req.user);
-        res.status(403).send("Premium content requires membership");
+        res.status(403).json({ error: "Premium content requires membership" });
         return;
       }
 
       res.json(artwork);
     } catch (error) {
       console.error('[Error] Error fetching artwork:', error);
-      res.status(500).send("Internal server error");
+      res.status(500).json({ 
+        error: "Internal server error", 
+        message: error.message,
+        status: 500
+      });
     }
   });
 

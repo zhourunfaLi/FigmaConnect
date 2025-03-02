@@ -156,13 +156,21 @@ app.use((req, res, next) => {
       log(`未捕获的异常: ${err.message}`);
       log(err.stack || '无堆栈信息');
 
-      if (server) {
-        server.close(() => {
-          log('由于未捕获的异常，服务器已关闭');
-          process.exit(1);
-        });
+      // 对于数据库连接错误，我们尝试处理而不是立即退出
+      if (err.message.includes('terminating connection due to administrator command') ||
+          err.message.includes('Connection terminated unexpectedly')) {
+        log('数据库连接被中断，这可能是由于Neon数据库自动休眠导致的');
+        // 这里不退出进程，因为连接池会自动处理重连
       } else {
-        process.exit(1);
+        // 对于其他未捕获的异常，我们仍然关闭服务器
+        if (server) {
+          server.close(() => {
+            log('由于严重错误，服务器已关闭');
+            process.exit(1);
+          });
+        } else {
+          process.exit(1);
+        }
       }
     });
 
