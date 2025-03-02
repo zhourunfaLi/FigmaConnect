@@ -7,31 +7,16 @@ import connectPg from "connect-pg-simple";
 import { pool } from "./db";
 import { sql } from "drizzle-orm";
 
-// 初始化数据库表
-async function initializeTables() {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS categories (
-      id SERIAL PRIMARY KEY,
-      name TEXT NOT NULL,
-      description TEXT,
-      display_order INTEGER
-    );
+import { initDB } from "./db";
 
-    DROP TABLE IF EXISTS artworks CASCADE;
-    CREATE TABLE IF NOT EXISTS artworks (
-      id SERIAL PRIMARY KEY,
-      title TEXT NOT NULL,
-      description TEXT NOT NULL,
-      image_url TEXT NOT NULL,
-      video_url TEXT,
-      category_id INTEGER REFERENCES categories(id),
-      is_premium BOOLEAN DEFAULT false NOT NULL,
-      hide_title BOOLEAN DEFAULT false NOT NULL,
-      display_order INTEGER,
-      column_position INTEGER,
-      aspect_ratio TEXT
-    );
-  `);
+// 初始化数据库表 - 使用db.ts中的initDB函数
+async function initializeTables() {
+  try {
+    await initDB();
+    console.log('数据库表创建成功');
+  } catch (error) {
+    console.error('数据库表创建失败:', error);
+  }
 }
 
 const PostgresSessionStore = connectPg(session);
@@ -40,35 +25,56 @@ const PostgresSessionStore = connectPg(session);
 async function initializeData() {
   try {
     // 添加分类
-    await db.insert(categories).values([
+    const categoryResult = await db.insert(categories).values([
       { name: "油画", description: "油画作品", displayOrder: 1 },
       { name: "水彩", description: "水彩作品", displayOrder: 2 },
       { name: "素描", description: "素描作品", displayOrder: 3 }
-    ]).onConflictDoNothing();
+    ]).onConflictDoNothing().returning();
+    
+    console.log('分类数据初始化结果:', categoryResult);
 
-    // 添加艺术品
-    await db.insert(artworks).values([
-      {
-        title: "向日葵",
-        description: "梵高的经典作品",
-        imageUrl: "https://placehold.co/400x600",
-        isPremium: false,
-        hideTitle: false,
-        categoryId: 1
-      },
-      {
-        title: "星空",
-        description: "梵高的代表作",
-        imageUrl: "https://placehold.co/400x600",
-        isPremium: true,
-        hideTitle: false,
-        categoryId: 1
-      }
-    ]).onConflictDoNothing();
+    // 检查artworks表是否已有数据
+    const existingArtworks = await db.select({ count: sql`count(*)` }).from(artworks);
+    const artworksCount = parseInt(existingArtworks[0].count.toString());
+    
+    if (artworksCount === 0) {
+      // 添加艺术品
+      const artworkResult = await db.insert(artworks).values([
+        {
+          title: "向日葵",
+          description: "梵高的经典作品",
+          imageUrl: "https://placehold.co/400x600",
+          isPremium: false,
+          hideTitle: false,
+          categoryId: 1
+        },
+        {
+          title: "星空",
+          description: "梵高的代表作",
+          imageUrl: "https://placehold.co/400x600",
+          isPremium: true,
+          hideTitle: false,
+          categoryId: 1
+        },
+        {
+          title: "蒙娜丽莎",
+          description: "达芬奇的杰作",
+          imageUrl: "https://placehold.co/400x600",
+          isPremium: false,
+          hideTitle: false,
+          categoryId: 1
+        }
+      ]).returning();
+      
+      console.log('艺术品数据初始化结果:', artworkResult);
+    } else {
+      console.log(`艺术品表已有${artworksCount}条数据，跳过初始化`);
+    }
 
     console.log('数据初始化成功');
   } catch (error) {
     console.error('数据初始化失败:', error);
+    console.error('详细错误信息:', error.stack);
   }
 }
 

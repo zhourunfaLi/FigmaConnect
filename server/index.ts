@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { validateSchema } from "./validateSchema"; // Added import for schema validation
+import { checkDatabaseConnection } from "./db"; // Added import for database connection check
 
 const app = express();
 app.use(express.json());
@@ -174,7 +175,19 @@ app.use((req, res, next) => {
       }
     });
 
-    startServer();
+    // 启动前检查数据库连接
+    checkDatabaseConnection().then(isConnected => {
+      if (isConnected) {
+        log('数据库连接成功，准备启动服务器');
+        startServer();
+      } else {
+        log('数据库连接失败，无法启动服务器');
+        process.exit(1);
+      }
+    }).catch(err => {
+      log('检查数据库连接时出错:', err);
+      process.exit(1);
+    });
   } catch (err) {
     log(`服务器初始化错误: ${err.message}`);
     process.exit(1);

@@ -44,7 +44,7 @@ export async function checkDatabaseConnection() {
 }
 
 // 初始化数据库表
-async function initDB() {
+export async function initDB() {
   try {
     // 创建categories表
     await pool.query(`
