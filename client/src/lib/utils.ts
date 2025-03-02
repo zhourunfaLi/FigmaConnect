@@ -33,6 +33,15 @@ export function extractArtworkId(id: string | number): number | null {
     }
   }
   
+  // 无法提取到有效ID，返回null
+  return null;
+} {
+          return extractedId;
+        }
+      }
+    }
+  }
+  
   // 无法提取到有效ID
   console.error(`无法从${id}提取有效的作品ID`);
   return null;

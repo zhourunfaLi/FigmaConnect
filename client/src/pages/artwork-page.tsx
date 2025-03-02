@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -5,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { extractArtworkId } from "@/lib/utils";
+import { fetchArtworkById, fetchRelatedArtworks } from "@/api";
 import { EyeIcon, HeartIcon, DownloadIcon, Share2Icon, BookmarkIcon } from "lucide-react";
 
 // 作品详情类型
@@ -29,6 +31,7 @@ export default function ArtworkPage() {
   const params = useParams();
   const { toast } = useToast();
   const [artwork, setArtwork] = useState<ArtworkDetail | null>(null);
+  const [relatedArtworks, setRelatedArtworks] = useState<ArtworkDetail[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [parsedId, setParsedId] = useState<number | null>(null);
@@ -53,23 +56,27 @@ export default function ArtworkPage() {
       return; // 等待有效ID
     }
 
-    async function fetchArtwork() {
+    async function fetchArtworkData() {
       try {
         setLoading(true);
         console.log(`正在加载ID为 ${parsedId} 的作品`);
 
         // 从API获取作品数据
-        const response = await fetch(`/api/artworks/${parsedId}`);
-        if (!response.ok) {
-          throw new Error(`获取作品失败: ${response.statusText}`);
-        }
-
-        const data = await response.json();
+        const data = await fetchArtworkById(parsedId);
         console.log("加载的作品数据:", data);
 
         // 设置作品数据
         setArtwork(data);
         setError(null);
+
+        // 获取相关作品
+        try {
+          const related = await fetchRelatedArtworks(parsedId, 4);
+          setRelatedArtworks(related);
+        } catch (err) {
+          console.warn("加载相关作品失败:", err);
+          // 不影响主作品显示，仅记录警告
+        }
       } catch (err) {
         console.error("加载作品失败:", err);
         setError(`加载作品失败: ${err instanceof Error ? err.message : '未知错误'}`);
@@ -83,7 +90,7 @@ export default function ArtworkPage() {
       }
     }
 
-    fetchArtwork();
+    fetchArtworkData();
   }, [parsedId, toast]);
 
   // 加载中状态
@@ -104,7 +111,7 @@ export default function ArtworkPage() {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
-        <div className="text-red-500 mb-4">加载作品时出错</div>
+        <div className="text-red-500 text-xl font-semibold mb-4">加载作品时出错</div>
         <p>{error}</p>
         <Button 
           variant="outline" 
@@ -133,12 +140,37 @@ export default function ArtworkPage() {
     );
   }
 
+  // 格式化日期
+  const formattedDate = artwork.createdAt 
+    ? new Date(artwork.createdAt).toLocaleDateString('zh-CN', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }) 
+    : "未知";
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* 主图 */}
-        <div className="md:col-span-2">
-          <div className="bg-card rounded-lg overflow-hidden border shadow-sm mb-4">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      {/* 顶部栏 - 作品标题和操作按钮 */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-0">{artwork.title}</h1>
+        <div className="flex space-x-2">
+          <Button variant="outline" size="sm">
+            <Share2Icon className="h-4 w-4 mr-2" />
+            分享
+          </Button>
+          <Button variant="outline" size="sm">
+            <BookmarkIcon className="h-4 w-4 mr-2" />
+            收藏
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* 主内容区 */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* 主图 */}
+          <div className="bg-card rounded-lg overflow-hidden border shadow-sm">
             <img
               src={artwork.imageUrl}
               alt={artwork.title}
@@ -146,69 +178,91 @@ export default function ArtworkPage() {
             />
           </div>
 
-          {/* 标题和描述 */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2">{artwork.title}</h1>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {artwork.tags?.map((tag, index) => (
-                <Badge key={index} variant="secondary">{tag}</Badge>
-              ))}
-              {artwork.isPremium && <Badge variant="default" className="bg-gradient-to-r from-amber-400 to-amber-600">Premium</Badge>}
-            </div>
-            <p className="text-muted-foreground">{artwork.description}</p>
-          </div>
-
-          {/* 按钮区 */}
-          <div className="flex flex-wrap gap-3 mb-6">
-            <Button variant="default" size="lg" className="gap-2">
-              <HeartIcon className="w-5 h-5" />
-              <span>喜欢</span>
-            </Button>
-            <Button variant="outline" size="lg" className="gap-2">
-              <DownloadIcon className="w-5 h-5" />
-              <span>下载</span>
-            </Button>
-            <Button variant="outline" size="lg" className="gap-2">
-              <Share2Icon className="w-5 h-5" />
-              <span>分享</span>
-            </Button>
-            <Button variant="outline" size="lg" className="gap-2">
-              <BookmarkIcon className="w-5 h-5" />
-              <span>收藏</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* 侧边信息区 */}
-        <div className="space-y-6">
-          {/* 艺术家信息 */}
+          {/* 描述 */}
           <Card className="p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 rounded-full bg-muted overflow-hidden">
-                <img src="/placeholder-avatar.jpg" alt="Artist" className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <h3 className="font-medium">{artwork.artist || "匿名艺术家"}</h3>
-                <p className="text-sm text-muted-foreground">创作者</p>
-              </div>
-            </div>
-            <Button variant="secondary" className="w-full">关注创作者</Button>
+            <h2 className="text-xl font-semibold mb-4">作品描述</h2>
+            <p className="text-muted-foreground whitespace-pre-line">{artwork.description || "暂无描述"}</p>
           </Card>
 
-          {/* 数据统计 */}
-          <Card className="p-6">
-            <h3 className="text-xl font-semibold mb-4">作品信息</h3>
-
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="text-center">
-                <EyeIcon className="mx-auto h-5 w-5 text-muted-foreground mb-1" />
-                <div className="font-medium">{artwork.views || 0}</div>
-                <div className="text-xs text-muted-foreground">浏览</div>
+          {/* 标签 */}
+          {artwork.tags && artwork.tags.length > 0 && (
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold">标签</h2>
+              <div className="flex flex-wrap gap-2">
+                {artwork.tags.map((tag, index) => (
+                  <Badge key={index} variant="secondary" className="px-3 py-1">
+                    {tag}
+                  </Badge>
+                ))}
               </div>
+            </div>
+          )}
+
+          {/* 相关推荐 */}
+          {relatedArtworks.length > 0 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">相关作品</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {relatedArtworks.map((related) => (
+                  <a 
+                    key={related.id}
+                    href={`/artwork/${related.id}`} 
+                    className="block group"
+                  >
+                    <div className="aspect-square overflow-hidden rounded-md border bg-muted">
+                      <img 
+                        src={related.imageUrl} 
+                        alt={related.title}
+                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" 
+                      />
+                    </div>
+                    <div className="mt-2 text-sm font-medium truncate">{related.title}</div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 侧边栏 */}
+        <div className="space-y-6">
+          {/* 作者信息 */}
+          <Card className="p-6">
+            <div className="flex items-center space-x-4 mb-4">
+              <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/src/assets/avatar.png" 
+                  alt="作者头像"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://via.placeholder.com/150';
+                  }}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="font-medium">{artwork.artist || "未知作者"}</div>
+                <div className="text-sm text-muted-foreground">作品创作者</div>
+              </div>
+            </div>
+            <Button className="w-full mb-4">关注作者</Button>
+            <Button variant="outline" className="w-full">查看更多作品</Button>
+          </Card>
+
+          {/* 作品信息 */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold mb-4">作品信息</h3>
+            
+            {/* 交互数据 */}
+            <div className="grid grid-cols-3 gap-4 mb-6 text-center">
               <div className="text-center">
                 <HeartIcon className="mx-auto h-5 w-5 text-muted-foreground mb-1" />
                 <div className="font-medium">{artwork.likes || 0}</div>
                 <div className="text-xs text-muted-foreground">喜欢</div>
+              </div>
+              <div className="text-center">
+                <EyeIcon className="mx-auto h-5 w-5 text-muted-foreground mb-1" />
+                <div className="font-medium">{artwork.views || 0}</div>
+                <div className="text-xs text-muted-foreground">浏览</div>
               </div>
               <div className="text-center">
                 <DownloadIcon className="mx-auto h-5 w-5 text-muted-foreground mb-1" />
@@ -221,7 +275,7 @@ export default function ArtworkPage() {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">创建时间</span>
-                <span>{artwork.createdAt ? new Date(artwork.createdAt).toLocaleDateString() : "未知"}</span>
+                <span>{formattedDate}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">分类</span>
@@ -231,20 +285,18 @@ export default function ArtworkPage() {
                 <span className="text-muted-foreground">作品ID</span>
                 <span>{artwork.id}</span>
               </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">会员专属</span>
+                <span>{artwork.isPremium ? "是" : "否"}</span>
+              </div>
             </div>
           </Card>
 
-          {/* 相关推荐 */}
-          <Card className="p-6">
-            <h3 className="text-xl font-semibold mb-4">相关作品</h3>
-            <div className="grid grid-cols-2 gap-2">
-              {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="aspect-square rounded-md bg-muted overflow-hidden">
-                  <div className="w-full h-full bg-muted"></div>
-                </div>
-              ))}
-            </div>
-          </Card>
+          {/* 下载按钮 */}
+          <Button size="lg" className="w-full">
+            <DownloadIcon className="mr-2 h-5 w-5" />
+            下载作品
+          </Button>
         </div>
       </div>
     </div>
