@@ -67,6 +67,8 @@ function ArtworkItem({
   const handleArtworkClick = () => {
     // 获取有效的作品ID
     let validId: number | null = null;
+    
+    console.log(`点击作品:`, artwork); | null = null;
 
     // 1. 优先使用imageId作为数字ID (如果存在且为数字)
     if (artwork.imageId && typeof artwork.imageId === 'number' && !isNaN(artwork.imageId)) {
@@ -101,8 +103,9 @@ function ArtworkItem({
 
     // 检查是否成功获取有效ID
     if (validId !== null && validId > 0) {
-      console.log(`导航到作品详情页，最终ID: ${validId}`);
-      setLocation(`/artwork/${validId}`);
+      console.log(`导航到作品详情页，最终ID: ${validId}，类型: ${typeof validId}`);
+      // 确保使用字符串连接而不是模板字符串，避免可能的类型问题
+      setLocation("/artwork/" + validId);
     } else {
       console.error("无法从作品获取有效ID，无法导航", artwork);
     }

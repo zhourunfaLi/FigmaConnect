@@ -39,19 +39,40 @@ const ArtworkPage = () => {
   // 解析作品ID
   useEffect(() => {
     let validId: number | null = null;
-    if (rawId) {
-      // 直接检查ID是否为纯数字
-      if (!isNaN(Number(rawId)) && Number(rawId) > 0) {
-        validId = Number(rawId);
-        console.log(`ID是有效的数字: ${validId}`);
-      } else if (rawId.includes('-')) {
-        const parts = rawId.split('-');
-        // 尝试获取第一部分作为数字ID
-        if (parts.length >= 1 && !isNaN(Number(parts[0]))) {
-          validId = Number(parts[0]);
-          console.log(`从复合ID中提取数字部分(第一部分): ${validId}`);
-        }
-        // 尝试获取第二部分作为数字ID
+    
+    console.log(`开始解析作品ID: ${rawId}`);
+    
+    if (!rawId) {
+      console.error("URL参数中未提供作品ID");
+      setError("未提供作品ID");
+      setLoading(false);
+      toast({
+        title: "缺少作品ID",
+        description: "URL中未包含作品ID",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // 1. 直接检查ID是否为纯数字
+    if (!isNaN(Number(rawId)) && Number(rawId) > 0) {
+      validId = Number(rawId);
+      console.log(`ID是有效的数字: ${validId}`);
+    } 
+    // 2. 检查是否是复合ID (如 art-123-456)
+    else if (rawId.includes('-')) {
+      const parts = rawId.split('-');
+      
+      // 常见模式: art-123-456，第二部分通常是ID
+      if (parts.length >= 2 && !isNaN(Number(parts[1])) && Number(parts[1]) > 0) {
+        validId = Number(parts[1]);
+        console.log(`从复合ID中提取数字部分(第二部分): ${validId}`);
+      }
+      // 备选模式: 1-123，第一部分可能是ID
+      else if (parts.length >= 1 && !isNaN(Number(parts[0])) && Number(parts[0]) > 0) {
+        validId = Number(parts[0]);
+        console.log(`从复合ID中提取数字部分(第一部分): ${validId}`);
+      }
         if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
           validId = Number(parts[1]);
           console.log(`从复合ID中提取数字部分: ${validId}`);
