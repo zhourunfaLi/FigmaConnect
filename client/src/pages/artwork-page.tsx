@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { type Artwork } from "@shared/schema";
 import VideoPlayer from "@/components/video-player";
 import CommentSection from "@/components/comment-section";
@@ -35,6 +35,7 @@ const MOCK_QUIZ = [
 
 export default function ArtworkPage() {
   const { id } = useParams<{ id: string }>();
+  const [, setLocation] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
   const [zoomLevel, setZoomLevel] = useState<number>(100);
