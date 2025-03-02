@@ -70,7 +70,7 @@ export default function ArtworkPage() {
 
   console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
 
-  const { data: artwork, isLoading, isError, errorr } = useQuery<Artwork>({
+  const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
     queryKey: ["artwork", artworkId],
     queryFn: async () => {
       if (!artworkId || isNaN(artworkId)) {
