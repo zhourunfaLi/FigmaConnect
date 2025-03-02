@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { fetchArtwork } from "@/api";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,18 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+  Alert,
+  AlertDescription,
+} from "@/components/ui/alert";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
+import CommentSection from "@/components/comment-section";
 
 const ArtworkPage = () => {
   const params = useParams();
@@ -70,7 +65,27 @@ const ArtworkPage = () => {
     return (
       <div className="container mx-auto py-12">
         <div className="flex justify-center">
-          <div className="animate-pulse rounded-lg bg-gray-200 h-[500px] w-[800px]"></div>
+          <div className="animaexport default function ArtworkPage() {
+  const { id } = useParams<{ id: string }>();
+  const [, setLocation] = useLocation();
+  const [showPremiumDialog, setShowPremiumDialog] = useState(false);
+  const { toast } = useToast();
+  const { user } = useAuth();
+
+  const { data: artwork, isLoading, error } = useQuery({
+    queryKey: [`/api/artworks/${id}`],
+    queryFn: () => fetchArtwork(id as string),
+    retry: 3,
+    retryDelay: 1000,
+  });
+
+  // 处理加载状态
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-12">
+        <div className="flex flex-col items-center">
+          <h1 className="text-3xl font-bold mb-6 animate-pulse bg-gray-200 h-8 w-64 rounded"></h1>
+          <div className="animate-pulse rounded-lg bg-gray-200 h-[500px] w-full max-w-3xl"></div>
         </div>
       </div>
     );
@@ -100,6 +115,130 @@ const ArtworkPage = () => {
                 </Button>
               </div>
               {artwork?.imageUrl && (
+                <img 
+                  src={artwork.imageUrl} 
+                  alt={artwork.title} 
+                  className="w-full max-w-3xl rounded-lg shadow-md blur-sm"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // 其他错误情况
+    return (
+      <div className="container mx-auto py-12">
+        <Alert variant="destructive">
+          <AlertDescription>
+            {errorMessage}
+          </AlertDescription>
+        </Alert>
+        <div className="mt-4">
+          <Button onClick={() => setLocation('/')}>
+            返回首页
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!artwork) {
+    return (
+      <div className="container mx-auto py-12">
+        <Alert variant="destructive">
+          <AlertDescription>
+            找不到艺术品
+          </AlertDescription>
+        </Alert>
+        <div className="mt-4">
+          <Button onClick={() => setLocation('/')}>
+            返回首页
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // 显示艺术品详情
+  return (
+    <div className="container mx-auto py-12">
+      <div className="flex flex-col md:flex-row gap-8">
+        <div className="md:w-2/3">
+          <div className="mb-4">
+            <Button variant="outline" size="sm" onClick={() => setLocation('/')}>
+              &larr; 返回
+            </Button>
+          </div>
+          
+          <h1 className="text-3xl font-bold mb-2">{artwork.title}</h1>
+          
+          {artwork.is_premium && (
+            <Badge variant="secondary" className="mb-4">
+              会员专享
+            </Badge>
+          )}
+          
+          <div className="rounded-lg overflow-hidden shadow-md mb-6">
+            <img 
+              src={artwork.imageUrl} 
+              alt={artwork.title} 
+              className="w-full h-auto"
+            />
+          </div>
+          
+          <div className="prose max-w-none mb-8">
+            <h2 className="text-xl font-semibold mb-2">作品描述</h2>
+            <p>{artwork.description}</p>
+          </div>
+          
+          {artwork.videoUrl && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-2">视频介绍</h2>
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <video 
+                  src={artwork.videoUrl} 
+                  controls 
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <div className="md:w-1/3">
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
+            <h2 className="text-xl font-semibold mb-4">评论</h2>
+            <CommentSection artworkId={artwork.id} />
+          </div>
+        </div>
+      </div>
+      
+      {/* 会员内容弹窗 */}
+      <Dialog open={showPremiumDialog} onOpenChange={setShowPremiumDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>会员专享内容</DialogTitle>
+            <DialogDescription>
+              该作品为会员专享内容，请升级为高级会员后查看。
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setShowPremiumDialog(false)}>
+              取消
+            </Button>
+            <Button onClick={() => toast({ 
+              title: "功能开发中", 
+              description: "会员升级功能尚未实现" 
+            })}>
+              立即升级
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
                 <img
                   src={artwork.imageUrl}
                   alt={artwork.title}

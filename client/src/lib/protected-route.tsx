@@ -31,3 +31,32 @@ export function ProtectedRoute({
 
   return <Component />
 }
+import { useEffect } from "react";
+import { useLocation } from "wouter";
+import { useAuth } from "@/hooks/use-auth";
+
+interface ProtectedRouteProps {
+  component: React.ComponentType<any>;
+  path?: string;
+}
+
+export function ProtectedRoute({ component: Component, ...rest }: ProtectedRouteProps) {
+  const [, setLocation] = useLocation();
+  const { user, isLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      setLocation("/auth");
+    }
+  }, [user, isLoading, setLocation]);
+
+  if (isLoading) {
+    return <div className="container mx-auto py-12 flex justify-center">加载中...</div>;
+  }
+
+  if (!user) {
+    return null; // 等待重定向
+  }
+
+  return <Component {...rest} />;
+}
