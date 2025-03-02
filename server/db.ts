@@ -79,7 +79,8 @@ export async function initDB() {
         id SERIAL PRIMARY KEY,
         username TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        is_premium BOOLEAN DEFAULT false NOT NULL
+        is_premium BOOLEAN DEFAULT false NOT NULL,
+        role TEXT DEFAULT 'user' NOT NULL
       );
     `);
 
