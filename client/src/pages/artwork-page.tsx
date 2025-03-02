@@ -1,245 +1,134 @@
-import { useQuery } from "@tanstack/react-query";
-import { useParams, useLocation } from "wouter";
-import { type Artwork } from "@shared/schema";
-import VideoPlayer from "@/components/video-player";
-import CommentSection from "@/components/comment-section";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Card, CardContent } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, ZoomIn, ZoomOut, Download, Info, Video, MessageSquare, HelpCircle } from "lucide-react";
-import { useState } from "react";
-import { useAuth } from "@/hooks/use-auth";
+import { useEffect, useState } from "react";
+import { useParams } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { extractArtworkId } from "@/lib/utils";
+import { EyeIcon, HeartIcon, DownloadIcon, Share2Icon, BookmarkIcon } from "lucide-react";
 
-// 模拟的艺术品知识问答
-const MOCK_QUIZ = [
-  {
-    question: "这件作品创作于哪个年代？",
-    options: ["17世纪", "18世纪", "19世纪", "20世纪"],
-    correctAnswer: 2
-  },
-  {
-    question: "作品主要使用了什么技法？",
-    options: ["油画", "水彩", "粉彩", "丙烯"],
-    correctAnswer: 0
-  },
-  {
-    question: "作品所属的艺术流派是？",
-    options: ["现实主义", "印象派", "抽象主义", "超现实主义"],
-    correctAnswer: 1
-  }
-];
+// 作品详情类型
+interface ArtworkDetail {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  videoUrl?: string;
+  categoryId?: number;
+  isPremium: boolean;
+  likes?: number;
+  views?: number;
+  downloads?: number;
+  comments?: number;
+  artist?: string;
+  createdAt?: string;
+  tags?: string[];
+}
 
 export default function ArtworkPage() {
-  const { id } = useParams<{ id: string }>();
-  const [, setLocation] = useLocation();
-  const { user } = useAuth();
+  const params = useParams();
   const { toast } = useToast();
-  const [zoomLevel, setZoomLevel] = useState<number>(100);
-  const [activeTab, setActiveTab] = useState("info");
-  const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
-  const [showResults, setShowResults] = useState(false);
+  const [artwork, setArtwork] = useState<ArtworkDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [parsedId, setParsedId] = useState<number | null>(null);
 
-  // 改进ID处理逻辑
-  let artworkId = null;
-  try {
-    if (id) {
-      // 尝试直接解析为数字ID
-      const parsedId = parseInt(id);
-      if (!isNaN(parsedId)) {
-        artworkId = parsedId;
-        console.log(`成功解析数字ID: ${artworkId}`);
-      } 
-      // 如果是复合ID格式（如"art-17-0"）
-      else if (id.includes('-')) {
-        const parts = id.split('-');
-        if (parts.length >= 2) {
-          const imageId = parseInt(parts[1]);
-          if (!isNaN(imageId)) {
-            artworkId = imageId;
-            console.log(`成功解析复合ID: ${id} -> ${artworkId}`);
-          }
-        }
-      }
+  // 解析作品ID
+  useEffect(() => {
+    if (params.id) {
+      // 尝试解析作品ID
+      const validId = extractArtworkId(params.id);
+      console.log(`设置有效的作品ID: ${validId}`);
+      setParsedId(validId);
+    } else {
+      console.error("未提供作品ID");
+      setError("未提供作品ID");
+      setLoading(false);
+    }
+  }, [params.id]);
+
+  // 加载作品详情
+  useEffect(() => {
+    if (parsedId === null) {
+      return; // 等待有效ID
     }
 
-    // 如果ID解析失败，提供一个默认ID或重定向到首页
-    if (artworkId === null || artworkId === undefined) {
-      console.warn(`无法解析有效的作品ID: ${id}，将使用默认ID`);
-
-      // 将ID设置为默认值，避免undefined
-      artworkId = 1;
-
-      // 可选：重定向到首页
-      // setLocation('/');
-      // return null;
-    }
-  } catch (err) {
-    console.error("ID解析过程中出错:", err);
-    artworkId = 1; // 出错时使用默认ID
-  }
-
-  console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
-
-  const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
-    queryKey: ["artwork", artworkId],
-    queryFn: async () => {
-      // 增强的ID验证
-      if (typeof artworkId !== 'number' || isNaN(artworkId) || artworkId <= 0) {
-        console.error(`[严重] 无效的作品ID类型或值: ${artworkId}, 类型: ${typeof artworkId}`);
-        throw new Error(`作品ID无效: ${artworkId}`);
-      }
-
+    async function fetchArtwork() {
       try {
-        console.log(`正在请求作品数据，ID=${artworkId}`);
-        
-        // 确保请求URL格式正确
-        const apiUrl = `/api/artworks/${artworkId}`;
-        console.log(`发送API请求: ${apiUrl}`);
-        
-        const response = await fetch(apiUrl);
-        console.log(`收到响应: 状态=${response.status}`);
+        setLoading(true);
+        console.log(`正在加载ID为 ${parsedId} 的作品`);
 
+        // 从API获取作品数据
+        const response = await fetch(`/api/artworks/${parsedId}`);
         if (!response.ok) {
-          const errorStatus = response.status;
-          
-          if (errorStatus === 404) {
-            console.warn(`找不到作品: ID=${artworkId}`);
-            throw new Error(`找不到ID为 ${artworkId} 的作品`);
-          } else if (errorStatus === 403) {
-            console.warn(`没有权限访问作品: ID=${artworkId}`);
-            throw new Error(`此作品需要高级会员才能查看`);
-          } else {
-            console.error(`服务器错误: ${errorStatus}`);
-            throw new Error(`服务器返回错误: ${errorStatus}`);
-          }
+          throw new Error(`获取作品失败: ${response.statusText}`);
         }
 
-        // 安全解析JSON
-        let data;
-        try {
-          data = await response.json();
-        } catch (jsonError) {
-          console.error(`解析JSON失败:`, jsonError);
-          throw new Error(`无法解析服务器返回的数据`);
-        }
-        
-        // 验证返回的数据
-        if (!data || typeof data !== 'object') {
-          console.error(`服务器返回了无效数据:`, data);
-          throw new Error(`服务器返回了无效的数据格式`);
-        }
-        
-        console.log(`成功获取作品数据:`, data);
-        return data;
+        const data = await response.json();
+        console.log("加载的作品数据:", data);
+
+        // 设置作品数据
+        setArtwork(data);
+        setError(null);
       } catch (err) {
-        console.error(`作品请求异常:`, err);
-        // 重新抛出，但确保是Error对象
-        if (err instanceof Error) {
-          throw err;
-        } else {
-          throw new Error(`未知错误: ${String(err)}`);
-        }
+        console.error("加载作品失败:", err);
+        setError(`加载作品失败: ${err instanceof Error ? err.message : '未知错误'}`);
+        toast({
+          title: "加载失败",
+          description: `无法加载作品: ${err instanceof Error ? err.message : '未知错误'}`,
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
       }
-    },
-    retry: 1, // 只重试一次
-    retryDelay: 1000, // 重试延迟1秒
-    // 加强错误处理
-    gcTime: 0, // 不缓存错误结果
-    staleTime: 30000, // 30秒内不重新请求
-    onError: (err) => {
-      console.error(`作品查询错误:`, err);
-      // 可以在这里添加全局错误处理，如显示通知
-    }
-  });
-
-  const handleZoomChange = (value: number[]) => {
-    setZoomLevel(value[0]);
-  };
-
-  const handleDownload = () => {
-    if (!artwork) return;
-
-    if (artwork.isPremium && !user.isPremium) {
-      toast({
-        title: "仅限高级会员",
-        description: "此作品需要高级会员才能下载原图",
-        variant: "destructive"
-      });
-      return;
     }
 
-    // 实际下载逻辑
-    const link = document.createElement('a');
-    link.href = artwork?.imageUrl || '';
-    link.download = `${artwork?.title || 'artwork'}.jpg`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    fetchArtwork();
+  }, [parsedId, toast]);
 
-    toast({
-      title: "下载开始",
-      description: "原图已开始下载",
-    });
-  };
-
-  const handleQuizSubmit = () => {
-    setShowResults(true);
-  };
-
-  const resetQuiz = () => {
-    setQuizAnswers([]);
-    setShowResults(false);
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (isError) {
-    // 确保错误信息正确显示
-    const errorMessage = error instanceof Error 
-      ? error.message 
-      : `无法加载作品 (ID: ${id})`;
-    
-    console.log(`显示错误信息: ${errorMessage}`);
-    
+  // 加载中状态
+  if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <Alert variant="destructive">
-          <AlertDescription>
-            {errorMessage}
-          </AlertDescription>
-        </Alert>
-        <div className="mt-4">
-          <Button onClick={() => setLocation('/')}>
-            返回首页
-          </Button>
+        <div className="animate-pulse">
+          <div className="h-64 bg-slate-200 rounded-lg mb-4"></div>
+          <div className="h-8 bg-slate-200 rounded w-1/2 mb-4"></div>
+          <div className="h-4 bg-slate-200 rounded w-full mb-2"></div>
+          <div className="h-4 bg-slate-200 rounded w-3/4"></div>
         </div>
       </div>
     );
   }
 
+  // 错误状态
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8 text-center">
+        <div className="text-red-500 mb-4">加载作品时出错</div>
+        <p>{error}</p>
+        <Button 
+          variant="outline" 
+          className="mt-4"
+          onClick={() => window.history.back()}
+        >
+          返回
+        </Button>
+      </div>
+    );
+  }
+
+  // 未找到作品
   if (!artwork) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <Alert>
-          <AlertDescription>
-            {id ? `找不到ID为 ${id} 的作品` : '作品ID无效或缺失'}
-          </AlertDescription>
-        </Alert>
-        <div className="mt-4">
-          <Button onClick={() => setLocation('/')}>
-            返回首页
-          </Button>
-        </div>
+      <div className="container mx-auto px-4 py-8 text-center">
+        <div className="text-muted-foreground mb-4">未找到作品</div>
+        <Button 
+          variant="outline" 
+          className="mt-4"
+          onClick={() => window.history.back()}
+        >
+          返回
+        </Button>
       </div>
     );
   }
@@ -247,162 +136,115 @@ export default function ArtworkPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* 左侧作品区域 */}
-        <div className="md:col-span-2 space-y-6">
-          <Card>
-            <CardContent className="p-6">
-              <div className="relative">
-                <AspectRatio ratio={4/3} className="overflow-hidden bg-muted">
-                  <div style={{ transform: `scale(${zoomLevel / 100})`, transition: "transform 0.2s" }} className="h-full w-full">
-                    <img 
-                      src={artwork.imageUrl} 
-                      alt={artwork.title} 
-                      className="h-full w-full object-cover" 
-                    />
-                  </div>
-                </AspectRatio>
-
-                {/* 缩放控制 */}
-                <div className="absolute bottom-4 right-4 flex items-center gap-2 p-2 bg-white/80 rounded-lg">
-                  <ZoomOut className="h-4 w-4" />
-                  <Slider
-                    value={[zoomLevel]}
-                    min={50}
-                    max={200}
-                    step={10}
-                    className="w-32"
-                    onValueChange={handleZoomChange}
-                  />
-                  <ZoomIn className="h-4 w-4" />
-                </div>
-              </div>
-
-              {/* 下载按钮 */}
-              <div className="mt-4 flex justify-end">
-                <Button onClick={handleDownload} className="flex items-center gap-2">
-                  <Download className="h-4 w-4" />
-                  下载图片
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* 视频播放 */}
-          {artwork.videoUrl && (
-            <Card>
-              <CardContent className="p-6">
-                <VideoPlayer videoUrl={artwork.videoUrl} />
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
-        {/* 右侧信息区域 */}
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold">{artwork.title}</h1>
-            <p className="text-muted-foreground mt-2">{artwork.isPremium && "会员专享"}</p>
+        {/* 主图 */}
+        <div className="md:col-span-2">
+          <div className="bg-card rounded-lg overflow-hidden border shadow-sm mb-4">
+            <img
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className="w-full h-auto object-cover"
+            />
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-3">
-              <TabsTrigger value="info" className="flex items-center gap-1">
-                <Info className="h-4 w-4" />
-                <span>信息</span>
-              </TabsTrigger>
-              <TabsTrigger value="video" className="flex items-center gap-1">
-                <Video className="h-4 w-4" />
-                <span>视频</span>
-              </TabsTrigger>
-              <TabsTrigger value="comments" className="flex items-center gap-1">
-                <MessageSquare className="h-4 w-4" />
-                <span>评论</span>
-              </TabsTrigger>
-            </TabsList>
+          {/* 标题和描述 */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold mb-2">{artwork.title}</h1>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {artwork.tags?.map((tag, index) => (
+                <Badge key={index} variant="secondary">{tag}</Badge>
+              ))}
+              {artwork.isPremium && <Badge variant="default" className="bg-gradient-to-r from-amber-400 to-amber-600">Premium</Badge>}
+            </div>
+            <p className="text-muted-foreground">{artwork.description}</p>
+          </div>
 
-            <TabsContent value="info" className="border rounded-md p-4 mt-2">
-              <h3 className="text-lg font-semibold mb-2">作品详情</h3>
-              <p className="text-muted-foreground">{artwork.description}</p>
+          {/* 按钮区 */}
+          <div className="flex flex-wrap gap-3 mb-6">
+            <Button variant="default" size="lg" className="gap-2">
+              <HeartIcon className="w-5 h-5" />
+              <span>喜欢</span>
+            </Button>
+            <Button variant="outline" size="lg" className="gap-2">
+              <DownloadIcon className="w-5 h-5" />
+              <span>下载</span>
+            </Button>
+            <Button variant="outline" size="lg" className="gap-2">
+              <Share2Icon className="w-5 h-5" />
+              <span>分享</span>
+            </Button>
+            <Button variant="outline" size="lg" className="gap-2">
+              <BookmarkIcon className="w-5 h-5" />
+              <span>收藏</span>
+            </Button>
+          </div>
+        </div>
 
-              {/* 知识互动区 */}
-              <div className="mt-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <HelpCircle className="h-5 w-5 text-blue-500" />
-                  <h3 className="text-lg font-semibold">艺术知识互动</h3>
-                </div>
-
-                {!showResults ? (
-                  <div className="space-y-4">
-                    {MOCK_QUIZ.map((quiz, quizIndex) => (
-                      <div key={quizIndex} className="border rounded-md p-3">
-                        <h4 className="font-medium mb-2">{quiz.question}</h4>
-                        <div className="space-y-2">
-                          {quiz.options.map((option, optionIndex) => (
-                            <div key={optionIndex} className="flex items-center">
-                              <input
-                                type="radio"
-                                id={`quiz-${quizIndex}-${optionIndex}`}
-                                name={`quiz-${quizIndex}`}
-                                checked={quizAnswers[quizIndex] === optionIndex}
-                                onChange={() => {
-                                  const newAnswers = [...quizAnswers];
-                                  newAnswers[quizIndex] = optionIndex;
-                                  setQuizAnswers(newAnswers);
-                                }}
-                                className="mr-2"
-                              />
-                              <label htmlFor={`quiz-${quizIndex}-${optionIndex}`}>{option}</label>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-
-                    <Button 
-                      onClick={handleQuizSubmit} 
-                      disabled={quizAnswers.length !== MOCK_QUIZ.length}
-                      className="w-full"
-                    >
-                      提交答案
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="border rounded-md p-4 bg-muted/50">
-                    <div className="mb-4">
-                      <h3 className="text-lg font-semibold mb-2">您的得分: {quizAnswers.filter((answer, index) => answer === MOCK_QUIZ[index].correctAnswer).length} / {MOCK_QUIZ.length}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        感谢参与问答！通过这些问题，您可以更深入地了解这件艺术品
-                      </p>
-                    </div>
-
-                    <Button variant="outline" onClick={resetQuiz} className="w-full">
-                      重新作答
-                    </Button>
-                  </div>
-                )}
+        {/* 侧边信息区 */}
+        <div className="space-y-6">
+          {/* 艺术家信息 */}
+          <Card className="p-6">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-full bg-muted overflow-hidden">
+                <img src="/placeholder-avatar.jpg" alt="Artist" className="w-full h-full object-cover" />
               </div>
-            </TabsContent>
-
-            <TabsContent value="video">
-              {artwork.videoUrl ? (
-                <div className="border rounded-md p-4 mt-2">
-                  <h3 className="text-lg font-semibold mb-2">相关视频</h3>
-                  <p className="text-muted-foreground mb-4">观看详细解说和创作过程</p>
-                  <VideoPlayer videoUrl={artwork.videoUrl} />
-                </div>
-              ) : (
-                <div className="border rounded-md p-4 mt-2 text-center">
-                  <p className="text-muted-foreground">该作品暂无视频内容</p>
-                </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="comments">
-              <div className="border rounded-md p-4 mt-2">
-                <CommentSection artworkId={parseInt(String(artworkId))} />
+              <div>
+                <h3 className="font-medium">{artwork.artist || "匿名艺术家"}</h3>
+                <p className="text-sm text-muted-foreground">创作者</p>
               </div>
-            </TabsContent>
-          </Tabs>
+            </div>
+            <Button variant="secondary" className="w-full">关注创作者</Button>
+          </Card>
+
+          {/* 数据统计 */}
+          <Card className="p-6">
+            <h3 className="text-xl font-semibold mb-4">作品信息</h3>
+
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="text-center">
+                <EyeIcon className="mx-auto h-5 w-5 text-muted-foreground mb-1" />
+                <div className="font-medium">{artwork.views || 0}</div>
+                <div className="text-xs text-muted-foreground">浏览</div>
+              </div>
+              <div className="text-center">
+                <HeartIcon className="mx-auto h-5 w-5 text-muted-foreground mb-1" />
+                <div className="font-medium">{artwork.likes || 0}</div>
+                <div className="text-xs text-muted-foreground">喜欢</div>
+              </div>
+              <div className="text-center">
+                <DownloadIcon className="mx-auto h-5 w-5 text-muted-foreground mb-1" />
+                <div className="font-medium">{artwork.downloads || 0}</div>
+                <div className="text-xs text-muted-foreground">下载</div>
+              </div>
+            </div>
+
+            {/* 创作信息 */}
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">创建时间</span>
+                <span>{artwork.createdAt ? new Date(artwork.createdAt).toLocaleDateString() : "未知"}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">分类</span>
+                <span>{artwork.categoryId || "未分类"}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">作品ID</span>
+                <span>{artwork.id}</span>
+              </div>
+            </div>
+          </Card>
+
+          {/* 相关推荐 */}
+          <Card className="p-6">
+            <h3 className="text-xl font-semibold mb-4">相关作品</h3>
+            <div className="grid grid-cols-2 gap-2">
+              {[1, 2, 3, 4].map((item) => (
+                <div key={item} className="aspect-square rounded-md bg-muted overflow-hidden">
+                  <div className="w-full h-full bg-muted"></div>
+                </div>
+              ))}
+            </div>
+          </Card>
         </div>
       </div>
     </div>
