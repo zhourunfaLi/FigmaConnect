@@ -1,0 +1,36 @@
+作品ID无效或缺失: undefined
+error is not defined
+at ArtworkPage (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/pages/artwork-page.tsx:153:126)
+at renderWithHooks (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:11548:26)
+at updateFunctionComponent (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:14582:28)
+at beginWork (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:15924:22)
+at HTMLUnknownElement.callCallback2 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3674:22)
+at Object.invokeGuardedCallbackDev (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3699:24)
+at invokeGuardedCallback (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3733:39)
+at beginWork$1 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:19765:15)
+at performUnitOfWork (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:19198:20)
+at workLoopSync (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:19137:13)
+error is not defined
+at ArtworkPage (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/pages/artwork-page.tsx:153:126)
+at renderWithHooks (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:11548:26)
+at updateFunctionComponent (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:14582:28)
+at beginWork (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:15924:22)
+at HTMLUnknownElement.callCallback2 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3674:22)
+at Object.invokeGuardedCallbackDev (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3699:24)
+at invokeGuardedCallback (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3733:39)
+at beginWork$1 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:19765:15)
+at performUnitOfWork (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:19198:20)
+at workLoopSync (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:19137:13)
+The above error occurred in the <ArtworkPage> component:
+
+    at ArtworkPage (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/pages/artwork-page.tsx:51:18)
+    at ProtectedRoute (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/lib/protected-route.tsx:22:3)
+    at Switch (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=e320acd6:394:17)
+    at Router
+    at AdProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/contexts/ad-context.tsx:21:30)
+    at AuthProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/hooks/use-auth.tsx:26:32)
+    at QueryClientProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=e320acd6:2805:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
