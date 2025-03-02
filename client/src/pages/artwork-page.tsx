@@ -39,9 +39,9 @@ const ArtworkPage = () => {
   // 解析作品ID
   useEffect(() => {
     let validId: number | null = null;
-    
+
     console.log(`开始解析作品ID: ${rawId}`);
-    
+
     if (!rawId) {
       console.error("URL参数中未提供作品ID");
       setError("未提供作品ID");
@@ -53,7 +53,7 @@ const ArtworkPage = () => {
       });
       return;
     }
-    
+
     // 1. 直接检查ID是否为纯数字
     if (!isNaN(Number(rawId)) && Number(rawId) > 0) {
       validId = Number(rawId);
@@ -62,7 +62,7 @@ const ArtworkPage = () => {
     // 2. 检查是否是复合ID (如 art-123-456)
     else if (rawId.includes('-')) {
       const parts = rawId.split('-');
-      
+
       // 常见模式: art-123-456，第二部分通常是ID
       if (parts.length >= 2 && !isNaN(Number(parts[1])) && Number(parts[1]) > 0) {
         validId = Number(parts[1]);
@@ -73,7 +73,7 @@ const ArtworkPage = () => {
         validId = Number(parts[0]);
         console.log(`从复合ID中提取数字部分(第一部分): ${validId}`);
       }
-      
+
       // 通用情况下尝试第二个部分作为ID
       if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
         validId = Number(parts[1]);
@@ -87,16 +87,10 @@ const ArtworkPage = () => {
       console.log(`设置有效的作品ID: ${validId}`);
       setParsedId(validId);
     } else {
-      console.error("无法解析为有效的作品ID:", rawId);
+      console.log("无法从URL参数解析有效的作品ID");
       setError("无效的作品ID");
-      setLoading(false);
-      toast({
-        title: "无效的作品ID",
-        description: "请检查URL并重试",
-        variant: "destructive"
-      });
     }
-  }, [rawId, toast]);
+  }, [rawId]);
 
   // 在ID被成功解析后加载作品数据
   useEffect(() => {
