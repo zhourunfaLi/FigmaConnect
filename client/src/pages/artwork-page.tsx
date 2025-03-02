@@ -42,35 +42,64 @@ export default function ArtworkPage() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  // 简化ID处理逻辑
-  const artworkId = id ? parseInt(id) : null;
+  // 增强ID处理逻辑
+  let artworkId: number | null = null;
+  
+  if (id) {
+    try {
+      artworkId = parseInt(id, 10);
+      if (isNaN(artworkId) || artworkId <= 0) {
+        console.error(`无效的ID值: ${id}, 解析后: ${artworkId}`);
+        artworkId = null;
+      }
+    } catch (err) {
+      console.error(`ID解析异常: ${err}`);
+    }
+  }
 
-  console.log(`ArtworkPage: 接收到原始ID=${id}, 转换后的数字ID=${artworkId}`);
+  console.log(`ArtworkPage: URL路径参数=${id}, 类型=${typeof id}, 解析后ID=${artworkId}`);
 
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
     queryKey: ["artwork", artworkId],
     queryFn: async () => {
-      if (!artworkId || isNaN(artworkId)) {
-        console.error('作品ID无效:', id);
+      if (!artworkId) {
+        console.error('作品ID无效或缺失:', id);
         throw new Error("作品ID无效");
       }
 
-      // 使用数字ID直接发送请求
+      // 确保使用有效的数字ID发送请求
       const apiUrl = `/api/artworks/${artworkId}`;
-      console.log(`发送API请求: ${apiUrl}`);
-      const res = await fetch(apiUrl);
+      console.log(`发送API请求: ${apiUrl}, ID类型: ${typeof artworkId}`);
+      
+      try {
+        const res = await fetch(apiUrl);
       if (!res.ok) {
+        console.error(`API请求失败: 状态码=${res.status}, URL=${apiUrl}`);
         if (res.status === 404) {
           throw new Error("找不到作品");
         }
         if (res.status === 403) {
           throw new Error("此作品需要高级会员才能查看");
         }
-        throw new Error("获取作品失败");
+        
+        // 尝试获取更多错误信息
+        try {
+          const errorBody = await res.text();
+          console.error(`API错误响应体: ${errorBody}`);
+          throw new Error(`获取作品失败: ${errorBody || res.statusText}`);
+        } catch (err) {
+          throw new Error(`获取作品失败: ${res.statusText}`);
+        }
       }
-      console.log("获取到的作品数据:", await res.clone().json());
-      return res.json();
+      
+      const artworkData = await res.json();
+      console.log("获取到的作品数据:", artworkData);
+      return artworkData;
+    } catch (err) {
+      console.error(`作品请求异常: ${err}`);
+      throw err;
     }
+  }
   });
 
   const handleZoomChange = (value: number[]) => {

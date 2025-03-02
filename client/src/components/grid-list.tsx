@@ -26,20 +26,29 @@ export default function GridList({ artworks, className, title }: GridListProps) 
       e.preventDefault();
       e.stopPropagation();
 
-      // 直接使用作品对象的id属性，简化ID处理逻辑
-      // 注意：通过测试，确认artwork.id是一个数字（如1、2、3）
-      const artworkId = artwork.id;
+      // 输出完整的artwork对象，用于调试
+      console.log('点击的作品对象:', artwork);
 
-      console.log(`点击作品，ID类型: ${typeof artworkId}, 值: ${artworkId}, 完整对象:`, artwork);
-
-      // 简单检查确保ID存在且有效
-      if (artworkId === undefined || artworkId === null) {
-        console.error('作品ID不存在', artwork);
-        alert('无法访问作品：ID不存在');
+      // 确保作品ID是数字类型
+      let artworkId;
+      if (typeof artwork.id === 'string') {
+        artworkId = parseInt(artwork.id, 10);
+      } else if (typeof artwork.id === 'number') {
+        artworkId = artwork.id;
+      } else {
+        console.error('无效的作品ID类型:', typeof artwork.id);
+        alert('无法访问作品：ID类型无效');
         return;
       }
 
-      console.log(`点击作品，导航到ID: ${artworkId}，原始ID: ${artwork.id}`);
+      // 确保ID是有效的数字
+      if (isNaN(artworkId) || artworkId <= 0) {
+        console.error('无效的作品ID值:', artworkId);
+        alert('无法访问作品：ID值无效');
+        return;
+      }
+
+      console.log(`点击作品，导航到ID: ${artworkId}, 类型: ${typeof artworkId}`);
       navigate(`/artwork/${artworkId}`);
     };
 
