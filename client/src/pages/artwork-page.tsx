@@ -32,6 +32,10 @@ const ArtworkPage = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [showPremiumDialog, setShowPremiumDialog] = useState(false);
   const [parsedId, setParsedId] = useState<number | null>(null);
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [artwork, setArtwork] = useState<any | null>(null);
+
 
   // 确保ID是有效数字
   useEffect(() => {
@@ -39,15 +43,6 @@ const ArtworkPage = () => {
     if (id) {
       // 处理可能包含字符的复合ID（例如 art-123-45）
       let rawId = id;
-      
-      // 首先检查ID是否已经是纯数字
-      if (!isNaN(parseInt(id)) && parseInt(id).toString() === id) {
-        console.log(`ID已经是有效的数字: ${id}`);
-        setParsedId(parseInt(id));
-        return;
-      }
-      
-      // 处理复合ID格式
       if (id.includes('-')) {
         const parts = id.split('-');
         // 尝试获取第二部分作为数字ID
@@ -56,35 +51,77 @@ const ArtworkPage = () => {
           console.log(`从复合ID '${id}' 提取数字ID: ${rawId}`);
         }
       }
-      
+
       const numericId = parseInt(rawId);
       if (!isNaN(numericId)) {
         console.log(`设置有效的数字ID: ${numericId}`);
         setParsedId(numericId);
       } else {
         console.error("无法解析为有效的作品ID:", id);
-        toast({
-          title: "无效的作品ID",
-          description: "请检查URL并重试",
-          variant: "destructive"
-        });
       }
     } else {
       console.error("URL参数中未提供作品ID");
-      toast({
-        title: "未提供作品ID",
-        description: "请检查URL并重试",
-        variant: "destructive"
-      });
     }
-  }, [id, toast]);
+  }, [id]);
 
-  // 查询作品数据
-  const { data: artwork, error, isLoading } = useQuery({
-    queryKey: ["artwork", parsedId],
-    queryFn: () => parsedId ? fetchArtwork(parsedId) : Promise.reject(new Error("无效的作品ID")),
-    enabled: parsedId !== null, // 仅在有有效ID时执行查询
-  });
+  // 加载作品详情
+  useEffect(() => {
+    if (!parsedId) {
+      return; // 如果没有有效ID，不执行加载
+    }
+
+    let isMounted = true; // 用于处理组件卸载情况
+
+    const loadArtwork = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        console.log(`开始加载作品详情，ID: ${parsedId}`);
+        const data = await fetchArtwork(parsedId);
+
+        // 检查组件是否仍然挂载
+        if (!isMounted) return;
+
+        if (data) {
+          console.log('成功加载作品:', data);
+          setArtwork(data);
+        } else {
+          console.error(`作品ID ${parsedId} 不存在或返回为空`);
+          setError('作品不存在或已被删除');
+          toast({
+            title: "作品不存在",
+            description: "您请求的作品不存在或已被删除",
+            variant: "destructive"
+          });
+        }
+      } catch (err) {
+        // 检查组件是否仍然挂载
+        if (!isMounted) return;
+
+        console.error('加载作品失败:', err);
+        setError('加载作品失败，请稍后重试');
+        toast({
+          title: "加载失败",
+          description: "无法加载作品详情，请稍后重试",
+          variant: "destructive"
+        });
+      } finally {
+        // 检查组件是否仍然挂载
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadArtwork();
+
+    // 清理函数
+    return () => {
+      isMounted = false;
+    };
+  }, [parsedId, toast]);
+
 
   console.log("尝试获取作品，ID:", parsedId);
   console.log("Artwork data:", { artwork, error });
@@ -112,67 +149,11 @@ const ArtworkPage = () => {
 
   // 处理错误情况
   if (error) {
-    const errorMessage = error instanceof Error ? error.message : "未知错误";
-
-    // 检查是否是Premium内容访问错误
-    if (errorMessage.includes("Premium content")) {
-      if (!showPremiumDialog) {
-        setShowPremiumDialog(true);
-      }
-      // 显示作品基本信息，但提示需要会员
-      return (
-        <div className="container mx-auto py-12">
-          <h1 className="text-3xl font-bold mb-6">{artwork?.title || "会员专享内容"}</h1>
-          <div className="flex flex-col items-center">
-            <div className="relative w-full max-w-3xl">
-              <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white z-10">
-                <span className="text-xl font-semibold mb-4">🔒 会员专享内容</span>
-                <Button
-                  onClick={() => toast({ title: "功能开发中", description: "会员升级功能尚未实现" })}
-                >
-                  立即升级
-                </Button>
-              </div>
-              {artwork?.imageUrl && (
-                <img
-                  src={artwork.imageUrl}
-                  alt={artwork.title}
-                  className="w-full h-auto rounded-lg filter blur-sm"
-                />
-              )}
-            </div>
-          </div>
-
-          <AlertDialog open={showPremiumDialog}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>会员专享内容</AlertDialogTitle>
-                <AlertDialogDescription>
-                  该内容仅对会员用户开放。升级到会员后，您将解锁所有高级艺术品内容。
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setShowPremiumDialog(false)}>暂不升级</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => {
-                    toast({ title: "功能开发中", description: "会员升级功能尚未实现" });
-                    setShowPremiumDialog(false);
-                  }}
-                >
-                  立即升级
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      );
-    }
-
     return (
       <div className="container mx-auto py-12">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-500 mb-2">无法加载作品</h1>
-          <p className="text-gray-600">{errorMessage}</p>
+          <p className="text-gray-600">{error}</p>
         </div>
       </div>
     );

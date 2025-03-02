@@ -64,44 +64,72 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
-  const handleArtworkClick = () => {
+  const handleArtworkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     // 提取有效的作品ID来导航
     let validId;
-
-    // 优先使用数字ID
-    if (artwork.imageId && typeof artwork.imageId === 'number') {
+    
+    console.log("处理作品导航, 作品数据:", artwork);
+    
+    // 优先使用数字ID (imageId)
+    if (artwork.imageId && typeof artwork.imageId === 'number' && artwork.imageId > 0) {
       validId = artwork.imageId;
       console.log(`导航到作品: 使用imageId=${validId}`);
     } 
-    // 其次尝试从原始ID中提取数字部分
-    else if (artwork.originalId && artwork.originalId.includes('-')) {
-      const parts = artwork.originalId.split('-');
-      if (parts.length >= 2) {
-        validId = parseInt(parts[1]); // 确保转换为数字类型
-        console.log(`导航到作品: 从originalId=${artwork.originalId}提取ID=${validId}`);
+    // 如果有原始ID (originalId)，从中提取数字部分
+    else if (artwork.originalId && typeof artwork.originalId === 'string') {
+      // 处理originalId (art-123-45 格式)
+      if (artwork.originalId.includes('-')) {
+        const parts = artwork.originalId.split('-');
+        // 优先使用第二部分作为ID
+        if (parts.length >= 2 && !isNaN(parseInt(parts[1]))) {
+          validId = parts[1]; 
+          console.log(`导航到作品: 从originalId=${artwork.originalId}提取ID=${validId}`);
+        }
+        // 如果第二部分不是数字，尝试第三部分
+        else if (parts.length >= 3 && !isNaN(parseInt(parts[2]))) {
+          validId = parts[2];
+          console.log(`导航到作品: 从originalId=${artwork.originalId}提取第三部分ID=${validId}`);
+        }
+        // 最后尝试第一部分
+        else if (!isNaN(parseInt(parts[0]))) {
+          validId = parts[0];
+          console.log(`导航到作品: 从originalId=${artwork.originalId}提取第一部分ID=${validId}`);
+        }
+      } else if (!isNaN(parseInt(artwork.originalId))) {
+        // 如果originalId本身就是数字
+        validId = artwork.originalId;
+        console.log(`导航到作品: 使用数字originalId=${validId}`);
       }
     }
     // 最后使用作品本身的ID
     else if (artwork.id) {
-      // 如果ID是字符串且包含横杠，尝试提取数字部分
-      if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
-        const parts = artwork.id.split('-');
-        if (parts.length >= 2) {
-          validId = parseInt(parts[1]); // 确保转换为数字类型
-          console.log(`导航到作品: 从id=${artwork.id}提取ID=${validId}`);
+      // 处理字符串ID (包含横杠的情况)
+      if (typeof artwork.id === 'string') {
+        if (artwork.id.includes('-')) {
+          const parts = artwork.id.split('-');
+          if (parts.length >= 2 && !isNaN(parseInt(parts[1]))) {
+            validId = parts[1];
+            console.log(`导航到作品: 从id=${artwork.id}提取ID=${validId}`);
+          } else if (!isNaN(parseInt(parts[0]))) {
+            validId = parts[0];
+            console.log(`导航到作品: 从id=${artwork.id}提取第一部分=${validId}`);
+          }
+        } else if (!isNaN(parseInt(artwork.id))) {
+          // 字符串但可以解析为数字
+          validId = artwork.id;
+          console.log(`导航到作品: 使用字符串数字id=${validId}`);
         }
       } else {
-        // 如果ID是数字或可以转换为数字，则直接使用
-        const numId = typeof artwork.id === 'number' ? artwork.id : parseInt(String(artwork.id));
-        if (!isNaN(numId)) {
-          validId = numId;
-          console.log(`导航到作品: 使用id=${validId}，类型=${typeof validId}`);
-        }
+        // 直接使用非字符串ID (可能是数字)
+        validId = artwork.id;
+        console.log(`导航到作品: 使用id=${validId}`);
       }
     }
 
-    if (validId && !isNaN(Number(validId))) {
-      console.log(`导航到作品详情页，ID: ${validId}`);
+    if (validId) {
       setLocation(`/artwork/${validId}`);
     } else {
       console.error("作品没有有效ID，无法导航", artwork);
@@ -371,7 +399,7 @@ const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?
     if (artwork) {
       // 确保imageId是有效的数字，或者从id中提取
       let validImageId;
-
+      
       // 优先使用传入的imageId
       if (typeof imageId === 'number' && !isNaN(imageId)) {
         validImageId = imageId;
