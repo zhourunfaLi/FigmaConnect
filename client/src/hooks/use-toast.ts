@@ -101,7 +101,7 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-const useToast = () => {
+function useToast() {
   const [state, dispatch] = React.useReducer(reducer, {
     toasts: [],
   })
