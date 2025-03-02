@@ -43,7 +43,7 @@ export default function ArtworkPage() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  // 简化ID处理逻辑
+  // 改进ID处理逻辑
   let artworkId = null;
   if (id) {
     // 尝试直接解析为数字ID
@@ -63,9 +63,14 @@ export default function ArtworkPage() {
     }
   }
 
+  // 如果ID解析失败，可以提供一个默认ID或重定向到首页
+  if (artworkId === null) {
+    console.warn(`无法解析有效的作品ID: ${id}`);
+  }
+
   console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
 
-  const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
+  const { data: artwork, isLoading, isError, errorr } = useQuery<Artwork>({
     queryKey: ["artwork", artworkId],
     queryFn: async () => {
       if (!artworkId || isNaN(artworkId)) {

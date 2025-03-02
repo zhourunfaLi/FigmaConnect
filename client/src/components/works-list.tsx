@@ -67,7 +67,7 @@ function ArtworkItem({
   const handleArtworkClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     // 确保有效的导航ID - 优先使用imageId作为导航参数
     if (artwork.imageId && typeof artwork.imageId === 'number') {
       console.log(`导航到作品: 使用imageId=${artwork.imageId}`);
