@@ -1,28 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+
+import { useEffect, useState } from "react";
 import { useParams } from "wouter";
-import { fetchArtwork } from "@/api";
-import { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/components/ui/use-toast";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { fetchArtwork } from "@/api";
+import { useAuth } from "@/hooks/use-auth";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 const ArtworkPage = () => {
   const params = useParams<{ id: string }>();
@@ -39,9 +24,9 @@ const ArtworkPage = () => {
   // 解析作品ID
   useEffect(() => {
     let validId: number | null = null;
-
+    
     console.log(`开始解析作品ID: ${rawId}`);
-
+    
     if (!rawId) {
       console.error("URL参数中未提供作品ID");
       setError("未提供作品ID");
@@ -62,26 +47,25 @@ const ArtworkPage = () => {
     // 2. 检查是否是复合ID (如 art-123-456)
     else if (rawId.includes('-')) {
       const parts = rawId.split('-');
-
+      
       // 常见模式: art-123-456，第二部分通常是ID
       if (parts.length >= 2 && !isNaN(Number(parts[1])) && Number(parts[1]) > 0) {
         validId = Number(parts[1]);
-        console.log(`从复合ID中提取数字部分(第二部分): ${validId}`);
+        console.log(`从复合ID中提取数字部分: ${validId}`);
       }
-      // 备选模式: 1-123，第一部分可能是ID
+      // 尝试使用第一部分作为ID
       else if (parts.length >= 1 && !isNaN(Number(parts[0])) && Number(parts[0]) > 0) {
         validId = Number(parts[0]);
         console.log(`从复合ID中提取数字部分(第一部分): ${validId}`);
       }
-
+      
       // 通用情况下尝试第二个部分作为ID
       if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
         validId = Number(parts[1]);
-        console.log(`从复合ID中提取数字部分: ${validId}`);
-        }
+        console.log(`从复合ID中提取数字部分(第二部分): ${validId}`);
       }
     }
-
+    
     // 设置解析后的ID
     if (validId !== null && validId > 0) {
       console.log(`设置有效的作品ID: ${validId}`);
@@ -89,8 +73,14 @@ const ArtworkPage = () => {
     } else {
       console.log("无法从URL参数解析有效的作品ID");
       setError("无效的作品ID");
+      setLoading(false);
+      toast({
+        title: "无效的作品ID",
+        description: "请检查URL并重试",
+        variant: "destructive"
+      });
     }
-  }, [rawId]);
+  }, [rawId, toast]);
 
   // 在ID被成功解析后加载作品数据
   useEffect(() => {
@@ -134,6 +124,7 @@ const ArtworkPage = () => {
   console.log("尝试获取作品，ID:", parsedId);
   console.log("Artwork data:", { artwork, error });
 
+  // 处理加载状态
   if (isLoading) {
     return (
       <div className="container mx-auto py-12">
@@ -183,70 +174,108 @@ const ArtworkPage = () => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
-        <div className="flex-1">
-          <div className="relative group">
-            <img
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              className="w-full h-auto rounded-lg cursor-pointer"
-              onClick={() => setIsZoomed(true)}
+        <div className="md:w-2/3">
+          <div 
+            className={`relative rounded-lg overflow-hidden cursor-zoom-in ${isZoomed ? 'fixed inset-0 z-50 flex items-center justify-center bg-black/90' : ''}`}
+            onClick={() => setIsZoomed(!isZoomed)}
+          >
+            <img 
+              src={artwork.imageUrl} 
+              alt={artwork.title} 
+              className={`w-full object-contain ${isZoomed ? 'max-h-screen' : 'max-h-[70vh]'}`} 
             />
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <span className="text-white bg-black bg-opacity-60 px-4 py-2 rounded">点击查看大图</span>
-            </div>
+            {isZoomed && (
+              <button 
+                className="absolute top-4 right-4 bg-white rounded-full p-2"
+                onClick={(e) => { e.stopPropagation(); setIsZoomed(false); }}
+              >
+                关闭
+              </button>
+            )}
           </div>
-
-          {artwork.videoUrl && (
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-3">相关视频</h3>
-              <video
-                src={artwork.videoUrl}
-                controls
-                className="w-full rounded-lg"
-                poster={artwork.imageUrl}
-              ></video>
-            </div>
-          )}
         </div>
-
-        <div className="w-full md:w-1/3">
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-semibold mb-4">作品详情</h3>
-            <dl className="space-y-4">
+        
+        <div className="md:w-1/3">
+          <Card className="p-6">
+            <h2 className="text-xl font-bold mb-4">作品信息</h2>
+            <div className="space-y-4">
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">作者</dt>
-                <dd className="mt-1">暂无信息</dd>
+                <h3 className="text-sm text-gray-500">艺术家</h3>
+                <p>{artwork.artist || '未知'}</p>
               </div>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">创作时间</dt>
-                <dd className="mt-1">暂无信息</dd>
+                <h3 className="text-sm text-gray-500">创作年代</h3>
+                <p>{artwork.year || '未知'}</p>
               </div>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">分类</dt>
-                <dd className="mt-1">{artwork.categoryId ? `分类 ${artwork.categoryId}` : "未分类"}</dd>
+                <h3 className="text-sm text-gray-500">尺寸</h3>
+                <p>{artwork.dimensions || '未知'}</p>
               </div>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">展示序号</dt>
-                <dd className="mt-1">{artwork.displayOrder || "未设置"}</dd>
+                <h3 className="text-sm text-gray-500">材质</h3>
+                <p>{artwork.medium || '未知'}</p>
               </div>
-            </dl>
-          </div>
+              <div>
+                <h3 className="text-sm text-gray-500">风格</h3>
+                <p>{artwork.style || '未知'}</p>
+              </div>
+              
+              <div className="pt-4">
+                {artwork.isPremium && !user?.isPremium ? (
+                  <Button className="w-full" onClick={() => setShowPremiumDialog(true)}>
+                    升级会员查看高清大图
+                  </Button>
+                ) : (
+                  <Button className="w-full">
+                    下载高清大图
+                  </Button>
+                )}
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
 
-      <Dialog open={isZoomed} onOpenChange={setIsZoomed}>
-        <DialogContent className="max-w-screen-xl">
+      <Dialog open={showPremiumDialog} onOpenChange={setShowPremiumDialog}>
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle>{artwork.title}</DialogTitle>
-            <DialogDescription>{artwork.description}</DialogDescription>
+            <DialogTitle>升级会员</DialogTitle>
+            <DialogDescription>
+              成为会员后可以查看和下载所有高清艺术作品
+            </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-center">
-            <img
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              className="max-h-[80vh] w-auto"
-            />
+          <div className="grid gap-4 py-4">
+            <div className="flex items-center gap-4">
+              <div className="rounded-full bg-primary/20 p-2">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.75 12C4.75 7.99594 7.99594 4.75 12 4.75V4.75C16.0041 4.75 19.25 7.99594 19.25 12V12C19.25 16.0041 16.0041 19.25 12 19.25V19.25C7.99594 19.25 4.75 16.0041 4.75 12V12Z"></path>
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 12.75L10.75 13.75L14.25 10.25"></path>
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">无限下载</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">下载所有艺术作品的高清图像</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="rounded-full bg-primary/20 p-2">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.75 12C4.75 7.99594 7.99594 4.75 12 4.75V4.75C16.0041 4.75 19.25 7.99594 19.25 12V12C19.25 16.0041 16.0041 19.25 12 19.25V19.25C7.99594 19.25 4.75 16.0041 4.75 12V12Z"></path>
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 12.75L10.75 13.75L14.25 10.25"></path>
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">专属内容</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">访问会员专享的独家艺术作品</p>
+              </div>
+            </div>
           </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPremiumDialog(false)}>
+              取消
+            </Button>
+            <Button>升级会员</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
