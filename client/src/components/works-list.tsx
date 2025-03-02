@@ -241,6 +241,10 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   // 在组件顶部使用 useAds hook
   const { getAdConfigForPage, isAdminMode } = useAds();
   const adConfig = getAdConfigForPage('works');
+  
+  // 添加调试日志
+  console.log("WorksList显示的作品数据:", displayArtworks);
+  console.log("原始作品数据:", artworks);
 
   // 插入广告
   const adPositions = adConfig?.isEnabled ? [...adConfig.adPositions] : [];

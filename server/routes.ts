@@ -24,10 +24,22 @@ export function registerRoutes(app: Express): Server {
 
   app.get("/api/artworks", async (req, res) => {
     const categoryId = req.query.categoryId ? parseInt(req.query.categoryId as string) : undefined;
-    const artworks = categoryId 
-      ? await storage.getArtworksByCategory(categoryId)
-      : await storage.getArtworks();
-    res.json(artworks);
+    console.log(`[Debug] 获取作品列表请求，分类ID: ${categoryId || '全部'}`);
+    try {
+      const artworks = categoryId 
+        ? await storage.getArtworksByCategory(categoryId)
+        : await storage.getArtworks();
+      
+      console.log(`[Debug] 返回作品数量: ${artworks.length}`);
+      if (artworks.length === 0) {
+        console.log('[Debug] 无法找到任何作品');
+      }
+      
+      res.json(artworks);
+    } catch (error) {
+      console.error('[Error] 获取作品失败:', error);
+      res.status(500).send("获取作品列表失败");
+    }
   });
 
   app.post("/api/artworks", async (req, res) => {

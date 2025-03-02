@@ -50,6 +50,15 @@ export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<Category["id"]>("latest");
 
   const filteredArtworks = useMemo(() => {
+    // 检查mockArtworks是否存在且有内容
+    if (!mockArtworks || mockArtworks.length === 0) {
+      console.log("警告: 没有可用的作品数据");
+      return [];
+    }
+    
+    console.log("首页筛选作品，当前分类:", activeCategory);
+    console.log("可用的作品数据:", mockArtworks.length);
+    
     switch (activeCategory) {
       case "latest":
         return [...mockArtworks].sort((a, b) => b.id - a.id);
