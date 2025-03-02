@@ -39,6 +39,15 @@ const ArtworkPage = () => {
     if (id) {
       // 处理可能包含字符的复合ID（例如 art-123-45）
       let rawId = id;
+      
+      // 首先检查ID是否已经是纯数字
+      if (!isNaN(parseInt(id)) && parseInt(id).toString() === id) {
+        console.log(`ID已经是有效的数字: ${id}`);
+        setParsedId(parseInt(id));
+        return;
+      }
+      
+      // 处理复合ID格式
       if (id.includes('-')) {
         const parts = id.split('-');
         // 尝试获取第二部分作为数字ID
@@ -54,11 +63,21 @@ const ArtworkPage = () => {
         setParsedId(numericId);
       } else {
         console.error("无法解析为有效的作品ID:", id);
+        toast({
+          title: "无效的作品ID",
+          description: "请检查URL并重试",
+          variant: "destructive"
+        });
       }
     } else {
       console.error("URL参数中未提供作品ID");
+      toast({
+        title: "未提供作品ID",
+        description: "请检查URL并重试",
+        variant: "destructive"
+      });
     }
-  }, [id]);
+  }, [id, toast]);
 
   // 查询作品数据
   const { data: artwork, error, isLoading } = useQuery({

@@ -64,13 +64,10 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
-  const handleArtworkClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+  const handleArtworkClick = () => {
     // 提取有效的作品ID来导航
     let validId;
-    
+
     // 优先使用数字ID
     if (artwork.imageId && typeof artwork.imageId === 'number') {
       validId = artwork.imageId;
@@ -80,7 +77,7 @@ function ArtworkItem({
     else if (artwork.originalId && artwork.originalId.includes('-')) {
       const parts = artwork.originalId.split('-');
       if (parts.length >= 2) {
-        validId = parts[1]; // 使用第二部分作为数字ID
+        validId = parseInt(parts[1]); // 确保转换为数字类型
         console.log(`导航到作品: 从originalId=${artwork.originalId}提取ID=${validId}`);
       }
     }
@@ -90,19 +87,24 @@ function ArtworkItem({
       if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
         const parts = artwork.id.split('-');
         if (parts.length >= 2) {
-          validId = parts[1];
+          validId = parseInt(parts[1]); // 确保转换为数字类型
           console.log(`导航到作品: 从id=${artwork.id}提取ID=${validId}`);
         }
       } else {
-        validId = artwork.id;
-        console.log(`导航到作品: 使用id=${validId}`);
+        // 如果ID是数字或可以转换为数字，则直接使用
+        const numId = typeof artwork.id === 'number' ? artwork.id : parseInt(String(artwork.id));
+        if (!isNaN(numId)) {
+          validId = numId;
+          console.log(`导航到作品: 使用id=${validId}，类型=${typeof validId}`);
+        }
       }
     }
 
-    if (validId) {
+    if (validId && !isNaN(Number(validId))) {
+      console.log(`导航到作品详情页，ID: ${validId}`);
       setLocation(`/artwork/${validId}`);
     } else {
-      console.error("作品没有有效ID，无法导航");
+      console.error("作品没有有效ID，无法导航", artwork);
     }
   };
 
@@ -369,7 +371,7 @@ const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?
     if (artwork) {
       // 确保imageId是有效的数字，或者从id中提取
       let validImageId;
-      
+
       // 优先使用传入的imageId
       if (typeof imageId === 'number' && !isNaN(imageId)) {
         validImageId = imageId;
