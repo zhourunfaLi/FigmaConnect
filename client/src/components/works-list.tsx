@@ -260,7 +260,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         themeId: themeId || artwork.themeId,
         imageId: artwork.imageId || imageId || 1,
         originalId: artwork.id, // 保存原始复合ID
-        id: imageId || artwork.id, // 重要：将ID设置为imageId，确保直接使用数字ID
+        // 不覆盖原始ID，保持复合ID格式，在点击处理时提取数字部分
       };
     }
     

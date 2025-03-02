@@ -47,7 +47,7 @@ export default function ArtworkPage() {
     if (!id) return null;
 
     // 处理复合格式的ID，如 "art-12-15"
-    if (id.includes('-')) {
+    if (typeof id === 'string' && id.includes('-')) {
       const parts = id.split('-');
       if (parts.length >= 2) {
         const numericPart = parseInt(parts[1]);
@@ -61,6 +61,7 @@ export default function ArtworkPage() {
   };
 
   const numericId = extractNumericId(id);
+  console.log(`ArtworkPage: 接收到的原始ID=${id}, 处理后的数字ID=${numericId}`);
 
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
     queryKey: ["artwork", numericId],
@@ -72,7 +73,10 @@ export default function ArtworkPage() {
         throw new Error("作品ID无效");
       }
 
-      const res = await fetch(`/api/artworks/${numericId}`);
+      // 确保使用数字ID发送请求
+      const apiUrl = `/api/artworks/${numericId}`;
+      console.log(`发送API请求: ${apiUrl}`);
+      const res = await fetch(apiUrl);
       if (!res.ok) {
         if (res.status === 404) {
           throw new Error("找不到作品");

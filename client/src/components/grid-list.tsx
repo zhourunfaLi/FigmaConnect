@@ -25,24 +25,26 @@ export default function GridList({ artworks, className, title }: GridListProps) 
     const handleArtworkClick = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      
-      // 提取有效的作品ID，优先使用imageId (这是数据库中的真实ID)
-      let numericId;
-      
-      if (artwork.imageId && !isNaN(Number(artwork.imageId))) {
-        // 优先使用imageId，因为这是服务器需要的数字ID
-        numericId = artwork.imageId;
-      } else if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
-        // 解析复合ID，如"art-12-15"，提取第二部分作为数字ID
-        const idParts = artwork.id.split('-');
-        numericId = parseInt(idParts[1]);
-      } else {
-        // 尝试直接使用ID
-        numericId = Number(artwork.id);
+
+      // 优先使用imageId作为数字ID，这是服务器需要的
+      let numericId = artwork.imageId;
+
+      // 如果没有imageId，尝试从复合ID中提取
+      if (!numericId && typeof artwork.id === 'string' && artwork.id.includes('-')) {
+        const parts = artwork.id.split('-');
+        if (parts.length >= 2) {
+          numericId = parseInt(parts[1]);
+        }
       }
-      
-      if (!numericId || isNaN(numericId)) {
-        console.error('无效的作品ID:', artwork.id, '原始数据:', artwork);
+
+      // 如果artwork.id本身就是数字，则直接使用
+      if (!numericId && typeof artwork.id === 'number') {
+        numericId = artwork.id;
+      }
+
+      // 最后验证ID有效性
+      if (!numericId || isNaN(Number(numericId))) {
+        console.error('无法访问作品：ID无效', artwork);
         alert('无法访问作品：ID无效');
         return;
       }
