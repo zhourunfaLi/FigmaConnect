@@ -63,9 +63,16 @@ export default function ArtworkPage() {
     }
   }
 
-  // 如果ID解析失败，可以提供一个默认ID或重定向到首页
+  // 如果ID解析失败，提供一个默认ID或重定向到首页
   if (artworkId === null) {
     console.warn(`无法解析有效的作品ID: ${id}`);
+    
+    // 将ID设置为默认值，避免undefined
+    artworkId = 1;
+    
+    // 可选：重定向到首页 
+    // setLocation('/');
+    // return null;
   }
 
   console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);

@@ -78,7 +78,7 @@ function ArtworkItem({
       setLocation(`/artwork/${artwork.originalId}`);
     } else if (artwork.id) {
       console.log(`导航到作品: 使用id=${artwork.id}`);
-      setLocation(`/artwork/${artwork.id}`);
+      setLocation(`/artwork/${artwork.id}`);n(`/artwork/${artwork.id}`);
     } else {
       console.error("作品没有有效ID，无法导航");
     }
@@ -345,12 +345,37 @@ const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?
     const { themeId, imageId } = options || {};
 
     if (artwork) {
-      // 确保imageId是有效的数字
-      const validImageId = typeof imageId === 'number' && !isNaN(imageId) 
-        ? imageId 
-        : (typeof artwork.imageId === 'number' && !isNaN(artwork.imageId) 
-          ? artwork.imageId 
-          : 1);
+      // 确保imageId是有效的数字，或者从id中提取
+      let validImageId;
+      
+      // 优先使用传入的imageId
+      if (typeof imageId === 'number' && !isNaN(imageId)) {
+        validImageId = imageId;
+      }
+      // 其次使用作品自身的imageId
+      else if (typeof artwork.imageId === 'number' && !isNaN(artwork.imageId)) {
+        validImageId = artwork.imageId;
+      }
+      // 再尝试从复合ID中提取
+      else if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
+        const parts = artwork.id.split('-');
+        if (parts.length >= 2) {
+          const extractedId = parseInt(parts[1]);
+          if (!isNaN(extractedId)) {
+            validImageId = extractedId;
+            console.log(`从复合ID提取imageId: ${artwork.id} -> ${validImageId}`);
+          }
+        }
+      }
+      // 最后使用数字ID或默认值
+      else if (typeof artwork.id === 'number') {
+        validImageId = artwork.id;
+      }
+      // 兜底使用默认值
+      else {
+        validImageId = 1;
+        console.warn(`无法提取有效imageId, 使用默认值: 1，原始ID: ${artwork.id}`);
+      }
 
       console.log(`处理作品ID: ${artwork.id} -> ${validImageId}`);
 
