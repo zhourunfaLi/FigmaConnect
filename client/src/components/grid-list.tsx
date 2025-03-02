@@ -26,24 +26,34 @@ export default function GridList({ artworks, className, title }: GridListProps) 
       e.preventDefault();
       e.stopPropagation();
 
-      // 优先使用imageId作为数字ID，这是服务器需要的
-      let numericId = artwork.imageId;
+      // 直接调试输出artwork对象，查看其结构
+      console.log('点击的作品对象:', JSON.stringify(artwork, null, 2));
 
-      // 如果没有imageId，尝试从复合ID中提取
-      if (!numericId && typeof artwork.id === 'string' && artwork.id.includes('-')) {
+      // 首先尝试获取数字ID
+      let numericId = null;
+      
+      // 优先使用imageId (必须是数字)
+      if (typeof artwork.imageId === 'number' && !isNaN(artwork.imageId)) {
+        numericId = artwork.imageId;
+      } 
+      // 如果直接是复合ID，尝试从中提取数字部分 (art-12-15 => 12)
+      else if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
         const parts = artwork.id.split('-');
-        if (parts.length >= 2) {
+        if (parts.length >= 2 && !isNaN(parseInt(parts[1]))) {
           numericId = parseInt(parts[1]);
         }
-      }
-
-      // 如果artwork.id本身就是数字，则直接使用
-      if (!numericId && typeof artwork.id === 'number') {
+      } 
+      // 如果是纯数字ID，直接使用
+      else if (typeof artwork.id === 'number' && !isNaN(artwork.id)) {
         numericId = artwork.id;
       }
+      // 如果是字符串形式的数字，转换后使用
+      else if (typeof artwork.id === 'string' && !isNaN(parseInt(artwork.id))) {
+        numericId = parseInt(artwork.id);
+      }
 
-      // 最后验证ID有效性
-      if (!numericId || isNaN(Number(numericId))) {
+      // 最后验证ID有效性 - 必须有值且是有效数字
+      if (numericId === null || isNaN(Number(numericId))) {
         console.error('无法访问作品：ID无效', artwork);
         alert('无法访问作品：ID无效');
         return;

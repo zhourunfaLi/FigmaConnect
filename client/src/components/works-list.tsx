@@ -67,7 +67,12 @@ function ArtworkItem({
   const handleArtworkClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setLocation(`/artwork/${artwork.id}`);
+    // Added check for null or undefined artwork.id
+    if (artwork.id) {
+      setLocation(`/artwork/${artwork.id}`);
+    } else {
+      console.error("Artwork ID is null or undefined");
+    }
   };
 
   return (
@@ -241,7 +246,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   // 在组件顶部使用 useAds hook
   const { getAdConfigForPage, isAdminMode } = useAds();
   const adConfig = getAdConfigForPage('works');
-  
+
   // 确保所有作品都有一个正确的imageId，用于API调用
   const processedArtworks = displayArtworks.map(artwork => {
     // 将复合ID（如"art-12-15"）分解，确保imageId可用
@@ -250,11 +255,11 @@ export default function WorksList({ artworks, className }: WorksListProps) {
       const themeId = parts[0];  // "art"或"city"
       const imageId = parseInt(parts[1]); // 数字部分
       const index = parts[2] ? parseInt(parts[2]) : 0; // 索引部分
-      
+
       if (!artwork.imageId && !isNaN(imageId)) {
         console.log(`设置作品imageId: ${artwork.id} -> imageId: ${imageId}`);
       }
-      
+
       return {
         ...artwork,
         themeId: themeId || artwork.themeId,
@@ -263,7 +268,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         // 不覆盖原始ID，保持复合ID格式，在点击处理时提取数字部分
       };
     }
-    
+
     // 确保没有复合ID的作品也有imageId
     if (!artwork.imageId && typeof artwork.id === 'number') {
       return {
@@ -271,13 +276,13 @@ export default function WorksList({ artworks, className }: WorksListProps) {
         imageId: artwork.id
       };
     }
-    
+
     return artwork;
   });
-  
+
   // 添加调试日志
   console.log("WorksList显示的作品数据:", processedArtworks.slice(0, 5));
-  
+
   // 添加调试日志
   console.log("WorksList显示的作品数据(处理后):", processedArtworks);
   console.log("原始作品数据:", artworks);
@@ -290,7 +295,7 @@ export default function WorksList({ artworks, className }: WorksListProps) {
 
   // Combine artworks with advertisements
   const contentWithAds = [];
-  displayArtworks.forEach((artwork, index) => {
+  processedArtworks.forEach((artwork, index) => { // Use processedArtworks here
     contentWithAds.push(
       <ArtworkItem 
         key={artwork.id}
@@ -325,3 +330,27 @@ export default function WorksList({ artworks, className }: WorksListProps) {
     </div>
   );
 }
+
+// 处理作品数据，标准化格式
+const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?: number }) => {
+    const { themeId, imageId } = options || {};
+
+    if (artwork) {
+      // 确保imageId是有效的数字
+      const validImageId = typeof imageId === 'number' && !isNaN(imageId) 
+        ? imageId 
+        : (typeof artwork.imageId === 'number' && !isNaN(artwork.imageId) 
+          ? artwork.imageId 
+          : 1);
+
+      console.log(`处理作品: ID=${artwork.id}, 设置imageId=${validImageId}`);
+
+      return {
+        ...artwork,
+        themeId: themeId || artwork.themeId,
+        imageId: validImageId, // 确保设置了有效的数字ID
+        originalId: artwork.id, // 保存原始复合ID
+      };
+    }
+    return artwork; // return artwork if it's null or undefined
+  };

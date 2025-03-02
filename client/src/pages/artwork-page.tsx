@@ -44,20 +44,34 @@ export default function ArtworkPage() {
 
   // 提取有效的数字ID
   const extractNumericId = (id: string | undefined): number | null => {
-    if (!id) return null;
+    if (!id) {
+      console.error('URL参数中没有ID');
+      return null;
+    }
+
+    console.log(`开始处理ID: ${id}, 类型: ${typeof id}`);
 
     // 处理复合格式的ID，如 "art-12-15"
     if (typeof id === 'string' && id.includes('-')) {
       const parts = id.split('-');
       if (parts.length >= 2) {
         const numericPart = parseInt(parts[1]);
-        if (!isNaN(numericPart)) return numericPart;
+        if (!isNaN(numericPart)) {
+          console.log(`从复合ID "${id}" 提取出数字ID: ${numericPart}`);
+          return numericPart;
+        }
       }
     }
 
     // 尝试直接将ID转为数字
     const numericId = parseInt(id);
-    return !isNaN(numericId) ? numericId : null;
+    if (!isNaN(numericId)) {
+      console.log(`将ID "${id}" 直接转换为数字: ${numericId}`);
+      return numericId;
+    }
+
+    console.error(`无法从 "${id}" 提取有效的数字ID`);
+    return null;
   };
 
   const numericId = extractNumericId(id);
