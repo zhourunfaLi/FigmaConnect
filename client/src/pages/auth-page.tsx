@@ -8,13 +8,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertUserSchema, type InsertUser } from "@shared/schema";
+import { useEffect } from "react";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   const [, setLocation] = useLocation();
 
+  // 使用useEffect处理重定向，而不是在渲染期间
+  useEffect(() => {
+    // 如果用户已登录，重定向到首页
+    if (user) {
+      setLocation("/");
+    }
+  }, [user, setLocation]);
+
+  // 如果用户已登录，返回null等待重定向
   if (user) {
-    setLocation("/");
     return null;
   }
 
@@ -27,8 +36,8 @@ export default function AuthPage() {
             <CardDescription>
               请先点击"注册"标签页创建一个新账号，或使用以下测试账号登录：
               <div className="mt-2 p-2 bg-muted rounded-md">
-                <div>用户名：test</div>
-                <div>密码：test123</div>
+                用户名：test<br/>
+                密码：test123
               </div>
             </CardDescription>
           </CardHeader>
