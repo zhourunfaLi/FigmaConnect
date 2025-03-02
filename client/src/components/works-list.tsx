@@ -69,9 +69,13 @@ function ArtworkItem({
     e.stopPropagation();
     
     // 确保有效的导航ID - 优先使用imageId作为导航参数
-    if (artwork.imageId) {
+    if (artwork.imageId && typeof artwork.imageId === 'number') {
       console.log(`导航到作品: 使用imageId=${artwork.imageId}`);
       setLocation(`/artwork/${artwork.imageId}`);
+    } else if (artwork.originalId) { 
+      // 使用保存的原始ID
+      console.log(`导航到作品: 使用originalId=${artwork.originalId}`);
+      setLocation(`/artwork/${artwork.originalId}`);
     } else if (artwork.id) {
       console.log(`导航到作品: 使用id=${artwork.id}`);
       setLocation(`/artwork/${artwork.id}`);
@@ -348,7 +352,7 @@ const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?
           ? artwork.imageId 
           : 1);
 
-      console.log(`处理作品: ID=${artwork.id}, 设置imageId=${validImageId}`);
+      console.log(`处理作品: ID=${artwork.id}, imageId=${validImageId}`);ork.id}, 设置imageId=${validImageId}`);
 
       return {
         ...artwork,

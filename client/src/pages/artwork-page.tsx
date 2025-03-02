@@ -155,9 +155,14 @@ export default function ArtworkPage() {
       <div className="container mx-auto px-4 py-8">
         <Alert variant="destructive">
           <AlertDescription>
-            {(error as Error).message || "Failed to load artwork"}
+            {(error as Error).message || `无法加载作品 (ID: ${id})`}
           </AlertDescription>
         </Alert>
+        <div className="mt-4">
+          <Button onClick={() => setLocation('/')}>
+            返回首页
+          </Button>
+        </div>
       </div>
     );
   }
@@ -167,9 +172,14 @@ export default function ArtworkPage() {
       <div className="container mx-auto px-4 py-8">
         <Alert>
           <AlertDescription>
-            找不到作品
+            {id ? `找不到ID为 ${id} 的作品` : '作品ID无效或缺失'}
           </AlertDescription>
         </Alert>
+        <div className="mt-4">
+          <Button onClick={() => setLocation('/')}>
+            返回首页
+          </Button>
+        </div>
       </div>
     );
   }
