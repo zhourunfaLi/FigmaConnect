@@ -40,29 +40,60 @@ const ArtworkPage = () => {
   // 确保ID是有效数字
   useEffect(() => {
     console.log("接收到作品ID参数:", id);
-    if (id) {
-      // 处理可能包含字符的复合ID（例如 art-123-45）
-      let rawId = id;
-      if (id.includes('-')) {
-        const parts = id.split('-');
-        // 尝试获取第二部分作为数字ID
-        if (parts.length >= 2 && !isNaN(parseInt(parts[1]))) {
-          rawId = parts[1];
-          console.log(`从复合ID '${id}' 提取数字ID: ${rawId}`);
-        }
+    if (!id) {
+      console.error("URL参数中未提供作品ID");
+      toast({
+        title: "未提供作品ID",
+        description: "请检查URL并重试",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // 直接检查ID是否为纯数字
+    if (!isNaN(Number(id)) && Number(id) > 0) {
+      const numericId = Number(id);
+      console.log(`ID是有效的数字: ${numericId}`);
+      setParsedId(numericId);
+      return;
+    }
+
+    // 处理可能包含字符的复合ID（例如 art-123-45）
+    if (id.includes('-')) {
+      const parts = id.split('-');
+      // 尝试获取第二部分作为数字ID（最常见的模式）
+      if (parts.length >= 2 && !isNaN(Number(parts[1])) && Number(parts[1]) > 0) {
+        const numericId = Number(parts[1]);
+        console.log(`从复合ID '${id}' 提取数字ID(第二部分): ${numericId}`);
+        setParsedId(numericId);
+        return;
       }
 
-      const numericId = parseInt(rawId);
-      if (!isNaN(numericId)) {
-        console.log(`设置有效的数字ID: ${numericId}`);
+      // 尝试第三部分
+      if (parts.length >= 3 && !isNaN(Number(parts[2])) && Number(parts[2]) > 0) {
+        const numericId = Number(parts[2]);
+        console.log(`从复合ID '${id}' 提取数字ID(第三部分): ${numericId}`);
         setParsedId(numericId);
-      } else {
-        console.error("无法解析为有效的作品ID:", id);
+        return;
       }
-    } else {
-      console.error("URL参数中未提供作品ID");
+
+      // 尝试第一部分
+      if (!isNaN(Number(parts[0])) && Number(parts[0]) > 0) {
+        const numericId = Number(parts[0]);
+        console.log(`从复合ID '${id}' 提取数字ID(第一部分): ${numericId}`);
+        setParsedId(numericId);
+        return;
+      }
     }
-  }, [id]);
+
+    // 如果所有尝试都失败
+    console.error("无法解析为有效的作品ID:", id);
+    toast({
+      title: "无效的作品ID",
+      description: "请检查URL并重试",
+      variant: "destructive"
+    });
+  }, [id, toast]);
 
   // 加载作品详情
   useEffect(() => {

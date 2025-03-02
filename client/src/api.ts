@@ -1,8 +1,31 @@
 import { apiRequest } from "./lib/queryClient";
 
-export async function fetchArtwork(id: string) {
-  const response = await apiRequest("GET", `/api/artworks/${id}`, undefined);
-  return await response.json();
+export async function fetchArtwork(id: number): Promise<any> {
+  if (!id || isNaN(Number(id))) {
+    console.error(`无效的作品ID: ${id}`);
+    throw new Error('无效的作品ID');
+  }
+
+  // 确保ID是数字类型
+  const numericId = Number(id);
+  console.log(`尝试获取作品，ID: ${numericId}`);
+
+  try {
+    const response = await fetch(`/api/artworks/${numericId}`);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('获取作品失败:', errorData);
+      throw new Error(errorData.error || '获取作品失败');
+    }
+
+    const artwork = await response.json();
+    console.log('成功获取作品数据:', artwork);
+    return artwork;
+  } catch (error) {
+    console.error(`获取作品ID ${numericId} 时出错:`, error);
+    throw error;
+  }
 }
 
 export async function fetchArtworks(category?: string) {
