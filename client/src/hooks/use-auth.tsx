@@ -111,7 +111,6 @@ export function useAuth() {
   }
   return context;
 }
-import React, { createContext, useContext, useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useLocation } from "wouter";
