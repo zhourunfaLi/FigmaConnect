@@ -67,11 +67,16 @@ function ArtworkItem({
   const handleArtworkClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // Added check for null or undefined artwork.id
-    if (artwork.id) {
+    
+    // 确保有效的导航ID - 优先使用imageId作为导航参数
+    if (artwork.imageId) {
+      console.log(`导航到作品: 使用imageId=${artwork.imageId}`);
+      setLocation(`/artwork/${artwork.imageId}`);
+    } else if (artwork.id) {
+      console.log(`导航到作品: 使用id=${artwork.id}`);
       setLocation(`/artwork/${artwork.id}`);
     } else {
-      console.error("Artwork ID is null or undefined");
+      console.error("作品没有有效ID，无法导航");
     }
   };
 

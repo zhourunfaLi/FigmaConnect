@@ -41,18 +41,18 @@ app.use((req, res, next) => {
   let server;
   let retryCount = 0;
   const MAX_RETRIES = 3;
-  
+
   try {
     server = registerRoutes(app);
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
-  
+
       res.status(status).json({ message });
       console.error(err);
     });
-  
+
     // importantly only setup vite in development and after
     // setting up all the other routes so the catch-all route
     // doesn't interfere with the other routes
@@ -61,31 +61,40 @@ app.use((req, res, next) => {
     } else {
       serveStatic(app);
     }
-  
-    const BASE_PORT = 3002;
+
+    const BASE_PORT = 9000;
     let currentPort = BASE_PORT;
     let serverStarted = false;
-    
+
+    // 确保之前的进程已结束
+    try {
+      const killPortProcess = require('kill-port');
+      await killPortProcess(BASE_PORT);
+      console.log(`已尝试释放端口 ${BASE_PORT}`);
+    } catch (err) {
+      console.log(`端口释放错误 (可忽略): ${err.message}`);
+    }
+
     const startServer = async () => {
       if (serverStarted) {
         log(`服务器已经在运行中，不需要重新启动`);
         return;
       }
-      
+
       if (retryCount >= MAX_RETRIES) {
         log(`已达到最大重试次数 (${MAX_RETRIES})，尝试使用端口 ${currentPort + 1}...`);
         currentPort = BASE_PORT + 1;
       }
-      
+
       try {
         await validateSchema();
-        
+
         // 创建一个Promise包装的server.listen操作
         const startPromise = new Promise((resolve, reject) => {
           const startTimeout = setTimeout(() => {
             reject(new Error(`启动服务器超时（端口: ${currentPort}）`));
           }, 5000); // 5秒超时
-          
+
           const serverInstance = server.listen(currentPort, "0.0.0.0", () => {
             clearTimeout(startTimeout);
             log(`服务器启动成功，运行在端口 ${currentPort}`);
@@ -94,13 +103,13 @@ app.use((req, res, next) => {
             retryCount = 0; // 重置重试计数
             resolve(true);
           });
-          
+
           serverInstance.on('error', (err) => {
             clearTimeout(startTimeout);
             reject(err);
           });
         });
-        
+
         await startPromise;
       } catch(e) {
         log(`启动服务器出错: ${e.message}`);
@@ -120,7 +129,7 @@ app.use((req, res, next) => {
         }
       }
     };
-  
+
     // 处理服务器错误
     server.on('error', (err) => {
       log(`服务器错误: ${err.message}`);
@@ -133,7 +142,7 @@ app.use((req, res, next) => {
         process.exit(1);
       }
     });
-  
+
     // 处理进程退出
     process.on('SIGTERM', () => {
       log('收到退出信号，正在关闭服务器...');
@@ -142,11 +151,11 @@ app.use((req, res, next) => {
         process.exit(0);
       });
     });
-  
+
     process.on('uncaughtException', (err) => {
       log(`未捕获的异常: ${err.message}`);
       log(err.stack || '无堆栈信息');
-      
+
       if (server) {
         server.close(() => {
           log('由于未捕获的异常，服务器已关闭');
@@ -156,7 +165,7 @@ app.use((req, res, next) => {
         process.exit(1);
       }
     });
-    
+
     startServer();
   } catch (err) {
     log(`服务器初始化错误: ${err.message}`);

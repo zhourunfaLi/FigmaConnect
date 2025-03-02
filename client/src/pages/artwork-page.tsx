@@ -42,20 +42,23 @@ export default function ArtworkPage() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  // 解析ID处理逻辑
+  // 简化ID处理逻辑
   let artworkId = null;
   if (id) {
-    // 判断是否为组合ID格式（如 "art-17-0"）
-    if (id.includes('-')) {
+    // 尝试直接解析为数字ID
+    const parsedId = parseInt(id);
+    if (!isNaN(parsedId)) {
+      artworkId = parsedId;
+    } 
+    // 如果是复合ID格式（如"art-17-0"）
+    else if (id.includes('-')) {
       const parts = id.split('-');
-      // 对于组合ID，使用imageId作为请求ID
       if (parts.length >= 2) {
         const imageId = parseInt(parts[1]);
-        artworkId = !isNaN(imageId) ? imageId : null;
+        if (!isNaN(imageId)) {
+          artworkId = imageId;
+        }
       }
-    } else {
-      // 尝试直接解析纯数字ID
-      artworkId = parseInt(id);
     }
   }
 
