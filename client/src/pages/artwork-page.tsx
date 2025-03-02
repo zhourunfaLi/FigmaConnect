@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 
 const ArtworkPage = () => {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const id = params.id;
   const { toast } = useToast();
   const { user } = useAuth();
@@ -35,13 +35,28 @@ const ArtworkPage = () => {
 
   // 确保ID是有效数字
   useEffect(() => {
+    console.log("接收到作品ID参数:", id);
     if (id) {
-      const numericId = parseInt(id);
+      // 处理可能包含字符的复合ID（例如 art-123-45）
+      let rawId = id;
+      if (id.includes('-')) {
+        const parts = id.split('-');
+        // 尝试获取第二部分作为数字ID
+        if (parts.length >= 2 && !isNaN(parseInt(parts[1]))) {
+          rawId = parts[1];
+          console.log(`从复合ID '${id}' 提取数字ID: ${rawId}`);
+        }
+      }
+      
+      const numericId = parseInt(rawId);
       if (!isNaN(numericId)) {
+        console.log(`设置有效的数字ID: ${numericId}`);
         setParsedId(numericId);
       } else {
-        console.error("无效的作品ID:", id);
+        console.error("无法解析为有效的作品ID:", id);
       }
+    } else {
+      console.error("URL参数中未提供作品ID");
     }
   }, [id]);
 

@@ -68,17 +68,39 @@ function ArtworkItem({
     e.preventDefault();
     e.stopPropagation();
 
-    // 确保有效的导航ID - 优先使用imageId作为导航参数
+    // 提取有效的作品ID来导航
+    let validId;
+    
+    // 优先使用数字ID
     if (artwork.imageId && typeof artwork.imageId === 'number') {
-      console.log(`导航到作品: 使用imageId=${artwork.imageId}`);
-      setLocation(`/artwork/${artwork.imageId}`);
-    } else if (artwork.originalId) { 
-      // 使用保存的原始ID
-      console.log(`导航到作品: 使用originalId=${artwork.originalId}`);
-      setLocation(`/artwork/${artwork.originalId}`);
-    } else if (artwork.id) {
-      console.log(`导航到作品: 使用id=${artwork.id}`);
-      setLocation(`/artwork/${artwork.id}`);n(`/artwork/${artwork.id}`);
+      validId = artwork.imageId;
+      console.log(`导航到作品: 使用imageId=${validId}`);
+    } 
+    // 其次尝试从原始ID中提取数字部分
+    else if (artwork.originalId && artwork.originalId.includes('-')) {
+      const parts = artwork.originalId.split('-');
+      if (parts.length >= 2) {
+        validId = parts[1]; // 使用第二部分作为数字ID
+        console.log(`导航到作品: 从originalId=${artwork.originalId}提取ID=${validId}`);
+      }
+    }
+    // 最后使用作品本身的ID
+    else if (artwork.id) {
+      // 如果ID是字符串且包含横杠，尝试提取数字部分
+      if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
+        const parts = artwork.id.split('-');
+        if (parts.length >= 2) {
+          validId = parts[1];
+          console.log(`导航到作品: 从id=${artwork.id}提取ID=${validId}`);
+        }
+      } else {
+        validId = artwork.id;
+        console.log(`导航到作品: 使用id=${validId}`);
+      }
+    }
+
+    if (validId) {
+      setLocation(`/artwork/${validId}`);n(`/artwork/${artwork.id}`);
     } else {
       console.error("作品没有有效ID，无法导航");
     }
