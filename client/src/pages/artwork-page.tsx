@@ -73,9 +73,11 @@ const ArtworkPage = () => {
         validId = Number(parts[0]);
         console.log(`从复合ID中提取数字部分(第一部分): ${validId}`);
       }
-        if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
-          validId = Number(parts[1]);
-          console.log(`从复合ID中提取数字部分: ${validId}`);
+      
+      // 通用情况下尝试第二个部分作为ID
+      if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
+        validId = Number(parts[1]);
+        console.log(`从复合ID中提取数字部分: ${validId}`);
         }
       }
     }
