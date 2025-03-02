@@ -1,6 +1,50 @@
-
-import { API_BASE_URL } from "@/config";
+import type { Artwork } from "@shared/schema";
 import { Work, User, Comment } from "@/types";
+
+// Set API base URL
+const API_BASE_URL = '/api';
+
+/**
+ * 通过ID获取作品详情
+ * @param id 作品ID
+ * @returns 作品详情
+ */
+export async function fetchArtworkById(id: number): Promise<Artwork> {
+  try {
+    console.log(`API调用：获取作品ID ${id} 的详情`);
+    const response = await fetch(`${API_BASE_URL}/artworks/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`获取作品失败：${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("获取作品详情失败:", error);
+    throw error;
+  }
+}
+
+/**
+ * 获取相关作品推荐
+ * @param id 当前作品ID
+ * @param limit 限制数量
+ * @returns 相关作品数组
+ */
+export async function fetchRelatedArtworks(id: number, limit: number = 4): Promise<Artwork[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/artworks/${id}/related?limit=${limit}`);
+    if (!response.ok) {
+      return []; // 如果API不存在，返回空数组
+    }
+    return await response.json();
+  } catch (error) {
+    console.warn("获取相关作品失败，使用模拟数据", error);
+    // 返回空数组，让组件使用模拟数据
+    return [];
+  }
+}
 
 // 获取作品列表
 export async function fetchArtworks(params?: {
@@ -35,7 +79,7 @@ export async function fetchArtworks(params?: {
 }
 
 // 获取单个作品详情
-export async function fetchArtworkById(id: string): Promise<Work | null> {
+export async function fetchArtworkByIdString(id: string): Promise<Work | null> {
   try {
     if (!id) {
       console.warn("未提供作品ID");
@@ -55,7 +99,7 @@ export async function fetchArtworkById(id: string): Promise<Work | null> {
 }
 
 // 获取相关作品
-export async function fetchRelatedArtworks(id: string, limit: number = 6): Promise<Work[]> {
+export async function fetchRelatedArtworksString(id: string, limit: number = 6): Promise<Work[]> {
   try {
     if (!id) {
       console.warn("未提供作品ID");
