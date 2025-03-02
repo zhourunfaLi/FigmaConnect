@@ -46,6 +46,12 @@ export default function ArtworkPage() {
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
     queryKey: ["artwork", id],
     queryFn: async () => {
+      console.log(`尝试获取作品，ID: ${id}`);
+      
+      if (!id) {
+        throw new Error("作品ID无效");
+      }
+      
       const res = await fetch(`/api/artworks/${id}`);
       if (!res.ok) {
         if (res.status === 404) {

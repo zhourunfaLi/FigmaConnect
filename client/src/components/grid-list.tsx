@@ -25,7 +25,13 @@ export default function GridList({ artworks, className, title }: GridListProps) 
     const handleArtworkClick = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      navigate(`/artwork/${artwork.id}`);
+      // 确保ID是一个有效的数字，如果使用的是自定义ID格式，则提取数字部分
+      const numericId = typeof artwork.id === 'string' && artwork.id.includes('-') 
+        ? artwork.id.split('-')[1] // 假设格式是 "art-12-15"，我们需要第二部分 "12"
+        : artwork.id;
+
+      console.log(`点击作品，导航到ID: ${numericId}`);
+      navigate(`/artwork/${numericId}`);
     };
 
     return (

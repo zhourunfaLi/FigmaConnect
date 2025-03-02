@@ -242,8 +242,24 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const { getAdConfigForPage, isAdminMode } = useAds();
   const adConfig = getAdConfigForPage('works');
   
+  // 确保所有作品都有一个数字形式的ID
+  const processedArtworks = displayArtworks.map(artwork => {
+    if (typeof artwork.id === 'string' && isNaN(Number(artwork.id))) {
+      // 如果ID不是数字，我们尝试提取原始的ID
+      // 这里假设作品的原始ID存储在某个属性中，如果没有，使用默认值
+      const numericId = artwork.originalId || artwork.imageId || 1;
+      console.log(`处理作品ID: ${artwork.id} -> ${numericId}`);
+      return {
+        ...artwork,
+        originalId: artwork.id, // 保存原始ID
+        id: numericId
+      };
+    }
+    return artwork;
+  });
+  
   // 添加调试日志
-  console.log("WorksList显示的作品数据:", displayArtworks);
+  console.log("WorksList显示的作品数据(处理后):", processedArtworks);
   console.log("原始作品数据:", artworks);
 
   // 插入广告
