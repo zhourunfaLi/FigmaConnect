@@ -100,7 +100,7 @@ function ArtworkItem({
     }
 
     if (validId) {
-      setLocation(`/artwork/${validId}`);n(`/artwork/${artwork.id}`);
+      setLocation(`/artwork/${validId}`);
     } else {
       console.error("作品没有有效ID，无法导航");
     }
