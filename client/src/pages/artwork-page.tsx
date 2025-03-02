@@ -48,11 +48,14 @@ export default function ArtworkPage() {
     queryFn: async () => {
       console.log(`尝试获取作品，ID: ${id}`);
       
-      if (!id) {
+      // 验证ID是否为有效数字
+      const numericId = Number(id);
+      if (!id || isNaN(numericId)) {
+        console.error('作品ID无效:', id);
         throw new Error("作品ID无效");
       }
       
-      const res = await fetch(`/api/artworks/${id}`);
+      const res = await fetch(`/api/artworks/${numericId}`);
       if (!res.ok) {
         if (res.status === 404) {
           throw new Error("找不到作品");

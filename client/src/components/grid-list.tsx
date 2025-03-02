@@ -25,12 +25,20 @@ export default function GridList({ artworks, className, title }: GridListProps) 
     const handleArtworkClick = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      // 确保ID是一个有效的数字，如果使用的是自定义ID格式，则提取数字部分
-      const numericId = typeof artwork.id === 'string' && artwork.id.includes('-') 
-        ? artwork.id.split('-')[1] // 假设格式是 "art-12-15"，我们需要第二部分 "12"
-        : artwork.id;
+      
+      // 确保使用imageId作为作品ID，这是服务器需要的数字ID
+      const numericId = artwork.imageId || 
+        (typeof artwork.id === 'string' && artwork.id.includes('-') 
+          ? parseInt(artwork.id.split('-')[1]) // 提取"art-12-15"中的"12"部分
+          : artwork.id);
+      
+      if (!numericId || isNaN(Number(numericId))) {
+        console.error('无效的作品ID:', artwork.id, '原始数据:', artwork);
+        alert('无法访问作品：ID无效');
+        return;
+      }
 
-      console.log(`点击作品，导航到ID: ${numericId}`);
+      console.log(`点击作品，导航到ID: ${numericId}，原始ID: ${artwork.id}`);
       navigate(`/artwork/${numericId}`);
     };
 

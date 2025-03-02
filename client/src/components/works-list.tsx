@@ -242,17 +242,24 @@ export default function WorksList({ artworks, className }: WorksListProps) {
   const { getAdConfigForPage, isAdminMode } = useAds();
   const adConfig = getAdConfigForPage('works');
   
-  // 确保所有作品都有一个数字形式的ID
+  // 确保所有作品都有一个正确的imageId，用于API调用
   const processedArtworks = displayArtworks.map(artwork => {
-    if (typeof artwork.id === 'string' && isNaN(Number(artwork.id))) {
-      // 如果ID不是数字，我们尝试提取原始的ID
-      // 这里假设作品的原始ID存储在某个属性中，如果没有，使用默认值
-      const numericId = artwork.originalId || artwork.imageId || 1;
-      console.log(`处理作品ID: ${artwork.id} -> ${numericId}`);
+    // 将复合ID（如"art-12-15"）分解，确保imageId可用
+    if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
+      const parts = artwork.id.split('-');
+      const themeId = parts[0];  // "art"或"city"
+      const imageId = parseInt(parts[1]); // 数字部分
+      const index = parts[2] ? parseInt(parts[2]) : 0; // 索引部分
+      
+      if (!artwork.imageId && !isNaN(imageId)) {
+        console.log(`设置作品imageId: ${artwork.id} -> imageId: ${imageId}`);
+      }
+      
       return {
         ...artwork,
-        originalId: artwork.id, // 保存原始ID
-        id: numericId
+        themeId: themeId || artwork.themeId,
+        imageId: artwork.imageId || imageId || 1,
+        originalId: artwork.id, // 保存原始复合ID
       };
     }
     return artwork;
