@@ -354,3 +354,16 @@ const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?
     }
     return artwork; // return artwork if it's null or undefined
   };
+
+const processArtworks = (artworks: any[]): Artwork[] => {
+    if (!artworks || !Array.isArray(artworks)) return [];
+
+    return artworks.map((artwork) => {
+      // 不再对ID做特殊处理，保留原始ID
+      return {
+        ...artwork,
+        themeId: artwork.themeId || "art",
+        // 确保保留原始数字ID，这对于API请求至关重要
+      };
+    });
+  };

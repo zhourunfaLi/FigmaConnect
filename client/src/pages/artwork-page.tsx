@@ -42,53 +42,21 @@ export default function ArtworkPage() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  // 提取有效的数字ID
-  const extractNumericId = (id: string | undefined): number | null => {
-    if (!id) {
-      console.error('URL参数中没有ID');
-      return null;
-    }
+  // 简化ID处理逻辑
+  const artworkId = id ? parseInt(id) : null;
 
-    console.log(`开始处理ID: ${id}, 类型: ${typeof id}`);
-
-    // 处理复合格式的ID，如 "art-12-15"
-    if (typeof id === 'string' && id.includes('-')) {
-      const parts = id.split('-');
-      if (parts.length >= 2) {
-        const numericPart = parseInt(parts[1]);
-        if (!isNaN(numericPart)) {
-          console.log(`从复合ID "${id}" 提取出数字ID: ${numericPart}`);
-          return numericPart;
-        }
-      }
-    }
-
-    // 尝试直接将ID转为数字
-    const numericId = parseInt(id);
-    if (!isNaN(numericId)) {
-      console.log(`将ID "${id}" 直接转换为数字: ${numericId}`);
-      return numericId;
-    }
-
-    console.error(`无法从 "${id}" 提取有效的数字ID`);
-    return null;
-  };
-
-  const numericId = extractNumericId(id);
-  console.log(`ArtworkPage: 接收到的原始ID=${id}, 处理后的数字ID=${numericId}`);
+  console.log(`ArtworkPage: 接收到原始ID=${id}, 转换后的数字ID=${artworkId}`);
 
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
-    queryKey: ["artwork", numericId],
+    queryKey: ["artwork", artworkId],
     queryFn: async () => {
-      console.log(`尝试获取作品，原始ID: ${id}, 处理后ID: ${numericId}`);
-
-      if (!numericId) {
+      if (!artworkId || isNaN(artworkId)) {
         console.error('作品ID无效:', id);
         throw new Error("作品ID无效");
       }
 
-      // 确保使用数字ID发送请求
-      const apiUrl = `/api/artworks/${numericId}`;
+      // 使用数字ID直接发送请求
+      const apiUrl = `/api/artworks/${artworkId}`;
       console.log(`发送API请求: ${apiUrl}`);
       const res = await fetch(apiUrl);
       if (!res.ok) {
@@ -331,7 +299,7 @@ export default function ArtworkPage() {
 
             <TabsContent value="comments">
               <div className="border rounded-md p-4 mt-2">
-                <CommentSection artworkId={parseInt(String(numericId))} />
+                <CommentSection artworkId={parseInt(String(artworkId))} />
               </div>
             </TabsContent>
           </Tabs>
