@@ -1,0 +1,27 @@
+作品ID无效或缺失: undefined
+at t.value (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+setLocation is not defined
+at onClick (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/pages/artwork-page.tsx:158:116)
+at HTMLUnknownElement.callCallback2 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3674:22)
+at Object.invokeGuardedCallbackDev (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3699:24)
+at invokeGuardedCallback (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3733:39)
+at invokeGuardedCallbackAndCatchFirstError (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3736:33)
+at executeDispatch (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7014:11)
+at processDispatchQueueItemsInOrder (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7034:15)
+at processDispatchQueue (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7043:13)
+at dispatchEventsForPlugins (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7051:11)
+at https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7174:20
+setLocation is not defined
+at onClick (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/pages/artwork-page.tsx:158:116)
+at HTMLUnknownElement.callCallback2 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3674:22)
+at Object.invokeGuardedCallbackDev (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3699:24)
+at invokeGuardedCallback (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3733:39)
+at invokeGuardedCallbackAndCatchFirstError (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:3736:33)
+at executeDispatch (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7014:11)
+at processDispatchQueueItemsInOrder (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7034:15)
+at processDispatchQueue (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7043:13)
+at dispatchEventsForPlugins (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7051:11)
+at https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=e320acd6:7174:20
