@@ -66,10 +66,10 @@ export default function ArtworkPage() {
   // 如果ID解析失败，提供一个默认ID或重定向到首页
   if (artworkId === null) {
     console.warn(`无法解析有效的作品ID: ${id}`);
-    
+
     // 将ID设置为默认值，避免undefined
     artworkId = 1;
-    
+
     // 可选：重定向到首页 
     // setLocation('/');
     // return null;
@@ -80,40 +80,41 @@ export default function ArtworkPage() {
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
     queryKey: ["artwork", artworkId],
     queryFn: async () => {
+      // 确保artworkId是有效的
       if (!artworkId || isNaN(artworkId)) {
-        console.error('作品ID无效或缺失:', id);
-        throw new Error("作品ID无效");
+        console.error(`无效的作品ID: ${artworkId}`);
+        throw new Error("作品ID无效或缺失");
       }
 
       try {
-        // 直接使用ID参数请求
-        const apiUrl = `/api/artworks/${artworkId}`;
-        console.log(`发送API请求: ${apiUrl}`);
+        console.log(`正在请求作品数据，ID=${artworkId}`);
+        const response = await fetch(`/api/artworks/${artworkId}`);
 
-        // 使用纯fetch API简化请求
-        const response = await fetch(apiUrl);
-
-        // 检查响应状态
         if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error("找不到作品");
-          } else if (response.status === 403) {
-            throw new Error("此作品需要高级会员才能查看");
+          const errorStatus = response.status;
+          console.error(`API请求失败: 状态码=${errorStatus}`);
+
+          if (errorStatus === 404) {
+            throw new Error(`找不到ID为 ${artworkId} 的作品`);
           } else {
-            throw new Error(`获取作品失败: ${response.statusText}`);
+            throw new Error(`服务器返回错误: ${errorStatus}`);
           }
         }
 
-        // 解析响应数据
         const data = await response.json();
-        console.log("获取到的作品数据:", data);
+        console.log(`成功获取作品数据:`, data);
         return data;
       } catch (err) {
         console.error(`作品请求异常:`, err);
         throw err;
       }
     },
-    retry: 1 // 只重试一次
+    retry: 1, // 只重试一次
+    // 添加错误处理选项
+    retryDelay: 1000, // 重试延迟1秒
+    onError: (err) => {
+      console.error(`作品查询错误:`, err);
+    }
   });
 
   const handleZoomChange = (value: number[]) => {
