@@ -64,50 +64,23 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
-  const handleArtworkClick = () => {
-    // 获取有效的作品ID
-    let validId: number | null = null;
-    
-    console.log(`点击作品:`, artwork); | null = null;
+  const handleArtworkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    // 1. 优先使用imageId作为数字ID (如果存在且为数字)
-    if (artwork.imageId && typeof artwork.imageId === 'number' && !isNaN(artwork.imageId)) {
-      validId = artwork.imageId;
-      console.log(`导航到作品: 使用imageId=${validId}`);
-    }
-    // 2. 尝试从originalId提取数字部分
-    else if (artwork.originalId && typeof artwork.originalId === 'string' && artwork.originalId.includes('-')) {
-      const parts = artwork.originalId.split('-');
-      if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
-        validId = Number(parts[1]);
-        console.log(`导航到作品: 从originalId=${artwork.originalId}提取ID=${validId}`);
-      }
-    }
-    // 3. 尝试从id提取数字部分（如果id是复合格式）
-    else if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
-      const parts = artwork.id.split('-');
-      if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
-        validId = Number(parts[1]);
-        console.log(`导航到作品: 从id=${artwork.id}提取ID=${validId}`);
-      }
-    }
-    // 4. 直接使用id（如果id是数字或可转换为数字）
-    else if (typeof artwork.id === 'number' && !isNaN(artwork.id)) {
-      validId = artwork.id;
-      console.log(`导航到作品: 使用数字id=${validId}`);
-    }
-    else if (typeof artwork.id === 'string' && !isNaN(Number(artwork.id))) {
-      validId = Number(artwork.id);
-      console.log(`导航到作品: 将字符串id转换为数字=${validId}`);
-    }
-
-    // 检查是否成功获取有效ID
-    if (validId !== null && validId > 0) {
-      console.log(`导航到作品详情页，最终ID: ${validId}，类型: ${typeof validId}`);
-      // 确保使用字符串连接而不是模板字符串，避免可能的类型问题
-      setLocation("/artwork/" + validId);
+    // 确保有效的导航ID - 优先使用imageId作为导航参数
+    if (artwork.imageId && typeof artwork.imageId === 'number') {
+      console.log(`导航到作品: 使用imageId=${artwork.imageId}`);
+      setLocation(`/artwork/${artwork.imageId}`);
+    } else if (artwork.originalId) { 
+      // 使用保存的原始ID
+      console.log(`导航到作品: 使用originalId=${artwork.originalId}`);
+      setLocation(`/artwork/${artwork.originalId}`);
+    } else if (artwork.id) {
+      console.log(`导航到作品: 使用id=${artwork.id}`);
+      setLocation(`/artwork/${artwork.id}`);n(`/artwork/${artwork.id}`);
     } else {
-      console.error("无法从作品获取有效ID，无法导航", artwork);
+      console.error("作品没有有效ID，无法导航");
     }
   };
 
@@ -374,7 +347,7 @@ const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?
     if (artwork) {
       // 确保imageId是有效的数字，或者从id中提取
       let validImageId;
-
+      
       // 优先使用传入的imageId
       if (typeof imageId === 'number' && !isNaN(imageId)) {
         validImageId = imageId;

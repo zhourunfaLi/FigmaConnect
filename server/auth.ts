@@ -86,11 +86,9 @@ export function setupAuth(app: Express) {
       }
 
       const hashedPassword = await hashPassword(req.body.password);
-      // 添加role字段，默认为'user'
       const user = await storage.createUser({
         ...req.body,
         password: hashedPassword,
-        role: req.body.role || 'user', // 如果前端提供role则使用，否则默认为'user'
       });
 
       req.login(user, (err) => {

@@ -44,7 +44,7 @@ export async function checkDatabaseConnection() {
 }
 
 // 初始化数据库表
-export async function initDB() {
+async function initDB() {
   try {
     // 创建categories表
     await pool.query(`
@@ -79,8 +79,7 @@ export async function initDB() {
         id SERIAL PRIMARY KEY,
         username TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        is_premium BOOLEAN DEFAULT false NOT NULL,
-        role TEXT DEFAULT 'user' NOT NULL
+        is_premium BOOLEAN DEFAULT false NOT NULL
       );
     `);
 
