@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { fetchArtwork } from "../api.ts";
+import { fetchArtwork } from "@/api";
 import { useState, useEffect } from "react";
 import {
   Dialog,
