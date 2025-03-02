@@ -45,34 +45,41 @@ export default function ArtworkPage() {
 
   // 改进ID处理逻辑
   let artworkId = null;
-  if (id) {
-    // 尝试直接解析为数字ID
-    const parsedId = parseInt(id);
-    if (!isNaN(parsedId)) {
-      artworkId = parsedId;
-    } 
-    // 如果是复合ID格式（如"art-17-0"）
-    else if (id.includes('-')) {
-      const parts = id.split('-');
-      if (parts.length >= 2) {
-        const imageId = parseInt(parts[1]);
-        if (!isNaN(imageId)) {
-          artworkId = imageId;
+  try {
+    if (id) {
+      // 尝试直接解析为数字ID
+      const parsedId = parseInt(id);
+      if (!isNaN(parsedId)) {
+        artworkId = parsedId;
+        console.log(`成功解析数字ID: ${artworkId}`);
+      } 
+      // 如果是复合ID格式（如"art-17-0"）
+      else if (id.includes('-')) {
+        const parts = id.split('-');
+        if (parts.length >= 2) {
+          const imageId = parseInt(parts[1]);
+          if (!isNaN(imageId)) {
+            artworkId = imageId;
+            console.log(`成功解析复合ID: ${id} -> ${artworkId}`);
+          }
         }
       }
     }
-  }
 
-  // 如果ID解析失败，提供一个默认ID或重定向到首页
-  if (artworkId === null) {
-    console.warn(`无法解析有效的作品ID: ${id}`);
+    // 如果ID解析失败，提供一个默认ID或重定向到首页
+    if (artworkId === null || artworkId === undefined) {
+      console.warn(`无法解析有效的作品ID: ${id}，将使用默认ID`);
 
-    // 将ID设置为默认值，避免undefined
-    artworkId = 1;
+      // 将ID设置为默认值，避免undefined
+      artworkId = 1;
 
-    // 可选：重定向到首页 
-    // setLocation('/');
-    // return null;
+      // 可选：重定向到首页
+      // setLocation('/');
+      // return null;
+    }
+  } catch (err) {
+    console.error("ID解析过程中出错:", err);
+    artworkId = 1; // 出错时使用默认ID
   }
 
   console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
@@ -80,40 +87,72 @@ export default function ArtworkPage() {
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
     queryKey: ["artwork", artworkId],
     queryFn: async () => {
-      // 确保artworkId是有效的
-      if (!artworkId || isNaN(artworkId)) {
-        console.error(`无效的作品ID: ${artworkId}`);
-        throw new Error("作品ID无效或缺失");
+      // 增强的ID验证
+      if (typeof artworkId !== 'number' || isNaN(artworkId) || artworkId <= 0) {
+        console.error(`[严重] 无效的作品ID类型或值: ${artworkId}, 类型: ${typeof artworkId}`);
+        throw new Error(`作品ID无效: ${artworkId}`);
       }
 
       try {
         console.log(`正在请求作品数据，ID=${artworkId}`);
-        const response = await fetch(`/api/artworks/${artworkId}`);
+        
+        // 确保请求URL格式正确
+        const apiUrl = `/api/artworks/${artworkId}`;
+        console.log(`发送API请求: ${apiUrl}`);
+        
+        const response = await fetch(apiUrl);
+        console.log(`收到响应: 状态=${response.status}`);
 
         if (!response.ok) {
           const errorStatus = response.status;
-          console.error(`API请求失败: 状态码=${errorStatus}`);
-
+          
           if (errorStatus === 404) {
+            console.warn(`找不到作品: ID=${artworkId}`);
             throw new Error(`找不到ID为 ${artworkId} 的作品`);
+          } else if (errorStatus === 403) {
+            console.warn(`没有权限访问作品: ID=${artworkId}`);
+            throw new Error(`此作品需要高级会员才能查看`);
           } else {
+            console.error(`服务器错误: ${errorStatus}`);
             throw new Error(`服务器返回错误: ${errorStatus}`);
           }
         }
 
-        const data = await response.json();
+        // 安全解析JSON
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          console.error(`解析JSON失败:`, jsonError);
+          throw new Error(`无法解析服务器返回的数据`);
+        }
+        
+        // 验证返回的数据
+        if (!data || typeof data !== 'object') {
+          console.error(`服务器返回了无效数据:`, data);
+          throw new Error(`服务器返回了无效的数据格式`);
+        }
+        
         console.log(`成功获取作品数据:`, data);
         return data;
       } catch (err) {
         console.error(`作品请求异常:`, err);
-        throw err;
+        // 重新抛出，但确保是Error对象
+        if (err instanceof Error) {
+          throw err;
+        } else {
+          throw new Error(`未知错误: ${String(err)}`);
+        }
       }
     },
     retry: 1, // 只重试一次
-    // 添加错误处理选项
     retryDelay: 1000, // 重试延迟1秒
+    // 加强错误处理
+    gcTime: 0, // 不缓存错误结果
+    staleTime: 30000, // 30秒内不重新请求
     onError: (err) => {
       console.error(`作品查询错误:`, err);
+      // 可以在这里添加全局错误处理，如显示通知
     }
   });
 
@@ -165,12 +204,19 @@ export default function ArtworkPage() {
   }
 
   if (isError) {
+    // 确保错误信息正确显示
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : `无法加载作品 (ID: ${id})`;
+    
+    console.log(`显示错误信息: ${errorMessage}`);
+    
     return (
       <div className="container mx-auto px-4 py-8">
         <Alert variant="destructive">
           <AlertDescription>
-            {(error as Error).message || `无法加载作品 (ID: ${id})`}
-          </AlertDescription>
+            {errorMessage}
+          </AlertDescription>escription>
         </Alert>
         <div className="mt-4">
           <Button onClick={() => setLocation('/')}>
