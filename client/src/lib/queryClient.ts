@@ -55,35 +55,3 @@ export const queryClient = new QueryClient({
     },
   },
 });
-import { QueryClient } from "@tanstack/react-query";
-
-const baseUrl = "";  // 在同一个域名下可以留空
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      staleTime: 5 * 60 * 1000, // 5分钟
-    },
-  },
-});
-
-export async function apiRequest(
-  method: string,
-  path: string,
-  body?: any
-) {
-  const options: RequestInit = {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  };
-
-  if (body) {
-    options.body = JSON.stringify(body);
-  }
-
-  return fetch(`${baseUrl}${path}`, options);
-}
