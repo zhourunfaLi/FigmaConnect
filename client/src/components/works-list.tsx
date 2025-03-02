@@ -352,7 +352,7 @@ const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?
           ? artwork.imageId 
           : 1);
 
-      console.log(`处理作品: ID=${artwork.id}, imageId=${validImageId}`);ork.id}, 设置imageId=${validImageId}`);
+      console.log(`处理作品ID: ${artwork.id} -> ${validImageId}`);
 
       return {
         ...artwork,
