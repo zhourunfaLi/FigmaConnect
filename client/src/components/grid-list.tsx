@@ -22,33 +22,17 @@ export default function GridList({ artworks, className, title }: GridListProps) 
   const ArtworkCard = ({ artwork, index }: { artwork: Artwork; index: number }) => {
     const [, navigate] = useLocation();
 
-    const handleArtworkClick = (e: React.MouseEvent) => {
+    const handleArtworkClick = (e: React.MouseEvent<HTMLDivElement>) => {
       e.preventDefault();
       e.stopPropagation();
 
-      // 输出完整的artwork对象，用于调试
+      // 直接使用数字ID，简化处理
+      const artworkId = artwork.id;
+
       console.log('点击的作品对象:', artwork);
+      console.log(`点击作品，导航到ID: ${artworkId}, 类型: ${typeof artworkId}, 原始对象:`, artwork);
 
-      // 确保作品ID是数字类型
-      let artworkId;
-      if (typeof artwork.id === 'string') {
-        artworkId = parseInt(artwork.id, 10);
-      } else if (typeof artwork.id === 'number') {
-        artworkId = artwork.id;
-      } else {
-        console.error('无效的作品ID类型:', typeof artwork.id);
-        alert('无法访问作品：ID类型无效');
-        return;
-      }
-
-      // 确保ID是有效的数字
-      if (isNaN(artworkId) || artworkId <= 0) {
-        console.error('无效的作品ID值:', artworkId);
-        alert('无法访问作品：ID值无效');
-        return;
-      }
-
-      console.log(`点击作品，导航到ID: ${artworkId}, 类型: ${typeof artworkId}`);
+      // 直接导航到对应ID
       navigate(`/artwork/${artworkId}`);
     };
 
@@ -57,9 +41,9 @@ export default function GridList({ artworks, className, title }: GridListProps) 
         <div className="w-full relative">
           <div className="aspect-[3/4] overflow-hidden rounded-md">
             <img
-              src={artwork.themeId === "art"
+              src={artwork.imageUrl || (artwork.themeId === "art"
                 ? new URL(`../assets/design/img/art-${String(artwork.id % 3 + 1).padStart(2, '0')}.jpg`, import.meta.url).href
-                : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href}
+                : new URL(`../assets/design/img/city-${String(artwork.id % 7 + 1).padStart(2, '0')}.jpg`, import.meta.url).href)}
               alt={artwork.title}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
