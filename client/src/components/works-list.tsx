@@ -64,78 +64,47 @@ function ArtworkItem({
     return () => observer.disconnect();
   }, [artwork.id]);
 
-  const handleArtworkClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleArtworkClick = () => {
+    // 获取有效的作品ID
+    let validId: number | null = null;
 
-    // 提取有效的作品ID来导航
-    let validId;
-
-    console.log("处理作品导航, 作品数据:", artwork);
-
-    // 优先使用数字ID (imageId)
-    if (artwork.imageId && typeof artwork.imageId === 'number' && artwork.imageId > 0) {
+    // 1. 优先使用imageId作为数字ID (如果存在且为数字)
+    if (artwork.imageId && typeof artwork.imageId === 'number' && !isNaN(artwork.imageId)) {
       validId = artwork.imageId;
       console.log(`导航到作品: 使用imageId=${validId}`);
-    } 
-    // 如果有原始ID (originalId)，从中提取数字部分
-    else if (artwork.originalId && typeof artwork.originalId === 'string') {
-      // 处理originalId (art-123-45 格式)
-      if (artwork.originalId.includes('-')) {
-        const parts = artwork.originalId.split('-');
-        // 优先使用第二部分作为ID
-        if (parts.length >= 2 && !isNaN(parseInt(parts[1]))) {
-          validId = parts[1]; 
-          console.log(`导航到作品: 从originalId=${artwork.originalId}提取ID=${validId}`);
-        }
-        // 如果第二部分不是数字，尝试第三部分
-        else if (parts.length >= 3 && !isNaN(parseInt(parts[2]))) {
-          validId = parts[2];
-          console.log(`导航到作品: 从originalId=${artwork.originalId}提取第三部分ID=${validId}`);
-        }
-        // 最后尝试第一部分
-        else if (!isNaN(parseInt(parts[0]))) {
-          validId = parts[0];
-          console.log(`导航到作品: 从originalId=${artwork.originalId}提取第一部分ID=${validId}`);
-        }
-      } else if (!isNaN(parseInt(artwork.originalId))) {
-        // 如果originalId本身就是数字
-        validId = artwork.originalId;
-        console.log(`导航到作品: 使用数字originalId=${validId}`);
+    }
+    // 2. 尝试从originalId提取数字部分
+    else if (artwork.originalId && typeof artwork.originalId === 'string' && artwork.originalId.includes('-')) {
+      const parts = artwork.originalId.split('-');
+      if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
+        validId = Number(parts[1]);
+        console.log(`导航到作品: 从originalId=${artwork.originalId}提取ID=${validId}`);
       }
     }
-    // 最后使用作品本身的ID
-    else if (artwork.id) {
-      // 处理字符串ID (包含横杠的情况)
-      if (typeof artwork.id === 'string') {
-        if (artwork.id.includes('-')) {
-          const parts = artwork.id.split('-');
-          if (parts.length >= 2 && !isNaN(parseInt(parts[1]))) {
-            validId = parseInt(parts[1]); // 确保转换为数字
-            console.log(`导航到作品: 从id=${artwork.id}提取ID=${validId}`);
-          } else if (!isNaN(parseInt(parts[0]))) {
-            validId = parseInt(parts[0]); // 确保转换为数字
-            console.log(`导航到作品: 从id=${artwork.id}第一部分=${validId}`);
-          }
-        } else if (!isNaN(parseInt(artwork.id))) {
-          // 字符串但可以解析为数字
-          validId = parseInt(artwork.id); // 确保转换为数字
-          console.log(`导航到作品: 使用字符串数字id=${validId}`);
-        }
-      } else if (typeof artwork.id === 'number') {
-        // 直接使用数字ID
-        validId = artwork.id;
-        console.log(`导航到作品: 使用数字id=${validId}`);
+    // 3. 尝试从id提取数字部分（如果id是复合格式）
+    else if (typeof artwork.id === 'string' && artwork.id.includes('-')) {
+      const parts = artwork.id.split('-');
+      if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
+        validId = Number(parts[1]);
+        console.log(`导航到作品: 从id=${artwork.id}提取ID=${validId}`);
       }
+    }
+    // 4. 直接使用id（如果id是数字或可转换为数字）
+    else if (typeof artwork.id === 'number' && !isNaN(artwork.id)) {
+      validId = artwork.id;
+      console.log(`导航到作品: 使用数字id=${validId}`);
+    }
+    else if (typeof artwork.id === 'string' && !isNaN(Number(artwork.id))) {
+      validId = Number(artwork.id);
+      console.log(`导航到作品: 将字符串id转换为数字=${validId}`);
     }
 
-    // 最终检查，确保ID一定是有效的数字
-    if (validId !== null && !isNaN(Number(validId))) {
-      const numericId = Number(validId);
-      console.log(`导航到作品详情页，最终使用ID: ${numericId}`);
-      setLocation(`/artwork/${numericId}`);
+    // 检查是否成功获取有效ID
+    if (validId !== null && validId > 0) {
+      console.log(`导航到作品详情页，最终ID: ${validId}`);
+      setLocation(`/artwork/${validId}`);
     } else {
-      console.error("作品没有有效的数字ID，无法导航", artwork);
+      console.error("无法从作品获取有效ID，无法导航", artwork);
     }
   };
 

@@ -1,29 +1,31 @@
 import { apiRequest } from "./lib/queryClient";
 
 export async function fetchArtwork(id: number): Promise<any> {
-  if (!id || isNaN(Number(id))) {
-    console.error(`无效的作品ID: ${id}`);
-    throw new Error('无效的作品ID');
+  if (!id || isNaN(id) || id <= 0) {
+    console.error('无效的作品ID参数:', id);
+    throw new Error('Invalid artwork ID');
   }
 
-  // 确保ID是数字类型
-  const numericId = Number(id);
-  console.log(`尝试获取作品，ID: ${numericId}`);
-
   try {
-    const response = await fetch(`/api/artworks/${numericId}`);
+    console.log(`请求作品数据，ID: ${id}`);
+    const response = await fetch(`/api/artworks/${id}`);
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('获取作品失败:', errorData);
-      throw new Error(errorData.error || '获取作品失败');
+      const errorData = await response.json().catch(() => null);
+      console.error('获取作品失败:', response.status, errorData || response.statusText);
+
+      if (response.status === 404) {
+        throw new Error('Artwork not found');
+      }
+
+      throw new Error(`Failed to fetch artwork: ${response.statusText}`);
     }
 
-    const artwork = await response.json();
-    console.log('成功获取作品数据:', artwork);
-    return artwork;
+    const data = await response.json();
+    console.log('成功获取作品数据:', data);
+    return data;
   } catch (error) {
-    console.error(`获取作品ID ${numericId} 时出错:`, error);
+    console.error('作品获取过程中发生错误:', error);
     throw error;
   }
 }

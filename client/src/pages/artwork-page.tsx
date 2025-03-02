@@ -26,7 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const ArtworkPage = () => {
   const params = useParams<{ id: string }>();
-  const id = params.id;
+  const rawId = params.id;
   const { toast } = useToast();
   const { user } = useAuth();
   const [isZoomed, setIsZoomed] = useState(false);
@@ -36,83 +36,54 @@ const ArtworkPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [artwork, setArtwork] = useState<any | null>(null);
 
-
-  // 确保ID是有效数字
+  // 解析作品ID
   useEffect(() => {
-    console.log("接收到作品ID参数:", id);
-    if (!id) {
-      console.error("URL参数中未提供作品ID");
+    let validId: number | null = null;
+    if (rawId) {
+      // 直接检查ID是否为纯数字
+      if (!isNaN(Number(rawId)) && Number(rawId) > 0) {
+        validId = Number(rawId);
+        console.log(`ID是有效的数字: ${validId}`);
+      } else if (rawId.includes('-')) {
+        const parts = rawId.split('-');
+        // 尝试获取第一部分作为数字ID
+        if (parts.length >= 1 && !isNaN(Number(parts[0]))) {
+          validId = Number(parts[0]);
+          console.log(`从复合ID中提取数字部分(第一部分): ${validId}`);
+        }
+        // 尝试获取第二部分作为数字ID
+        if (parts.length >= 2 && !isNaN(Number(parts[1]))) {
+          validId = Number(parts[1]);
+          console.log(`从复合ID中提取数字部分: ${validId}`);
+        }
+      }
+    }
+
+    // 设置解析后的ID
+    if (validId !== null && validId > 0) {
+      console.log(`设置有效的作品ID: ${validId}`);
+      setParsedId(validId);
+    } else {
+      console.error("无法解析为有效的作品ID:", rawId);
+      setError("无效的作品ID");
+      setLoading(false);
       toast({
-        title: "未提供作品ID",
+        title: "无效的作品ID",
         description: "请检查URL并重试",
         variant: "destructive"
       });
-      return;
     }
+  }, [rawId, toast]);
 
-    // 直接检查ID是否为纯数字
-    if (!isNaN(Number(id)) && Number(id) > 0) {
-      const numericId = Number(id);
-      console.log(`ID是有效的数字: ${numericId}`);
-      setParsedId(numericId);
-      return;
-    }
-
-    // 处理可能包含字符的复合ID（例如 art-123-45）
-    if (id.includes('-')) {
-      const parts = id.split('-');
-      // 尝试获取第二部分作为数字ID（最常见的模式）
-      if (parts.length >= 2 && !isNaN(Number(parts[1])) && Number(parts[1]) > 0) {
-        const numericId = Number(parts[1]);
-        console.log(`从复合ID '${id}' 提取数字ID(第二部分): ${numericId}`);
-        setParsedId(numericId);
-        return;
-      }
-
-      // 尝试第三部分
-      if (parts.length >= 3 && !isNaN(Number(parts[2])) && Number(parts[2]) > 0) {
-        const numericId = Number(parts[2]);
-        console.log(`从复合ID '${id}' 提取数字ID(第三部分): ${numericId}`);
-        setParsedId(numericId);
-        return;
-      }
-
-      // 尝试第一部分
-      if (!isNaN(Number(parts[0])) && Number(parts[0]) > 0) {
-        const numericId = Number(parts[0]);
-        console.log(`从复合ID '${id}' 提取数字ID(第一部分): ${numericId}`);
-        setParsedId(numericId);
-        return;
-      }
-    }
-
-    // 如果所有尝试都失败
-    console.error("无法解析为有效的作品ID:", id);
-    toast({
-      title: "无效的作品ID",
-      description: "请检查URL并重试",
-      variant: "destructive"
-    });
-  }, [id, toast]);
-
-  // 加载作品详情
+  // 在ID被成功解析后加载作品数据
   useEffect(() => {
-    if (!parsedId) {
-      return; // 如果没有有效ID，不执行加载
-    }
-
-    let isMounted = true; // 用于处理组件卸载情况
+    if (parsedId === null) return;
 
     const loadArtwork = async () => {
       try {
+        console.log(`开始加载作品数据，ID: ${parsedId}`);
         setLoading(true);
-        setError(null);
-
-        console.log(`开始加载作品详情，ID: ${parsedId}`);
         const data = await fetchArtwork(parsedId);
-
-        // 检查组件是否仍然挂载
-        if (!isMounted) return;
 
         if (data) {
           console.log('成功加载作品:', data);
@@ -127,9 +98,6 @@ const ArtworkPage = () => {
           });
         }
       } catch (err) {
-        // 检查组件是否仍然挂载
-        if (!isMounted) return;
-
         console.error('加载作品失败:', err);
         setError('加载作品失败，请稍后重试');
         toast({
@@ -138,35 +106,16 @@ const ArtworkPage = () => {
           variant: "destructive"
         });
       } finally {
-        // 检查组件是否仍然挂载
-        if (isMounted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     };
 
     loadArtwork();
-
-    // 清理函数
-    return () => {
-      isMounted = false;
-    };
   }, [parsedId, toast]);
 
 
   console.log("尝试获取作品，ID:", parsedId);
   console.log("Artwork data:", { artwork, error });
-
-  if (parsedId === null) {
-    return (
-      <div className="container mx-auto py-12">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">无效的作品ID</h1>
-          <p className="text-gray-600">请检查URL并重试</p>
-        </div>
-      </div>
-    );
-  }
 
   if (isLoading) {
     return (
@@ -285,6 +234,6 @@ const ArtworkPage = () => {
       </Dialog>
     </div>
   );
-}
+};
 
 export default ArtworkPage;
