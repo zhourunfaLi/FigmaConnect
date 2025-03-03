@@ -1,9 +1,96 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap');
+
+:root {
+  --primary-color: #594D5B;
+  --secondary-color: #957186;
+  --accent-color: #D8B4A0;
+  --dark-accent: #614C50;
+  --light-accent: #F0E6DD;
+  --text-primary: #3A3238;
+  --text-secondary: #5D5055;
+  --background-color: #EEEAE2;
+}
+
 .text-shadow {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.22);
+}
+
+.elegant-shadow {
+  box-shadow: 0 4px 20px rgba(89, 77, 91, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.elegant-shadow:hover {
+  box-shadow: 0 6px 25px rgba(89, 77, 91, 0.15);
+}
+
+.art-card-hover {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.art-card-hover:hover {
+  transform: translateY(-3px);
+  opacity: 0.95;
+}
+
+.art-container {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  font-family: 'Raleway', sans-serif;
+}
+
+.art-title {
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 0.02em;
+}
+
+.btn-art {
+  background-color: var(--primary-color);
+  color: var(--light-accent);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.btn-art:hover {
+  background-color: var(--dark-accent);
+  transform: translateY(-1px);
+}
+
+.art-border {
+  border-color: var(--secondary-color);
+  opacity: 0.7;
+}
+
+.art-input {
+  background-color: rgba(240, 230, 221, 0.5);
+  border: 1px solid rgba(149, 113, 134, 0.3);
+  transition: all 0.3s ease;
+}
+
+.art-input:focus {
+  border-color: var(--accent-color);
+  background-color: rgba(240, 230, 221, 0.8);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(216, 180, 160, 0.2);
+}
+
+.art-gallery-grid {
+  perspective: 1000px;
+}
+
+.art-gallery-item {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.art-gallery-item:hover {
+  transform: scale(1.01) translateZ(5px);
 }
 
 @layer base {
@@ -13,5 +100,9 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
   }
 }

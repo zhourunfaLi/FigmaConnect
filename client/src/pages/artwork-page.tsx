@@ -3,7 +3,7 @@ import { ArrowLeft, Heart, Share2, MessageSquare, Download, Maximize } from "luc
 import { useParams, useLocation } from "wouter";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/use-auth"; // Added for user authentication
+import { useAuth } from "@/hooks/use-auth"; 
 
 export default function ArtworkPage() {
   const [, setLocation] = useLocation();
@@ -13,13 +13,12 @@ export default function ArtworkPage() {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
-  const [commentText, setCommentText] = useState(""); // Added for comment input
-  const { user } = useAuth(); // Added for user authentication
+  const [commentText, setCommentText] = useState(""); 
+  const { user } = useAuth(); 
 
 
   console.log("ArtworkPage: URL路径参数=" + params?.id, "解析后ID=" + id);
 
-  // 模拟的艺术品数据
   const artwork = {
     id: id,
     title: "向日葵",
@@ -35,7 +34,6 @@ export default function ArtworkPage() {
     comments: 362,
   };
 
-  // 模拟问答题数据
   const quizzes = [
     {
       id: 1,
@@ -69,7 +67,6 @@ export default function ArtworkPage() {
     }
   ];
 
-  // 模拟评论数据  (This should ideally be fetched from an API)
   const comments = [
     {
       id: 1,
@@ -118,7 +115,6 @@ export default function ArtworkPage() {
     }
   ];
 
-  // 处理答案选择
   const handleAnswerSelect = (questionId: number, answer: boolean) => {
     if (submitted) return;
     setSelectedAnswers({
@@ -127,7 +123,6 @@ export default function ArtworkPage() {
     });
   };
 
-  // 提交答案
   const handleSubmit = () => {
     if (Object.keys(selectedAnswers).length < quizzes.length) {
       alert("请回答所有问题后再提交！");
@@ -145,12 +140,10 @@ export default function ArtworkPage() {
     setSubmitted(true);
   };
 
-  // 放大缩小控制
   const handleScaleChange = (value: number[]) => {
     setScale(value[0]);
   };
 
-  // 全屏显示图片
   const handleFullScreen = () => {
     const img = document.querySelector(".artwork-image") as HTMLImageElement;
     if (img) {
@@ -194,8 +187,7 @@ export default function ArtworkPage() {
   };
 
   return (
-    <div className="pb-20 px-0 pt-0 bg-[#EEEAE2] font-serif">
-      {/* 顶部导航栏 */}
+    <div className="pb-20 px-0 pt-0 bg-[#EEEAE2] font-serif art-container">
       <div className="sticky top-0 z-10 bg-[#EEEAE2] p-4 flex justify-between items-center border-b border-[#D9D4C5]">
         <button
           onClick={() => setLocation("/")}
@@ -216,9 +208,7 @@ export default function ArtworkPage() {
         </div>
       </div>
 
-      {/* 主要内容区 */}
       <div className="px-[8px]">
-        {/* 作品展示区 */}
         <div className="relative mb-6 mt-6 bg-white rounded-md overflow-hidden flex justify-center shadow-sm border border-[#D9D4C5]">
           <div className="relative artwork-frame" style={{ width: '100%', height: 'auto', aspectRatio: '0.75', maxWidth: '500px', position: 'relative' }}>
             <button 
@@ -247,77 +237,81 @@ export default function ArtworkPage() {
           </div>
         </div>
 
-        {/* 广告位1 - 作品展示区下方 */}
         <div className="my-4 px-2">
-          <div className="bg-gray-200 rounded-md p-3 flex justify-center items-center h-[90px] border border-[#D9D4C5]">
-            <div className="text-gray-500 text-sm flex items-center space-x-2">
+          <div className="bg-[#F0E6DD] rounded-sm p-3 flex justify-center items-center h-[90px] border border-[#D8B4A0]/30">
+            <div className="text-[#594D5B] text-sm flex items-center space-x-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
               <span>Google AdSense 广告位</span>
             </div>
           </div>
         </div>
 
-        {/* 作品基本信息 */}
-        <div className="px-2 bg-white rounded-md p-4 shadow-sm border border-[#D9D4C5]">
-          <h1 className="text-2xl font-serif font-bold text-[#363532]">{artwork.title}</h1>
-          <div className="mt-3 text-sm text-[#363532]">
+        <div className="px-2 bg-white rounded-sm p-4 shadow-sm border-l-4 border border-[#D8B4A0]/40 border-l-[#957186]">
+          <h1 className="text-2xl art-title font-bold text-[#3A3238] tracking-wide">{artwork.title}</h1>
+          <div className="mt-3 text-sm text-[#5D5055]">
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               <div>
-                <span className="text-[#666460]">艺术家：</span>
+                <span className="text-[#957186]">艺术家：</span>
                 <span className="font-medium">{artwork.artist}</span>
               </div>
               <div>
-                <span className="text-[#666460]">创作年份：</span>
+                <span className="text-[#957186]">创作年份：</span>
                 <span className="font-medium">{artwork.year}</span>
               </div>
               <div>
-                <span className="text-[#666460]">类型：</span>
+                <span className="text-[#957186]">类型：</span>
                 <span className="font-medium">{artwork.medium}</span>
               </div>
               <div>
-                <span className="text-[#666460]">尺寸：</span>
+                <span className="text-[#957186]">尺寸：</span>
                 <span className="font-medium">{artwork.dimensions}</span>
               </div>
               <div>
-                <span className="text-[#666460]">位置：</span>
+                <span className="text-[#957186]">位置：</span>
                 <span className="font-medium">{artwork.location}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 作品描述区 */}
-        <div className="mb-6 px-2 bg-white rounded-md p-4 shadow-sm border border-[#D9D4C5]">
+        <div className="mb-6 px-2 bg-white rounded-sm p-4 shadow-sm border border-[#D8B4A0]/30">
           <h2 className="text-lg font-serif font-bold text-[#363532] mb-2">作品描述</h2>
           <p className="text-sm text-[#363532] leading-relaxed">
             {artwork.description}
           </p>
         </div>
 
-        {/* 视频讲解区 */}
-        <div className="mb-6 rounded-md overflow-hidden shadow-sm border border-[#D9D4C5]">
-          <h2 className="text-lg font-serif font-semibold mb-2 p-3 bg-white text-[#363532]">穿越时空的杰作：梵高向日葵的故事</h2>
-          <div className="bg-[#D9D4C5] aspect-video flex items-center justify-center">
-            <p className="text-[#666460]">视频讲解区（尚未实现）</p>
+        <div className="mb-6 px-2 bg-white rounded-sm p-4 shadow-sm border border-[#D8B4A0]/30">
+          <h2 className="text-lg art-title font-bold text-[#594D5B] mb-3 border-b border-[#D8B4A0]/20 pb-2">视频讲解</h2>
+          <div className="aspect-video bg-[#F0E6DD] rounded-sm overflow-hidden">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#F0E6DD] to-[#E6DED3]">
+              <div className="text-[#957186] flex flex-col items-center">
+                <PlayCircle size={40} className="mb-2 opacity-80 hover:opacity-100 transition-opacity cursor-pointer" />
+                <span className="text-sm font-medium tracking-wide">视频内容加载中</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* 互动问答区 */}
-        <div className="mb-6 p-5 bg-white rounded-md shadow-sm border border-[#D9D4C5]">
-          <h2 className="text-lg font-serif font-semibold mb-2 text-[#363532]">趣味问答</h2>
-          <p className="text-sm text-[#666460] mb-4">测试你对这幅艺术品的了解（5道题，每题10分）</p>
+        <div className="mb-6 px-2 bg-white rounded-sm p-5 shadow-sm border border-[#D8B4A0]/30">
+          <h2 className="text-lg art-title font-bold text-[#594D5B] mb-3 border-b border-[#D8B4A0]/20 pb-2">趣味问答</h2>
+          <p className="text-sm text-[#5D5055] mb-4 italic">回答以下关于该艺术品的趣味问题，测试你的艺术知识。</p>
 
           <div className="space-y-4">
             {quizzes.map((quiz) => (
-              <div key={quiz.id} className="border border-[#D9D4C5] rounded-md p-4 bg-[#F7F5F0]">
-                <p className="font-medium mb-3 text-[#363532]">{quiz.question}</p>
-                <div className="flex justify-center space-x-6">
+              <div key={quiz.id} className="pb-3 border-b border-[#F0E6DD] last:border-0">
+                <p className="text-sm font-medium text-[#3A3238] mb-2 tracking-wide">{quiz.question}</p>
+                <div className="flex space-x-2">
                   <Button
                     variant={selectedAnswers[quiz.id] === true ? "default" : "outline"}
                     size="sm"
                     onClick={() => handleAnswerSelect(quiz.id, true)}
                     disabled={submitted}
-                    className={`w-20 ${selectedAnswers[quiz.id] === true ? "bg-[#9F8772] hover:bg-[#795C34]" : "text-[#363532] border-[#D9D4C5]"}`}
+                    className={`px-5 py-1.5 rounded-sm text-sm transition-all duration-200 ${
+                      selectedAnswers[quiz.id] === true
+                        ? "bg-[#957186] text-white shadow-md"
+                        : "bg-[#F0E6DD] text-[#594D5B] hover:bg-[#E6DED3]"
+                    }`}
                   >
                     是
                   </Button>
@@ -326,17 +320,21 @@ export default function ArtworkPage() {
                     size="sm"
                     onClick={() => handleAnswerSelect(quiz.id, false)}
                     disabled={submitted}
-                    className={`w-20 ${selectedAnswers[quiz.id] === false ? "bg-[#9F8772] hover:bg-[#795C34]" : "text-[#363532] border-[#D9D4C5]"}`}
+                    className={`px-5 py-1.5 rounded-sm text-sm transition-all duration-200 ${
+                      selectedAnswers[quiz.id] === false
+                        ? "bg-[#957186] text-white shadow-md"
+                        : "bg-[#F0E6DD] text-[#594D5B] hover:bg-[#E6DED3]"
+                    }`}
                   >
                     否
                   </Button>
                 </div>
 
                 {submitted && (
-                  <div className="mt-3 text-sm p-3 rounded-md bg-[#EEEAE2]">
-                    <p className={selectedAnswers[quiz.id] === quiz.answer ? "text-[#588157]" : "text-[#BF4342]"}>
+                  <div className="mt-2 text-sm">
+                    <span className={selectedAnswers[quiz.id] === quiz.answer ? "text-[#4A7A5A]" : "text-[#9A4F50]"}>
                       {quiz.explanation}
-                    </p>
+                    </span>
                   </div>
                 )}
               </div>
@@ -344,64 +342,62 @@ export default function ArtworkPage() {
           </div>
 
           {!submitted ? (
-            <Button onClick={handleSubmit} className="w-full mt-4 bg-[#795C34] hover:bg-[#6A4F2D] text-white">
+            <Button onClick={handleSubmit} className="w-full mt-4 bg-[#594D5B] hover:bg-[#614C50] text-white">
               提交答案
             </Button>
           ) : (
-            <div className="mt-4 text-center p-4 bg-[#F7F5F0] rounded-md border border-[#D9D4C5]">
-              <p className="font-bold text-[#363532]">你的得分: {score} / 50</p>
+            <div className="mt-4 text-center p-4 bg-[#F0E6DD] rounded-sm border border-[#D8B4A0]/30">
+              <p className="font-bold text-[#594D5B]">你的得分: {score} / 50</p>
             </div>
           )}
         </div>
 
 
-        {/* 评论区 */}
-        <div className="mb-6 bg-white p-5 rounded-md shadow-sm border border-[#D9D4C5]">
-          <h2 className="text-lg font-serif font-semibold text-[#363532]">评论 ({comments.length})</h2>
+        <div className="mb-6 px-2 bg-white rounded-sm p-5 shadow-sm border border-[#D8B4A0]/30">
+          <h2 className="text-lg art-title font-bold text-[#594D5B] mb-3 border-b border-[#D8B4A0]/20 pb-2">评论 ({comments.length})</h2>
           <div className="space-y-5">
             {comments.map((comment, index) => (
-              <div key={comment.id} className="border-b border-[#D9D4C5] pb-4">
+              <div key={comment.id} className="border-b border-[#F0E6DD] pb-4">
                 <div className="flex items-start space-x-3">
                   <img
                     src={comment.avatar}
                     alt={comment.user}
-                    className="w-10 h-10 rounded-full border border-[#D9D4C5]"
+                    className="w-10 h-10 rounded-full border border-[#D8B4A0]/30"
                   />
                   <div className="flex-1">
                     <div className="flex justify-between">
-                      <h3 className="font-medium text-[#363532]">{comment.user}</h3>
-                      <span className="text-xs text-[#666460]">{comment.time}</span>
+                      <h3 className="font-medium text-[#594D5B]">{comment.user}</h3>
+                      <span className="text-xs text-[#957186]/80">{comment.time}</span>
                     </div>
-                    <p className="text-sm mt-2 text-[#363532] leading-relaxed">{comment.content}</p>
+                    <p className="text-sm mt-2 text-[#5D5055] leading-relaxed">{comment.content}</p>
                     <div className="flex items-center space-x-5 mt-3">
-                      <button className="text-xs text-[#666460] hover:text-[#BF4342] flex items-center transition-colors">
+                      <button className="text-xs text-[#957186]/80 hover:text-[#BF4342] flex items-center transition-colors">
                         <Heart className="h-3 w-3 mr-1 text-[#BF4342]" />
                         {comment.likes}
                       </button>
-                      <button className="text-xs text-[#666460] hover:text-[#BF4342] flex items-center transition-colors">
+                      <button className="text-xs text-[#957186]/80 hover:text-[#BF4342] flex items-center transition-colors">
                         <MessageSquare className="h-3 w-3 mr-1 text-[#BF4342]" />
                         回复
                       </button>
                     </div>
 
-                    {/* 回复 */}
                     {comment.replies.length > 0 && (
-                      <div className="mt-4 pl-4 border-l-2 border-[#D9D4C5] space-y-4">
+                      <div className="mt-4 pl-4 border-l-2 border-[#D8B4A0]/20 space-y-4">
                         {comment.replies.map((reply) => (
                           <div key={reply.id} className="flex items-start space-x-2">
                             <img
                               src={reply.avatar}
                               alt={reply.user}
-                              className="w-7 h-7 rounded-full border border-[#D9D4C5]"
+                              className="w-7 h-7 rounded-full border border-[#D8B4A0]/30"
                             />
                             <div className="flex-1">
                               <div className="flex justify-between">
-                                <h4 className="text-xs font-medium text-[#363532]">{reply.user}</h4>
-                                <span className="text-xs text-[#666460]">{reply.time}</span>
+                                <h4 className="text-xs font-medium text-[#594D5B]">{reply.user}</h4>
+                                <span className="text-xs text-[#957186]/80">{reply.time}</span>
                               </div>
-                              <p className="text-xs mt-1 text-[#363532] leading-relaxed">{reply.content}</p>
+                              <p className="text-xs mt-1 text-[#5D5055] leading-relaxed">{reply.content}</p>
                               <div className="flex items-center mt-2">
-                                <button className="text-xs text-[#666460] hover:text-[#BF4342] flex items-center transition-colors">
+                                <button className="text-xs text-[#957186]/80 hover:text-[#BF4342] flex items-center transition-colors">
                                   <Heart className="h-3 w-3 mr-1 text-[#BF4342]" />
                                   {reply.likes}
                                 </button>
@@ -416,33 +412,30 @@ export default function ArtworkPage() {
               </div>
             ))}
           </div>
-          {/* 评论输入框 */}
           <div className="mt-4">
             <textarea
-              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition art-input"
               rows={3}
               placeholder="发表评论..."
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
             ></textarea>
-            <button className="mt-2 px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition">发布评论</button>
+            <button className="mt-2 px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition btn-art">发布评论</button>
           </div>
-          {/* 评论区下方广告 */}
-          <div className="mt-6 p-4 bg-white rounded-md shadow-sm border border-[#D9D4C5]">
-            <div className="border-2 border-dashed border-gray-300 p-4 text-center bg-gray-50">
-              <p className="text-gray-500 mb-2">谷歌广告位</p>
-              <div className="h-[150px] flex items-center justify-center bg-gray-100">
-                <span className="text-gray-400">Google AdSense</span>
+          <div className="mt-6 p-4 bg-white rounded-sm shadow-sm border border-[#D8B4A0]/30">
+            <div className="border border-dashed border-[#D8B4A0]/30 p-4 text-center bg-[#F0E6DD]">
+              <p className="text-[#594D5B] mb-2 text-sm tracking-wide">谷歌广告位</p>
+              <div className="h-[150px] flex items-center justify-center bg-[#F0E6DD]/50">
+                <span className="text-[#957186]/80">Google AdSense</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 下载原图区域 */}
-        <div className="mb-6 p-5 bg-white rounded-md shadow-sm flex flex-col items-center border border-[#D9D4C5]">
+        <div className="mb-6 p-5 bg-white rounded-sm shadow-sm flex flex-col items-center border border-[#D8B4A0]/30">
           <h2 className="text-lg font-serif font-semibold mb-2 text-[#363532]">下载高清原图</h2>
           <p className="text-sm text-[#666460] mb-4">获取这幅艺术作品的高分辨率图像</p>
-          <Button className="flex items-center bg-[#795C34] hover:bg-[#6A4F2D] text-white border-none">
+          <Button className="flex items-center bg-[#594D5B] hover:bg-[#614C50] text-white border-none btn-art">
             <Download className="h-4 w-4 mr-2" />
             下载原图 (15MB)
           </Button>
