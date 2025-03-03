@@ -2,6 +2,8 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { validateSchema } from "./validateSchema"; // Added import for schema validation
+import initTestData from './initTestData'; // Added import for test data initialization
+import { checkDatabaseConnection } from './db'; // Assuming this import exists
 
 const app = express();
 app.use(express.json());
@@ -62,28 +64,17 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
 
-    const BASE_PORT = 9000;
+    const BASE_PORT = 3100; // 使用一个不太常用的端口，避免与其他进程冲突
     let currentPort = BASE_PORT;
     let serverStarted = false;
 
-    // 确保之前的进程已结束
-    try {
-      const killPortProcess = require('kill-port');
-      await killPortProcess(BASE_PORT);
-      console.log(`已尝试释放端口 ${BASE_PORT}`);
-    } catch (err) {
-      console.log(`端口释放错误 (可忽略): ${err.message}`);
-    }
+    // 杀死可能占用端口的进程
+    console.log(`准备在端口 ${BASE_PORT} 启动服务器...`);
 
     const startServer = async () => {
       if (serverStarted) {
         log(`服务器已经在运行中，不需要重新启动`);
         return;
-      }
-
-      if (retryCount >= MAX_RETRIES) {
-        log(`已达到最大重试次数 (${MAX_RETRIES})，尝试使用端口 ${currentPort + 1}...`);
-        currentPort = BASE_PORT + 1;
       }
 
       try {
@@ -115,20 +106,53 @@ app.use((req, res, next) => {
         log(`启动服务器出错: ${e.message}`);
         if (e.code === 'EADDRINUSE') {
           retryCount++;
-          currentPort++; // 递增端口号
-          log(`端口 ${currentPort - 1} 被占用，尝试端口 ${currentPort}，重试 ${retryCount}/${MAX_RETRIES}...`);
-          if (retryCount <= MAX_RETRIES * 2) {
+          currentPort += 100; // 大幅增加端口号，避免连续端口被占用
+          log(`端口 ${currentPort - 100} 被占用，尝试端口 ${currentPort}，重试 ${retryCount}/${MAX_RETRIES}...`);
+          if (retryCount <= MAX_RETRIES) {
             setTimeout(startServer, 1000);
           } else {
-            log(`多次尝试失败，退出进程`);
-            process.exit(1);
+            log(`多次尝试失败，尝试使用其他随机端口...`);
+            // 使用一个随机高端口
+            currentPort = 8000 + Math.floor(Math.random() * 1000);
+            log(`尝试使用随机端口 ${currentPort}...`);
+            setTimeout(startServer, 1000);
           }
         } else {
           log(`严重错误: ${e.message}`);
-          process.exit(1);
+          // 不要立即退出，给更多错误信息
+          log(`错误详情: ${JSON.stringify(e)}`);
+          if (retryCount < MAX_RETRIES) {
+            retryCount++;
+            setTimeout(startServer, 3000);
+          } else {
+            process.exit(1);
+          }
         }
       }
     };
+
+
+    // 数据库连接检查和测试数据初始化
+    await checkDatabaseConnection()
+      .then(async (isConnected) => {
+        if (isConnected) {
+          console.log('数据库连接成功');
+          try {
+            await initTestData();
+            console.log('测试数据初始化成功');
+          } catch (initError) {
+            console.error('测试数据初始化失败:', initError);
+          }
+        } else {
+          console.error('无法连接到数据库');
+          throw new Error('数据库连接失败');
+        }
+      })
+      .catch((dbError) => {
+        console.error('数据库连接或测试数据初始化错误:', dbError);
+        // 处理数据库错误, 例如退出进程或者尝试重连
+        process.exit(1); // or implement retry logic here
+      });
 
     // 处理服务器错误
     server.on('error', (err) => {
