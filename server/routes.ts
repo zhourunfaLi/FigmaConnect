@@ -68,9 +68,13 @@ export function registerRoutes(app: Express): Server {
       const id = parseInt(req.params.id);
       console.log(`[Debug] Received request for artwork ID: ${id}`);
 
-      if (isNaN(id)) {
+      if (isNaN(id) || id <= 0) {
         console.log(`[Debug] Invalid ID format: ${req.params.id}`);
-        res.status(400).json({ error: "Invalid artwork ID", details: req.params.id });
+        res.status(400).json({ 
+          error: "Invalid artwork ID", 
+          details: req.params.id,
+          message: `ID必须是正整数`
+        });
         return;
       }
 
@@ -84,8 +88,9 @@ export function registerRoutes(app: Express): Server {
           break; // 如果成功获取数据，退出循环
         } catch (err) {
           // 如果是数据库连接错误，尝试重试
-          if (err.message.includes('terminating connection') || 
-              err.message.includes('Connection terminated')) {
+          if (err.message && (
+              err.message.includes('terminating connection') || 
+              err.message.includes('Connection terminated'))) {
             console.log(`[Debug] Database connection error, retrying (${retries} attempts left)`);
             retries--;
             if (retries > 0) {
@@ -102,13 +107,20 @@ export function registerRoutes(app: Express): Server {
 
       if (!artwork) {
         console.log(`[Debug] No artwork found for ID: ${id}`);
-        res.status(404).json({ error: "Artwork not found", artworkId: id });
+        res.status(404).json({ 
+          error: "Artwork not found", 
+          artworkId: id,
+          message: `找不到ID为 ${id} 的作品`
+        });
         return;
       }
 
-      if (artwork.isPremium && !req.user?.isPremium) {
+      if (artwork.isPremium && req.user && !req.user.isPremium) {
         console.log(`[Debug] Premium content access denied for user:`, req.user);
-        res.status(403).json({ error: "Premium content requires membership" });
+        res.status(403).json({ 
+          error: "Premium content requires membership",
+          message: "此作品需要高级会员才能查看" 
+        });
         return;
       }
 
@@ -117,7 +129,7 @@ export function registerRoutes(app: Express): Server {
       console.error('[Error] Error fetching artwork:', error);
       res.status(500).json({ 
         error: "Internal server error", 
-        message: error.message,
+        message: error.message || "服务器内部错误",
         status: 500
       });
     }

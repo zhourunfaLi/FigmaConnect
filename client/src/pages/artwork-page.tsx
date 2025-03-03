@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "wouter";
+import { useLocation, useNavigate } from "wouter";
 import { type Artwork } from "@shared/schema";
 import VideoPlayer from "@/components/video-player";
 import CommentSection from "@/components/comment-section";
@@ -9,7 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, ZoomIn, ZoomOut, Download, Info, Video, MessageSquare, HelpCircle } from "lucide-react";
+import { Loader2, ZoomIn, ZoomOut, Download, Info, Video, MessageSquare, HelpCircle, AlertTriangle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
@@ -34,8 +34,8 @@ const MOCK_QUIZ = [
 ];
 
 export default function ArtworkPage() {
-  // 直接从URL获取参数，使用window.location来确保获得正确的路径
-  const [, setLocation] = useLocation();
+  const [setLocation] = useLocation();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
   const [zoomLevel, setZoomLevel] = useState<number>(100);
@@ -101,19 +101,18 @@ export default function ArtworkPage() {
     );
   }
 
-  const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
-    queryKey: ["artwork", artworkId],
+  // 获取作品数据
+  const { data: artwork, isLoading, isError, error, refetch } = useQuery({
+    queryKey: ['artwork', artworkId],
     queryFn: async () => {
-      // 增强的ID验证
-      if (typeof artworkId !== 'number' || isNaN(artworkId) || artworkId <= 0) {
-        console.error(`[严重] 无效的作品ID类型或值: ${artworkId}, 类型: ${typeof artworkId}`);
-        throw new Error(`作品ID无效: ${artworkId}`);
-      }
+      console.log(`正在请求作品数据，ID=${artworkId}`);
 
       try {
-        console.log(`正在请求作品数据，ID=${artworkId}`);
+        // 验证ID是否有效
+        if (!artworkId || artworkId <= 0 || isNaN(Number(artworkId))) {
+          throw new Error(`无效的作品ID: ${artworkId}`);
+        }
 
-        // 确保请求URL格式正确
         const apiUrl = `/api/artworks/${artworkId}`;
         console.log(`发送API请求: ${apiUrl}`);
 
@@ -121,55 +120,37 @@ export default function ArtworkPage() {
         console.log(`收到响应: 状态=${response.status}`);
 
         if (!response.ok) {
-          const errorStatus = response.status;
-
-          if (errorStatus === 404) {
-            console.warn(`找不到作品: ID=${artworkId}`);
+          if (response.status === 404) {
             throw new Error(`找不到ID为 ${artworkId} 的作品`);
-          } else if (errorStatus === 403) {
-            console.warn(`没有权限访问作品: ID=${artworkId}`);
-            throw new Error(`此作品需要高级会员才能查看`);
-          } else {
-            console.error(`服务器错误: ${errorStatus}`);
-            throw new Error(`服务器返回错误: ${errorStatus}`);
           }
+          throw new Error(`获取作品失败: HTTP ${response.status} - ${response.statusText}`);
         }
 
-        // 安全解析JSON
-        let data;
-        try {
-          data = await response.json();
-        } catch (jsonError) {
-          console.error(`解析JSON失败:`, jsonError);
-          throw new Error(`无法解析服务器返回的数据`);
-        }
+        const data = await response.json();
 
         // 验证返回的数据
-        if (!data || typeof data !== 'object') {
-          console.error(`服务器返回了无效数据:`, data);
-          throw new Error(`服务器返回了无效的数据格式`);
+        if (!data || !data.id) {
+          throw new Error(`返回的作品数据无效`);
         }
 
         console.log(`成功获取作品数据:`, data);
         return data;
-      } catch (err) {
-        console.error(`作品请求异常:`, err);
-        // 重新抛出，但确保是Error对象
-        if (err instanceof Error) {
-          throw err;
-        } else {
-          throw new Error(`未知错误: ${String(err)}`);
-        }
+      } catch (err: any) {
+        console.error(`作品请求异常:`, {
+          message: err.message,
+          stack: err.stack
+        });
+        throw err;
       }
     },
-    retry: 1, // 只重试一次
-    retryDelay: 1000, // 重试延迟1秒
-    // 加强错误处理
-    gcTime: 0, // 不缓存错误结果
-    staleTime: 30000, // 30秒内不重新请求
-    onError: (err) => {
-      console.error(`作品查询错误:`, err);
-      // 可以在这里添加全局错误处理，如显示通知
+    retry: false, // 不自动重试，避免重复错误
+    staleTime: 1000 * 60 * 10, // 10分钟内不重新请求
+    onError: (err: any) => {
+      console.error(`作品查询错误:`, {
+        message: err.message,
+        name: err.name,
+        stack: err.stack
+      });
     }
   });
 
@@ -229,16 +210,27 @@ export default function ArtworkPage() {
     console.log(`显示错误信息: ${errorMessage}`);
 
     return (
-      <div className="container mx-auto px-4 py-8">
-        <Alert variant="destructive">
-          <AlertDescription>
+      <div className="flex items-center justify-center min-h-[70vh] p-4">
+        <div className="text-center max-w-md p-6 bg-gray-50 rounded-lg shadow">
+          <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
             {errorMessage}
-          </AlertDescription>
-        </Alert>
-        <div className="mt-4">
-          <Button onClick={() => setLocation('/')}>
-            返回首页
-          </Button>
+          </h2>
+          <p className="text-gray-600 mb-6">
+            可能是作品已被删除或移动，或者服务器暂时无法响应。
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-3">
+            <Button onClick={() => refetch()} className="w-full sm:w-auto">
+              重试加载
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/')} 
+              className="w-full sm:w-auto"
+            >
+              返回首页
+            </Button>
+          </div>
         </div>
       </div>
     );
