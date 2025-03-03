@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "wouter";
+import { useLocation } from "wouter";
 import { type Artwork } from "@shared/schema";
 import VideoPlayer from "@/components/video-player";
 import CommentSection from "@/components/comment-section";
@@ -35,7 +35,6 @@ const MOCK_QUIZ = [
 
 export default function ArtworkPage() {
   const [setLocation] = useLocation();
-  const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
   const [zoomLevel, setZoomLevel] = useState<number>(100);
@@ -225,7 +224,7 @@ export default function ArtworkPage() {
             </Button>
             <Button 
               variant="outline" 
-              onClick={() => navigate('/')} 
+              onClick={() => setLocation('/')} 
               className="w-full sm:w-auto"
             >
               返回首页
