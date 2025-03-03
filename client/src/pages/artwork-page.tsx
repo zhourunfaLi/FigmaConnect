@@ -376,7 +376,8 @@ export default function ArtworkPage() {
               <div key={comment.id} className="border rounded-md p-3">
                 <div className="flex items-start space-x-2">
                   <img
-                    src={comment.avatar                    alt={comment.username}
+                    src={comment.avatar}
+                    alt={comment.username}
                     className="w-8 h-8 rounded-full"
                   />
                   <div className="flex-1">
