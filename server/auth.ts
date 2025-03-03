@@ -22,10 +22,22 @@ async function hashPassword(password: string) {
 }
 
 async function comparePasswords(supplied: string, stored: string) {
-  const [hashed, salt] = stored.split(".");
-  const hashedBuf = Buffer.from(hashed, "hex");
-  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-  return timingSafeEqual(hashedBuf, suppliedBuf);
+  try {
+    const storedParts = stored.split(".");
+    if (storedParts.length !== 2) {
+      console.error("密码格式错误: 存储的密码没有正确的格式");
+      return false;
+    }
+    
+    const [hashed, salt] = storedParts;
+    const hashedBuf = Buffer.from(hashed, "hex");
+    const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+    
+    return timingSafeEqual(hashedBuf, suppliedBuf);
+  } catch (error) {
+    console.error("密码比较失败:", error);
+    return false;
+  }
 }
 
 export function setupAuth(app: Express) {
