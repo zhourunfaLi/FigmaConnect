@@ -78,7 +78,7 @@ function ArtworkItem({
       setLocation(`/artwork/${artwork.originalId}`);
     } else if (artwork.id) {
       console.log(`导航到作品: 使用id=${artwork.id}`);
-      setLocation(`/artwork/${artwork.id}`);n(`/artwork/${artwork.id}`);
+      setLocation(`/artwork/${artwork.id}`);
     } else {
       console.error("作品没有有效ID，无法导航");
     }
@@ -347,7 +347,7 @@ const processArtwork = (artwork: Artwork, options?: { themeId?: string; imageId?
     if (artwork) {
       // 确保imageId是有效的数字，或者从id中提取
       let validImageId;
-      
+
       // 优先使用传入的imageId
       if (typeof imageId === 'number' && !isNaN(imageId)) {
         validImageId = imageId;
