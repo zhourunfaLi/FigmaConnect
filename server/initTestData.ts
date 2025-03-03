@@ -8,22 +8,36 @@ async function initTestData() {
     // 清理现有数据
     await cleanExistingData();
     
-    // 创建分类数据
-    await initCategories();
-    
-    // 创建测试作品
-    await initArtworks();
-    
-    // 创建测试用户
-    await initUsers();
+    try {
+      // 创建分类数据
+      await initCategories();
+      console.log("分类数据初始化成功");
+      
+      // 延迟一下确保分类数据完全写入
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // 创建测试作品
+      await initArtworks();
+      console.log("作品数据初始化成功");
+      
+      // 创建测试用户
+      await initUsers();
+      console.log("用户数据初始化成功");
 
-    // 创建测试评论
-    await initComments();
-    
-    console.log("测试数据初始化成功");
+      // 创建测试评论
+      await initComments();
+      console.log("评论数据初始化成功");
+      
+      console.log("测试数据初始化成功");
+    } catch (innerError) {
+      console.error("初始化数据过程中出错:", innerError);
+      throw innerError;
+    }
   } catch (error) {
     console.error("初始化测试数据失败:", error);
     throw error;
+  } finally {
+    console.log("测试数据初始化完成");
   }
 }
 

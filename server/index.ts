@@ -64,22 +64,17 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
 
-    const BASE_PORT = 3000; // 更改默认端口，避免与其他进程冲突
+    const BASE_PORT = 3100; // 使用一个不太常用的端口，避免与其他进程冲突
     let currentPort = BASE_PORT;
     let serverStarted = false;
 
-    // 不再使用kill-port，因为它可能导致错误
+    // 杀死可能占用端口的进程
     console.log(`准备在端口 ${BASE_PORT} 启动服务器...`);
 
     const startServer = async () => {
       if (serverStarted) {
         log(`服务器已经在运行中，不需要重新启动`);
         return;
-      }
-
-      if (retryCount >= MAX_RETRIES) {
-        log(`已达到最大重试次数 (${MAX_RETRIES})，尝试使用端口 ${currentPort + 1}...`);
-        currentPort = BASE_PORT + 1;
       }
 
       try {
@@ -111,17 +106,27 @@ app.use((req, res, next) => {
         log(`启动服务器出错: ${e.message}`);
         if (e.code === 'EADDRINUSE') {
           retryCount++;
-          currentPort++; // 递增端口号
-          log(`端口 ${currentPort - 1} 被占用，尝试端口 ${currentPort}，重试 ${retryCount}/${MAX_RETRIES}...`);
-          if (retryCount <= MAX_RETRIES * 2) {
+          currentPort += 100; // 大幅增加端口号，避免连续端口被占用
+          log(`端口 ${currentPort - 100} 被占用，尝试端口 ${currentPort}，重试 ${retryCount}/${MAX_RETRIES}...`);
+          if (retryCount <= MAX_RETRIES) {
             setTimeout(startServer, 1000);
           } else {
-            log(`多次尝试失败，退出进程`);
-            process.exit(1);
+            log(`多次尝试失败，尝试使用其他随机端口...`);
+            // 使用一个随机高端口
+            currentPort = 8000 + Math.floor(Math.random() * 1000);
+            log(`尝试使用随机端口 ${currentPort}...`);
+            setTimeout(startServer, 1000);
           }
         } else {
           log(`严重错误: ${e.message}`);
-          process.exit(1);
+          // 不要立即退出，给更多错误信息
+          log(`错误详情: ${JSON.stringify(e)}`);
+          if (retryCount < MAX_RETRIES) {
+            retryCount++;
+            setTimeout(startServer, 3000);
+          } else {
+            process.exit(1);
+          }
         }
       }
     };
