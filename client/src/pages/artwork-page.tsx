@@ -66,20 +66,17 @@ export default function ArtworkPage() {
       }
     }
 
-    // 如果ID解析失败，提供一个默认ID或重定向到首页
+    // 如果ID解析失败，重定向到首页而不是使用默认ID
     if (artworkId === null || artworkId === undefined) {
-      console.warn(`无法解析有效的作品ID: ${id}，将使用默认ID`);
-
-      // 将ID设置为默认值，避免undefined
-      artworkId = 1;
-
-      // 可选：重定向到首页
-      // setLocation('/');
-      // return null;
+      console.warn(`无法解析有效的作品ID: ${id}，重定向到首页`);
+      setLocation('/');
+      return null;
     }
   } catch (err) {
     console.error("ID解析过程中出错:", err);
-    artworkId = 1; // 出错时使用默认ID
+    // 出错时重定向到首页
+    setLocation('/');
+    return null;
   }
 
   console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);

@@ -1,7 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { validateSchema } from "./validateSchema"; // Added import for schema validation
+import { validateSchema } from "./validateSchema";
+import { initTestData } from "./initTestData"; // Added import for test data initialization
 
 const app = express();
 app.use(express.json());
@@ -111,6 +112,8 @@ app.use((req, res, next) => {
         });
 
         await startPromise;
+        // 初始化测试数据
+        await initTestData();
       } catch(e) {
         log(`启动服务器出错: ${e.message}`);
         if (e.code === 'EADDRINUSE') {
@@ -188,5 +191,13 @@ async function validateSchema() {
   // Add your schema validation logic here.  This is a placeholder.
   // For example, you might compare database schema with a definition file.
   // Throw an error if the schema is invalid.
+  return Promise.resolve();
+}
+
+// Placeholder for test data initialization function.  Replace with actual implementation.
+async function initTestData() {
+  console.log("Initializing test data...");
+  // Add your test data initialization logic here. This is a placeholder.
+  // For example, you might insert some sample artworks into the database.
   return Promise.resolve();
 }
