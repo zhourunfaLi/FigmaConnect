@@ -247,8 +247,18 @@ export default function ArtworkPage() {
           </div>
         </div>
 
+        {/* 广告位1 - 作品展示区下方 */}
+        <div className="my-4 px-2">
+          <div className="bg-gray-200 rounded-md p-3 flex justify-center items-center h-[90px] border border-[#D9D4C5]">
+            <div className="text-gray-500 text-sm flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <span>Google AdSense 广告位</span>
+            </div>
+          </div>
+        </div>
+
         {/* 作品基本信息 */}
-        <div className="mb-6 px-2 bg-white rounded-md p-4 shadow-sm border border-[#D9D4C5]">
+        <div className="px-2 bg-white rounded-md p-4 shadow-sm border border-[#D9D4C5]">
           <h1 className="text-2xl font-serif font-bold text-[#363532]">{artwork.title}</h1>
           <div className="mt-3 text-sm text-[#363532]">
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
@@ -342,16 +352,6 @@ export default function ArtworkPage() {
               <p className="font-bold text-[#363532]">你的得分: {score} / 50</p>
             </div>
           )}
-        </div>
-
-        {/* 作品展示区下方广告 */}
-        <div className="mt-6 p-4 bg-white rounded-md shadow-sm border border-[#D9D4C5]">
-          <div className="border-2 border-dashed border-gray-300 p-4 text-center bg-gray-50">
-            <p className="text-gray-500 mb-2">谷歌广告位</p>
-            <div className="h-[120px] flex items-center justify-center bg-gray-100">
-              <span className="text-gray-400">Google AdSense</span>
-            </div>
-          </div>
         </div>
 
 
