@@ -126,15 +126,13 @@ export default function ArtworkPage() {
   }, [id]);
 
   // 获取作品数据
-  const { data: artwork, isLoading } = useQuery(
-    [`/api/artworks/${artworkId}`],
-    {
-      enabled: !!artworkId,
-      onSuccess: (data) => {
-        console.log("成功获取作品数据:", data);
-      },
-    }
-  );
+  const { data: artwork, isLoading } = useQuery({
+    queryKey: [`/api/artworks/${artworkId}`],
+    enabled: !!artworkId,
+    onSuccess: (data) => {
+      console.log("成功获取作品数据:", data);
+    },
+  });
 
   // 增加/减少缩放
   const handleZoomChange = (amount: number) => {
