@@ -67,6 +67,7 @@ export function registerRoutes(app: Express): Server {
     try {
       const id = parseInt(req.params.id);
       console.log(`[Debug] Received request for artwork ID: ${id}`);
+      console.log(`[Debug] Executing getArtwork query with ID: ${id}`);
 
       if (isNaN(id) || id <= 0) {
         console.log(`[Debug] Invalid ID format: ${req.params.id}`);
@@ -83,6 +84,32 @@ export function registerRoutes(app: Express): Server {
       let artwork = null;
       
       while (retries > 0) {
+
+  // 新增API：导入前端作品数据到数据库
+  app.post("/api/import-frontend-artworks", async (req, res) => {
+    if (!req.user || req.user.role !== 'admin') {
+      return res.status(403).send("需要管理员权限");
+    }
+    
+    try {
+      const artworks = req.body.artworks;
+      if (!Array.isArray(artworks)) {
+        return res.status(400).send("参数格式错误，需要提供作品数组");
+      }
+      
+      const imported = await storage.importFrontendArtworks(artworks);
+      res.status(200).json({ 
+        success: true, 
+        message: `成功导入${artworks.length}个作品`, 
+        count: imported.length 
+      });
+    } catch (error) {
+      console.error('导入前端作品数据失败:', error);
+      res.status(500).send("导入作品数据失败");
+    }
+  });
+
+
         try {
           artwork = await storage.getArtwork(id);
           break; // 如果成功获取数据，退出循环
