@@ -4,6 +4,8 @@ import { ArrowLeft, Download, Heart, MessageSquare, Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 export default function ArtworkPage() {
   const params = useParams();
@@ -11,6 +13,12 @@ export default function ArtworkPage() {
   const [zoom, setZoom] = useState(1);
   const [isLiked, setIsLiked] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [quizAnswers, setQuizAnswers] = useState<(boolean | undefined)[]>([
+    undefined, undefined, undefined, undefined, undefined
+  ]);
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
+  const { toast } = useToast();
 
   // 模拟数据
   const artwork = {
@@ -204,51 +212,148 @@ export default function ArtworkPage() {
         </div>
 
         {/* 互动问答区 */}
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-          <h3 className="text-lg font-medium mb-3">互动问答</h3>
-          <p className="mb-4">{question.text}</p>
+        <div className="artwork-section-container space-y-2">
+          <h3 className="text-xl font-bold">趣味问答区</h3>
+          <div className="space-y-4">
+            {!quizSubmitted ? (
+              <div className="bg-muted p-4 rounded-lg">
+                <p className="font-medium mb-4">请回答以下5道关于艺术的有趣问题，选择"是"或"否"：</p>
 
-          <div className="space-y-2">
-            {question.options.map((option) => (
-              <button
-                key={option}
-                className={cn(
-                  "w-full p-3 rounded-md border text-left",
-                  selectedAnswer === option && selectedAnswer === question.correctAnswer
-                    ? "border-green-500 bg-green-50"
-                    : selectedAnswer === option
-                    ? "border-red-500 bg-red-50"
-                    : "border-gray-200"
-                )}
-                onClick={() => handleAnswerSelect(option)}
-                disabled={selectedAnswer !== null}
-              >
-                {option}
-              </button>
-            ))}
+                <div className="space-y-6">
+                  {[
+                    "向日葵在一天中会跟随太阳的移动而转动吗？",
+                    "梵高一生中只卖出过一幅画作吗？",
+                    "《蒙娜丽莎》是世界上最小的著名画作吗？",
+                    "毕加索年轻时曾烧掉自己的画作来取暖吗？",
+                    "《最后的晚餐》由达芬奇完成于15世纪末吗？"
+                  ].map((question, index) => (
+                    <div key={index} className="bg-background p-3 rounded-md">
+                      <p className="font-medium mb-2">问题{index + 1}：{question}</p>
+                      <div className="flex space-x-4 justify-center mt-2">
+                        <Button 
+                          variant={quizAnswers[index] === true ? "default" : "outline"} 
+                          size="sm"
+                          onClick={() => {
+                            const newAnswers = [...quizAnswers];
+                            newAnswers[index] = true;
+                            setQuizAnswers(newAnswers);
+                          }}
+                        >
+                          是
+                        </Button>
+                        <Button 
+                          variant={quizAnswers[index] === false ? "default" : "outline"} 
+                          size="sm"
+                          onClick={() => {
+                            const newAnswers = [...quizAnswers];
+                            newAnswers[index] = false;
+                            setQuizAnswers(newAnswers);
+                          }}
+                        >
+                          否
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-center mt-6">
+                  <Button 
+                    onClick={() => {
+                      // 检查是否已回答所有问题
+                      if (!quizAnswers.includes(undefined)) {
+                        setQuizSubmitted(true);
+                        // 计算得分 - 正确答案是 [true, true, false, true, true]
+                        const correctAnswers = [true, true, false, true, true];
+                        let score = 0;
+                        correctAnswers.forEach((answer, index) => {
+                          if (answer === quizAnswers[index]) {
+                            score += 10;
+                          }
+                        });
+                        setQuizScore(score);
+                      } else {
+                        // 提示用户回答所有问题
+                        toast({
+                          title: "请回答所有问题",
+                          description: "提交前请确保回答了所有5个问题",
+                          variant: "destructive",
+                        });
+                      }
+                    }}
+                  >
+                    提交答案
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-muted p-4 rounded-lg">
+                <div className="mb-4 text-center">
+                  <h4 className="text-lg font-semibold">您的得分: {quizScore}/50</h4>
+                  <p className="text-sm text-muted-foreground">答对一题得10分</p>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    {
+                      question: "向日葵在一天中会跟随太阳的移动而转动吗？",
+                      answer: true,
+                      explanation: "是的，向日葵确实会跟随太阳移动！这种现象被称为\"向日性\"，是向日葵茎部对光的反应。"
+                    },
+                    {
+                      question: "梵高一生中只卖出过一幅画作吗？",
+                      answer: true,
+                      explanation: "是的，梵高生前只卖出过一幅画《红色葡萄园》，售价400法郎，约合现在的2000美元。"
+                    },
+                    {
+                      question: "《蒙娜丽莎》是世界上最小的著名画作吗？",
+                      answer: false,
+                      explanation: "否，《蒙娜丽莎》的尺寸为77×53厘米，并不是最小的著名画作。"
+                    },
+                    {
+                      question: "毕加索年轻时曾烧掉自己的画作来取暖吗？",
+                      answer: true,
+                      explanation: "是的，据传毕加索在巴黎贫困的日子里，曾经烧掉自己的一些画作来取暖。"
+                    },
+                    {
+                      question: "《最后的晚餐》由达芬奇完成于15世纪末吗？",
+                      answer: true,
+                      explanation: "是的，《最后的晚餐》由达芬奇于1495-1498年间创作完成，正好是15世纪末。"
+                    }
+                  ].map((item, index) => (
+                    <div key={index} className="bg-background p-3 rounded-md">
+                      <p className="font-medium">问题{index + 1}：{item.question}</p>
+                      <div className="flex items-center mt-2">
+                        <Badge 
+                          variant={quizAnswers[index] === item.answer ? "default" : "destructive"}
+                          className="mr-2"
+                        >
+                          {quizAnswers[index] === item.answer ? "✓ 正确" : "✗ 错误"}
+                        </Badge>
+                        <p className="text-sm">
+                          您的回答: <span className="font-medium">{quizAnswers[index] ? "是" : "否"}</span>
+                        </p>
+                      </div>
+                      <p className="mt-2 text-sm">
+                        <span className="font-medium">正确答案: {item.answer ? "是" : "否"}</span>
+                      </p>
+                      <p className="mt-1 text-sm text-muted-foreground">{item.explanation}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-center mt-6">
+                  <Button onClick={() => {
+                    setQuizSubmitted(false);
+                    setQuizAnswers([undefined, undefined, undefined, undefined, undefined]);
+                    setQuizScore(0);
+                  }}>
+                    重新作答
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
-
-          {selectedAnswer && (
-            <div className="mt-4 p-3 bg-gray-100 rounded">
-              <p className="text-sm">
-                {selectedAnswer === question.correctAnswer
-                  ? "✓ 回答正确！向日葵在梵高的作品中象征着生命力和希望，代表了他对生命的热爱和追求。"
-                  : `✗ 回答错误。正确答案是：${question.correctAnswer}。向日葵在梵高的作品中象征着生命力和希望，代表了他对生命的热爱和追求。`}
-              </p>
-            </div>
-          )}
-
-          {/* 是/否按钮居中 */}
-          {!selectedAnswer && (
-            <div className="flex justify-center gap-4 mt-4">
-              <Button variant="outline" size="sm" onClick={() => handleAnswerSelect(question.options[0])}>
-                是
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => handleAnswerSelect(question.options[1])}>
-                否
-              </Button>
-            </div>
-          )}
         </div>
 
         {/* 评论区 - 二级评论 */}
