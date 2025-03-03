@@ -269,17 +269,19 @@ export default function ArtworkPage() {
                 <span className="font-medium">{artwork.dimensions}</span>
               </div>
               <div>
-                <span className="text-[#666460]">收藏地：</span>
+                <span className="text-[#666460]">位置：</span>
                 <span className="font-medium">{artwork.location}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 作品描述 */}
-        <div className="mb-6 p-5 bg-white rounded-md shadow-sm border border-[#D9D4C5]">
-          <h2 className="text-lg font-serif font-semibold mb-2 text-[#363532]">作品描述</h2>
-          <p className="text-sm text-[#363532] leading-relaxed">{artwork.description}</p>
+        {/* 作品描述区 */}
+        <div className="mb-6 px-2 bg-white rounded-md p-4 shadow-sm border border-[#D9D4C5]">
+          <h2 className="text-lg font-serif font-bold text-[#363532] mb-2">作品描述</h2>
+          <p className="text-sm text-[#363532] leading-relaxed">
+            {artwork.description}
+          </p>
         </div>
 
         {/* 视频讲解区 */}
