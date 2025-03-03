@@ -98,6 +98,21 @@ export function registerRoutes(app: Express): Server {
             imageId: 8
           });
         }
+        
+        // 添加ID=14的作品临时数据
+        if (id === 14) {
+          return res.json({
+            id: 14,
+            title: "向日葵",
+            description: "《向日葵》是荷兰后印象派画家文森特·梵高创作的一系列静物油画。这些画作以其鲜艳的黄色和明亮的光线而闻名，象征着生命力与热情。梵高在阿尔勒期间创作了多幅向日葵作品，现在分别收藏于世界各大博物馆。",
+            imageUrl: "https://placehold.co/400x600/FFD700/000?text=Sunflowers",
+            videoUrl: "https://example.com/videos/sunflowers-analysis.mp4",
+            likes: 7777,
+            isPremium: true,
+            themeId: "art",
+            imageId: 14
+          });
+        }
 
         return res.status(404).json({ error: `找不到ID为 ${id} 的作品` });
       }
