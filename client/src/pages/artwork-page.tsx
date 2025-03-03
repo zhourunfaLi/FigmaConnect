@@ -3,6 +3,7 @@ import { ArrowLeft, Heart, Share2, MessageSquare, Download, Maximize } from "luc
 import { useParams, useLocation } from "wouter";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth"; // Added for user authentication
 
 export default function ArtworkPage() {
   const [, setLocation] = useLocation();
@@ -12,6 +13,9 @@ export default function ArtworkPage() {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
+  const [commentText, setCommentText] = useState(""); // Added for comment input
+  const { user } = useAuth(); // Added for user authentication
+
 
   console.log("ArtworkPage: URL路径参数=" + params?.id, "解析后ID=" + id);
 
@@ -65,7 +69,7 @@ export default function ArtworkPage() {
     }
   ];
 
-  // 模拟评论数据
+  // 模拟评论数据  (This should ideally be fetched from an API)
   const comments = [
     {
       id: 1,
@@ -338,15 +342,22 @@ export default function ArtworkPage() {
           )}
         </div>
 
+        {/* 作品展示区下方广告 */}
+        <div className="mt-6 p-4 bg-white rounded-md shadow-sm border border-[#D9D4C5]">
+          <div className="border-2 border-dashed border-gray-300 p-4 text-center bg-gray-50">
+            <p className="text-gray-500 mb-2">谷歌广告位</p>
+            <div className="h-[120px] flex items-center justify-center bg-gray-100">
+              <span className="text-gray-400">Google AdSense</span>
+            </div>
+          </div>
+        </div>
+
+
         {/* 评论区 */}
         <div className="mb-6 bg-white p-5 rounded-md shadow-sm border border-[#D9D4C5]">
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="text-lg font-serif font-semibold text-[#363532]">评论 ({comments.length})</h2>
-            <button className="text-sm text-[#BF4342] hover:text-[#795C34] font-medium">添加评论</button>
-          </div>
-
+          <h2 className="text-lg font-serif font-semibold text-[#363532]">评论 ({comments.length})</h2>
           <div className="space-y-5">
-            {comments.map((comment) => (
+            {comments.map((comment, index) => (
               <div key={comment.id} className="border-b border-[#D9D4C5] pb-4">
                 <div className="flex items-start space-x-3">
                   <img
@@ -402,6 +413,26 @@ export default function ArtworkPage() {
                 </div>
               </div>
             ))}
+          </div>
+          {/* 评论输入框 */}
+          <div className="mt-4">
+            <textarea
+              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+              rows={3}
+              placeholder="发表评论..."
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+            ></textarea>
+            <button className="mt-2 px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition">发布评论</button>
+          </div>
+          {/* 评论区下方广告 */}
+          <div className="mt-6 p-4 bg-white rounded-md shadow-sm border border-[#D9D4C5]">
+            <div className="border-2 border-dashed border-gray-300 p-4 text-center bg-gray-50">
+              <p className="text-gray-500 mb-2">谷歌广告位</p>
+              <div className="h-[150px] flex items-center justify-center bg-gray-100">
+                <span className="text-gray-400">Google AdSense</span>
+              </div>
+            </div>
           </div>
         </div>
 
