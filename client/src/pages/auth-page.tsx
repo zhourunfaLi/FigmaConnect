@@ -8,123 +8,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertUserSchema, type InsertUser } from "@shared/schema";
-import { useEffect, useState } from "react";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertTitle } from "@/components/ui/alert";
-
-// 认证表单组件
-function AuthForm({ mode, onSubmit, isLoading, error }) {
-  const defaultValues = { username: '', password: '', email: '', name: '' };
-  const form = useForm({
-    resolver: zodResolver(insertUserSchema),
-    defaultValues
-  });
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>用户名</FormLabel>
-              <FormControl>
-                <Input placeholder="输入用户名" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        {mode === "register" && (
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>邮箱</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="输入邮箱" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-        
-        {mode === "register" && (
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>姓名</FormLabel>
-                <FormControl>
-                  <Input placeholder="输入姓名" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-        
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>密码</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="输入密码" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        {error && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>{error}</AlertTitle>
-          </Alert>
-        )}
-        
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? '处理中...' : mode === 'login' ? '登录' : '注册'}
-        </Button>
-      </form>
-    </Form>
-  );
-}
+import { useEffect } from "react";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   const [, setLocation] = useLocation();
-  const [loginError, setLoginError] = useState("");
-  const [registerError, setRegisterError] = useState("");
-
-  // 处理登录
-  const handleLogin = (data) => {
-    setLoginError("");
-    loginMutation.mutate(data, {
-      onError: (error) => {
-        console.error("登录失败:", error);
-        setLoginError(error.message || "登录失败，请检查用户名和密码");
-      }
-    });
-  };
-
-  // 处理注册
-  const handleRegister = (data) => {
-    setRegisterError("");
-    registerMutation.mutate(data, {
-      onError: (error) => {
-        console.error("注册失败:", error);
-        setRegisterError(error.message || "注册失败，请检查输入信息");
-      }
-    });
-  };
 
   // 使用useEffect处理重定向，而不是在渲染期间
   useEffect(() => {
@@ -146,14 +34,10 @@ export default function AuthPage() {
           <CardHeader>
             <CardTitle className="text-2xl">欢迎来到艺术博物馆</CardTitle>
             <CardDescription>
-              请使用以下测试账号登录或创建新账号：
-              <div className="mt-2 p-2 bg-muted rounded-md text-sm">
-                <div className="font-medium">测试账号1：</div>
-                用户名：<code className="bg-gray-200 px-1 rounded">test</code><br/>
-                密码：<code className="bg-gray-200 px-1 rounded">secret42</code>
-                <div className="mt-1 font-medium">测试账号2：</div>
-                用户名：<code className="bg-gray-200 px-1 rounded">admin</code><br/>
-                密码：<code className="bg-gray-200 px-1 rounded">secret42</code>
+              请先点击"注册"标签页创建一个新账号，或使用以下测试账号登录：
+              <div className="mt-2 p-2 bg-muted rounded-md">
+                用户名：test<br/>
+                密码：test123
               </div>
             </CardDescription>
           </CardHeader>
@@ -167,19 +51,15 @@ export default function AuthPage() {
               <TabsContent value="login">
                 <AuthForm 
                   mode="login" 
-                  onSubmit={handleLogin} 
+                  onSubmit={(data) => loginMutation.mutate(data)} 
                   isLoading={loginMutation.isPending}
-                  error={loginError}
                 />
               </TabsContent>
 
               <TabsContent value="register">
                 <AuthForm 
                   mode="register" 
-                  onSubmit={handleRegister}
-                  isLoading={registerMutation.isPending}
-                  error={registerError}
-                />te(data)}
+                  onSubmit={(data) => registerMutation.mutate(data)}
                   isLoading={registerMutation.isPending}
                 />
               </TabsContent>
