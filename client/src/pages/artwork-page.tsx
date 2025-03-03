@@ -1,4 +1,3 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { type Artwork } from "@shared/schema";
@@ -127,17 +126,17 @@ export default function ArtworkPage() {
       if (!artworkId) {
         throw new Error("无效的作品ID");
       }
-      
+
       const apiUrl = `/api/artworks/${artworkId}`;
       console.log(`发送API请求: ${apiUrl}`);
-      
+
       const response = await fetch(apiUrl);
       console.log(`收到响应: 状态=${response.status}`);
-      
+
       if (!response.ok) {
         throw new Error(`找不到ID为 ${artworkId} 的作品`);
       }
-      
+
       const data = await response.json();
       console.log(`成功获取作品数据:`, data);
       return data as Artwork;
@@ -212,20 +211,6 @@ export default function ArtworkPage() {
     <div className="container mx-auto px-4 py-8 bg-[#EEEAE2]">
       {/* 作品展示区域 */}
       <div className="w-full max-w-[390px] mx-auto">
-        {/* 返回首页按钮 */}
-        <div className="mb-4 flex items-center">
-          <Button
-            variant="ghost"
-            onClick={() => setLocation('/')}
-            className="text-black"
-          >
-            <svg width="37" height="36" viewBox="0 0 37 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7.70831 18.9946C7.70831 16.9734 7.70831 15.9628 8.13144 15.0745C8.55457 14.1861 9.34921 13.5284 10.9385 12.213L12.4802 10.937C15.3528 8.55946 16.7891 7.37067 18.5 7.37067C20.2109 7.37067 21.6472 8.55946 24.5198 10.937L26.0615 12.213C27.6507 13.5284 28.4454 14.1861 28.8685 15.0745C29.2916 15.9628 29.2916 16.9734 29.2916 18.9946V25.3071C29.2916 28.1141 29.2916 29.5177 28.3886 30.3897C27.4855 31.2617 26.032 31.2617 23.125 31.2617H13.875C10.968 31.2617 9.51449 31.2617 8.6114 30.3897C7.70831 29.5177 7.70831 28.1141 7.70831 25.3071V18.9946Z" stroke="#1C1C1C" strokeWidth="2"/>
-              <path d="M22.3541 31.2617V23.3298C22.3541 22.7775 21.9064 22.3298 21.3541 22.3298H15.6458C15.0935 22.3298 14.6458 22.7775 14.6458 23.3298V31.2617" stroke="#1C1C1C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </Button>
-        </div>
-
         {/* 作品展示部分 */}
         <div className="rounded-lg overflow-hidden mb-4 relative">
           {isLoading ? (
@@ -258,7 +243,7 @@ export default function ArtworkPage() {
                   style={{ transform: `scale(${zoomLevel / 100})` }}
                 />
               </div>
-              
+
               {/* 全屏按钮 */}
               <button className="absolute bottom-16 right-4 p-2 bg-black/30 rounded-full">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -268,7 +253,7 @@ export default function ArtworkPage() {
                   <path d="M16.3423 21.8613H18.4492C19.8635 21.8613 20.5706 21.8613 21.0099 21.422C21.4492 20.9826 21.4492 20.2755 21.4492 18.8613V16.6562" stroke="#F8F8FA" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </button>
-              
+
               {/* 缩放控制器 */}
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[324px] flex flex-col items-center">
                 <div className="bg-[#C1AB09] text-white px-4 py-1 rounded-full mb-1 text-sm">
@@ -281,7 +266,7 @@ export default function ArtworkPage() {
                   >
                     <div className="w-2 h-0.5 bg-white"></div>
                   </button>
-                  
+
                   <input
                     type="range"
                     min="50"
@@ -293,7 +278,7 @@ export default function ArtworkPage() {
                       background: `linear-gradient(to right, #C1AB09 0%, #C1AB09 ${(zoomLevel - 50) / 150 * 100}%, #D5D1AE ${(zoomLevel - 50) / 150 * 100}%, #D5D1AE 100%)`,
                     }}
                   />
-                  
+
                   <button 
                     className="w-6 h-6 bg-[#C1AB09] rounded-full border-4 border-[#E2EDF8] flex items-center justify-center"
                     onClick={() => handleZoomChange(zoomLevel + 10)}
@@ -530,52 +515,6 @@ export default function ArtworkPage() {
             </div>
             <span>下载原图</span>
           </button>
-        </div>
-
-        {/* 分享栏 */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-4 z-50">
-          <div className="flex justify-between items-center max-w-[390px] mx-auto">
-            <button className="bg-[#109F1C] text-white px-4 py-1 rounded-full flex items-center">
-              <div className="mr-2">
-                <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <ellipse cx="8" cy="6.5" rx="8" ry="6.5" fill="#D9D9D9"/>
-                  <circle cx="5" cy="5" r="1" fill="#109F1C"/>
-                  <circle cx="9" cy="5" r="1" fill="#109F1C"/>
-                  <path d="M0.0741 5.05951L2.80859 0.39341L4.66898 2.20696L0.0741 5.05951Z" fill="#D9D9D9"/>
-                  <ellipse cx="17" cy="8" rx="7" ry="6" fill="#D9D9D9" stroke="#109F1C"/>
-                  <circle cx="15" cy="6" r="1" fill="#109F1C"/>
-                  <circle cx="19" cy="6" r="1" fill="#109F1C"/>
-                  <path d="M4.85727 5.15602L0.381179 2.12045L2.3132 0.383415L4.85727 5.15602Z" fill="#D9D9D9"/>
-                </svg>
-              </div>
-              分享
-            </button>
-            
-            <div className="flex items-center gap-4">
-              <div className="flex items-center">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11.8343 7.73216C12.752 5.44433 13.2109 4.30042 13.9999 4.30042C14.789 4.30042 15.2478 5.44433 16.1656 7.73216L16.2083 7.8387C16.7267 9.13121 16.986 9.77747 17.5143 10.1703C18.0426 10.5631 18.7362 10.6252 20.1232 10.7494L20.374 10.7719C22.6441 10.9752 23.7792 11.0768 24.022 11.799C24.2649 12.5211 23.422 13.288 21.7361 14.8218L21.1734 15.3337C20.32 16.1102 19.8933 16.4984 19.6944 17.0072C19.6573 17.1021 19.6265 17.1994 19.6021 17.2983C19.4713 17.8287 19.5963 18.3919 19.8462 19.5183L19.924 19.8689C20.3833 21.939 20.6129 22.974 20.212 23.4204C20.0621 23.5873 19.8674 23.7074 19.6511 23.7664C19.0722 23.9244 18.2503 23.2546 16.6065 21.9152C15.5272 21.0357 14.9875 20.5959 14.3678 20.497C14.1241 20.4581 13.8758 20.4581 13.632 20.497C13.0124 20.5959 12.4727 21.0357 11.3934 21.9152C9.7496 23.2546 8.92771 23.9244 8.34881 23.7664C8.13249 23.7074 7.93776 23.5873 7.78793 23.4204C7.38697 22.974 7.61661 21.939 8.0759 19.8689L8.15369 19.5183C8.4036 18.3919 8.52855 17.8287 8.39782 17.2983C8.37344 17.1994 8.34259 17.1021 8.30549 17.0072C8.10661 16.4984 7.6799 16.1102 6.82647 15.3337L6.26381 14.8218C4.57793 13.288 3.73498 12.5211 3.97786 11.799C4.22073 11.0768 5.35579 10.9752 7.62591 10.7719L7.87667 10.7494C9.26374 10.6252 9.95727 10.5631 10.4856 10.1703C11.0139 9.77747 11.2732 9.13121 11.7916 7.8387L11.8343 7.73216Z" stroke="#33363F" strokeWidth="2"/>
-                </svg>
-                <span className="ml-2 text-sm">655</span>
-              </div>
-              
-              <div className="flex items-center">
-                <svg width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3.69811 12.2685L11.7957 20.3014C12.128 20.6309 12.2941 20.7957 12.5 20.7957C12.7059 20.7957 12.872 20.6309 13.2043 20.3014L21.3019 12.2685C23.4269 10.1605 23.688 6.81434 21.9158 4.40218L21.3992 3.6991C19.1979 0.703013 14.5848 1.18723 13.0536 4.5751C12.8383 5.05152 12.1617 5.05152 11.9464 4.5751C10.4152 1.18723 5.80206 0.703009 3.60078 3.6991L3.08422 4.40218C1.31196 6.81433 1.5731 10.1605 3.69811 12.2685Z" stroke="#33363F" strokeWidth="2"/>
-                </svg>
-                <span className="ml-2 text-sm">6587</span>
-              </div>
-              
-              <div className="flex items-center">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="18.6667" height="18.6667" x="1.66669" y="1.66669" rx="9" stroke="#33363F" strokeWidth="2"/>
-                  <path d="M11.5 12.8333L16.5 12.8333" stroke="#33363F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M7 9.5H10.5" stroke="#33363F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className="ml-2 text-sm">988</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
