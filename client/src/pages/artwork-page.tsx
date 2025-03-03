@@ -218,35 +218,6 @@ export default function ArtworkPage() {
 
       {/* 主要内容区 */}
       <div className="px-[8px]">
-        {/* 作品展示区 */}
-        <div className="relative mb-6 mt-6 bg-white rounded-md overflow-hidden flex justify-center shadow-sm border border-[#D9D4C5]">
-          <div className="relative artwork-frame" style={{ width: '100%', height: 'auto', aspectRatio: '0.75', maxWidth: '500px', position: 'relative' }}>
-            <button 
-              onClick={handleFullScreen} 
-              className="absolute top-2 right-2 z-10 bg-[#EEEAE2]/80 hover:bg-[#EEEAE2] p-1.5 rounded-full shadow-sm transition-all"
-            >
-              <Maximize className="h-5 w-5 text-[#363532]" />
-            </button>
-            <img
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              className="artwork-image w-full h-full object-contain transform"
-              style={{ transform: `scale(${scale})` }}
-            />
-            <div className="absolute bottom-3 left-0 right-0 px-6 z-10">
-              <Slider
-                defaultValue={[1]}
-                min={0.5}
-                max={2}
-                step={0.1}
-                value={[scale]}
-                onValueChange={handleScaleChange}
-                className="w-full"
-              />
-            </div>
-          </div>
-        </div>
-
         {/* 作品基本信息 */}
         <div className="mb-6 px-2 bg-white rounded-md p-4 shadow-sm border border-[#D9D4C5]">
           <h1 className="text-2xl font-serif font-bold text-[#363532]">{artwork.title}</h1>
@@ -272,6 +243,35 @@ export default function ArtworkPage() {
                 <span className="text-[#666460]">收藏地：</span>
                 <span className="font-medium">{artwork.location}</span>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 作品展示区 */}
+        <div className="relative mb-6 mt-6 bg-white rounded-md overflow-hidden flex justify-center shadow-sm border border-[#D9D4C5]">
+          <div className="relative artwork-frame" style={{ width: '100%', height: 'auto', aspectRatio: '0.75', maxWidth: '500px', position: 'relative' }}>
+            <button 
+              onClick={handleFullScreen} 
+              className="absolute top-2 right-2 z-10 bg-[#EEEAE2]/80 hover:bg-[#EEEAE2] p-1.5 rounded-full shadow-sm transition-all"
+            >
+              <Maximize className="h-5 w-5 text-[#363532]" />
+            </button>
+            <img
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className="artwork-image w-full h-full object-contain transform"
+              style={{ transform: `scale(${scale})` }}
+            />
+            <div className="absolute bottom-3 left-0 right-0 px-6 z-10">
+              <Slider
+                defaultValue={[1]}
+                min={0.5}
+                max={2}
+                step={0.1}
+                value={[scale]}
+                onValueChange={handleScaleChange}
+                className="w-full"
+              />
             </div>
           </div>
         </div>
@@ -360,11 +360,9 @@ export default function ArtworkPage() {
             {comments.map((comment, index) => (
               <div key={comment.id} className="border-b border-[#D9D4C5] pb-4">
                 <div className="flex items-start space-x-3">
-                  <img
-                    src={comment.avatar}
-                    alt={comment.user}
-                    className="w-10 h-10 rounded-full border border-[#D9D4C5]"
-                  />
+                  <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
+                    <img src={comment.avatar || "/src/assets/design/img/avatar-placeholder.jpg"} alt={comment.user} onError={(e) => {e.currentTarget.src = "https://i.pravatar.cc/40?img=1"}} />
+                  </div>
                   <div className="flex-1">
                     <div className="flex justify-between">
                       <h3 className="font-medium text-[#363532]">{comment.user}</h3>
@@ -387,11 +385,9 @@ export default function ArtworkPage() {
                       <div className="mt-4 pl-4 border-l-2 border-[#D9D4C5] space-y-4">
                         {comment.replies.map((reply) => (
                           <div key={reply.id} className="flex items-start space-x-2">
-                            <img
-                              src={reply.avatar}
-                              alt={reply.user}
-                              className="w-7 h-7 rounded-full border border-[#D9D4C5]"
-                            />
+                            <div className="w-7 h-7 rounded-full bg-gray-300 overflow-hidden">
+                              <img src={reply.avatar || "/src/assets/design/img/avatar-placeholder.jpg"} alt={reply.user} onError={(e) => {e.currentTarget.src = "https://i.pravatar.cc/32?img=2"}} />
+                            </div>
                             <div className="flex-1">
                               <div className="flex justify-between">
                                 <h4 className="text-xs font-medium text-[#363532]">{reply.user}</h4>
@@ -416,14 +412,23 @@ export default function ArtworkPage() {
           </div>
           {/* 评论输入框 */}
           <div className="mt-4">
-            <textarea
-              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
-              rows={3}
-              placeholder="发表评论..."
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-            ></textarea>
-            <button className="mt-2 px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition">发布评论</button>
+            <div className="flex gap-3">
+              <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
+                <img src="/src/assets/design/img/user-current.jpg" alt="当前用户头像" onError={(e) => {
+                  e.currentTarget.src = "https://i.pravatar.cc/40?img=3";
+                }} />
+              </div>
+              <div className="flex-1">
+                <textarea
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                  rows={3}
+                  placeholder="发表评论..."
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                ></textarea>
+                <button className="mt-2 px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition">发布评论</button>
+              </div>
+            </div>
           </div>
           {/* 评论区下方广告 */}
           <div className="mt-6 p-4 bg-white rounded-md shadow-sm border border-[#D9D4C5]">
