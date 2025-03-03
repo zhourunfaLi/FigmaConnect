@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "wouter"; // changed from react-router-dom
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -106,7 +105,8 @@ const mockArtworkInfo = {
 };
 
 export default function ArtworkPage() {
-  const { id } = useParams();
+  const [location, params] = useLocation(); // changed to useLocation from wouter
+  const { id } = params; // Extract the id from params
   const { toast } = useToast();
   const [artworkId, setArtworkId] = useState<number>(1);
   const [zoom, setZoom] = useState<number>(100);
@@ -165,11 +165,11 @@ export default function ArtworkPage() {
       return;
     }
     setQuizSubmitted(true);
-    
+
     // 计算分数
     const correctCount = mockQuizQuestions.filter(q => userAnswers[q.id] === q.correctAnswer).length;
     const score = correctCount * 10;
-    
+
     toast({
       title: "问答完成！",
       description: `您的得分：${score}分（共50分）`,
@@ -195,7 +195,7 @@ export default function ArtworkPage() {
     if (artwork) {
       // 在实际应用中，这里应该是高分辨率原图的URL
       const downloadUrl = artwork.imageUrl || "https://placehold.co/1200x1800";
-      
+
       // 创建一个临时链接
       const a = document.createElement('a');
       a.href = downloadUrl;
@@ -203,7 +203,7 @@ export default function ArtworkPage() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      
+
       toast({
         title: "开始下载",
         description: "原图正在下载中...",
@@ -279,7 +279,7 @@ export default function ArtworkPage() {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* 2. 基础信息区 */}
       <Card className="w-full mb-6">
         <CardContent className="p-6">
@@ -304,7 +304,7 @@ export default function ArtworkPage() {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* 3. 作品介绍区 */}
       <Card className="w-full mb-6">
         <CardContent className="p-6">
@@ -322,7 +322,7 @@ export default function ArtworkPage() {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* 4. 视频讲解区 */}
       {artwork?.videoUrl && (
         <Card className="w-full mb-6">
@@ -339,13 +339,13 @@ export default function ArtworkPage() {
           </CardContent>
         </Card>
       )}
-      
+
       {/* 5. 趣味问答区 */}
       <Card className="w-full mb-6">
         <CardContent className="p-6">
           <h3 className="text-xl font-semibold mb-3">艺术知识问答</h3>
           <p className="mb-4 text-sm text-gray-600">回答以下问题，测试您对这幅作品的了解。每题10分，满分50分。</p>
-          
+
           <div className="space-y-4">
             {mockQuizQuestions.map((question) => (
               <div key={question.id} className="border p-4 rounded-md">
@@ -367,7 +367,7 @@ export default function ArtworkPage() {
                   >
                     否
                   </Button>
-                  
+
                   {quizSubmitted && (
                     <span className={`text-sm mt-2 ${userAnswers[question.id] === question.correctAnswer ? "text-green-600" : "text-red-600"}`}>
                       {userAnswers[question.id] === question.correctAnswer ? "✓ 正确" : "✗ 错误"}
@@ -377,7 +377,7 @@ export default function ArtworkPage() {
               </div>
             ))}
           </div>
-          
+
           <div className="mt-6 flex space-x-4">
             {!quizSubmitted ? (
               <Button onClick={handleQuizSubmit}>提交答案</Button>
@@ -387,12 +387,12 @@ export default function ArtworkPage() {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* 6. 用户评论区 */}
       <Card className="w-full mb-6">
         <CardContent className="p-6">
           <h3 className="text-xl font-semibold mb-3">用户评论</h3>
-          
+
           <div className="space-y-4">
             {mockComments.map((comment) => (
               <div key={comment.id} className="border rounded-md p-3">
@@ -408,7 +408,7 @@ export default function ArtworkPage() {
                       <span className="text-sm text-gray-500">{comment.date}</span>
                     </div>
                     <p className="text-gray-700 mt-1">{comment.content}</p>
-                    
+
                     {comment.replies && comment.replies.length > 0 && (
                       <Collapsible open={expandedComments[comment.id]}>
                         <CollapsibleTrigger asChild>
@@ -460,13 +460,13 @@ export default function ArtworkPage() {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* 7. 原图图片下载区 */}
       <Card className="w-full mb-6">
         <CardContent className="p-6 flex flex-col items-center">
           <h3 className="text-xl font-semibold mb-3">原图下载</h3>
           <p className="text-gray-600 mb-4">下载高清原图，保存艺术珍品。</p>
-          
+
           <Button onClick={handleDownload} className="flex items-center">
             <Download className="mr-2 h-4 w-4" />
             下载原图
