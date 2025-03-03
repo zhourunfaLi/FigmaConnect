@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -137,12 +136,12 @@ export default function ArtworkPage() {
   // 提交问答
   const handleSubmitQuiz = () => {
     setQuizSubmitted(true);
-    
+
     // 计算正确答案数量
     const correctAnswers = mockQuizQuestions.filter(
       (q) => userAnswers[q.id] === q.correctAnswer
     ).length;
-    
+
     toast({
       title: "问答结果",
       description: `你答对了 ${correctAnswers}/${mockQuizQuestions.length} 个问题！`,
@@ -152,7 +151,7 @@ export default function ArtworkPage() {
   // 下载图片
   const handleDownloadImage = () => {
     const downloadUrl = artwork?.imageUrl || "https://placehold.co/600x800";
-    
+
     if (downloadUrl) {
       const a = document.createElement("a");
       a.href = downloadUrl;
@@ -209,7 +208,7 @@ export default function ArtworkPage() {
             />
           </AspectRatio>
         </div>
-        
+
         {/* 缩放控制组放置在底部居中 */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-black/40 backdrop-blur-sm p-2 rounded-full">
           <Button 
@@ -322,7 +321,7 @@ export default function ArtworkPage() {
                     否
                   </Button>
                 </div>
-                
+
                 {/* 显示正确答案文字 */}
                 {quizSubmitted && (
                   <div className="text-sm mt-1 text-gray-700 bg-gray-100 p-2 rounded">
