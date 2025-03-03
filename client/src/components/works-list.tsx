@@ -69,19 +69,22 @@ function ArtworkItem({
     e.stopPropagation();
 
     // 确保有效的导航ID - 优先使用imageId作为导航参数
+    let imageId: number | undefined;
     if (artwork.imageId && typeof artwork.imageId === 'number') {
-      console.log(`导航到作品: 使用imageId=${artwork.imageId}`);
-      setLocation(`/artwork/${artwork.imageId}`);
-    } else if (artwork.originalId) { 
-      // 使用保存的原始ID
-      console.log(`导航到作品: 使用originalId=${artwork.originalId}`);
-      setLocation(`/artwork/${artwork.originalId}`);
-    } else if (artwork.id) {
-      console.log(`导航到作品: 使用id=${artwork.id}`);
-      setLocation(`/artwork/${artwork.id}`);
-    } else {
-      console.error("作品没有有效ID，无法导航");
+      imageId = artwork.imageId;
+    } else if (artwork.originalId && typeof artwork.originalId === 'number') { 
+      imageId = artwork.originalId;
+    } else if (artwork.id && typeof artwork.id === 'number') {
+      imageId = artwork.id;
     }
+
+
+    if (imageId === undefined || imageId === null) {
+      console.error("导航错误: imageId无效", imageId, artwork);
+      return;
+    }
+    console.log(`导航到作品: 使用imageId=${imageId}`);
+    setLocation(`/artwork/${imageId}`);
   };
 
   return (
