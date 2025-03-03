@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "wouter";
-import { ArrowLeft, Download, Heart, MessageSquare, Share } from "lucide-react";
+import { ArrowLeft, Download, Heart, MessageSquare, Share, Maximize } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,7 @@ export default function ArtworkPage() {
   ]);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizScore, setQuizScore] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false); // Added fullscreen state
   const { toast } = useToast();
 
   // 模拟数据
@@ -28,7 +29,7 @@ export default function ArtworkPage() {
     year: "1889",
     medium: "油画",
     dimensions: "95 × 73 cm",
-    description: "梵高的经典作品",
+    description: "这是一幅美丽的向日葵油画", // Removed "梵高的经典作品"
     imageUrl: "https://placehold.co/400x600",
     likeCount: 1256,
     viewCount: 3890,
@@ -106,7 +107,18 @@ export default function ArtworkPage() {
     // 如果URL中有ID则使用，否则默认为1
     const id = params.id ? parseInt(params.id) : 1;
     setArtworkId(id);
-  }, [params.id]);
+
+    // 监听全屏状态变化
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, [params]);
 
   // 增加/减少缩放
   const handleZoomChange = (value: number[]) => {
@@ -140,6 +152,26 @@ export default function ArtworkPage() {
               style={{ transform: `scale(${zoom})`, transition: 'transform 0.3s ease' }}
             />
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-2 left-1/2 transform -translate-x-1/2"
+            onClick={() => {
+              const element = document.documentElement;
+              if (!isFullscreen) {
+                if (element.requestFullscreen) {
+                  element.requestFullscreen();
+                }
+              } else {
+                if (document.exitFullscreen) {
+                  document.exitFullscreen();
+                }
+              }
+              setIsFullscreen(!isFullscreen);
+            }}
+          >
+            <Maximize size={24} /> {/* Use Maximize icon */}
+          </Button>
 
           {/* 放大缩小控制条 - 位于图片底部居中 */}
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 rounded-full p-2 w-48 flex items-center gap-2">
@@ -181,9 +213,9 @@ export default function ArtworkPage() {
           <p className="mt-3 text-sm text-gray-700">{artwork.description}</p>
 
           <div className="flex justify-between mt-3">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               className={cn("flex items-center gap-1", isLiked && "text-red-500")}
               onClick={() => setIsLiked(!isLiked)}
             >
@@ -230,8 +262,8 @@ export default function ArtworkPage() {
                     <div key={index} className="bg-background p-3 rounded-md">
                       <p className="font-medium mb-2">问题{index + 1}：{question}</p>
                       <div className="flex space-x-4 justify-center mt-2">
-                        <Button 
-                          variant={quizAnswers[index] === true ? "default" : "outline"} 
+                        <Button
+                          variant={quizAnswers[index] === true ? "default" : "outline"}
                           size="sm"
                           onClick={() => {
                             const newAnswers = [...quizAnswers];
@@ -241,8 +273,8 @@ export default function ArtworkPage() {
                         >
                           是
                         </Button>
-                        <Button 
-                          variant={quizAnswers[index] === false ? "default" : "outline"} 
+                        <Button
+                          variant={quizAnswers[index] === false ? "default" : "outline"}
                           size="sm"
                           onClick={() => {
                             const newAnswers = [...quizAnswers];
@@ -258,7 +290,7 @@ export default function ArtworkPage() {
                 </div>
 
                 <div className="flex justify-center mt-6">
-                  <Button 
+                  <Button
                     onClick={() => {
                       // 检查是否已回答所有问题
                       if (!quizAnswers.includes(undefined)) {
@@ -324,7 +356,7 @@ export default function ArtworkPage() {
                     <div key={index} className="bg-background p-3 rounded-md">
                       <p className="font-medium">问题{index + 1}：{item.question}</p>
                       <div className="flex items-center mt-2">
-                        <Badge 
+                        <Badge
                           variant={quizAnswers[index] === item.answer ? "default" : "destructive"}
                           className="mr-2"
                         >
