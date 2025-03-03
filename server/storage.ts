@@ -1,4 +1,152 @@
 
+import { db } from './db';
+import { artworks, categories, comments, users, adConfigs } from '@shared/schema';
+import { eq, sql, desc, asc, or, and, inArray } from 'drizzle-orm';
+import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
+
+export type Category = typeof categories.$inferSelect;
+export type Artwork = typeof artworks.$inferSelect;
+export type User = typeof users.$inferSelect;
+export type Comment = typeof comments.$inferSelect;
+export type AdConfig = typeof adConfigs.$inferSelect;
+
+export const storage = {
+  async getCategories() {
+    return db.select().from(categories).orderBy(categories.displayOrder);
+  },
+
+  async createCategory(data: Omit<Category, 'id'>) {
+    const result = await db
+      .insert(categories)
+      .values(data)
+      .returning();
+    return result[0];
+  },
+
+  async getArtworks() {
+    // 添加排序，使结果更加可预测
+    return db.select().from(artworks).orderBy(desc(artworks.id));
+  },
+
+  async getArtworksByCategory(categoryId: number) {
+    return db
+      .select()
+      .from(artworks)
+      .where(eq(artworks.categoryId, categoryId))
+      .orderBy(desc(artworks.id));
+  },
+
+  async getArtwork(id: number) {
+    console.log(`[Debug] getArtwork query result:`, await db.select().from(artworks).where(eq(artworks.id, id)).limit(1).then(res => res[0]));
+    return db.select().from(artworks).where(eq(artworks.id, id)).limit(1).then(res => res[0]);
+  },
+
+  async createArtwork(data: Omit<Artwork, 'id'>) {
+    const result = await db.insert(artworks).values(data).returning();
+    return result[0];
+  },
+
+  async updateArtwork(id: number, data: Partial<Omit<Artwork, 'id'>>) {
+    const result = await db
+      .update(artworks)
+      .set(data)
+      .where(eq(artworks.id, id))
+      .returning();
+    return result[0];
+  },
+
+  async deleteArtwork(id: number) {
+    await db.delete(artworks).where(eq(artworks.id, id));
+  },
+
+  async importFrontendArtworks(frontendArtworks: any[]) {
+    // 批量导入前端作品数据到数据库
+    const artworksToInsert = frontendArtworks.map((artwork, index) => ({
+      id: artwork.id || index + 50, // 从50开始避免与现有ID冲突
+      title: artwork.title,
+      description: artwork.description || '作品描述',
+      imageUrl: artwork.imageUrl || 'https://placehold.co/400x400',
+      videoUrl: artwork.videoUrl || null,
+      categoryId: artwork.themeId === 'city' ? 2 : 1, // 根据themeId判断分类
+      isPremium: artwork.isPremium || false,
+      hideTitle: false,
+      displayOrder: index,
+      columnPosition: Math.floor(Math.random() * 3), // 随机列位置
+      aspectRatio: artwork.aspectRatio ? artwork.aspectRatio.toString() : '1.0'
+    }));
+
+    // 批量插入，忽略冲突
+    for (const artwork of artworksToInsert) {
+      try {
+        await db.insert(artworks).values(artwork).onConflictDoNothing();
+      } catch (err) {
+        console.error(`导入作品失败: ${artwork.title}`, err);
+      }
+    }
+
+    return db.select().from(artworks).orderBy(desc(artworks.id));
+  },
+
+  async getComments(artworkId: number) {
+    return db
+      .select({
+        id: comments.id,
+        content: comments.content,
+        createdAt: comments.createdAt,
+        userId: comments.userId,
+        username: users.username,
+      })
+      .from(comments)
+      .innerJoin(users, eq(comments.userId, users.id))
+      .where(eq(comments.artworkId, artworkId))
+      .orderBy(desc(comments.createdAt));
+  },
+
+  async createComment(data: {
+    content: string;
+    userId: number;
+    artworkId: number;
+  }) {
+    const result = await db
+      .insert(comments)
+      .values({
+        content: data.content,
+        userId: data.userId,
+        artworkId: data.artworkId,
+      })
+      .returning();
+    
+    return {
+      ...result[0],
+      username: (await db.select().from(users).where(eq(users.id, data.userId)).limit(1))[0]?.username,
+    };
+  },
+
+  async getAdConfigs() {
+    return db.select().from(adConfigs);
+  },
+  
+  async getAdConfig(id: number) {
+    return db.select().from(adConfigs).where(eq(adConfigs.id, id)).limit(1).then(res => res[0]);
+  },
+  
+  async createAdConfig(data: Omit<AdConfig, 'id'>) {
+    const result = await db.insert(adConfigs).values(data).returning();
+    return result[0];
+  },
+  
+  async updateAdConfig(id: number, data: Partial<Omit<AdConfig, 'id'>>) {
+    const result = await db.update(adConfigs).set(data).where(eq(adConfigs.id, id)).returning();
+    return result[0];
+  },
+  
+  async deleteAdConfig(id: number) {
+    await db.delete(adConfigs).where(eq(adConfigs.id, id));
+  }
+};
+
+
 import { artworks, comments, users, categories, adConfigs, type User, type InsertUser, type Artwork, type Comment } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";

@@ -76,7 +76,7 @@ export default function ArtworkPage() {
     // 如果ID解析失败，标记错误状态而不是立即返回
     if (artworkId === null) {
       console.warn(`无法解析有效的作品ID: ${idFromPath}，将使用默认ID`);
-      // 不再自动重定向，而是使用一个默认ID或显示错误
+      // 不再自动重定向，而是使用一个可能存在的ID或显示错误
       artworkId = 9; // 使用一个可能存在的ID，避免立即重定向
     }
   } catch (err) {
@@ -253,7 +253,7 @@ export default function ArtworkPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8"> {/* Minimal UI change based on incomplete instructions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* 左侧作品区域 */}
         <div className="md:col-span-2 space-y-6">
@@ -265,7 +265,7 @@ export default function ArtworkPage() {
                     <img 
                       src={artwork.imageUrl} 
                       alt={artwork.title} 
-                      className="h-full w-full object-cover" 
+                      className="h-full w-full object-cover rounded-xl" {/* Added rounded corners */}
                     />
                   </div>
                 </AspectRatio>
@@ -308,7 +308,7 @@ export default function ArtworkPage() {
         {/* 右侧信息区域 */}
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold">{artwork.title}</h1>
+            <h1 className="text-lg text-[#090909] font-normal mb-4">{artwork.title}</h1> {/* Adjusted heading size */}
             <p className="text-muted-foreground mt-2">{artwork.isPremium && "会员专享"}</p>
           </div>
 
