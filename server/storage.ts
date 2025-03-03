@@ -5,75 +5,9 @@ import { eq } from "drizzle-orm";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
-import { sql } from "drizzle-orm";
-
-// 初始化数据库表
-async function initializeTables() {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS categories (
-      id SERIAL PRIMARY KEY,
-      name TEXT NOT NULL,
-      description TEXT,
-      display_order INTEGER
-    );
-
-    DROP TABLE IF EXISTS artworks CASCADE;
-    CREATE TABLE IF NOT EXISTS artworks (
-      id SERIAL PRIMARY KEY,
-      title TEXT NOT NULL,
-      description TEXT NOT NULL,
-      image_url TEXT NOT NULL,
-      video_url TEXT,
-      category_id INTEGER REFERENCES categories(id),
-      is_premium BOOLEAN DEFAULT false NOT NULL,
-      hide_title BOOLEAN DEFAULT false NOT NULL,
-      display_order INTEGER,
-      column_position INTEGER,
-      aspect_ratio TEXT
-    );
-  `);
-}
+import initTestData from "./initTestData";
 
 const PostgresSessionStore = connectPg(session);
-
-// 初始化数据
-async function initializeData() {
-  try {
-    // 添加分类
-    await db.insert(categories).values([
-      { name: "油画", description: "油画作品", displayOrder: 1 },
-      { name: "水彩", description: "水彩作品", displayOrder: 2 },
-      { name: "素描", description: "素描作品", displayOrder: 3 }
-    ]).onConflictDoNothing();
-
-    // 添加艺术品
-    await db.insert(artworks).values([
-      {
-        title: "向日葵",
-        description: "梵高的经典作品",
-        imageUrl: "https://placehold.co/400x600",
-        isPremium: false,
-        hideTitle: false,
-        categoryId: 1
-      },
-      {
-        title: "星空",
-        description: "梵高的代表作",
-        imageUrl: "https://placehold.co/400x600",
-        isPremium: true,
-        hideTitle: false,
-        categoryId: 1
-      }
-    ]).onConflictDoNothing();
-
-    console.log('数据初始化成功');
-  } catch (error) {
-    console.error('数据初始化失败:', error);
-  }
-}
-
-// 在应用启动时初始化数据
-initializeData();
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -97,7 +31,70 @@ export class DatabaseStorage implements IStorage {
       pool,
       createTableIfMissing: true,
     });
-    initializeTables(); // Initialize tables on startup
+    // 初始化数据库时调用测试数据初始化
+    this.initializeDB().then(() => {
+      initTestData()
+        .then(() => console.log("测试数据初始化完成"))
+        .catch(err => console.error("测试数据初始化失败", err));
+    });
+  }
+
+  // 初始化数据库表
+  async initializeDB() {
+    try {
+      // 创建categories表
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS categories (
+          id SERIAL PRIMARY KEY,
+          name TEXT NOT NULL,
+          description TEXT,
+          display_order INTEGER
+        );
+      `);
+
+      // 创建artworks表
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS artworks (
+          id SERIAL PRIMARY KEY,
+          title TEXT NOT NULL,
+          description TEXT NOT NULL,
+          image_url TEXT NOT NULL,
+          video_url TEXT,
+          category_id INTEGER REFERENCES categories(id),
+          is_premium BOOLEAN DEFAULT false NOT NULL,
+          hide_title BOOLEAN DEFAULT false NOT NULL,
+          display_order INTEGER,
+          column_position INTEGER,
+          aspect_ratio TEXT
+        );
+      `);
+
+      // 创建users表
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS users (
+          id SERIAL PRIMARY KEY,
+          username TEXT NOT NULL UNIQUE,
+          password TEXT NOT NULL,
+          is_premium BOOLEAN DEFAULT false NOT NULL
+        );
+      `);
+
+      // 创建comments表
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS comments (
+          id SERIAL PRIMARY KEY,
+          content TEXT NOT NULL,
+          user_id INTEGER REFERENCES users(id) NOT NULL,
+          artwork_id INTEGER REFERENCES artworks(id) NOT NULL,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+        );
+      `);
+
+      console.log('数据库表创建成功');
+    } catch (error) {
+      console.error('创建数据库表失败:', error);
+      throw error;
+    }
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -121,9 +118,21 @@ export class DatabaseStorage implements IStorage {
 
   async getArtwork(id: number): Promise<Artwork | undefined> {
     console.log(`[Debug] Executing getArtwork query with ID: ${id}`);
-    const [artwork] = await db.select().from(artworks).where(eq(artworks.id, id));
-    console.log(`[Debug] getArtwork query result:`, artwork);
-    return artwork;
+    try {
+      // 使用原生SQL查询以确保可以获取到结果
+      const result = await pool.query(`
+        SELECT * FROM artworks WHERE id = $1
+      `, [id]);
+      
+      if (result.rows.length > 0) {
+        console.log(`[Debug] getArtwork query result:`, result.rows[0]);
+        return result.rows[0];
+      }
+      return undefined;
+    } catch (error) {
+      console.error(`[Error] Failed to get artwork with ID ${id}:`, error);
+      return undefined;
+    }
   }
 
   async createArtwork(artwork: Omit<Artwork, "id">): Promise<Artwork> {
@@ -152,10 +161,20 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getComments(artworkId: number): Promise<Comment[]> {
-    return await db.select()
-      .from(comments)
-      .where(eq(comments.artworkId, artworkId))
-      .orderBy(comments.createdAt);
+    try {
+      const result = await pool.query(`
+        SELECT c.*, u.username 
+        FROM comments c
+        JOIN users u ON c.user_id = u.id
+        WHERE c.artwork_id = $1
+        ORDER BY c.created_at DESC
+      `, [artworkId]);
+      
+      return result.rows;
+    } catch (error) {
+      console.error(`[Error] Failed to get comments for artwork ${artworkId}:`, error);
+      return [];
+    }
   }
 
   async createComment(comment: Omit<Comment, "id" | "createdAt">): Promise<Comment> {
@@ -209,4 +228,5 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
+// 创建存储实例
 export const storage = new DatabaseStorage();
