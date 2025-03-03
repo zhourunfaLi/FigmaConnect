@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowLeft, Heart, Share2, MessageSquare, Download, Maximize } from "lucide-react";
+import { ArrowLeft, Heart, Share2, MessageSquare, Download, Maximize, PlayCircle } from "lucide-react";
 import { useParams, useLocation } from "wouter";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
