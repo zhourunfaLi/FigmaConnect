@@ -22,33 +22,21 @@ async function hashPassword(password: string) {
 }
 
 async function comparePasswords(supplied: string, stored: string) {
-  console.log(`密码比较: 提供的密码长度=${supplied.length}, 存储的密码类型=${stored.startsWith('$2b$') ? 'bcrypt' : stored.includes('.') ? 'scrypt' : '明文'}`);
-  
-  // 检查是否是bcrypt格式的密码（以$2b$开头）
-  if (stored.startsWith('$2b$')) {
-    // 测试数据中的bcrypt密码，直接对比是否为'secret42'
-    const isValid = supplied === 'secret42';
-    console.log(`bcrypt密码检查结果: ${isValid ? '成功' : '失败'}`);
-    return isValid;
-  } else if (stored.includes('.')) {
-    // 如果是scrypt格式（含有.分隔符）
-    try {
-      const [hashed, salt] = stored.split(".");
-      const hashedBuf = Buffer.from(hashed, "hex");
-      const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-      const isValid = timingSafeEqual(hashedBuf, suppliedBuf);
-      console.log(`scrypt密码检查结果: ${isValid ? '成功' : '失败'}`);
-      return isValid;
-    } catch (err) {
-      console.error("密码比较错误:", err);
+  try {
+    const storedParts = stored.split(".");
+    if (storedParts.length !== 2) {
+      console.error("密码格式错误: 存储的密码没有正确的格式");
       return false;
     }
-  } else {
-    // 如果是简单密码格式（测试数据）
-    console.log(`明文密码比较: '${supplied}' vs '${stored.substring(0, 3)}...'`);
-    const isValid = supplied === stored;
-    console.log(`明文密码检查结果: ${isValid ? '成功' : '失败'}`);
-    return isValid;
+    
+    const [hashed, salt] = storedParts;
+    const hashedBuf = Buffer.from(hashed, "hex");
+    const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+    
+    return timingSafeEqual(hashedBuf, suppliedBuf);
+  } catch (error) {
+    console.error("密码比较失败:", error);
+    return false;
   }
 }
 
@@ -71,24 +59,18 @@ export function setupAuth(app: Express) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       try {
-        console.log(`尝试登录用户: ${username}`);
         const user = await storage.getUserByUsername(username);
         if (!user) {
-          console.log(`用户名不存在: ${username}`);
           return done(null, false, { message: "用户名不存在" });
         }
 
-        console.log(`找到用户: ${username}, 开始验证密码`);
         const isValid = await comparePasswords(password, user.password);
         if (!isValid) {
-          console.log(`密码验证失败: ${username}`);
           return done(null, false, { message: "密码错误" });
         }
 
-        console.log(`登录成功: ${username}`);
         return done(null, user);
       } catch (err) {
-        console.error(`登录过程发生错误:`, err);
         return done(err);
       }
     }),
@@ -131,38 +113,14 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    console.log("收到登录请求:", req.body);
-    
-    // 如果没有用户名或密码，直接返回错误
-    if (!req.body.username || !req.body.password) {
-      return res.status(400).json({ 
-        message: "请提供用户名和密码" 
-      });
-    }
-    
     passport.authenticate("local", (err, user, info) => {
-      if (err) {
-        console.error("登录验证错误:", err);
-        return next(err);
-      }
-      
+      if (err) return next(err);
       if (!user) {
-        console.log("登录失败:", info?.message);
-        return res.status(401).json({ 
-          message: info?.message || "登录失败，请检查用户名和密码" 
-        });
+        return res.status(401).json({ message: info?.message || "登录失败" });
       }
-      
       req.login(user, (err) => {
-        if (err) {
-          console.error("Session保存错误:", err);
-          return next(err);
-        }
-        console.log("登录成功，用户:", user.username);
-        // 移除密码等敏感字段
-        const safeUser = { ...user };
-        delete safeUser.password;
-        res.json(safeUser);
+        if (err) return next(err);
+        res.json(user);
       });
     })(req, res, next);
   });

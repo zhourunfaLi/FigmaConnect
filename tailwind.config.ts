@@ -5,6 +5,10 @@ export default {
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Raleway', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'serif'],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -13,6 +17,15 @@ export default {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        artPrimary: '#594D5B',     // 深紫色调
+        artSecondary: '#957186',   // 淡紫色
+        artAccent: '#D8B4A0',      // 浅棕色
+        artDark: '#614C50',        // 暗褐色
+        artLight: '#F0E6DD',       // 米白色
+        artText: '#3A3238',        // 深灰紫色
+        artBg: '#EEEAE2',          // 浅米色背景
+        artSuccess: '#4A7A5A',     // 典雅绿色
+        artError: '#9A4F50',       // 典雅红色
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

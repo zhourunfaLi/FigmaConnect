@@ -1,0 +1,35 @@
+PlayCircle is not defined
+at ArtworkPage (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/pages/artwork-page.tsx:485:34)
+at renderWithHooks (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:11548:26)
+at mountIndeterminateComponent (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:14926:21)
+at beginWork (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:15914:22)
+at HTMLUnknownElement.callCallback2 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:3674:22)
+at Object.invokeGuardedCallbackDev (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:3699:24)
+at invokeGuardedCallback (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:3733:39)
+at beginWork$1 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:19765:15)
+at performUnitOfWork (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:19198:20)
+at workLoopSync (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:19137:13)
+The above error occurred in the <ArtworkPage> component:
+
+    at ArtworkPage (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/pages/artwork-page.tsx:26:27)
+    at ProtectedRoute (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/lib/protected-route.tsx:22:3)
+    at Switch (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=72c5e2ba:394:17)
+    at Router
+    at AdProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/contexts/ad-context.tsx:21:30)
+    at AuthProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/hooks/use-auth.tsx:26:32)
+    at QueryClientProvider (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=72c5e2ba:2805:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+PlayCircle is not defined
+at ArtworkPage (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/src/pages/artwork-page.tsx:485:34)
+at renderWithHooks (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:11548:26)
+at mountIndeterminateComponent (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:14926:21)
+at beginWork (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:15914:22)
+at beginWork$1 (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:19753:22)
+at performUnitOfWork (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:19198:20)
+at workLoopSync (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:19137:13)
+at renderRootSync (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:19116:15)
+at recoverFromConcurrentError (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:18736:28)
+at performSyncWorkOnRoot (https://f2916c27-c314-447f-ae6c-b3b335ae4b1d-00-82om0xh9g3hd.kirk.replit.dev:9000/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=72c5e2ba:18879:28)
