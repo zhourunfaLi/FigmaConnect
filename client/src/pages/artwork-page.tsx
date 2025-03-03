@@ -82,7 +82,7 @@ const mockQuizQuestions = [
   },
   {
     id: 3,
-    question: "梵高的《向日葵》曾被纳粹德国列为"堕落艺术"？",
+    question: "梵高的《向日葵》曾被纳粹德国列为\"堕落艺术\"？",
     correctAnswer: true
   },
   {
