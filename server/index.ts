@@ -2,6 +2,8 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { validateSchema } from "./validateSchema"; // Added import for schema validation
+import initTestData from './initTestData'; // Added import for test data initialization
+import { checkDatabaseConnection } from './db'; // Assuming this import exists
 
 const app = express();
 app.use(express.json());
@@ -129,6 +131,29 @@ app.use((req, res, next) => {
         }
       }
     };
+
+
+    // 数据库连接检查和测试数据初始化
+    await checkDatabaseConnection()
+      .then(async (isConnected) => {
+        if (isConnected) {
+          console.log('数据库连接成功');
+          try {
+            await initTestData();
+            console.log('测试数据初始化成功');
+          } catch (initError) {
+            console.error('测试数据初始化失败:', initError);
+          }
+        } else {
+          console.error('无法连接到数据库');
+          throw new Error('数据库连接失败');
+        }
+      })
+      .catch((dbError) => {
+        console.error('数据库连接或测试数据初始化错误:', dbError);
+        // 处理数据库错误, 例如退出进程或者尝试重连
+        process.exit(1); // or implement retry logic here
+      });
 
     // 处理服务器错误
     server.on('error', (err) => {

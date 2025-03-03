@@ -1,4 +1,3 @@
-
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
@@ -29,12 +28,12 @@ export function registerRoutes(app: Express): Server {
       const artworks = categoryId 
         ? await storage.getArtworksByCategory(categoryId)
         : await storage.getArtworks();
-      
+
       console.log(`[Debug] 返回作品数量: ${artworks.length}`);
       if (artworks.length === 0) {
         console.log('[Debug] 无法找到任何作品');
       }
-      
+
       res.json(artworks);
     } catch (error) {
       console.error('[Error] 获取作品失败:', error);
@@ -63,56 +62,31 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  app.get("/api/artworks/:id", async (req, res) => {
+  // 获取单个艺术品
+  app.get('/api/artworks/:id', async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      console.log(`[Debug] Received request for artwork ID: ${id}`);
+      const { id } = req.params;
+      console.log(`[Debug] 查询作品ID: ${id}`);
 
-      if (isNaN(id)) {
-        console.log(`[Debug] Invalid ID format: ${req.params.id}`);
-        res.status(400).json({ error: "Invalid artwork ID", details: req.params.id });
-        return;
+      // 尝试从数据库获取作品
+      const artwork = await storage.getArtwork(parseInt(id));
+
+      if (artwork) {
+        // 转换一下字段名以匹配前端预期
+        return res.json({
+          id: artwork.id,
+          title: artwork.title,
+          description: artwork.description,
+          imageUrl: artwork.image_url,
+          videoUrl: artwork.video_url,
+          isPremium: artwork.is_premium,
+          hideTitle: artwork.hide_title,
+          categoryId: artwork.category_id,
+          imageId: artwork.id // 确保前端可以使用imageId
+        });
       }
 
-      // 添加重试逻辑
-      let retries = 3;
-      let artwork = null;
-      
-      while (retries > 0) {
-        try {
-          artwork = await storage.getArtwork(id);
-          break; // 如果成功获取数据，退出循环
-        } catch (err) {
-          // 如果是数据库连接错误，尝试重试
-          if (err.message.includes('terminating connection') || 
-              err.message.includes('Connection terminated')) {
-            console.log(`[Debug] Database connection error, retrying (${retries} attempts left)`);
-            retries--;
-            if (retries > 0) {
-              await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒后重试
-              continue;
-            }
-          }
-          // 对于其他错误或重试用尽，直接抛出
-          throw err;
-        }
-      }
-      
-      console.log(`[Debug] Database query result:`, artwork);
-
-      if (!artwork) {
-        console.log(`[Debug] No artwork found for ID: ${id}`);
-        res.status(404).json({ error: "Artwork not found", artworkId: id });
-        return;
-      }
-
-      if (artwork.isPremium && !req.user?.isPremium) {
-        console.log(`[Debug] Premium content access denied for user:`, req.user);
-        res.status(403).json({ error: "Premium content requires membership" });
-        return;
-      }
-
-      res.json(artwork);
+      return res.status(404).json({ error: `找不到ID为 ${id} 的作品` });
     } catch (error) {
       console.error('[Error] Error fetching artwork:', error);
       res.status(500).json({ 
@@ -147,13 +121,13 @@ export function registerRoutes(app: Express): Server {
   app.get("/api/ad-configs", async (_req, res) => {
     try {
       const configs = await storage.getAdConfigs();
-      
+
       // 解析JSON字符串为数组
       const processedConfigs = configs.map(config => ({
         ...config,
         adPositions: JSON.parse(config.adPositions as string)
       }));
-      
+
       res.json(processedConfigs);
     } catch (error) {
       console.error("获取广告配置失败:", error);
@@ -165,17 +139,17 @@ export function registerRoutes(app: Express): Server {
     try {
       const id = parseInt(req.params.id);
       const config = await storage.getAdConfig(id);
-      
+
       if (!config) {
         return res.status(404).send("广告配置不存在");
       }
-      
+
       // 解析JSON字符串为数组
       const processedConfig = {
         ...config,
         adPositions: JSON.parse(config.adPositions as string)
       };
-      
+
       res.json(processedConfig);
     } catch (error) {
       console.error("获取广告配置失败:", error);
@@ -187,21 +161,21 @@ export function registerRoutes(app: Express): Server {
     if (!req.user || req.user.role !== 'admin') {
       return res.status(403).send("需要管理员权限");
     }
-    
+
     try {
       const data = {
         ...req.body,
         adPositions: JSON.stringify(req.body.adPositions || [])
       };
-      
+
       const config = await storage.createAdConfig(data);
-      
+
       // 解析JSON字符串为数组
       const processedConfig = {
         ...config,
         adPositions: JSON.parse(config.adPositions as string)
       };
-      
+
       res.status(201).json(processedConfig);
     } catch (error) {
       console.error("创建广告配置失败:", error);
@@ -213,24 +187,24 @@ export function registerRoutes(app: Express): Server {
     if (!req.user || req.user.role !== 'admin') {
       return res.status(403).send("需要管理员权限");
     }
-    
+
     try {
       const id = parseInt(req.params.id);
-      
+
       // 如果请求中包含adPositions，需要将其转换为JSON字符串
       const data = { ...req.body };
       if (data.adPositions) {
         data.adPositions = JSON.stringify(data.adPositions);
       }
-      
+
       const config = await storage.updateAdConfig(id, data);
-      
+
       // 解析JSON字符串为数组
       const processedConfig = {
         ...config,
         adPositions: JSON.parse(config.adPositions as string)
       };
-      
+
       res.json(processedConfig);
     } catch (error) {
       console.error("更新广告配置失败:", error);
@@ -242,7 +216,7 @@ export function registerRoutes(app: Express): Server {
     if (!req.user || req.user.role !== 'admin') {
       return res.status(403).send("需要管理员权限");
     }
-    
+
     try {
       const id = parseInt(req.params.id);
       await storage.deleteAdConfig(id);
