@@ -64,18 +64,12 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
 
-    const BASE_PORT = 9000;
+    const BASE_PORT = 3000; // 更改默认端口，避免与其他进程冲突
     let currentPort = BASE_PORT;
     let serverStarted = false;
 
-    // 确保之前的进程已结束
-    try {
-      const killPortProcess = require('kill-port');
-      await killPortProcess(BASE_PORT);
-      console.log(`已尝试释放端口 ${BASE_PORT}`);
-    } catch (err) {
-      console.log(`端口释放错误 (可忽略): ${err.message}`);
-    }
+    // 不再使用kill-port，因为它可能导致错误
+    console.log(`准备在端口 ${BASE_PORT} 启动服务器...`);
 
     const startServer = async () => {
       if (serverStarted) {
