@@ -87,7 +87,7 @@ task = "packager.installForAll"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run dev"
-waitForPort = 5000
+waitForPort = 9000
 
 [[workflows.workflow]]
 name = "启动应用"
