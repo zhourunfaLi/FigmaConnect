@@ -3,6 +3,10 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import passport from 'passport'; // Assuming passport is used for authentication
+import { eq, sql } from 'drizzle-orm'; // Assuming Drizzle ORM is used
+// Assuming necessary table definitions are imported
+// import { categories, comments } from './db-schema';  //Replace with your actual import
+
 
 export function registerRoutes(app: Express): Server {
   setupAuth(app);
@@ -64,36 +68,53 @@ export function registerRoutes(app: Express): Server {
 
   // 获取单个艺术品
   app.get('/api/artworks/:id', async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid artwork ID' });
+    }
+
     try {
-      const { id } = req.params;
-      console.log(`[Debug] 查询作品ID: ${id}`);
-
-      // 尝试从数据库获取作品
-      const artwork = await storage.getArtwork(parseInt(id));
-
-      if (artwork) {
-        // 转换一下字段名以匹配前端预期
-        return res.json({
-          id: artwork.id,
-          title: artwork.title,
-          description: artwork.description,
-          imageUrl: artwork.image_url,
-          videoUrl: artwork.video_url,
-          isPremium: artwork.is_premium,
-          hideTitle: artwork.hide_title,
-          categoryId: artwork.category_id,
-          imageId: artwork.id // 确保前端可以使用imageId
-        });
+      const artwork = await storage.getArtwork(id);
+      if (!artwork) {
+        return res.status(404).json({ error: `找不到ID为 ${id} 的作品` });
       }
 
-      return res.status(404).json({ error: `找不到ID为 ${id} 的作品` });
+      // 如果是高级作品，检查用户权限
+      if (artwork.is_premium && (!req.session.user || !req.session.user.isPremium)) {
+        return res.status(403).json({ error: '此作品需要高级会员权限' });
+      }
+
+      // 获取分类信息
+      const categoryInfo = artwork.category_id ? 
+        await db.select().from(categories).where(eq(categories.id, artwork.category_id)).then(cats => cats[0]) : 
+        null;
+
+      // 获取评论数量
+      const commentCount = await db
+        .select({ count: sql`count(*)` })
+        .from(comments)
+        .where(eq(comments.artworkId, id))
+        .then(result => Number(result[0]?.count || 0));
+
+      // 创建增强版artwork对象
+      const enhancedArtwork = {
+        ...artwork,
+        isPremium: artwork.is_premium,
+        hideTitle: artwork.hide_title,
+        categoryId: artwork.category_id,
+        imageId: artwork.id, // 使用id作为imageId
+        categoryName: categoryInfo?.name || null,
+        commentCount: commentCount,
+        // 将蛇形命名转换为驼峰命名
+        is_premium: undefined,
+        hide_title: undefined,
+        category_id: undefined
+      };
+
+      res.json(enhancedArtwork);
     } catch (error) {
-      console.error('[Error] Error fetching artwork:', error);
-      res.status(500).json({ 
-        error: "Internal server error", 
-        message: error.message,
-        status: 500
-      });
+      console.error(`[Error] Failed to get artwork ${id}:`, error);
+      res.status(500).json({ error: '服务器错误' });
     }
   });
 
