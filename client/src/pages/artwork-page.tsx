@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, ZoomIn, ZoomOut, Download, Info, Video, MessageSquare, HelpCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 
@@ -66,20 +66,26 @@ export default function ArtworkPage() {
       }
     }
 
-    // 如果ID解析失败，重定向到首页而不是使用默认ID
+    // 如果ID解析失败，标记错误状态而不是立即返回
     if (artworkId === null || artworkId === undefined) {
-      console.warn(`无法解析有效的作品ID: ${id}，重定向到首页`);
-      setLocation('/');
-      return null;
+      console.warn(`无法解析有效的作品ID: ${id}，标记跳转到首页`);
+      artworkId = -1; // 使用无效ID标记
     }
   } catch (err) {
     console.error("ID解析过程中出错:", err);
-    // 出错时重定向到首页
-    setLocation('/');
-    return null;
+    artworkId = -1; // 出错时使用无效ID标记
   }
 
   console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
+
+  // 如果ID无效，在所有hooks之后再处理重定向
+  if (artworkId === -1) {
+    // useEffect执行重定向，避免在渲染期间改变状态
+    useEffect(() => {
+      setLocation('/');
+    }, []);
+    return null;
+  }
 
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
     queryKey: ["artwork", artworkId],
@@ -92,17 +98,17 @@ export default function ArtworkPage() {
 
       try {
         console.log(`正在请求作品数据，ID=${artworkId}`);
-        
+
         // 确保请求URL格式正确
         const apiUrl = `/api/artworks/${artworkId}`;
         console.log(`发送API请求: ${apiUrl}`);
-        
+
         const response = await fetch(apiUrl);
         console.log(`收到响应: 状态=${response.status}`);
 
         if (!response.ok) {
           const errorStatus = response.status;
-          
+
           if (errorStatus === 404) {
             console.warn(`找不到作品: ID=${artworkId}`);
             throw new Error(`找不到ID为 ${artworkId} 的作品`);
@@ -123,13 +129,13 @@ export default function ArtworkPage() {
           console.error(`解析JSON失败:`, jsonError);
           throw new Error(`无法解析服务器返回的数据`);
         }
-        
+
         // 验证返回的数据
         if (!data || typeof data !== 'object') {
           console.error(`服务器返回了无效数据:`, data);
           throw new Error(`服务器返回了无效的数据格式`);
         }
-        
+
         console.log(`成功获取作品数据:`, data);
         return data;
       } catch (err) {
@@ -205,9 +211,9 @@ export default function ArtworkPage() {
     const errorMessage = error instanceof Error 
       ? error.message 
       : `无法加载作品 (ID: ${id})`;
-    
+
     console.log(`显示错误信息: ${errorMessage}`);
-    
+
     return (
       <div className="container mx-auto px-4 py-8">
         <Alert variant="destructive">
