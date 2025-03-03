@@ -24,12 +24,15 @@ export async function initTestData() {
       
       // 创建测试作品
       await pool.query(`
-        INSERT INTO artworks (id, title, description, image_url, category_id, is_premium)
+        INSERT INTO artworks (id, title, description, image_url, video_url, category_id, is_premium)
         VALUES 
-          (1, '向日葵', '梵高的经典作品', 'https://placehold.co/400x600', 1, false),
-          (2, '蒙娜丽莎', '达芬奇的名作', 'https://placehold.co/600x800', 1, false), 
-          (3, '巴黎风景', '巴黎城市风光摄影', 'https://placehold.co/800x600', 2, false),
-          (4, '星空', '梵高的夜景作品', 'https://placehold.co/400x400', 1, true)
+          (1, '向日葵', '梵高的经典作品', 'https://placehold.co/400x600', NULL, 1, false),
+          (2, '蒙娜丽莎', '达芬奇的名作', 'https://placehold.co/600x800', NULL, 1, false), 
+          (3, '巴黎风景', '巴黎城市风光摄影', 'https://placehold.co/800x600', NULL, 2, false),
+          (4, '星空', '梵高的夜景作品', 'https://placehold.co/400x400', NULL, 1, true),
+          (8, '星夜', '梵高的代表作品之一', 'https://placehold.co/400x600/000033/FFF?text=Starry+Night', 'https://example.com/videos/starry-night-analysis.mp4', 1, true),
+          (14, '向日葵系列', '梵高在阿尔勒时期创作的向日葵系列', 'https://placehold.co/400x600/FFD700/000?text=Sunflowers', 'https://example.com/videos/sunflowers-analysis.mp4', 1, true),
+          (20, '睡莲', '莫奈的经典作品', 'https://placehold.co/400x400/7EC0EE/000?text=Water+Lilies', NULL, 1, false)
         ON CONFLICT (id) DO NOTHING;
       `);
       

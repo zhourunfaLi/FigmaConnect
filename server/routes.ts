@@ -83,7 +83,7 @@ export function registerRoutes(app: Express): Server {
             imageId: 4
           });
         }
-        
+
         // 添加ID=8的作品临时数据
         if (id === 8) {
           return res.json({
@@ -98,7 +98,7 @@ export function registerRoutes(app: Express): Server {
             imageId: 8
           });
         }
-        
+
         // 添加ID=14的作品临时数据
         if (id === 14) {
           return res.json({
@@ -113,6 +113,8 @@ export function registerRoutes(app: Express): Server {
             imageId: 14
           });
         }
+
+        // 添加更多临时作品数据可以在这里添加其他ID的条件判断...
 
         return res.status(404).json({ error: `找不到ID为 ${id} 的作品` });
       }
