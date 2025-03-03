@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { type Artwork } from "@shared/schema";
 import VideoPlayer from "@/components/video-player";
 import CommentSection from "@/components/comment-section";
@@ -9,8 +9,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, ZoomIn, ZoomOut, Download, Info, Video, MessageSquare, HelpCircle, AlertTriangle } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Loader2, ZoomIn, ZoomOut, Download, Info, Video, MessageSquare, HelpCircle } from "lucide-react";
+import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 
@@ -34,7 +34,8 @@ const MOCK_QUIZ = [
 ];
 
 export default function ArtworkPage() {
-  const [setLocation] = useLocation();
+  const { id } = useParams<{ id: string }>();
+  const [, setLocation] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
   const [zoomLevel, setZoomLevel] = useState<number>(100);
@@ -42,114 +43,116 @@ export default function ArtworkPage() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  // 从URL路径解析作品ID
-  const urlPath = window.location.pathname;
-  const pathSegments = urlPath.split('/').filter(Boolean);
-  const idFromPath = pathSegments.length > 1 && pathSegments[0] === 'artwork' ? pathSegments[1] : null;
-
-  // 解析作品ID的逻辑
-  let artworkId: number | null = null;
-
+  // 改进ID处理逻辑
+  let artworkId = null;
   try {
-    if (idFromPath) {
-      console.log(`解析URL路径: ${urlPath}, 提取ID: ${idFromPath}`);
-
+    if (id) {
       // 尝试直接解析为数字ID
-      const parsedId = parseInt(idFromPath);
+      const parsedId = parseInt(id);
       if (!isNaN(parsedId)) {
         artworkId = parsedId;
         console.log(`成功解析数字ID: ${artworkId}`);
       } 
       // 如果是复合ID格式（如"art-17-0"）
-      else if (idFromPath.includes('-')) {
-        const parts = idFromPath.split('-');
-        if (parts.length > 1) {
+      else if (id.includes('-')) {
+        const parts = id.split('-');
+        if (parts.length >= 2) {
           const imageId = parseInt(parts[1]);
           if (!isNaN(imageId)) {
             artworkId = imageId;
-            console.log(`成功解析复合ID: ${idFromPath} -> ${artworkId}`);
+            console.log(`成功解析复合ID: ${id} -> ${artworkId}`);
           }
         }
       }
     }
 
-    // 如果ID解析失败，标记错误状态而不是立即返回
-    if (artworkId === null) {
-      console.warn(`无法解析有效的作品ID: ${idFromPath}，将使用默认ID`);
-      // 不再自动重定向，而是使用一个可能存在的ID或显示错误
-      artworkId = 9; // 使用一个可能存在的ID，避免立即重定向
+    // 如果ID解析失败，提供一个默认ID或重定向到首页
+    if (artworkId === null || artworkId === undefined) {
+      console.warn(`无法解析有效的作品ID: ${id}，将使用默认ID`);
+
+      // 将ID设置为默认值，避免undefined
+      artworkId = 1;
+
+      // 可选：重定向到首页
+      // setLocation('/');
+      // return null;
     }
   } catch (err) {
     console.error("ID解析过程中出错:", err);
-    artworkId = 9; // 出错时使用默认ID
+    artworkId = 1; // 出错时使用默认ID
   }
 
-  console.log(`ArtworkPage: URL路径=${urlPath}, 解析后ID=${artworkId}`);
+  console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
 
-
-  // 如果ID无效，在所有hooks之后再处理重定向
-  if (artworkId === null || artworkId === undefined || isNaN(artworkId)) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <Alert variant="destructive">
-          <AlertDescription>
-            无法加载作品，请检查作品ID.
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
-
-  // 获取作品数据
-  const { data: artwork, isLoading, isError, error, refetch } = useQuery({
-    queryKey: ['artwork', artworkId],
+  const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
+    queryKey: ["artwork", artworkId],
     queryFn: async () => {
-      console.log(`正在请求作品数据，ID=${artworkId}`);
+      // 增强的ID验证
+      if (typeof artworkId !== 'number' || isNaN(artworkId) || artworkId <= 0) {
+        console.error(`[严重] 无效的作品ID类型或值: ${artworkId}, 类型: ${typeof artworkId}`);
+        throw new Error(`作品ID无效: ${artworkId}`);
+      }
 
       try {
-        // 验证ID是否有效
-        if (!artworkId || artworkId <= 0 || isNaN(Number(artworkId))) {
-          throw new Error(`无效的作品ID: ${artworkId}`);
-        }
-
+        console.log(`正在请求作品数据，ID=${artworkId}`);
+        
+        // 确保请求URL格式正确
         const apiUrl = `/api/artworks/${artworkId}`;
         console.log(`发送API请求: ${apiUrl}`);
-
+        
         const response = await fetch(apiUrl);
         console.log(`收到响应: 状态=${response.status}`);
 
         if (!response.ok) {
-          if (response.status === 404) {
+          const errorStatus = response.status;
+          
+          if (errorStatus === 404) {
+            console.warn(`找不到作品: ID=${artworkId}`);
             throw new Error(`找不到ID为 ${artworkId} 的作品`);
+          } else if (errorStatus === 403) {
+            console.warn(`没有权限访问作品: ID=${artworkId}`);
+            throw new Error(`此作品需要高级会员才能查看`);
+          } else {
+            console.error(`服务器错误: ${errorStatus}`);
+            throw new Error(`服务器返回错误: ${errorStatus}`);
           }
-          throw new Error(`获取作品失败: HTTP ${response.status} - ${response.statusText}`);
         }
 
-        const data = await response.json();
-
+        // 安全解析JSON
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          console.error(`解析JSON失败:`, jsonError);
+          throw new Error(`无法解析服务器返回的数据`);
+        }
+        
         // 验证返回的数据
-        if (!data || !data.id) {
-          throw new Error(`返回的作品数据无效`);
+        if (!data || typeof data !== 'object') {
+          console.error(`服务器返回了无效数据:`, data);
+          throw new Error(`服务器返回了无效的数据格式`);
         }
-
+        
         console.log(`成功获取作品数据:`, data);
         return data;
-      } catch (err: any) {
-        console.error(`作品请求异常:`, {
-          message: err.message,
-          stack: err.stack
-        });
-        throw err;
+      } catch (err) {
+        console.error(`作品请求异常:`, err);
+        // 重新抛出，但确保是Error对象
+        if (err instanceof Error) {
+          throw err;
+        } else {
+          throw new Error(`未知错误: ${String(err)}`);
+        }
       }
     },
-    retry: false, // 不自动重试，避免重复错误
-    staleTime: 1000 * 60 * 10, // 10分钟内不重新请求
-    onError: (err: any) => {
-      console.error(`作品查询错误:`, {
-        message: err.message,
-        name: err.name,
-        stack: err.stack
-      });
+    retry: 1, // 只重试一次
+    retryDelay: 1000, // 重试延迟1秒
+    // 加强错误处理
+    gcTime: 0, // 不缓存错误结果
+    staleTime: 30000, // 30秒内不重新请求
+    onError: (err) => {
+      console.error(`作品查询错误:`, err);
+      // 可以在这里添加全局错误处理，如显示通知
     }
   });
 
@@ -204,32 +207,21 @@ export default function ArtworkPage() {
     // 确保错误信息正确显示
     const errorMessage = error instanceof Error 
       ? error.message 
-      : `无法加载作品 (ID: ${idFromPath})`;
-
+      : `无法加载作品 (ID: ${id})`;
+    
     console.log(`显示错误信息: ${errorMessage}`);
-
+    
     return (
-      <div className="flex items-center justify-center min-h-[70vh] p-4">
-        <div className="text-center max-w-md p-6 bg-gray-50 rounded-lg shadow">
-          <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <AlertDescription>
             {errorMessage}
-          </h2>
-          <p className="text-gray-600 mb-6">
-            可能是作品已被删除或移动，或者服务器暂时无法响应。
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <Button onClick={() => refetch()} className="w-full sm:w-auto">
-              重试加载
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => setLocation('/')} 
-              className="w-full sm:w-auto"
-            >
-              返回首页
-            </Button>
-          </div>
+          </AlertDescription>
+        </Alert>
+        <div className="mt-4">
+          <Button onClick={() => setLocation('/')}>
+            返回首页
+          </Button>
         </div>
       </div>
     );
@@ -240,7 +232,7 @@ export default function ArtworkPage() {
       <div className="container mx-auto px-4 py-8">
         <Alert>
           <AlertDescription>
-            {idFromPath ? `找不到ID为 ${idFromPath} 的作品` : '作品ID无效或缺失'}
+            {id ? `找不到ID为 ${id} 的作品` : '作品ID无效或缺失'}
           </AlertDescription>
         </Alert>
         <div className="mt-4">
@@ -253,7 +245,7 @@ export default function ArtworkPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8"> {/* Minimal UI change based on incomplete instructions */}
+    <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* 左侧作品区域 */}
         <div className="md:col-span-2 space-y-6">
@@ -265,7 +257,7 @@ export default function ArtworkPage() {
                     <img 
                       src={artwork.imageUrl} 
                       alt={artwork.title} 
-                      className="h-full w-full object-cover rounded-xl" {/* Added rounded corners */}
+                      className="h-full w-full object-cover" 
                     />
                   </div>
                 </AspectRatio>
@@ -308,7 +300,7 @@ export default function ArtworkPage() {
         {/* 右侧信息区域 */}
         <div className="space-y-6">
           <div>
-            <h1 className="text-lg text-[#090909] font-normal mb-4">{artwork.title}</h1> {/* Adjusted heading size */}
+            <h1 className="text-3xl font-bold">{artwork.title}</h1>
             <p className="text-muted-foreground mt-2">{artwork.isPremium && "会员专享"}</p>
           </div>
 

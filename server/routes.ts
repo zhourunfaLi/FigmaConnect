@@ -62,91 +62,36 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  app.get("/api/artworks/:id", async (req, res) => {
+  // 获取单个艺术品
+  app.get('/api/artworks/:id', async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      console.log(`[Debug] Received request for artwork ID: ${id}`);
-      console.log(`[Debug] Executing getArtwork query with ID: ${id}`);
+      const { id } = req.params;
+      console.log(`[Debug] 查询作品ID: ${id}`);
 
-      if (isNaN(id) || id <= 0) {
-        console.log(`[Debug] Invalid ID format: ${req.params.id}`);
-        res.status(400).json({ 
-          error: "Invalid artwork ID", 
-          details: req.params.id,
-          message: `ID必须是正整数`
-        });
-        return;
-      }
+      // 尝试从数据库获取作品
+      const artwork = await storage.getArtwork(parseInt(id));
 
-      // 添加重试逻辑
-      let retries = 3;
-      let artwork = null;
-
-      while (retries > 0) {
-        try {
-          artwork = await storage.getArtwork(id);
-          break; // 如果成功获取数据，退出循环
-        } catch (err) {
-          // 如果是数据库连接错误，尝试重试
-          if (err.message && (
-              err.message.includes('terminating connection') || 
-              err.message.includes('Connection terminated'))) {
-            console.log(`[Debug] Database connection error, retrying (${retries} attempts left)`);
-            retries--;
-            if (retries > 0) {
-              await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒后重试
-              continue;
-            }
-          }
-          // 对于其他错误或重试用尽，直接抛出
-          throw err;
-        }
-      }
-
-      console.log(`[Debug] Database query result:`, artwork);
-
-      if (!artwork) {
-        console.log(`[Debug] No artwork found for ID: ${id}`);
-        // 添加ID=14的作品临时数据
-        if (id === 14) {
-          return res.json({
-            id: 14,
-            title: "向日葵系列",
-            description: "梵高在阿尔勒时期创作的向日葵系列",
-            imageUrl: "https://placehold.co/400x600/FFD700/000?text=Sunflowers",
-            videoUrl: "https://example.com/videos/sunflowers-analysis.mp4",
-            category_id: 1,
-            is_premium: false,
-            hide_title: false,
-            display_order: null,
-            column_position: null,
-            aspect_ratio: null
-          });
-        }
-
-        // 添加更多临时作品数据可以在这里添加其他ID的条件判断...
-
-        return res.status(404).json({ 
-          error: `找不到ID为 ${id} 的作品`,
-          message: `可能作品已被删除或移动，或者服务器暂时无法响应`
+      if (artwork) {
+        // 转换一下字段名以匹配前端预期
+        return res.json({
+          id: artwork.id,
+          title: artwork.title,
+          description: artwork.description,
+          imageUrl: artwork.image_url,
+          videoUrl: artwork.video_url,
+          isPremium: artwork.is_premium,
+          hideTitle: artwork.hide_title,
+          categoryId: artwork.category_id,
+          imageId: artwork.id // 确保前端可以使用imageId
         });
       }
 
-      if (artwork.isPremium && req.user && !req.user.isPremium) {
-        console.log(`[Debug] Premium content access denied for user:`, req.user);
-        res.status(403).json({ 
-          error: "Premium content requires membership",
-          message: "此作品需要高级会员才能查看" 
-        });
-        return;
-      }
-
-      res.json(artwork);
+      return res.status(404).json({ error: `找不到ID为 ${id} 的作品` });
     } catch (error) {
       console.error('[Error] Error fetching artwork:', error);
       res.status(500).json({ 
         error: "Internal server error", 
-        message: error.message || "服务器内部错误",
+        message: error.message,
         status: 500
       });
     }
@@ -294,31 +239,6 @@ export function registerRoutes(app: Express): Server {
       res.status(200).json({ success: true });
     });
   });
-
-  // 新增API：导入前端作品数据到数据库
-  app.post("/api/import-frontend-artworks", async (req, res) => {
-    if (!req.user || req.user.role !== 'admin') {
-      return res.status(403).send("需要管理员权限");
-    }
-
-    try {
-      const artworks = req.body.artworks;
-      if (!Array.isArray(artworks)) {
-        return res.status(400).send("参数格式错误，需要提供作品数组");
-      }
-
-      const imported = await storage.importFrontendArtworks(artworks);
-      res.status(200).json({ 
-        success: true, 
-        message: `成功导入${artworks.length}个作品`, 
-        count: imported.length 
-      });
-    } catch (error) {
-      console.error('导入前端作品数据失败:', error);
-      res.status(500).send("导入作品数据失败");
-    }
-  });
-
 
   const httpServer = createServer(app);
   return httpServer;

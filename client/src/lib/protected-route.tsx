@@ -9,10 +9,6 @@ export function ProtectedRoute({
   path: string;
   component: () => React.JSX.Element;
 }) {
-  // 临时禁用登录保护，直接渲染组件
-  return <Component />
-
-  /* 正式环境请恢复以下代码
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
@@ -34,5 +30,4 @@ export function ProtectedRoute({
   }
 
   return <Component />
-  */
 }
