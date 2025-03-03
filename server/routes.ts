@@ -83,6 +83,21 @@ export function registerRoutes(app: Express): Server {
             imageId: 4
           });
         }
+        
+        // 添加ID=8的作品临时数据
+        if (id === 8) {
+          return res.json({
+            id: 8,
+            title: "星夜",
+            description: "《星夜》是荷兰后印象派画家文森特·梵高于1889年创作的油画。这幅画描绘了圣雷米的一个小村庄在夜晚的景象，以其漩涡般的星空和活力四射的笔触而闻名。梵高的这幅作品展现了他独特的艺术风格和对自然的深刻理解。",
+            imageUrl: "https://placehold.co/400x600/000033/FFF?text=Starry+Night",
+            videoUrl: "https://example.com/videos/starry-night-analysis.mp4",
+            likes: 8888,
+            isPremium: true,
+            themeId: "art",
+            imageId: 8
+          });
+        }
 
         return res.status(404).json({ error: `找不到ID为 ${id} 的作品` });
       }
