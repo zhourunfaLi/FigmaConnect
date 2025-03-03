@@ -46,7 +46,7 @@ export class DatabaseStorage implements IStorage {
       await pool.query(`
         CREATE TABLE IF NOT EXISTS categories (
           id SERIAL PRIMARY KEY,
-          name TEXT NOT NULL,T NULL,
+          name TEXT NOT NULL,
           description TEXT,
           display_order INTEGER
         );
