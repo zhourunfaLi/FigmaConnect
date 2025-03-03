@@ -1,377 +1,399 @@
+
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "wouter";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
-import {
-  ZoomIn,
-  ZoomOut,
-  Download,
-  Info,
-  MessageSquare as Message,
-  HelpCircle,
-  Video,
-} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown, ChevronUp, Maximize, Minimize, Download, ThumbsUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import VideoPlayer from "@/components/video-player";
-import { useAuth } from "@/hooks/use-auth";
-import { useParams } from "wouter"; // Added import for useParams
-import { type Artwork } from "@shared/schema"; // Added import for Artwork type
 
-
-// Mock data for demonstration
+// 模拟用户评论数据
 const mockComments = [
-  { id: 1, username: "ArtLover", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Felix", content: "This is such a magnificent piece! The use of color is extraordinary.", timestamp: "2023-06-15T09:30:00" },
-  { id: 2, username: "GalleryOwner", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka", content: "I've been following this artist for years. Their evolution is remarkable.", timestamp: "2023-06-16T15:20:00" },
-  { id: 3, username: "ArtHistorian", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Mimi", content: "The influence of the Renaissance period is evident in this work.", timestamp: "2023-06-17T11:45:00" },
-  { id: 4, username: "Curator123", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Jasper", content: "We featured this in our spring exhibition last year. It was the highlight of the show!", timestamp: "2023-06-18T14:10:00" },
+  {
+    id: 1,
+    username: "艺术爱好者",
+    avatar: "https://i.pravatar.cc/150?img=1",
+    content: "这幅作品的用色真是令人惊叹，特别是那种对比度。",
+    date: "2023-05-15",
+    replies: [
+      {
+        id: 11,
+        username: "色彩研究员",
+        avatar: "https://i.pravatar.cc/150?img=5",
+        content: "完全同意！梵高的色彩运用一直是研究的热点。",
+        date: "2023-05-16",
+      }
+    ]
+  },
+  {
+    id: 2,
+    username: "历史学家",
+    avatar: "https://i.pravatar.cc/150?img=2",
+    content: "这幅作品创作于艺术家生命的最后阶段，反映了他当时的心理状态。",
+    date: "2023-05-10",
+    replies: []
+  },
+  {
+    id: 3,
+    username: "博物馆策展人",
+    avatar: "https://i.pravatar.cc/150?img=3",
+    content: "我们博物馆最近展出了类似的作品，吸引了大量观众。这种艺术风格始终有其独特魅力。",
+    date: "2023-04-28",
+    replies: [
+      {
+        id: 31,
+        username: "艺术学生",
+        avatar: "https://i.pravatar.cc/150?img=6",
+        content: "请问展览持续到什么时候？我很想亲眼看看！",
+        date: "2023-04-29",
+      },
+      {
+        id: 32,
+        username: "博物馆策展人",
+        avatar: "https://i.pravatar.cc/150?img=3",
+        content: "展览将持续到下个月底，欢迎您来参观！",
+        date: "2023-04-30",
+      }
+    ]
+  },
+  {
+    id: 4,
+    username: "技术分析师",
+    avatar: "https://i.pravatar.cc/150?img=4",
+    content: "从技术角度看，这幅作品的笔触非常有特点，展现了艺术家独特的表现手法。",
+    date: "2023-04-20",
+    replies: []
+  }
 ];
 
+// 模拟问答题目
 const mockQuizQuestions = [
-  { id: 1, question: "Did the artist create this during their 'Blue Period'?", answer: "NO" },
-  { id: 2, question: "Was this painting completed in a single day?", answer: "NO" },
-  { id: 3, question: "Is this considered one of the artist's most famous works?", answer: "YES" },
-  { id: 4, question: "Did the artist use traditional oil painting techniques?", answer: "YES" },
-  { id: 5, question: "Was this artwork initially rejected by critics?", answer: "YES" },
+  {
+    id: 1,
+    question: "这幅画是梵高在精神病院时期创作的吗？",
+    correctAnswer: true
+  },
+  {
+    id: 2,
+    question: "《向日葵》系列共有12幅作品？",
+    correctAnswer: false
+  },
+  {
+    id: 3,
+    question: "梵高的《向日葵》曾被纳粹德国列为"堕落艺术"？",
+    correctAnswer: true
+  },
+  {
+    id: 4,
+    question: "梵高在生前卖出了大部分《向日葵》系列作品？",
+    correctAnswer: false
+  },
+  {
+    id: 5,
+    question: "《向日葵》的原作现存于伦敦国家美术馆？",
+    correctAnswer: true
+  }
 ];
+
+// 模拟作品基本信息
+const mockArtworkInfo = {
+  artist: "文森特·梵高",
+  year: "1888年",
+  size: "92.1厘米 × 73厘米",
+  museum: "伦敦国家美术馆"
+};
 
 export default function ArtworkPage() {
-  // Extract artwork ID from URL
-  const { id } = useParams<{ id: string }>(); // Use useParams correctly
-  const [, params] = useLocation();
-  const defaultArtworkId = 1; // Fallback ID
-  const [artworkId, setArtworkId] = useState<number>(defaultArtworkId);
-
-  useEffect(() => {
-    let parsedId = defaultArtworkId;
-    if (id) {
-      const numId = parseInt(id, 10);
-      if (!isNaN(numId)) {
-        parsedId = numId;
-      }
-    }
-    setArtworkId(parsedId);
-    console.log("ArtworkPage: URL路径参数=" + params, "解析后ID=" + artworkId);
-  }, [params, id]); // Add id to dependency array
-
-  // State for image zoom
-  const [zoom, setZoom] = useState(1);
-
-  // State for quiz
-  const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [quizScore, setQuizScore] = useState(0);
-
-  // State for comments
-  const [commentExpanded, setCommentExpanded] = useState<Record<number, boolean>>({});
-  const [newComment, setNewComment] = useState("");
-
-  // Toast notifications
+  const { id } = useParams();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const [artworkId, setArtworkId] = useState<number>(1);
+  const [zoom, setZoom] = useState<number>(100);
+  const [userAnswers, setUserAnswers] = useState<{ [key: number]: boolean }>({});
+  const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
+  const [expandedComments, setExpandedComments] = useState<{ [key: number]: boolean }>({});
 
-  // Fetch artwork data
-  const { data: artwork, error, isLoading } = useQuery({
-    queryKey: [`/api/artworks/${artworkId}`],
-    queryFn: async () => {
-      console.log("正在请求作品数据，ID=" + artworkId);
-      console.log("发送API请求: /api/artworks/" + artworkId);
-      const response = await fetch(`/api/artworks/${artworkId}`);
-      console.log("收到响应: 状态=" + response.status);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch artwork: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log("成功获取作品数据:", data);
-      return data as Artwork; //Ensure type safety
-    },
-  });
-
-  // Handle zoom in/out
-  const handleZoomIn = () => {
-    if (zoom < 2) setZoom(zoom + 0.1);
-  };
-
-  const handleZoomOut = () => {
-    if (zoom > 0.5) setZoom(zoom - 0.1);
-  };
-
-  const handleZoomChange = (value: number[]) => {
-    setZoom(value[0]);
-  };
-
-  // Handle download
-  const handleDownload = () => {
-    if (artwork?.imageUrl) {
-      const link = document.createElement("a");
-      link.href = artwork.imageUrl;
-      link.download = artwork.title || "artwork";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      toast({
-        title: "下载开始",
-        description: "图片下载已开始",
-      });
+  // 解析URL参数获取作品ID
+  useEffect(() => {
+    console.log("ArtworkPage: URL路径参数=" + id, "解析后ID=" + artworkId);
+    const parsedId = id ? parseInt(id, 10) : 1;
+    if (!isNaN(parsedId)) {
+      setArtworkId(parsedId);
+    } else {
+      console.log("无法解析有效的作品ID: " + id + "，将使用默认ID");
     }
+  }, [id]);
+
+  // 获取作品数据
+  const { data: artwork, isLoading } = useQuery(
+    [`/api/artworks/${artworkId}`],
+    {
+      enabled: !!artworkId,
+      onSuccess: (data) => {
+        console.log("成功获取作品数据:", data);
+      },
+    }
+  );
+
+  // 增加/减少缩放
+  const handleZoomChange = (amount: number) => {
+    setZoom(prevZoom => {
+      const newZoom = prevZoom + amount;
+      return Math.min(Math.max(50, newZoom), 200);
+    });
   };
 
-  // Handle quiz answers
-  const handleQuizAnswer = (questionId: number, answer: string) => {
+  // 处理问答答案选择
+  const handleAnswerSelect = (questionId: number, answer: boolean) => {
     if (!quizSubmitted) {
-      setQuizAnswers({
-        ...quizAnswers,
+      setUserAnswers(prev => ({
+        ...prev,
         [questionId]: answer
-      });
+      }));
     }
   };
 
-  // Submit quiz
+  // 提交问答答案
   const handleQuizSubmit = () => {
-    if (Object.keys(quizAnswers).length === 0) {
+    if (Object.keys(userAnswers).length < mockQuizQuestions.length) {
       toast({
-        title: "请先回答问题",
-        description: "请先回答至少一个问题再提交",
+        title: "请回答所有问题",
+        description: "在提交前，请确保您已回答所有问题。",
         variant: "destructive",
       });
       return;
     }
-
-    let score = 0;
-    mockQuizQuestions.forEach(q => {
-      if (quizAnswers[q.id] === q.answer) {
-        score += 10;
-      }
-    });
-
-    setQuizScore(score);
     setQuizSubmitted(true);
-
+    
+    // 计算分数
+    const correctCount = mockQuizQuestions.filter(q => userAnswers[q.id] === q.correctAnswer).length;
+    const score = correctCount * 10;
+    
     toast({
-      title: "测验已提交",
-      description: `您的得分是: ${score}/${mockQuizQuestions.length * 10}`,
+      title: "问答完成！",
+      description: `您的得分：${score}分（共50分）`,
     });
   };
 
-  // Toggle comment expansion
-  const handleToggleComment = (commentId: number) => {
-    setCommentExpanded({
-      ...commentExpanded,
-      [commentId]: !commentExpanded[commentId]
-    });
+  // 重置问答
+  const handleQuizReset = () => {
+    setUserAnswers({});
+    setQuizSubmitted(false);
   };
 
-  // Submit new comment
-  const handleSubmitComment = () => {
-    if (!newComment.trim()) {
+  // 处理评论展开/收起
+  const toggleComment = (commentId: number) => {
+    setExpandedComments(prev => ({
+      ...prev,
+      [commentId]: !prev[commentId]
+    }));
+  };
+
+  // 处理下载原图
+  const handleDownload = () => {
+    if (artwork) {
+      // 在实际应用中，这里应该是高分辨率原图的URL
+      const downloadUrl = artwork.imageUrl || "https://placehold.co/1200x1800";
+      
+      // 创建一个临时链接
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = `artwork-${artworkId}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      
       toast({
-        title: "评论不能为空",
-        description: "请输入评论内容",
-        variant: "destructive",
+        title: "开始下载",
+        description: "原图正在下载中...",
       });
-      return;
     }
-
-    if (!user) {
-      toast({
-        title: "请先登录",
-        description: "您需要登录才能发表评论",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({
-      title: "评论已提交",
-      description: "您的评论已成功发布",
-    });
-    setNewComment("");
   };
 
-  // Format date for display
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
-  };
-
+  // 加载状态显示
   if (isLoading) {
-    return <div className="p-8 flex justify-center items-center">加载中...</div>;
-  }
-
-  if (error) {
     return (
-      <div className="p-8">
-        <p>加载错误: {(error as Error).message}</p>
+      <div className="min-h-screen p-8 flex items-center justify-center">
+        <Card className="w-full max-w-4xl">
+          <CardContent className="p-6">
+            <div className="animate-pulse space-y-4">
+              <div className="w-full h-64 bg-gray-300 rounded-md"></div>
+              <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-300 rounded w-full"></div>
+                <div className="h-4 bg-gray-300 rounded w-5/6"></div>
+                <div className="h-4 bg-gray-300 rounded w-4/6"></div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
-  if (!artwork) {
-    return <div className="p-8">未找到作品数据</div>;
-  }
-
-  const artworkMetadata = {
-    artist: "文森特·梵高",
-    year: "1888",
-    dimensions: "92.1 × 73 厘米",
-    location: "荷兰阿姆斯特丹国家美术馆"
-  };
-
+  // 作品详情界面
   return (
-    <div className="p-2 space-y-4">
+    <div className="min-h-screen p-8">
       {/* 1. 作品展示互动区 */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="relative">
-            <div style={{ transform: `scale(${zoom})`, transformOrigin: 'center', transition: 'transform 0.3s ease' }}>
-              <AspectRatio ratio={16/9}>
-                <img
-                  src={artwork.imageUrl || "https://placehold.co/1200x800"}
-                  alt={artwork.title}
-                  className="rounded-md object-cover w-full h-full"
-                />
-              </AspectRatio>
+      <Card className="w-full mb-6">
+        <CardContent className="p-6">
+          <div 
+            style={{ transform: `scale(${zoom / 100})`, transition: "transform 0.3s ease" }}
+            className="flex justify-center"
+          >
+            <AspectRatio 
+              ratio={16/9} 
+              className="bg-muted overflow-hidden rounded-md max-w-3xl"
+            >
+              <img 
+                src={artwork?.imageUrl || "https://placehold.co/400x600"} 
+                alt={artwork?.title || "作品图片"} 
+                className="object-cover w-full h-full"
+              />
+            </AspectRatio>
+          </div>
+          <div className="flex items-center justify-center mt-4 space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handleZoomChange(-10)}
+              disabled={zoom <= 50}
+            >
+              <Minimize className="h-4 w-4 mr-1" /> 缩小
+            </Button>
+            <div className="w-32 bg-gray-200 h-2 rounded-full overflow-hidden">
+              <div 
+                className="bg-blue-500 h-full" 
+                style={{ width: `${zoom/2}%` }}
+              ></div>
             </div>
-            <div className="absolute bottom-4 right-4 bg-black/50 rounded-lg p-2 flex items-center space-x-2">
-              <Button variant="ghost" size="icon" onClick={handleZoomOut}>
-                <ZoomOut className="h-4 w-4 text-white" />
-              </Button>
-              <div className="w-32">
-                <Slider
-                  value={[zoom]}
-                  min={0.5}
-                  max={2}
-                  step={0.1}
-                  onValueChange={handleZoomChange}
-                />
-              </div>
-              <Button variant="ghost" size="icon" onClick={handleZoomIn}>
-                <ZoomIn className="h-4 w-4 text-white" />
-              </Button>
-            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handleZoomChange(10)}
+              disabled={zoom >= 200}
+            >
+              <Maximize className="h-4 w-4 mr-1" /> 放大
+            </Button>
           </div>
         </CardContent>
       </Card>
-
+      
       {/* 2. 基础信息区 */}
-      <Card>
-        <CardContent className="p-4">
-          <h1 className="text-2xl font-bold mb-2">{artwork.title}</h1>
-          <div className="grid grid-cols-2 gap-2 text-sm">
+      <Card className="w-full mb-6">
+        <CardContent className="p-6">
+          <h2 className="text-3xl font-bold mb-4">{artwork?.title || "向日葵"}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p className="text-muted-foreground">艺术家</p>
-              <p>{artworkMetadata.artist}</p>
+              <p className="text-sm text-gray-500">艺术家</p>
+              <p className="font-medium">{mockArtworkInfo.artist}</p>
             </div>
             <div>
-              <p className="text-muted-foreground">年代</p>
-              <p>{artworkMetadata.year}</p>
+              <p className="text-sm text-gray-500">创作年份</p>
+              <p className="font-medium">{mockArtworkInfo.year}</p>
             </div>
             <div>
-              <p className="text-muted-foreground">尺寸</p>
-              <p>{artworkMetadata.dimensions}</p>
+              <p className="text-sm text-gray-500">尺寸</p>
+              <p className="font-medium">{mockArtworkInfo.size}</p>
             </div>
             <div>
-              <p className="text-muted-foreground">收藏地</p>
-              <p>{artworkMetadata.location}</p>
+              <p className="text-sm text-gray-500">收藏于</p>
+              <p className="font-medium">{mockArtworkInfo.museum}</p>
             </div>
           </div>
         </CardContent>
       </Card>
-
+      
       {/* 3. 作品介绍区 */}
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="text-xl font-semibold mb-2 flex items-center">
-            <Info className="h-5 w-5 mr-2" />
-            作品简介
-          </h2>
-          <p className="text-sm">
-            {artwork.description || "这是梵高最著名的作品之一，描绘了盛开的向日葵。这幅作品是他在阿尔勒期间创作的向日葵系列之一，表现了艺术家对生命和自然的热爱。画中的向日葵色彩鲜艳，充满活力，是梵高艺术创作的代表作。他使用了丰富的黄色和金色调，创造出一种充满阳光和积极能量的氛围。这幅画不仅是对自然的赞美，也是艺术家内心情感的表达。"}
-          </p>
-          <p className="text-sm mt-2">
-            梵高的向日葵系列在艺术史上具有重要地位，影响了后来许多艺术流派和艺术家。这幅作品通过其独特的笔触和色彩运用，展现了梵高对印象派技法的创新和突破，同时也体现了他对后印象派风格的探索。
-          </p>
+      <Card className="w-full mb-6">
+        <CardContent className="p-6">
+          <h3 className="text-xl font-semibold mb-3">作品简介</h3>
+          <div className="text-gray-700">
+            <p className="mb-3">
+              {artwork?.description || "这是梵高最著名的作品之一。梵高创作了《向日葵》系列，这是艺术史上最著名的系列作品之一。"}
+            </p>
+            <p className="mb-3">
+              梵高的《向日葵》系列是为了装饰他在阿尔的黄房子而创作的，其中最著名的是现存于伦敦国家美术馆的那一幅。这些作品以其明亮的黄色和大胆的笔触而闻名，表现了梵高对生命和希望的热爱。
+            </p>
+            <p>
+              值得注意的是，梵高创作《向日葵》系列时使用了当时新研发的铬黄颜料，这种颜料在当时是非常昂贵的。随着时间的推移，一些作品中的黄色已经褪色，变成了棕色或橄榄绿色。
+            </p>
+          </div>
         </CardContent>
       </Card>
-
+      
       {/* 4. 视频讲解区 */}
-      {artwork.videoUrl && (
-        <Card>
-          <CardContent className="p-4">
-            <h2 className="text-xl font-semibold mb-2 flex items-center">
-              <Video className="h-5 w-5 mr-2" />
-              视频讲解
-            </h2>
-            <VideoPlayer url={artwork.videoUrl} />
+      {artwork?.videoUrl && (
+        <Card className="w-full mb-6">
+          <CardContent className="p-6">
+            <h3 className="text-xl font-semibold mb-3">视频讲解</h3>
+            <div className="aspect-video">
+              <iframe 
+                src={artwork.videoUrl} 
+                className="w-full h-full rounded-md"
+                allowFullScreen
+                title={`${artwork.title} 视频讲解`}
+              ></iframe>
+            </div>
           </CardContent>
         </Card>
       )}
-
+      
       {/* 5. 趣味问答区 */}
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="text-xl font-semibold mb-2 flex items-center">
-            <HelpCircle className="h-5 w-5 mr-2" />
-            趣味问答
-          </h2>
-          <div className="space-y-3">
+      <Card className="w-full mb-6">
+        <CardContent className="p-6">
+          <h3 className="text-xl font-semibold mb-3">艺术知识问答</h3>
+          <p className="mb-4 text-sm text-gray-600">回答以下问题，测试您对这幅作品的了解。每题10分，满分50分。</p>
+          
+          <div className="space-y-4">
             {mockQuizQuestions.map((question) => (
-              <div key={question.id} className="border p-3 rounded-md">
+              <div key={question.id} className="border p-4 rounded-md">
                 <p className="font-medium mb-2">{question.question}</p>
-                <div className="flex space-x-2">
+                <div className="flex space-x-4">
                   <Button
-                    variant={quizAnswers[question.id] === "YES" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleQuizAnswer(question.id, "YES")}
+                    variant={userAnswers[question.id] === true ? "default" : "outline"}
+                    onClick={() => handleAnswerSelect(question.id, true)}
                     disabled={quizSubmitted}
+                    className={quizSubmitted && question.correctAnswer === true ? "border-green-500 border-2" : ""}
                   >
                     是
                   </Button>
                   <Button
-                    variant={quizAnswers[question.id] === "NO" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleQuizAnswer(question.id, "NO")}
+                    variant={userAnswers[question.id] === false ? "default" : "outline"}
+                    onClick={() => handleAnswerSelect(question.id, false)}
                     disabled={quizSubmitted}
+                    className={quizSubmitted && question.correctAnswer === false ? "border-green-500 border-2" : ""}
                   >
                     否
                   </Button>
+                  
                   {quizSubmitted && (
-                    <span className={`ml-2 text-sm ${quizAnswers[question.id] === question.answer ? "text-green-500" : "text-red-500"}`}>
-                      {quizAnswers[question.id] === question.answer ? "✓ 正确" : "✗ 错误"}
+                    <span className={`text-sm mt-2 ${userAnswers[question.id] === question.correctAnswer ? "text-green-600" : "text-red-600"}`}>
+                      {userAnswers[question.id] === question.correctAnswer ? "✓ 正确" : "✗ 错误"}
                     </span>
                   )}
                 </div>
-                {quizSubmitted && (
-                  <p className="text-sm mt-1 text-muted-foreground">
-                    正确答案: {question.answer === "YES" ? "是" : "否"}
-                  </p>
-                )}
               </div>
             ))}
-
+          </div>
+          
+          <div className="mt-6 flex space-x-4">
             {!quizSubmitted ? (
-              <Button onClick={handleQuizSubmit} className="w-full mt-2">提交答案</Button>
+              <Button onClick={handleQuizSubmit}>提交答案</Button>
             ) : (
-              <div className="bg-slate-100 p-3 rounded-md mt-2">
-                <p className="font-semibold">您的得分: {quizScore}/{mockQuizQuestions.length * 10}</p>
-              </div>
+              <Button onClick={handleQuizReset} variant="outline">重新答题</Button>
             )}
           </div>
         </CardContent>
       </Card>
-
+      
       {/* 6. 用户评论区 */}
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="text-xl font-semibold mb-2 flex items-center">
-            <Message className="h-5 w-5 mr-2" />
-            用户评论
-          </h2>
-
-          <div className="space-y-4 mb-4">
+      <Card className="w-full mb-6">
+        <CardContent className="p-6">
+          <h3 className="text-xl font-semibold mb-3">用户评论</h3>
+          
+          <div className="space-y-4">
             {mockComments.map((comment) => (
               <div key={comment.id} className="border rounded-md p-3">
                 <div className="flex items-start space-x-2">
@@ -381,56 +403,72 @@ export default function ArtworkPage() {
                     className="w-8 h-8 rounded-full"
                   />
                   <div className="flex-1">
-                    <div className="flex justify-between items-center">
-                      <p className="font-medium">{comment.username}</p>
-                      <p className="text-xs text-muted-foreground">{formatDate(comment.timestamp)}</p>
+                    <div className="flex justify-between">
+                      <h4 className="font-medium">{comment.username}</h4>
+                      <span className="text-sm text-gray-500">{comment.date}</span>
                     </div>
-                    <p className={`text-sm mt-1 ${commentExpanded[comment.id] ? '' : 'line-clamp-2'}`}>
-                      {comment.content}
-                    </p>
-                    {comment.content.length > 100 && (
-                      <button
-                        onClick={() => handleToggleComment(comment.id)}
-                        className="text-xs text-blue-500 mt-1"
-                      >
-                        {commentExpanded[comment.id] ? '收起' : '展开'}
-                      </button>
+                    <p className="text-gray-700 mt-1">{comment.content}</p>
+                    
+                    {comment.replies && comment.replies.length > 0 && (
+                      <Collapsible open={expandedComments[comment.id]}>
+                        <CollapsibleTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="mt-2"
+                            onClick={() => toggleComment(comment.id)}
+                          >
+                            {expandedComments[comment.id] ? (
+                              <>
+                                <ChevronUp className="h-4 w-4 mr-1" /> 收起回复
+                              </>
+                            ) : (
+                              <>
+                                <ChevronDown className="h-4 w-4 mr-1" /> 查看回复 ({comment.replies.length})
+                              </>
+                            )}
+                          </Button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                          <div className="mt-2 pl-6 space-y-3">
+                            {comment.replies.map((reply) => (
+                              <div key={reply.id} className="border-t pt-3">
+                                <div className="flex items-start space-x-2">
+                                  <img
+                                    src={reply.avatar}
+                                    alt={reply.username}
+                                    className="w-6 h-6 rounded-full"
+                                  />
+                                  <div>
+                                    <div className="flex items-center">
+                                      <h5 className="font-medium text-sm">{reply.username}</h5>
+                                      <span className="text-xs text-gray-500 ml-2">{reply.date}</span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm mt-1">{reply.content}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </CollapsibleContent>
+                      </Collapsible>
                     )}
                   </div>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="mt-4">
-            <textarea
-              className="w-full p-2 border rounded-md"
-              rows={3}
-              placeholder="发表您的评论..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            />
-            <Button onClick={handleSubmitComment} className="mt-2">
-              发布评论
-            </Button>
-          </div>
         </CardContent>
       </Card>
-
+      
       {/* 7. 原图图片下载区 */}
-      <Card>
-        <CardContent className="p-4 flex justify-between items-center">
-          <div>
-            <h2 className="text-xl font-semibold flex items-center">
-              <Download className="h-5 w-5 mr-2" />
-              原图下载
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              下载高清原图，了解更多细节
-            </p>
-          </div>
+      <Card className="w-full mb-6">
+        <CardContent className="p-6 flex flex-col items-center">
+          <h3 className="text-xl font-semibold mb-3">原图下载</h3>
+          <p className="text-gray-600 mb-4">下载高清原图，保存艺术珍品。</p>
+          
           <Button onClick={handleDownload} className="flex items-center">
-            <Download className="h-4 w-4 mr-2" />
+            <Download className="mr-2 h-4 w-4" />
             下载原图
           </Button>
         </CardContent>
