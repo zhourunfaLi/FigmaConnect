@@ -37,7 +37,7 @@ export default function AuthPage() {
               请先点击"注册"标签页创建一个新账号，或使用以下测试账号登录：
               <div className="mt-2 p-2 bg-muted rounded-md">
                 用户名：test<br/>
-                密码：test123
+                密码：secret42
               </div>
             </CardDescription>
           </CardHeader>
