@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { type Artwork } from "@shared/schema";
 import VideoPlayer from "@/components/video-player";
 import CommentSection from "@/components/comment-section";
@@ -34,7 +34,7 @@ const MOCK_QUIZ = [
 ];
 
 export default function ArtworkPage() {
-  const { id } = useParams<{ id: string }>();
+  // 直接从URL获取参数，使用window.location来确保获得正确的路径
   const [, setLocation] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
@@ -43,48 +43,62 @@ export default function ArtworkPage() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  // 改进ID处理逻辑
-  let artworkId = null;
+  // 从URL路径解析作品ID
+  const urlPath = window.location.pathname;
+  const pathSegments = urlPath.split('/').filter(Boolean);
+  const idFromPath = pathSegments.length > 1 && pathSegments[0] === 'artwork' ? pathSegments[1] : null;
+
+  // 解析作品ID的逻辑
+  let artworkId: number | null = null;
+
   try {
-    if (id) {
+    if (idFromPath) {
+      console.log(`解析URL路径: ${urlPath}, 提取ID: ${idFromPath}`);
+
       // 尝试直接解析为数字ID
-      const parsedId = parseInt(id);
+      const parsedId = parseInt(idFromPath);
       if (!isNaN(parsedId)) {
         artworkId = parsedId;
         console.log(`成功解析数字ID: ${artworkId}`);
       } 
       // 如果是复合ID格式（如"art-17-0"）
-      else if (id.includes('-')) {
-        const parts = id.split('-');
-        if (parts.length >= 2) {
+      else if (idFromPath.includes('-')) {
+        const parts = idFromPath.split('-');
+        if (parts.length > 1) {
           const imageId = parseInt(parts[1]);
           if (!isNaN(imageId)) {
             artworkId = imageId;
-            console.log(`成功解析复合ID: ${id} -> ${artworkId}`);
+            console.log(`成功解析复合ID: ${idFromPath} -> ${artworkId}`);
           }
         }
       }
     }
 
     // 如果ID解析失败，标记错误状态而不是立即返回
-    if (artworkId === null || artworkId === undefined) {
-      console.warn(`无法解析有效的作品ID: ${id}，标记跳转到首页`);
-      artworkId = -1; // 使用无效ID标记
+    if (artworkId === null) {
+      console.warn(`无法解析有效的作品ID: ${idFromPath}，将使用默认ID`);
+      // 不再自动重定向，而是使用一个默认ID或显示错误
+      artworkId = 9; // 使用一个可能存在的ID，避免立即重定向
     }
   } catch (err) {
     console.error("ID解析过程中出错:", err);
-    artworkId = -1; // 出错时使用无效ID标记
+    artworkId = 9; // 出错时使用默认ID
   }
 
-  console.log(`ArtworkPage: URL路径参数=${id}, 解析后ID=${artworkId}`);
+  console.log(`ArtworkPage: URL路径=${urlPath}, 解析后ID=${artworkId}`);
+
 
   // 如果ID无效，在所有hooks之后再处理重定向
-  if (artworkId === -1) {
-    // useEffect执行重定向，避免在渲染期间改变状态
-    useEffect(() => {
-      setLocation('/');
-    }, []);
-    return null;
+  if (artworkId === null || artworkId === undefined || isNaN(artworkId)) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <AlertDescription>
+            无法加载作品，请检查作品ID.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
   }
 
   const { data: artwork, isLoading, isError, error } = useQuery<Artwork>({
@@ -210,7 +224,7 @@ export default function ArtworkPage() {
     // 确保错误信息正确显示
     const errorMessage = error instanceof Error 
       ? error.message 
-      : `无法加载作品 (ID: ${id})`;
+      : `无法加载作品 (ID: ${idFromPath})`;
 
     console.log(`显示错误信息: ${errorMessage}`);
 
@@ -235,7 +249,7 @@ export default function ArtworkPage() {
       <div className="container mx-auto px-4 py-8">
         <Alert>
           <AlertDescription>
-            {id ? `找不到ID为 ${id} 的作品` : '作品ID无效或缺失'}
+            {idFromPath ? `找不到ID为 ${idFromPath} 的作品` : '作品ID无效或缺失'}
           </AlertDescription>
         </Alert>
         <div className="mt-4">

@@ -69,22 +69,40 @@ function ArtworkItem({
     e.stopPropagation();
 
     // 确保有效的导航ID - 优先使用imageId作为导航参数
-    let imageId: number | undefined;
+    let targetId: number | string | undefined;
+    
+    // 优先使用imageId
     if (artwork.imageId && typeof artwork.imageId === 'number') {
-      imageId = artwork.imageId;
-    } else if (artwork.originalId && typeof artwork.originalId === 'number') { 
-      imageId = artwork.originalId;
-    } else if (artwork.id && typeof artwork.id === 'number') {
-      imageId = artwork.id;
+      targetId = artwork.imageId;
+      console.log(`使用imageId=${targetId}进行导航`);
+    } 
+    // 其次使用originalId中的数字部分
+    else if (artwork.originalId && typeof artwork.originalId === 'string') {
+      // 如果originalId格式是"art-17-0"，提取中间的数字
+      const matches = artwork.originalId.match(/\w+-(\d+)-\d+/);
+      if (matches && matches[1]) {
+        targetId = parseInt(matches[1]);
+        console.log(`从originalId=${artwork.originalId}提取数字ID=${targetId}`);
+      }
+    }
+    // 最后使用id
+    else if (artwork.id && (typeof artwork.id === 'number' || typeof artwork.id === 'string')) {
+      targetId = artwork.id;
+      console.log(`使用id=${targetId}进行导航`);
     }
 
-
-    if (imageId === undefined || imageId === null) {
-      console.error("导航错误: imageId无效", imageId, artwork);
+    if (targetId === undefined || targetId === null) {
+      console.error("导航错误: 无法获取有效ID", artwork);
       return;
     }
-    console.log(`导航到作品: 使用imageId=${imageId}`);
-    setLocation(`/artwork/${imageId}`);
+    
+    // 执行导航，使用具体的数字ID
+    console.log(`导航到作品页面: /artwork/${targetId}`);
+    
+    // 使用带有延迟的方法，确保导航完成
+    setTimeout(() => {
+      window.location.href = `/artwork/${targetId}`;
+    }, 10);
   };
 
   return (
