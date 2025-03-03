@@ -4,7 +4,7 @@ import { useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Maximize, Minimize, Download } from "lucide-react";
 import { 
   Tabs, 
