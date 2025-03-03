@@ -1,427 +1,318 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { ArrowLeft, Download, Heart, MessageSquare, Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { Maximize, Minimize, Download } from "lucide-react";
-import { 
-  Tabs, 
-  TabsContent, 
-  TabsList, 
-  TabsTrigger 
-} from "@/components/ui/tabs";
-
-// 问答题目
-const mockQuizQuestions = [
-  {
-    id: 1,
-    question: "这幅画是梵高在精神病院时期创作的吗？",
-    correctAnswer: true,
-    answerText: "是的，梵高确实在圣雷米精神病院时期创作了部分向日葵作品。"
-  },
-  {
-    id: 2,
-    question: "《向日葵》系列共有12幅作品？",
-    correctAnswer: false,
-    answerText: "不是，梵高的《向日葵》系列大约有7幅完整保存下来的作品，而非12幅。"
-  },
-  {
-    id: 3,
-    question: "梵高的《向日葵》曾被纳粹德国列为\"堕落艺术\"？",
-    correctAnswer: true,
-    answerText: "是的，在纳粹统治时期，梵高的作品包括《向日葵》确实被列为\"堕落艺术\"。"
-  },
-  {
-    id: 4,
-    question: "梵高在生前卖出了大部分《向日葵》系列作品？",
-    correctAnswer: false,
-    answerText: "不是，梵高生前只卖出了一幅画作，《向日葵》系列在他生前几乎没有售出。"
-  },
-  {
-    id: 5,
-    question: "《向日葵》的原作现存于伦敦国家美术馆？",
-    correctAnswer: true,
-    answerText: "是的，《向日葵》的一幅原作确实收藏于伦敦国家美术馆。"
-  }
-];
-
-// 模拟作品基本信息
-const mockArtworkInfo = {
-  artist: "文森特·梵高",
-  year: "1888年",
-  size: "92.1厘米 × 73厘米",
-  museum: "伦敦国家美术馆"
-};
-
-// 模拟评论数据
-const mockComments = [
-  {
-    id: 1,
-    username: "艺术爱好者",
-    avatar: "https://i.pravatar.cc/100?img=1",
-    content: "这是梵高最具标志性的作品之一，色彩非常震撼。",
-    date: "2023-06-15",
-    likes: 24
-  },
-  {
-    id: 2,
-    username: "美术学生",
-    avatar: "https://i.pravatar.cc/100?img=2",
-    content: "向日葵系列展现了梵高对黄色的痴迷，每一笔都充满活力。",
-    date: "2023-06-12",
-    likes: 15
-  },
-  {
-    id: 3,
-    username: "历史研究者",
-    avatar: "https://i.pravatar.cc/100?img=3",
-    content: "这幅画创作于1888年，是梵高在法国阿尔勒时期的作品。当时梵高希望用这些向日葵装饰他的黄房子，为高更的到来做准备。",
-    date: "2023-06-10",
-    likes: 32
-  }
-];
+import { Slider } from "@/components/ui/slider";
+import { cn } from "@/lib/utils";
 
 export default function ArtworkPage() {
   const params = useParams();
-  const { id } = params;
-  const { toast } = useToast();
-  const [artworkId, setArtworkId] = useState<number>(1);
-  const [zoom, setZoom] = useState<number>(100);
-  const [userAnswers, setUserAnswers] = useState<{ [key: number]: boolean }>({});
-  const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
-  const [expandedComments, setExpandedComments] = useState<{ [key: number]: boolean }>({});
+  const [artworkId, setArtworkId] = useState<number | null>(null);
+  const [zoom, setZoom] = useState(1);
+  const [isLiked, setIsLiked] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
-  // 设置作品ID
+  // 模拟数据
+  const artwork = {
+    id: 1,
+    title: "向日葵",
+    artist: "文森特·梵高",
+    year: "1889",
+    medium: "油画",
+    dimensions: "95 × 73 cm",
+    description: "梵高的经典作品",
+    imageUrl: "https://placehold.co/400x600",
+    likeCount: 1256,
+    viewCount: 3890,
+    shareCount: 546,
+  };
+
+  // 模拟问答数据
+  const question = {
+    text: "这幅画中的向日葵象征着什么？",
+    correctAnswer: "生命力与希望",
+    options: ["生命力与希望", "忧郁与孤独", "财富与繁荣", "自然与和平"]
+  };
+
+  // 模拟评论数据
+  const comments = [
+    {
+      id: 1,
+      author: "艺术爱好者",
+      avatar: "https://i.pravatar.cc/40?img=1",
+      content: "这幅画的色彩对比太震撼了，梵高真的是色彩大师！",
+      time: "2天前",
+      likes: 43,
+      replies: [
+        {
+          id: 101,
+          author: "色彩研究者",
+          avatar: "https://i.pravatar.cc/40?img=4",
+          content: "没错，他用黄色和蓝色的对比创造出强烈的视觉冲击力。",
+          time: "1天前",
+          likes: 12
+        }
+      ]
+    },
+    {
+      id: 2,
+      author: "历史学家",
+      avatar: "https://i.pravatar.cc/40?img=2",
+      content: "这幅作品创作于梵高去世前不久，充满了他对生命的热爱。",
+      time: "3天前",
+      likes: 28,
+      replies: [
+        {
+          id: 102,
+          author: "艺术史专家",
+          avatar: "https://i.pravatar.cc/40?img=5",
+          content: "是的，这是他晚期作品的一个代表。当时他的精神状态已经不稳定，但创作激情依然高涨。",
+          time: "2天前",
+          likes: 19
+        },
+        {
+          id: 103,
+          author: "熊猫人",
+          avatar: "https://i.pravatar.cc/40?img=6",
+          content: "那段时期他创作了许多不朽的作品，真的很令人惊叹。",
+          time: "1天前",
+          likes: 7
+        }
+      ]
+    },
+    {
+      id: 3,
+      author: "新手学画",
+      avatar: "https://i.pravatar.cc/40?img=3",
+      content: "每次看这幅画，都能感受到向日葵的生命力，太有感染力了。",
+      time: "4天前",
+      likes: 16,
+      replies: []
+    }
+  ];
+
+  // 解析URL参数
   useEffect(() => {
-    console.log("ArtworkPage: URL路径参数=" + id, "解析后ID=" + artworkId);
-    if (id) {
-      setArtworkId(parseInt(id));
-    }
-  }, [id]);
+    console.log("ArtworkPage: URL路径参数=" + params.id, "解析后ID=" + (params.id ? parseInt(params.id) : 1));
 
-  // 获取作品数据
-  const { data: artwork, isLoading } = useQuery({
-    queryKey: [`/api/artworks/${artworkId}`],
-    enabled: !!artworkId,
-    onSuccess: (data) => {
-      console.log("成功获取作品数据:", data);
-    }
-  });
+    // 如果URL中有ID则使用，否则默认为1
+    const id = params.id ? parseInt(params.id) : 1;
+    setArtworkId(id);
+  }, [params.id]);
 
   // 增加/减少缩放
-  const handleZoomChange = (amount: number) => {
-    setZoom((prev) => {
-      const newZoom = prev + amount;
-      return Math.max(50, Math.min(200, newZoom));
-    });
+  const handleZoomChange = (value: number[]) => {
+    setZoom(value[0]);
   };
 
-  // 切换评论展开/折叠
-  const toggleCommentExpand = (commentId: number) => {
-    setExpandedComments((prev) => ({
-      ...prev,
-      [commentId]: !prev[commentId]
-    }));
+  // 处理问题回答
+  const handleAnswerSelect = (answer: string) => {
+    setSelectedAnswer(answer);
   };
 
-  // 回答问题
-  const handleAnswer = (questionId: number, answer: boolean) => {
-    setUserAnswers((prev) => ({
-      ...prev,
-      [questionId]: answer
-    }));
-  };
-
-  // 提交问答
-  const handleSubmitQuiz = () => {
-    setQuizSubmitted(true);
-
-    // 计算正确答案数量
-    const correctAnswers = mockQuizQuestions.filter(
-      (q) => userAnswers[q.id] === q.correctAnswer
-    ).length;
-
-    toast({
-      title: "问答结果",
-      description: `你答对了 ${correctAnswers}/${mockQuizQuestions.length} 个问题！`,
-    });
-  };
-
-  // 下载图片
-  const handleDownloadImage = () => {
-    const downloadUrl = artwork?.imageUrl || "https://placehold.co/600x800";
-
-    if (downloadUrl) {
-      const a = document.createElement("a");
-      a.href = downloadUrl;
-      a.download = `artwork-${artworkId}.jpg`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      toast({
-        title: "开始下载",
-        description: "原图正在下载中...",
-      });
-    }
-  };
-
-  // 加载状态显示
-  if (isLoading) {
-    return (
-      <div className="min-h-screen px-2 flex items-center justify-center">
-        <div className="w-full max-w-4xl">
-          <div className="p-6">
-            <div className="animate-pulse space-y-4">
-              <div className="w-full h-64 bg-gray-300 rounded-md"></div>
-              <div className="h-6 bg-gray-300 rounded w-3/4"></div>
-              <div className="space-y-2">
-                <div className="h-4 bg-gray-300 rounded w-full"></div>
-                <div className="h-4 bg-gray-300 rounded w-5/6"></div>
-                <div className="h-4 bg-gray-300 rounded w-4/6"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 作品详情界面
   return (
-    <div className="min-h-screen px-2">
-      {/* 1. 作品展示互动区 */}
-      <div className="w-full mb-4 relative">
-        <div 
-          style={{ transform: `scale(${zoom / 100})`, transition: "transform 0.3s ease" }}
-          className="flex justify-center"
-        >
-          <AspectRatio 
-            ratio={16/9} 
-            className="bg-muted overflow-hidden rounded-md max-w-3xl"
-          >
+    <div className="pb-20">
+      {/* 顶部导航栏 */}
+      <div className="flex items-center p-4 border-b">
+        <Button variant="ghost" className="mr-2 p-2">
+          <ArrowLeft size={24} />
+        </Button>
+        <h1 className="text-lg font-medium">艺术品详情</h1>
+      </div>
+
+      {/* 内容区域 - 所有区域使用8px左右边距 */}
+      <div className="space-y-6 px-2">
+        {/* 作品展示区 */}
+        <div className="mt-4 relative">
+          <div className="relative mx-auto overflow-hidden" style={{ aspectRatio: '0.75', maxWidth: '100%', border: '1px solid #eee', borderRadius: '8px' }}>
             <img
-              src={artwork?.imageUrl || "https://placehold.co/600x400/orange/white?text=向日葵"}
-              alt={artwork?.title || "向日葵"}
-              className="object-cover w-full h-full"
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className="w-full h-full object-contain transform-gpu"
+              style={{ transform: `scale(${zoom})`, transition: 'transform 0.3s ease' }}
             />
-          </AspectRatio>
-        </div>
+          </div>
 
-        {/* 缩放控制组放置在底部居中 */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-black/40 backdrop-blur-sm p-2 rounded-full">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => handleZoomChange(-10)}
-            className="text-white hover:bg-white/20"
-          >
-            <Minimize className="h-4 w-4 mr-1" /> 缩小
-          </Button>
-          <span className="flex items-center px-2 text-sm text-white">{zoom}%</span>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => handleZoomChange(10)}
-            className="text-white hover:bg-white/20"
-          >
-            <Maximize className="h-4 w-4 mr-1" /> 放大
-          </Button>
-        </div>
-      </div>
-
-      {/* 2. 基础信息区 */}
-      <div className="w-full mb-4">
-        <div className="p-4">
-          <h2 className="text-2xl font-bold mb-4">{artwork?.title || "向日葵"}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-gray-500">艺术家</p>
-              <p className="font-medium">{mockArtworkInfo.artist}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">创作年份</p>
-              <p className="font-medium">{mockArtworkInfo.year}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">尺寸</p>
-              <p className="font-medium">{mockArtworkInfo.size}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">收藏于</p>
-              <p className="font-medium">{mockArtworkInfo.museum}</p>
-            </div>
+          {/* 放大缩小控制条 - 位于图片底部居中 */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 rounded-full p-2 w-48 flex items-center gap-2">
+            <span className="text-white text-xs">-</span>
+            <Slider
+              value={[zoom]}
+              min={0.5}
+              max={2}
+              step={0.1}
+              onValueChange={handleZoomChange}
+              className="flex-1"
+            />
+            <span className="text-white text-xs">+</span>
           </div>
         </div>
-      </div>
 
-      {/* 3. 视频讲解区占位符 */}
-      <div className="w-full mb-4 bg-gray-200 rounded-md">
-        <div className="p-4 text-center h-40 flex items-center justify-center">
-          <p className="text-gray-500">视频讲解区（占位符）</p>
-        </div>
-      </div>
+        {/* 作品信息区 - 小字号，每行两个信息 */}
+        <div className="mt-2 px-2">
+          <h2 className="text-xl font-bold mb-2">{artwork.title}</h2>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+            <div className="flex justify-between">
+              <span className="text-gray-500">艺术家</span>
+              <span>{artwork.artist}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">年代</span>
+              <span>{artwork.year}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">材质</span>
+              <span>{artwork.medium}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">尺寸</span>
+              <span>{artwork.dimensions}</span>
+            </div>
+          </div>
 
-      {/* 4. 作品介绍区 */}
-      <div className="w-full mb-4">
-        <div className="p-4">
-          <h3 className="text-lg font-semibold mb-3">作品简介</h3>
-          <div className="text-gray-700">
-            <p className="mb-3">
-              {artwork?.description || "这是梵高最著名的作品之一，创作于1888年8月。梵高用厚重的颜料和大胆的笔触描绘了盛开的向日葵，象征着生命力和热情。"}
-            </p>
-            <p className="mb-3">
-              梵高总共创作了几个向日葵系列，其中最著名的是在阿尔勒期间创作的七幅作品。这些画作最初是用来装饰他的黄房子的，为他的朋友高更的到来做准备。梵高对黄色的运用达到了前所未有的程度，他用不同色调的黄色创造出充满活力的构图。
-            </p>
-            <p>
-              这幅作品体现了梵高对日本浮世绘的热爱，以及他独特的表现主义风格。向日葵后来成为梵高的标志性象征，代表了他短暂而辉煌的艺术生涯。
-            </p>
+          <p className="mt-3 text-sm text-gray-700">{artwork.description}</p>
+
+          <div className="flex justify-between mt-3">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className={cn("flex items-center gap-1", isLiked && "text-red-500")}
+              onClick={() => setIsLiked(!isLiked)}
+            >
+              <Heart size={16} className={isLiked ? "fill-red-500" : ""} />
+              <span>{isLiked ? artwork.likeCount + 1 : artwork.likeCount}</span>
+            </Button>
+
+            <Button variant="ghost" size="sm" className="flex items-center gap-1">
+              <MessageSquare size={16} />
+              <span>{comments.length}</span>
+            </Button>
+
+            <Button variant="ghost" size="sm" className="flex items-center gap-1">
+              <Share size={16} />
+              <span>{artwork.shareCount}</span>
+            </Button>
           </div>
         </div>
-      </div>
 
-      {/* 5. 互动问答区 */}
-      <div className="w-full mb-4">
-        <div className="p-4">
-          <h3 className="text-lg font-semibold mb-3">艺术知识问答</h3>
+        {/* 视频讲解区 - 印象深刻的标题 */}
+        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+          <h3 className="text-lg font-bold mb-2">揭秘梵高的内心世界：向日葵背后的故事</h3>
+          <div className="aspect-video bg-gray-200 flex items-center justify-center rounded">
+            <p className="text-gray-500">视频讲解占位符</p>
+          </div>
+        </div>
+
+        {/* 互动问答区 */}
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+          <h3 className="text-lg font-medium mb-3">互动问答</h3>
+          <p className="mb-4">{question.text}</p>
+
+          <div className="space-y-2">
+            {question.options.map((option) => (
+              <button
+                key={option}
+                className={cn(
+                  "w-full p-3 rounded-md border text-left",
+                  selectedAnswer === option && selectedAnswer === question.correctAnswer
+                    ? "border-green-500 bg-green-50"
+                    : selectedAnswer === option
+                    ? "border-red-500 bg-red-50"
+                    : "border-gray-200"
+                )}
+                onClick={() => handleAnswerSelect(option)}
+                disabled={selectedAnswer !== null}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+
+          {selectedAnswer && (
+            <div className="mt-4 p-3 bg-gray-100 rounded">
+              <p className="text-sm">
+                {selectedAnswer === question.correctAnswer
+                  ? "✓ 回答正确！向日葵在梵高的作品中象征着生命力和希望，代表了他对生命的热爱和追求。"
+                  : `✗ 回答错误。正确答案是：${question.correctAnswer}。向日葵在梵高的作品中象征着生命力和希望，代表了他对生命的热爱和追求。`}
+              </p>
+            </div>
+          )}
+
+          {/* 是/否按钮居中 */}
+          {!selectedAnswer && (
+            <div className="flex justify-center gap-4 mt-4">
+              <Button variant="outline" size="sm" onClick={() => handleAnswerSelect(question.options[0])}>
+                是
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => handleAnswerSelect(question.options[1])}>
+                否
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* 评论区 - 二级评论 */}
+        <div className="mt-4">
+          <h3 className="text-lg font-medium mb-4">评论 ({comments.length})</h3>
+
           <div className="space-y-4">
-            {mockQuizQuestions.map((question) => (
-              <div key={question.id} className="space-y-2">
-                <p className="font-medium">{question.question}</p>
-                <div className="flex gap-2">
-                  <Button 
-                    variant={userAnswers[question.id] === true ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleAnswer(question.id, true)}
-                    disabled={quizSubmitted}
-                    className={
-                      quizSubmitted && question.correctAnswer === true
-                        ? "bg-green-500 hover:bg-green-600"
-                        : quizSubmitted && userAnswers[question.id] === true && question.correctAnswer === false
-                        ? "bg-red-500 hover:bg-red-600"
-                        : ""
-                    }
-                  >
-                    是
-                  </Button>
-                  <Button
-                    variant={userAnswers[question.id] === false ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleAnswer(question.id, false)}
-                    disabled={quizSubmitted}
-                    className={
-                      quizSubmitted && question.correctAnswer === false
-                        ? "bg-green-500 hover:bg-green-600"
-                        : quizSubmitted && userAnswers[question.id] === false && question.correctAnswer === true
-                        ? "bg-red-500 hover:bg-red-600"
-                        : ""
-                    }
-                  >
-                    否
-                  </Button>
+            {comments.map((comment) => (
+              <div key={comment.id} className="border-b pb-2">
+                {/* 主评论 */}
+                <div className="flex gap-3">
+                  <img src={comment.avatar} alt={comment.author} className="w-10 h-10 rounded-full" />
+                  <div className="flex-1">
+                    <div className="flex justify-between">
+                      <h4 className="font-medium">{comment.author}</h4>
+                      <span className="text-xs text-gray-500">{comment.time}</span>
+                    </div>
+                    <p className="mt-1 text-sm">{comment.content}</p>
+                    <div className="flex items-center gap-4 mt-2">
+                      <button className="text-xs text-gray-500 flex items-center gap-1">
+                        <Heart size={12} /> {comment.likes}
+                      </button>
+                      <button className="text-xs text-gray-500">回复</button>
+                    </div>
+                  </div>
                 </div>
 
-                {/* 显示正确答案文字 */}
-                {quizSubmitted && (
-                  <div className="text-sm mt-1 text-gray-700 bg-gray-100 p-2 rounded">
-                    <p><strong>答案:</strong> {question.answerText}</p>
+                {/* 二级评论 */}
+                {comment.replies.length > 0 && (
+                  <div className="ml-12 mt-2 space-y-3">
+                    {comment.replies.map((reply) => (
+                      <div key={reply.id} className="flex gap-3 pt-2">
+                        <img src={reply.avatar} alt={reply.author} className="w-8 h-8 rounded-full" />
+                        <div className="flex-1">
+                          <div className="flex justify-between">
+                            <h4 className="text-sm font-medium">{reply.author}</h4>
+                            <span className="text-xs text-gray-500">{reply.time}</span>
+                          </div>
+                          <p className="mt-1 text-xs">{reply.content}</p>
+                          <div className="flex items-center gap-4 mt-1">
+                            <button className="text-xs text-gray-500 flex items-center gap-1">
+                              <Heart size={10} /> {reply.likes}
+                            </button>
+                            <button className="text-xs text-gray-500">回复</button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
             ))}
-
-            <Button 
-              onClick={handleSubmitQuiz} 
-              disabled={Object.keys(userAnswers).length !== mockQuizQuestions.length || quizSubmitted}
-              className="mt-4"
-            >
-              提交答案
-            </Button>
           </div>
         </div>
-      </div>
 
-      {/* 6. 用户评论区 */}
-      <div className="w-full mb-4">
-        <div className="p-4">
-          <h3 className="text-lg font-semibold mb-3">用户评论</h3>
-          <div className="space-y-4">
-            {mockComments.map((comment) => (
-              <div key={comment.id} className="border-b pb-3">
-                <div className="flex items-start space-x-2">
-                  <img
-                    src={comment.avatar}
-                    alt={comment.username}
-                    className="w-8 h-8 rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex justify-between">
-                      <h4 className="font-medium">{comment.username}</h4>
-                      <span className="text-sm text-gray-500">{comment.date}</span>
-                    </div>
-                    <div className="mt-1">
-                      {comment.content.length > 100 && !expandedComments[comment.id] ? (
-                        <>
-                          <span>{comment.content.slice(0, 100)}...</span>
-                          <button
-                            onClick={() => toggleCommentExpand(comment.id)}
-                            className="text-blue-500 text-sm ml-1"
-                          >
-                            展开
-                          </button>
-                        </>
-                      ) : comment.content.length > 100 ? (
-                        <>
-                          <span>{comment.content}</span>
-                          <button
-                            onClick={() => toggleCommentExpand(comment.id)}
-                            className="text-blue-500 text-sm ml-1"
-                          >
-                            收起
-                          </button>
-                        </>
-                      ) : (
-                        <span>{comment.content}</span>
-                      )}
-                    </div>
-                    <div className="mt-2 text-sm text-gray-500">
-                      👍 {comment.likes}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* 下载原图区域 - 底部区域而非悬浮 */}
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+          <h3 className="text-lg font-medium mb-2">下载原图</h3>
+          <p className="text-sm text-gray-600 mb-4">高清无水印版本，适合学习和研究</p>
+          <Button className="w-full flex items-center justify-center gap-2">
+            <Download size={16} />
+            下载原图 (12.5MB)
+          </Button>
         </div>
-      </div>
-
-      {/* 7. 相关推荐区 */}
-      <div className="w-full mb-4">
-        <div className="p-4">
-          <h3 className="text-lg font-semibold mb-3">相关作品</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="cursor-pointer">
-                <div className="aspect-[3/4] bg-gray-200 rounded-md overflow-hidden">
-                  <img 
-                    src={`https://placehold.co/300x400?text=相关作品${item}`}
-                    alt={`相关作品${item}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h4 className="mt-2 text-sm font-medium">相关艺术作品 {item}</h4>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* 底部操作栏 */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t p-3 flex justify-center space-x-4">
-        <Button onClick={handleDownloadImage} variant="outline" size="sm">
-          <Download className="h-4 w-4 mr-1" /> 下载图片
-        </Button>
       </div>
     </div>
   );
