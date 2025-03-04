@@ -225,13 +225,9 @@ export default function ArtworkPage() {
           返回
         </button>
         <div className="flex items-center space-x-4">
-          <button className="flex items-center text-sm text-[#363532] hover:text-[#BF4342] transition-colors">
-            <Heart className="h-4 w-4 mr-1 text-[#BF4342]" />
-            收藏
-          </button>
-          <button className="flex items-center text-sm text-[#363532] hover:text-[#BF4342] transition-colors">
-            <Share2 className="h-4 w-4 mr-1 text-[#BF4342]" />
-            分享
+          <button className="flex items-center text-sm text-[#363532] hover:text-[#795C34] transition-colors">
+            <User className="h-4 w-4 mr-1 text-[#795C34]" />
+            用户
           </button>
         </div>
       </div>
