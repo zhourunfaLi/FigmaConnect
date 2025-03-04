@@ -1,11 +1,32 @@
-import React, { useState } from "react";
-import { ArrowLeft, Heart, Share2, MessageSquare, Download, Maximize } from "lucide-react";
-import { useParams, useLocation } from "wouter";
-import { Slider } from "@/components/ui/slider";
+import { useEffect, useState, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner"
+import { Artwork } from "@/types";
+import { 
+  ArrowLeft, 
+  Heart, 
+  Share2, 
+  MessageSquare, 
+  Download, 
+  Maximize, 
+  PlayCircle, 
+  User,
+  Facebook,
+  Twitter,
+  MessageCircle
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/use-auth"; 
+import { Slider } from "@/components/ui/slider";
+import { formatDate } from "@/lib/date-utils";
+import ArtworkInfoCard from "@/components/artwork-info-card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function ArtworkPage() {
+  const navigate = useNavigate();
   const [, setLocation] = useLocation();
   const params = useParams();
   const id = params?.id || "1";
@@ -186,8 +207,16 @@ export default function ArtworkPage() {
     }
   };
 
+  // 引用评论区域的ref
+  const commentsRef = useRef<HTMLDivElement>(null);
+
+  // 滚动到评论区
+  const scrollToComments = () => {
+    commentsRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <div className="pb-20 px-0 pt-0 bg-[#EEEAE2] font-serif art-container">
+    <div className="pb-20 px-0 pt-0 bg-[#EEEAE2] font-serif art-container relative">
       <div className="sticky top-0 z-10 bg-[#EEEAE2] p-4 flex justify-between items-center border-b border-[#D9D4C5]">
         <button
           onClick={() => setLocation("/")}
@@ -376,7 +405,7 @@ export default function ArtworkPage() {
         </div>
 
 
-        <div className="mb-6 px-2 bg-white rounded-sm p-5 shadow-sm border border-[#D8B4A0]/30">
+        <div className="mb-6 px-2 bg-white rounded-sm p-5 shadow-sm border border-[#D8B4A0]/30" ref={commentsRef} id="comments">
           <h2 className="text-lg art-title font-bold text-[#594D5B] mb-3 border-b border-[#D8B4A0]/20 pb-2">评论 ({comments.length})</h2>
           <div className="space-y-5">
             {comments.map((comment, index) => (
@@ -462,6 +491,60 @@ export default function ArtworkPage() {
             <Download className="h-4 w-4 mr-2" />
             下载原图 (15MB)
           </Button>
+        </div>
+
+        {/* 底部固定功能条 */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 flex justify-between items-center z-20">
+          {/* 分享按钮 - 左对齐 */}
+          <div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                  <Share2 className="h-5 w-5" />
+                  <span>分享</span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-2" side="top" align="start">
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" className="flex items-center gap-1 h-9">
+                    <MessageCircle className="h-4 w-4 text-green-600" />
+                    <span>微信</span>
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex items-center gap-1 h-9">
+                    <Facebook className="h-4 w-4 text-blue-600" />
+                    <span>Facebook</span>
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex items-center gap-1 h-9">
+                    <Twitter className="h-4 w-4 text-blue-400" />
+                    <span>Twitter</span>
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          {/* 点赞、收藏、评论按钮 - 右对齐 */}
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" className="flex items-center gap-1">
+              <Heart className="h-5 w-5" />
+              <span className="text-sm">128</span>
+            </Button>
+
+            <Button variant="ghost" size="sm" className="flex items-center gap-1">
+              <Download className="h-5 w-5" />
+              <span className="text-sm">收藏</span>
+            </Button>
+
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex items-center gap-1"
+              onClick={scrollToComments}
+            >
+              <MessageSquare className="h-5 w-5" />
+              <span className="text-sm">评论</span>
+            </Button>
+          </div>
         </div>
       </div>
     </div>
