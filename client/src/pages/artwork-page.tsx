@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowLeft, Heart, Share2, MessageSquare, Download, Maximize, PlayCircle } from "lucide-react";
+import { ArrowLeft, Heart, Share2, MessageSquare, Download, Maximize } from "lucide-react";
 import { useParams, useLocation } from "wouter";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ export default function ArtworkPage() {
   const [, setLocation] = useLocation();
   const params = useParams();
   const id = params?.id || "1";
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(1); 
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
@@ -211,19 +211,29 @@ export default function ArtworkPage() {
       <div className="px-[8px]">
         <div className="relative mb-6 mt-6 bg-white rounded-md overflow-hidden flex justify-center shadow-sm border border-[#D9D4C5]">
           <div className="relative artwork-frame" style={{ width: '100%', height: 'auto', aspectRatio: '0.75', maxWidth: '500px', position: 'relative' }}>
-            <button 
-              onClick={handleFullScreen} 
-              className="absolute top-2 right-2 z-10 bg-[#EEEAE2]/80 hover:bg-[#EEEAE2] p-1.5 rounded-full shadow-sm transition-all"
-            >
-              <Maximize className="h-5 w-5 text-[#363532]" />
-            </button>
+            <div className="absolute top-2 left-1/2 transform -translate-x-1/2"> 
+              <Button
+                onClick={handleFullScreen}
+                className="bg-[#EEEAE2]/80 hover:bg-[#EEEAE2] p-2 rounded-full shadow-sm transition-all h-8 w-8"
+              >
+                <Maximize className="h-6 w-6 text-[#363532]" />
+              </Button>
+            </div>
             <img
               src={artwork.imageUrl}
               alt={artwork.title}
               className="artwork-image w-full h-full object-contain transform"
               style={{ transform: `scale(${scale})` }}
             />
-            <div className="absolute bottom-3 left-0 right-0 px-6 z-10">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full flex items-center"> 
+              <Button
+                variant="ghost"
+                size="icon"
+                className="bg-gray-800/30 text-white hover:bg-gray-800/40 h-8 w-8 rounded-full"
+                onClick={() => setScale(Math.max(0.5, scale - 0.1))}
+              >
+                <span className="text-xl font-bold">−</span>
+              </Button>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -231,8 +241,16 @@ export default function ArtworkPage() {
                 step={0.1}
                 value={[scale]}
                 onValueChange={handleScaleChange}
-                className="w-full"
+                className="zoom-slider mx-2 flex-grow"
               />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="bg-gray-800/30 text-white hover:bg-gray-800/40 h-8 w-8 rounded-full"
+                onClick={() => setScale(Math.min(2, scale + 0.1))}
+              >
+                <span className="text-xl font-bold">+</span>
+              </Button>
             </div>
           </div>
         </div>
@@ -286,7 +304,7 @@ export default function ArtworkPage() {
           <div className="aspect-video bg-[#F0E6DD] rounded-sm overflow-hidden">
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#F0E6DD] to-[#E6DED3]">
               <div className="text-[#957186] flex flex-col items-center">
-                <PlayCircle size={40} className="mb-2 opacity-80 hover:opacity-100 transition-opacity cursor-pointer" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="lucide lucide-play-circle" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16"/></svg>
                 <span className="text-sm font-medium tracking-wide">视频内容加载中</span>
               </div>
             </div>

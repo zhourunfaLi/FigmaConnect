@@ -93,6 +93,29 @@
   transform: scale(1.01) translateZ(5px);
 }
 
+.zoom-slider [role="slider"] {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(216, 180, 160, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.zoom-slider [role="slider"]:hover {
+  transform: scale(1.2);
+  background-color: white;
+}
+
+.zoom-slider [data-orientation="horizontal"] {
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.zoom-slider [data-orientation="horizontal"] [data-orientation="horizontal"] {
+  background-color: rgba(216, 180, 160, 0.8);
+}
+
 @layer base {
   * {
     @apply border-border;
