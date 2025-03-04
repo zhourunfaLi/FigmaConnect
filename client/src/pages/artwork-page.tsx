@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useLocation } from "wouter";
 import { toast } from "sonner"
 import { Artwork } from "@/types";
 import { 
@@ -9,7 +9,6 @@ import {
   MessageSquare, 
   Download, 
   Maximize, 
-  PlayCircle, 
   User,
   Facebook,
   Twitter,
@@ -26,7 +25,6 @@ import {
 } from "@/components/ui/popover";
 
 export default function ArtworkPage() {
-  const navigate = useNavigate();
   const [, setLocation] = useLocation();
   const params = useParams();
   const id = params?.id || "1";
