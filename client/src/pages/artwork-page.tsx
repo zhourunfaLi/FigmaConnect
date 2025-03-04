@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useParams, useLocation } from "wouter";
 import { toast } from "sonner"
 import { Artwork } from "@/types";
+import { useAuth } from "@/hooks/use-auth";
 import { 
   ArrowLeft, 
   Heart, 
