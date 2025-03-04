@@ -48,7 +48,6 @@ function UserMenu() {
 function Router() {
   return (
     <>
-      <UserMenu />
       <Switch>
         <Route path="/" component={HomePage} />
         <Route path="/auth" component={AuthPage} />
