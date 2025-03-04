@@ -225,32 +225,37 @@ export default function ArtworkPage() {
               className="artwork-image w-full h-full object-contain transform"
               style={{ transform: `scale(${scale})` }}
             />
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full flex items-center"> 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="bg-gray-800/30 text-white hover:bg-gray-800/40 h-8 w-8 rounded-full"
-                onClick={() => setScale(Math.max(0.5, scale - 0.1))}
-              >
-                <span className="text-xl font-bold">−</span>
-              </Button>
-              <Slider
-                defaultValue={[1]}
-                min={0.5}
-                max={2}
-                step={0.1}
-                value={[scale]}
-                onValueChange={handleScaleChange}
-                className="zoom-slider mx-2 flex-grow"
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                className="bg-gray-800/30 text-white hover:bg-gray-800/40 h-8 w-8 rounded-full"
-                onClick={() => setScale(Math.min(2, scale + 0.1))}
-              >
-                <span className="text-xl font-bold">+</span>
-              </Button>
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+              <div className="zoom-controls group p-1.5 flex items-center gap-1 bg-black/25 backdrop-blur-sm hover:bg-black/40 rounded-lg transition-all duration-300 shadow-lg">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 w-7 rounded-md flex-shrink-0 bg-white/10 hover:bg-white/30 text-white border-0"
+                  onClick={() => setScale(Math.max(0.5, scale - 0.1))}
+                >
+                  <span className="text-lg font-semibold">−</span>
+                </Button>
+                <Slider
+                  defaultValue={[1]}
+                  min={0.5}
+                  max={2}
+                  step={0.05}
+                  value={[scale]}
+                  onValueChange={handleScaleChange}
+                  className="zoom-slider w-24 md:w-32 lg:w-40"
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 w-7 rounded-md flex-shrink-0 bg-white/10 hover:bg-white/30 text-white border-0"
+                  onClick={() => setScale(Math.min(2, scale + 0.1))}
+                >
+                  <span className="text-lg font-semibold">+</span>
+                </Button>
+                <div className="ml-1 text-xs text-white/80 hidden group-hover:block transition-opacity duration-200">
+                  {Math.round(scale * 100)}%
+                </div>
+              </div>
             </div>
           </div>
         </div>
